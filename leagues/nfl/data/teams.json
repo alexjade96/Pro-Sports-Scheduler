@@ -1,0 +1,66 @@
+{
+  "_notes": [
+    "32 NFL teams across 2 conferences (AFC/NFC), 4 divisions each, 4 teams per division.",
+    "Each team plays 17 games: 6 division + inter-conference + intra-conference + standings cross-flex.",
+    "Fixture generation is NOT a round-robin — see leagues/nfl/generator.py for schedule formula."
+  ],
+
+  "teams": [
+    {"id": "BAL", "name": "Baltimore Ravens",      "city": "Baltimore",    "ground": "M&T Bank Stadium",         "conference": "AFC", "division": "AFC North", "european": false, "rivalries": ["PIT", "CLE", "CIN"]},
+    {"id": "CLE", "name": "Cleveland Browns",       "city": "Cleveland",    "ground": "Huntington Bank Field",    "conference": "AFC", "division": "AFC North", "european": false, "rivalries": ["PIT", "BAL", "CIN"]},
+    {"id": "CIN", "name": "Cincinnati Bengals",     "city": "Cincinnati",   "ground": "Paycor Stadium",           "conference": "AFC", "division": "AFC North", "european": false, "rivalries": ["PIT", "BAL", "CLE"]},
+    {"id": "PIT", "name": "Pittsburgh Steelers",    "city": "Pittsburgh",   "ground": "Acrisure Stadium",         "conference": "AFC", "division": "AFC North", "european": false, "rivalries": ["BAL", "CLE", "CIN"]},
+
+    {"id": "HOU", "name": "Houston Texans",         "city": "Houston",      "ground": "NRG Stadium",              "conference": "AFC", "division": "AFC South", "european": false, "rivalries": ["IND", "TEN", "JAX"]},
+    {"id": "IND", "name": "Indianapolis Colts",     "city": "Indianapolis", "ground": "Lucas Oil Stadium",        "conference": "AFC", "division": "AFC South", "european": false, "rivalries": ["HOU", "TEN", "JAX"]},
+    {"id": "JAX", "name": "Jacksonville Jaguars",   "city": "Jacksonville", "ground": "EverBank Stadium",         "conference": "AFC", "division": "AFC South", "european": false, "rivalries": ["HOU", "IND", "TEN"]},
+    {"id": "TEN", "name": "Tennessee Titans",       "city": "Nashville",    "ground": "Nissan Stadium",           "conference": "AFC", "division": "AFC South", "european": false, "rivalries": ["HOU", "IND", "JAX"]},
+
+    {"id": "BUF", "name": "Buffalo Bills",          "city": "Buffalo",      "ground": "Highmark Stadium",         "conference": "AFC", "division": "AFC East",  "european": false, "rivalries": ["MIA", "NE",  "NYJ"]},
+    {"id": "MIA", "name": "Miami Dolphins",         "city": "Miami",        "ground": "Hard Rock Stadium",        "conference": "AFC", "division": "AFC East",  "european": false, "rivalries": ["BUF", "NE",  "NYJ"]},
+    {"id": "NE",  "name": "New England Patriots",   "city": "Foxborough",   "ground": "Gillette Stadium",         "conference": "AFC", "division": "AFC East",  "european": false, "rivalries": ["BUF", "MIA", "NYJ"]},
+    {"id": "NYJ", "name": "New York Jets",          "city": "East Rutherford","ground": "MetLife Stadium",        "conference": "AFC", "division": "AFC East",  "european": false, "rivalries": ["BUF", "MIA", "NE"]},
+
+    {"id": "DEN", "name": "Denver Broncos",         "city": "Denver",       "ground": "Empower Field at Mile High","conference": "AFC", "division": "AFC West", "european": false, "rivalries": ["KC",  "LV",  "LAC"]},
+    {"id": "KC",  "name": "Kansas City Chiefs",     "city": "Kansas City",  "ground": "Arrowhead Stadium",        "conference": "AFC", "division": "AFC West",  "european": false, "rivalries": ["DEN", "LV",  "LAC"]},
+    {"id": "LV",  "name": "Las Vegas Raiders",      "city": "Las Vegas",    "ground": "Allegiant Stadium",        "conference": "AFC", "division": "AFC West",  "european": false, "rivalries": ["DEN", "KC",  "LAC"]},
+    {"id": "LAC", "name": "Los Angeles Chargers",   "city": "Inglewood",    "ground": "SoFi Stadium",             "conference": "AFC", "division": "AFC West",  "european": false, "rivalries": ["DEN", "KC",  "LV"]},
+
+    {"id": "CHI", "name": "Chicago Bears",          "city": "Chicago",      "ground": "Soldier Field",            "conference": "NFC", "division": "NFC North", "european": false, "rivalries": ["DET", "GB",  "MIN"]},
+    {"id": "DET", "name": "Detroit Lions",          "city": "Detroit",      "ground": "Ford Field",               "conference": "NFC", "division": "NFC North", "european": false, "rivalries": ["CHI", "GB",  "MIN"]},
+    {"id": "GB",  "name": "Green Bay Packers",      "city": "Green Bay",    "ground": "Lambeau Field",            "conference": "NFC", "division": "NFC North", "european": false, "rivalries": ["CHI", "DET", "MIN"]},
+    {"id": "MIN", "name": "Minnesota Vikings",      "city": "Minneapolis",  "ground": "U.S. Bank Stadium",        "conference": "NFC", "division": "NFC North", "european": false, "rivalries": ["CHI", "DET", "GB"]},
+
+    {"id": "ATL", "name": "Atlanta Falcons",        "city": "Atlanta",      "ground": "Mercedes-Benz Stadium",    "conference": "NFC", "division": "NFC South", "european": false, "rivalries": ["CAR", "NO",  "TB"]},
+    {"id": "CAR", "name": "Carolina Panthers",      "city": "Charlotte",    "ground": "Bank of America Stadium",  "conference": "NFC", "division": "NFC South", "european": false, "rivalries": ["ATL", "NO",  "TB"]},
+    {"id": "NO",  "name": "New Orleans Saints",     "city": "New Orleans",  "ground": "Caesars Superdome",        "conference": "NFC", "division": "NFC South", "european": false, "rivalries": ["ATL", "CAR", "TB"]},
+    {"id": "TB",  "name": "Tampa Bay Buccaneers",   "city": "Tampa",        "ground": "Raymond James Stadium",    "conference": "NFC", "division": "NFC South", "european": false, "rivalries": ["ATL", "CAR", "NO"]},
+
+    {"id": "DAL", "name": "Dallas Cowboys",         "city": "Arlington",    "ground": "AT&T Stadium",             "conference": "NFC", "division": "NFC East",  "european": false, "rivalries": ["NYG", "PHI", "WAS"]},
+    {"id": "NYG", "name": "New York Giants",        "city": "East Rutherford","ground": "MetLife Stadium",        "conference": "NFC", "division": "NFC East",  "european": false, "rivalries": ["DAL", "PHI", "WAS"]},
+    {"id": "PHI", "name": "Philadelphia Eagles",    "city": "Philadelphia", "ground": "Lincoln Financial Field",  "conference": "NFC", "division": "NFC East",  "european": false, "rivalries": ["DAL", "NYG", "WAS"]},
+    {"id": "WAS", "name": "Washington Commanders",  "city": "Landover",     "ground": "Northwest Stadium",        "conference": "NFC", "division": "NFC East",  "european": false, "rivalries": ["DAL", "NYG", "PHI"]},
+
+    {"id": "ARI", "name": "Arizona Cardinals",      "city": "Glendale",     "ground": "State Farm Stadium",       "conference": "NFC", "division": "NFC West",  "european": false, "rivalries": ["LAR", "SF",  "SEA"]},
+    {"id": "LAR", "name": "Los Angeles Rams",       "city": "Inglewood",    "ground": "SoFi Stadium",             "conference": "NFC", "division": "NFC West",  "european": false, "rivalries": ["ARI", "SF",  "SEA"]},
+    {"id": "SF",  "name": "San Francisco 49ers",    "city": "Santa Clara",  "ground": "Levi's Stadium",           "conference": "NFC", "division": "NFC West",  "european": false, "rivalries": ["ARI", "LAR", "SEA"]},
+    {"id": "SEA", "name": "Seattle Seahawks",       "city": "Seattle",      "ground": "Lumen Field",              "conference": "NFC", "division": "NFC West",  "european": false, "rivalries": ["ARI", "LAR", "SF"]}
+  ],
+
+  "shared_venues": [
+    {"ground": "MetLife Stadium",  "teams": ["NYJ", "NYG"]},
+    {"ground": "SoFi Stadium",     "teams": ["LAC", "LAR"]}
+  ],
+
+  "city_groups": {
+    "New York": ["NYJ", "NYG"],
+    "Los Angeles": ["LAC", "LAR"]
+  },
+
+  "high_profile_derbies": [
+    ["DAL", "PHI"], ["DAL", "NYG"], ["DAL", "WAS"],
+    ["NYG", "PHI"], ["SF",  "SEA"], ["KC",  "LV"],
+    ["PIT", "BAL"], ["GB",  "CHI"], ["NE",  "NYJ"],
+    ["BAL", "PIT"]
+  ]
+}

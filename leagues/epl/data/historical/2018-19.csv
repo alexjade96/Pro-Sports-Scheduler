@@ -1,0 +1,381 @@
+Div,Date,Time,HomeTeam,AwayTeam,FTHG,FTAG,FTR
+E0,01/01/2019,14:00,Bournemouth,Man United,2,0,H
+E0,01/01/2019,15:00,Bournemouth,Tottenham,0,2,A
+E0,01/02/2019,20:00,Southampton,West Ham,0,1,A
+E0,01/04/2019,15:00,Liverpool,Huddersfield,0,0,D
+E0,01/05/2019,19:45,West Ham,Burnley,1,2,A
+E0,01/05/2019,15:00,Arsenal,Everton,4,1,H
+E0,01/09/2018,17:30,Bournemouth,Fulham,0,2,A
+E0,01/09/2018,15:00,Huddersfield,Everton,3,3,D
+E0,01/10/2018,15:00,Cardiff,Man City,1,1,D
+E0,01/10/2018,20:00,Burnley,Leicester,0,0,D
+E0,01/11/2018,19:45,Bournemouth,Wolves,3,3,D
+E0,01/12/2018,15:00,Man City,Brighton,4,3,H
+E0,02/01/2019,15:00,Arsenal,Man United,3,0,H
+E0,02/02/2019,12:30,Man United,Cardiff,3,1,H
+E0,02/02/2019,17:30,Wolves,West Ham,4,2,H
+E0,02/02/2019,15:00,Tottenham,Man City,1,2,A
+E0,02/03/2019,15:00,Cardiff,Man United,0,0,D
+E0,02/03/2019,17:30,Man United,Bournemouth,2,0,H
+E0,02/03/2019,12:30,Southampton,Tottenham,3,2,H
+E0,02/04/2019,15:00,Bournemouth,Crystal Palace,3,3,D
+E0,02/05/2019,19:45,Watford,Leicester,3,0,H
+E0,02/09/2018,15:00,Tottenham,Bournemouth,0,1,A
+E0,02/09/2018,14:00,Crystal Palace,Burnley,1,1,D
+E0,02/09/2018,16:30,Cardiff,Arsenal,4,0,H
+E0,02/10/2018,19:45,Burnley,Chelsea,2,1,H
+E0,02/10/2018,15:00,Cardiff,Brighton,2,0,H
+E0,02/12/2018,16:30,West Ham,Man City,1,0,H
+E0,02/12/2018,15:00,Tottenham,Brighton,1,2,A
+E0,03/02/2019,16:30,Southampton,Crystal Palace,0,3,A
+E0,03/02/2019,17:30,Fulham,Everton,3,2,H
+E0,03/02/2019,15:00,Crystal Palace,Man City,1,0,H
+E0,03/03/2019,16:30,Leicester,West Ham,4,3,H
+E0,03/03/2019,15:00,Burnley,Man City,0,0,D
+E0,03/04/2019,15:00,Arsenal,Brighton,3,1,H
+E0,03/04/2019,19:45,Newcastle,Leicester,1,0,H
+E0,03/05/2019,20:00,Watford,Liverpool,2,3,A
+E0,03/09/2018,15:00,Arsenal,Chelsea,4,3,H
+E0,03/09/2018,14:00,Brighton,Burnley,4,3,H
+E0,03/09/2018,16:30,Newcastle,Crystal Palace,0,2,A
+E0,03/11/2018,12:30,Huddersfield,Crystal Palace,4,1,H
+E0,03/11/2018,17:30,Wolves,Crystal Palace,0,0,D
+E0,03/11/2018,15:00,Watford,Crystal Palace,4,2,H
+E0,03/12/2018,15:00,Cardiff,Watford,2,2,D
+E0,03/12/2018,20:00,Bournemouth,Newcastle,2,1,H
+E0,04/01/2019,20:00,Burnley,Fulham,2,3,A
+E0,04/02/2019,15:00,Everton,Crystal Palace,4,0,H
+E0,04/03/2019,15:00,Wolves,Burnley,2,2,D
+E0,04/04/2019,15:00,Huddersfield,Man United,3,2,H
+E0,04/05/2019,17:30,Everton,Wolves,2,3,A
+E0,04/05/2019,12:30,Chelsea,Everton,3,2,H
+E0,04/05/2019,15:00,Wolves,Leicester,3,2,H
+E0,04/09/2018,14:00,Southampton,Liverpool,2,0,H
+E0,04/11/2018,15:00,Cardiff,Newcastle,2,3,A
+E0,04/11/2018,16:30,Man City,Southampton,1,2,A
+E0,04/11/2018,14:00,Man City,Man United,1,3,A
+E0,04/12/2018,15:00,Leicester,Newcastle,4,0,H
+E0,05/01/2019,17:30,Arsenal,Watford,0,2,A
+E0,05/01/2019,15:00,Newcastle,Tottenham,1,0,H
+E0,05/02/2019,15:00,Everton,Burnley,4,2,H
+E0,05/03/2019,15:00,Liverpool,Chelsea,1,3,A
+E0,05/05/2019,16:30,Brighton,Tottenham,0,1,A
+E0,05/05/2019,15:00,Arsenal,Fulham,0,3,A
+E0,05/05/2019,14:00,Cardiff,Everton,3,1,H
+E0,05/09/2018,19:45,Crystal Palace,Bournemouth,1,3,A
+E0,05/11/2018,20:00,Chelsea,Huddersfield,1,0,H
+E0,05/11/2018,15:00,Tottenham,Leicester,2,3,A
+E0,05/12/2018,15:00,Wolves,Cardiff,3,3,D
+E0,06/01/2019,15:00,Tottenham,Burnley,2,0,H
+E0,06/01/2019,16:30,West Ham,Man United,2,3,A
+E0,06/01/2019,14:00,Man City,Liverpool,0,2,A
+E0,06/02/2019,19:45,Crystal Palace,Leicester,4,0,H
+E0,06/03/2019,15:00,Wolves,Man City,4,0,H
+E0,06/04/2019,12:30,Southampton,Arsenal,4,3,H
+E0,06/04/2019,15:00,Watford,Man United,2,2,D
+E0,06/05/2019,15:00,Leicester,Burnley,3,1,H
+E0,06/05/2019,16:30,Bournemouth,Burnley,3,2,H
+E0,06/05/2019,14:00,Newcastle,Cardiff,4,3,H
+E0,06/10/2018,15:00,Liverpool,Tottenham,3,2,H
+E0,06/11/2018,19:45,Tottenham,Cardiff,0,2,A
+E0,06/12/2018,15:00,Leicester,Huddersfield,1,1,D
+E0,07/01/2019,14:00,Southampton,Brighton,4,2,H
+E0,07/01/2019,15:00,Southampton,Wolves,4,2,H
+E0,07/03/2019,15:00,Arsenal,Cardiff,4,1,H
+E0,07/04/2019,15:00,Man United,Brighton,2,3,A
+E0,07/04/2019,16:30,Arsenal,Leicester,0,1,A
+E0,07/04/2019,12:30,Newcastle,Wolves,4,3,H
+E0,07/10/2018,14:00,Tottenham,West Ham,3,0,H
+E0,07/10/2018,16:30,Everton,Man United,2,2,D
+E0,07/10/2018,15:00,Leicester,Crystal Palace,1,0,H
+E0,07/12/2018,15:00,Huddersfield,Liverpool,3,1,H
+E0,07/12/2018,20:00,Chelsea,Arsenal,2,2,D
+E0,08/01/2019,19:45,Watford,Brighton,3,2,H
+E0,08/01/2019,15:00,Southampton,Everton,1,1,D
+E0,08/01/2019,14:00,Brighton,Arsenal,3,3,D
+E0,08/03/2019,15:00,Everton,Leicester,1,2,A
+E0,08/04/2019,15:00,Brighton,Newcastle,3,3,D
+E0,08/05/2019,19:45,Arsenal,Tottenham,4,2,H
+E0,08/09/2018,12:30,Crystal Palace,Fulham,0,1,A
+E0,08/09/2018,15:00,Burnley,Crystal Palace,1,2,A
+E0,08/10/2018,16:30,Man United,Leicester,1,2,A
+E0,08/10/2018,15:00,Crystal Palace,Watford,3,2,H
+E0,08/12/2018,15:00,Newcastle,West Ham,1,1,D
+E0,08/12/2018,15:00,Watford,Arsenal,2,2,D
+E0,09/01/2019,19:45,Fulham,Newcastle,4,0,H
+E0,09/02/2019,17:30,Crystal Palace,Southampton,3,0,H
+E0,09/02/2019,15:00,Cardiff,Chelsea,2,1,H
+E0,09/03/2019,15:00,Watford,Wolves,4,0,H
+E0,09/03/2019,17:30,Brighton,Chelsea,0,2,A
+E0,09/04/2019,15:00,Man United,Liverpool,4,1,H
+E0,09/09/2018,14:00,Leicester,Man City,3,1,H
+E0,09/09/2018,15:00,Brighton,Watford,1,0,H
+E0,09/09/2018,16:30,Man United,Newcastle,1,3,A
+E0,09/10/2018,16:30,Leicester,Everton,2,1,H
+E0,09/10/2018,15:00,Fulham,Man United,2,3,A
+E0,09/12/2018,15:00,Man United,Southampton,1,0,H
+E0,09/12/2018,14:00,West Ham,Southampton,3,1,H
+E0,09/12/2018,16:30,Southampton,Chelsea,4,0,H
+E0,10/01/2019,19:45,Liverpool,Leicester,1,2,A
+E0,10/02/2019,15:00,Tottenham,Man United,4,3,H
+E0,10/02/2019,14:00,Leicester,Cardiff,3,2,H
+E0,10/02/2019,16:30,Leicester,Watford,4,1,H
+E0,10/03/2019,16:30,Tottenham,Chelsea,4,1,H
+E0,10/03/2019,14:00,Fulham,Crystal Palace,4,3,H
+E0,10/04/2019,15:00,Southampton,Watford,3,1,H
+E0,10/04/2019,19:45,Man City,Watford,2,0,H
+E0,10/09/2018,14:00,Arsenal,Southampton,1,2,A
+E0,10/09/2018,15:00,Leicester,Tottenham,1,0,H
+E0,10/09/2018,16:30,Cardiff,Liverpool,4,0,H
+E0,10/10/2018,16:30,Cardiff,Burnley,4,3,H
+E0,10/10/2018,15:00,Burnley,Brighton,3,3,D
+E0,10/11/2018,17:30,Crystal Palace,Arsenal,3,0,H
+E0,10/11/2018,15:00,Liverpool,Man City,0,2,A
+E0,10/12/2018,14:00,Wolves,Watford,4,0,H
+E0,10/12/2018,16:30,Southampton,Bournemouth,4,3,H
+E0,11/02/2019,15:00,Bournemouth,Brighton,4,2,H
+E0,11/03/2019,16:30,Burnley,Cardiff,1,3,A
+E0,11/03/2019,14:00,Huddersfield,Tottenham,1,2,A
+E0,11/04/2019,15:00,Huddersfield,Southampton,3,3,D
+E0,11/08/2018,15:00,Watford,Man City,1,3,A
+E0,11/08/2018,17:30,West Ham,Brighton,0,1,A
+E0,11/08/2018,12:30,Liverpool,Newcastle,0,0,D
+E0,11/09/2018,14:00,Man City,Leicester,0,0,D
+E0,11/09/2018,19:45,Huddersfield,West Ham,4,1,H
+E0,11/11/2018,15:00,Fulham,Man City,3,0,H
+E0,11/12/2018,19:45,Man United,Watford,2,3,A
+E0,11/12/2018,14:00,Cardiff,Crystal Palace,4,1,H
+E0,11/12/2018,16:30,Fulham,Southampton,0,2,A
+E0,12/01/2019,17:30,Chelsea,Southampton,0,0,D
+E0,12/01/2019,15:00,Brighton,Fulham,0,0,D
+E0,12/02/2019,15:00,Fulham,Burnley,1,0,H
+E0,12/03/2019,16:30,Newcastle,Fulham,4,0,H
+E0,12/03/2019,14:00,Cardiff,Wolves,4,1,H
+E0,12/08/2018,14:00,Man United,Crystal Palace,3,0,H
+E0,12/08/2018,16:30,Liverpool,Everton,3,1,H
+E0,12/11/2018,20:00,Leicester,Chelsea,3,1,H
+E0,12/11/2018,15:00,Huddersfield,Wolves,2,1,H
+E0,13/01/2019,15:00,Chelsea,Man City,4,2,H
+E0,13/01/2019,14:00,Chelsea,Crystal Palace,1,1,D
+E0,13/02/2019,15:00,Burnley,Watford,0,3,A
+E0,13/03/2019,16:30,Liverpool,Southampton,1,1,D
+E0,13/04/2019,15:00,Newcastle,Bournemouth,1,1,D
+E0,13/04/2019,12:30,Arsenal,Liverpool,2,2,D
+E0,13/04/2019,17:30,Tottenham,Everton,4,0,H
+E0,13/08/2018,14:00,Newcastle,Chelsea,3,1,H
+E0,13/08/2018,16:30,Brighton,Crystal Palace,0,0,D
+E0,13/11/2018,15:00,Everton,Brighton,3,1,H
+E0,14/01/2019,14:00,Liverpool,Man United,4,0,H
+E0,14/01/2019,20:00,Cardiff,Huddersfield,3,0,H
+E0,14/02/2019,15:00,Leicester,Fulham,3,3,D
+E0,14/03/2019,16:30,Watford,Newcastle,1,0,H
+E0,14/04/2019,14:00,Arsenal,Newcastle,4,1,H
+E0,14/04/2019,16:30,Wolves,Liverpool,3,1,H
+E0,14/04/2019,15:00,Southampton,Huddersfield,4,3,H
+E0,14/08/2018,14:00,Newcastle,Man City,3,0,H
+E0,14/08/2018,16:30,Everton,Tottenham,1,3,A
+E0,14/10/2018,16:30,West Ham,Everton,2,2,D
+E0,14/10/2018,14:00,Wolves,Bournemouth,3,3,D
+E0,14/11/2018,15:00,Huddersfield,Man City,2,1,H
+E0,14/11/2018,19:45,Southampton,Burnley,2,3,A
+E0,15/01/2019,14:00,Burnley,Newcastle,2,3,A
+E0,15/04/2019,16:30,Burnley,Man United,4,3,H
+E0,15/04/2019,15:00,West Ham,Cardiff,1,1,D
+E0,15/08/2018,16:30,Newcastle,Man United,0,1,A
+E0,15/09/2018,15:00,Chelsea,Cardiff,1,0,H
+E0,15/09/2018,12:30,Fulham,Tottenham,0,1,A
+E0,15/09/2018,17:30,Everton,Fulham,2,1,H
+E0,15/10/2018,14:00,Liverpool,Bournemouth,2,0,H
+E0,15/12/2018,15:00,Chelsea,Wolves,4,0,H
+E0,15/12/2018,17:30,Fulham,Liverpool,0,1,A
+E0,15/12/2018,12:30,Crystal Palace,Brighton,1,2,A
+E0,16/01/2019,19:45,Arsenal,Crystal Palace,4,1,H
+E0,16/02/2019,15:00,Brighton,Bournemouth,2,3,A
+E0,16/02/2019,17:30,Crystal Palace,Everton,3,1,H
+E0,16/02/2019,12:30,Newcastle,Arsenal,4,2,H
+E0,16/03/2019,15:00,Crystal Palace,West Ham,0,3,A
+E0,16/04/2019,15:00,Newcastle,Watford,4,2,H
+E0,16/09/2018,16:30,Watford,Cardiff,4,3,H
+E0,16/09/2018,15:00,Everton,Liverpool,1,1,D
+E0,16/09/2018,14:00,Man City,Arsenal,3,2,H
+E0,16/12/2018,15:00,Watford,Tottenham,1,2,A
+E0,16/12/2018,16:30,Chelsea,Newcastle,1,2,A
+E0,16/12/2018,17:30,Tottenham,Wolves,3,2,H
+E0,16/12/2018,14:00,Man United,West Ham,4,3,H
+E0,17/02/2019,14:00,Liverpool,Arsenal,2,3,A
+E0,17/02/2019,15:00,Leicester,Arsenal,3,2,H
+E0,17/03/2019,15:00,Arsenal,Burnley,2,2,D
+E0,17/03/2019,16:30,Watford,Huddersfield,3,3,D
+E0,17/03/2019,14:00,Chelsea,Bournemouth,1,1,D
+E0,17/04/2019,15:00,Arsenal,Wolves,0,3,A
+E0,17/09/2018,15:00,Bournemouth,Man City,0,1,A
+E0,17/11/2018,17:30,Wolves,Man United,4,3,H
+E0,17/11/2018,12:30,Tottenham,Newcastle,4,2,H
+E0,17/11/2018,15:00,Wolves,Everton,4,1,H
+E0,17/12/2018,16:30,Huddersfield,Fulham,4,2,H
+E0,17/12/2018,15:00,Crystal Palace,Man United,3,2,H
+E0,18/02/2019,20:00,Burnley,West Ham,1,0,H
+E0,18/03/2019,14:00,Newcastle,Burnley,2,3,A
+E0,18/03/2019,20:00,Bournemouth,Watford,1,0,H
+E0,18/03/2019,15:00,Tottenham,Southampton,2,2,D
+E0,18/03/2019,16:30,Man City,Cardiff,3,3,D
+E0,18/08/2018,15:00,Arsenal,Man City,2,3,A
+E0,18/09/2018,15:00,Man United,Huddersfield,1,1,D
+E0,18/11/2018,15:00,Cardiff,Tottenham,3,2,H
+E0,18/11/2018,16:30,Bournemouth,Huddersfield,3,2,H
+E0,19/01/2019,15:00,Man City,Chelsea,0,2,A
+E0,19/02/2019,19:45,Liverpool,Wolves,3,2,H
+E0,19/02/2019,20:00,Watford,Southampton,1,0,H
+E0,19/03/2019,15:00,Leicester,Bournemouth,1,1,D
+E0,19/08/2018,15:00,Everton,Cardiff,4,2,H
+E0,19/08/2018,16:30,Arsenal,Huddersfield,0,1,A
+E0,19/08/2018,14:00,Leicester,Brighton,4,0,H
+E0,19/09/2018,15:00,Man City,West Ham,3,2,H
+E0,19/09/2018,19:45,Huddersfield,Bournemouth,0,3,A
+E0,19/11/2018,20:00,Bournemouth,Southampton,3,0,H
+E0,19/11/2018,16:30,Wolves,Tottenham,4,0,H
+E0,19/11/2018,15:00,Crystal Palace,Huddersfield,4,2,H
+E0,20/01/2019,15:00,Burnley,Wolves,3,3,D
+E0,20/01/2019,14:00,Everton,Newcastle,3,1,H
+E0,20/01/2019,16:30,Man City,Wolves,3,3,D
+E0,20/02/2019,19:45,Burnley,Southampton,2,1,H
+E0,20/03/2019,15:00,Crystal Palace,Newcastle,1,0,H
+E0,20/04/2019,12:30,Newcastle,Huddersfield,2,0,H
+E0,20/04/2019,15:00,Newcastle,Southampton,0,1,A
+E0,20/08/2018,15:00,Man City,Huddersfield,0,2,A
+E0,20/08/2018,14:00,Bournemouth,Leicester,0,3,A
+E0,20/10/2018,15:00,Brighton,Wolves,4,3,H
+E0,20/11/2018,15:00,Man United,Man City,0,1,A
+E0,21/01/2019,14:00,Arsenal,Bournemouth,2,1,H
+E0,21/01/2019,16:30,Chelsea,Tottenham,0,2,A
+E0,21/01/2019,15:00,Huddersfield,Newcastle,3,3,D
+E0,21/02/2019,19:45,Huddersfield,Watford,1,3,A
+E0,21/04/2019,16:30,Fulham,Chelsea,2,0,H
+E0,21/04/2019,15:00,Crystal Palace,Wolves,3,3,D
+E0,21/08/2018,15:00,Liverpool,Brighton,4,1,H
+E0,21/08/2018,14:00,Chelsea,Fulham,0,3,A
+E0,21/08/2018,19:45,Watford,Everton,2,0,H
+E0,21/10/2018,16:30,Man City,Tottenham,2,0,H
+E0,21/10/2018,15:00,West Ham,Crystal Palace,3,1,H
+E0,22/01/2019,15:00,Chelsea,Liverpool,4,3,H
+E0,22/01/2019,19:45,Southampton,Man United,2,3,A
+E0,22/04/2019,15:00,Fulham,Watford,3,1,H
+E0,22/08/2018,15:00,Brighton,Liverpool,0,3,A
+E0,22/09/2018,15:00,Huddersfield,Cardiff,4,1,H
+E0,22/09/2018,17:30,Burnley,Bournemouth,2,3,A
+E0,22/10/2018,15:00,Cardiff,Fulham,0,0,D
+E0,22/10/2018,16:30,Tottenham,Fulham,0,3,A
+E0,22/12/2018,17:30,Crystal Palace,Chelsea,4,1,H
+E0,22/12/2018,15:00,Brighton,Huddersfield,0,3,A
+E0,22/12/2018,12:30,Fulham,Cardiff,1,3,A
+E0,23/02/2019,15:00,Fulham,Bournemouth,3,3,D
+E0,23/02/2019,17:30,Liverpool,Burnley,0,0,D
+E0,23/03/2019,12:30,Liverpool,Cardiff,3,1,H
+E0,23/03/2019,15:00,Brighton,Man United,1,2,A
+E0,23/03/2019,17:30,Chelsea,Leicester,1,2,A
+E0,23/04/2019,15:00,Bournemouth,Arsenal,3,1,H
+E0,23/04/2019,19:45,Fulham,Wolves,0,0,D
+E0,23/09/2018,14:00,Man City,Newcastle,2,3,A
+E0,23/09/2018,16:30,Burnley,Huddersfield,2,2,D
+E0,23/09/2018,15:00,Wolves,Southampton,3,0,H
+E0,23/09/2018,17:30,Fulham,Brighton,4,2,H
+E0,23/10/2018,16:30,Liverpool,Fulham,4,0,H
+E0,23/10/2018,19:45,Brighton,Cardiff,0,2,A
+E0,23/10/2018,15:00,Everton,Arsenal,3,0,H
+E0,23/12/2018,16:30,Cardiff,Leicester,2,0,H
+E0,23/12/2018,15:00,Wolves,Huddersfield,0,3,A
+E0,24/02/2019,14:00,Everton,Watford,4,3,H
+E0,24/02/2019,17:30,Wolves,Fulham,0,1,A
+E0,24/02/2019,16:30,Newcastle,Liverpool,3,3,D
+E0,24/02/2019,15:00,Man United,Everton,1,2,A
+E0,24/04/2019,19:45,Bournemouth,West Ham,2,0,H
+E0,24/04/2019,15:00,Fulham,Huddersfield,1,1,D
+E0,24/09/2018,15:00,Watford,Fulham,3,0,H
+E0,24/09/2018,14:00,Wolves,Chelsea,2,3,A
+E0,24/10/2018,15:00,Southampton,Leicester,2,2,D
+E0,24/10/2018,16:30,Cardiff,Southampton,3,1,H
+E0,24/11/2018,12:30,Cardiff,West Ham,1,1,D
+E0,24/11/2018,15:00,Man United,Burnley,4,1,H
+E0,24/11/2018,17:30,Chelsea,West Ham,3,3,D
+E0,25/02/2019,14:00,Fulham,Arsenal,0,1,A
+E0,25/02/2019,20:00,Leicester,Wolves,4,1,H
+E0,25/04/2019,19:45,West Ham,Bournemouth,0,0,D
+E0,25/08/2018,15:00,Wolves,Newcastle,0,0,D
+E0,25/08/2018,17:30,West Ham,Newcastle,2,2,D
+E0,25/08/2018,12:30,Leicester,Southampton,0,2,A
+E0,25/09/2018,15:00,Everton,Chelsea,4,0,H
+E0,25/10/2018,15:00,Huddersfield,Chelsea,1,2,A
+E0,25/11/2018,15:00,West Ham,Leicester,3,0,H
+E0,25/11/2018,14:00,Watford,Chelsea,3,3,D
+E0,26/01/2019,17:30,Huddersfield,Brighton,0,1,A
+E0,26/01/2019,15:00,Man City,Crystal Palace,1,3,A
+E0,26/02/2019,14:00,Huddersfield,Leicester,1,0,H
+E0,26/02/2019,19:45,Watford,West Ham,1,1,D
+E0,26/03/2019,16:30,Newcastle,Everton,4,0,H
+E0,26/03/2019,16:30,Brighton,Leicester,2,3,A
+E0,26/03/2019,15:00,Southampton,Newcastle,3,1,H
+E0,26/03/2019,14:00,West Ham,Chelsea,0,2,A
+E0,26/03/2019,14:00,Wolves,Arsenal,1,0,H
+E0,26/03/2019,15:00,Tottenham,Crystal Palace,3,2,H
+E0,26/03/2019,17:30,Everton,Bournemouth,2,2,D
+E0,26/08/2018,17:30,Cardiff,Bournemouth,1,2,A
+E0,26/08/2018,15:00,Brighton,West Ham,4,1,H
+E0,26/08/2018,12:30,West Ham,Fulham,1,1,D
+E0,26/08/2018,16:30,Bournemouth,Cardiff,0,0,D
+E0,26/09/2018,15:00,Everton,Southampton,4,1,H
+E0,26/10/2018,15:00,Everton,Huddersfield,3,3,D
+E0,26/11/2018,15:00,West Ham,Tottenham,4,2,H
+E0,26/12/2018,15:00,Tottenham,Huddersfield,1,1,D
+E0,26/12/2018,15:00,Tottenham,Arsenal,2,1,H
+E0,26/12/2018,15:00,Watford,Burnley,0,2,A
+E0,26/12/2018,15:00,Man United,Chelsea,1,1,D
+E0,26/12/2018,20:00,Man United,Tottenham,2,3,A
+E0,27/01/2019,15:00,West Ham,Huddersfield,4,3,H
+E0,27/01/2019,16:30,Watford,Bournemouth,1,1,D
+E0,27/04/2019,15:00,West Ham,Wolves,0,0,D
+E0,27/08/2018,20:00,Burnley,Tottenham,3,0,H
+E0,27/10/2018,15:00,Leicester,Liverpool,4,2,H
+E0,27/11/2018,15:00,Burnley,Everton,1,0,H
+E0,28/01/2019,16:30,Fulham,West Ham,4,3,H
+E0,28/01/2019,15:00,Burnley,Liverpool,1,0,H
+E0,28/01/2019,20:00,Brighton,Man City,4,2,H
+E0,28/04/2019,16:30,Liverpool,Crystal Palace,2,2,D
+E0,28/04/2019,15:00,Man City,Burnley,1,0,H
+E0,28/04/2019,14:00,Chelsea,Watford,0,0,D
+E0,28/08/2018,19:45,Brighton,Southampton,0,0,D
+E0,28/10/2018,16:30,Fulham,Leicester,2,1,H
+E0,28/10/2018,15:00,Chelsea,Man United,3,2,H
+E0,28/11/2018,19:45,Tottenham,Liverpool,2,2,D
+E0,28/11/2018,15:00,West Ham,Arsenal,3,3,D
+E0,29/01/2019,15:00,Bournemouth,Everton,0,3,A
+E0,29/01/2019,16:30,Newcastle,Brighton,3,3,D
+E0,29/04/2019,15:00,Brighton,Everton,3,3,D
+E0,29/08/2018,19:45,Tottenham,Watford,4,2,H
+E0,29/09/2018,17:30,Man United,Fulham,2,1,H
+E0,29/09/2018,15:00,West Ham,Liverpool,2,2,D
+E0,29/10/2018,15:00,Southampton,Fulham,1,2,A
+E0,29/10/2018,20:00,Everton,Man City,2,1,H
+E0,29/11/2018,15:00,West Ham,Watford,1,2,A
+E0,29/12/2018,15:00,Crystal Palace,Liverpool,0,2,A
+E0,30/01/2019,15:00,Man City,Bournemouth,1,2,A
+E0,30/01/2019,19:45,Everton,West Ham,3,1,H
+E0,30/03/2019,12:30,Man United,Wolves,4,1,H
+E0,30/03/2019,17:30,Bournemouth,Liverpool,0,3,A
+E0,30/03/2019,15:00,Chelsea,Burnley,2,2,D
+E0,30/04/2019,15:00,Man City,Everton,2,3,A
+E0,30/09/2018,14:00,Southampton,Cardiff,0,2,A
+E0,30/09/2018,16:30,Liverpool,Watford,3,1,H
+E0,30/09/2018,15:00,Southampton,Man City,4,1,H
+E0,30/09/2018,17:30,Liverpool,West Ham,4,0,H
+E0,30/10/2018,15:00,Man United,Arsenal,4,0,H
+E0,30/10/2018,20:00,Crystal Palace,Cardiff,1,0,H
+E0,30/12/2018,15:00,Chelsea,Brighton,3,0,H
+E0,30/12/2018,14:00,Huddersfield,Burnley,0,2,A
+E0,30/12/2018,16:30,Burnley,Arsenal,1,0,H
+E0,31/03/2019,15:00,Wolves,Brighton,4,1,H
+E0,31/03/2019,16:30,Leicester,Man United,2,0,H
+E0,31/10/2018,15:00,Arsenal,West Ham,4,3,H
+E0,31/10/2018,19:45,Bournemouth,Chelsea,2,2,D
+E0,31/12/2018,15:00,Crystal Palace,Tottenham,3,3,D
+E0,31/12/2018,14:00,Man City,Fulham,4,3,H
+E0,31/12/2018,16:30,Huddersfield,Arsenal,2,3,A

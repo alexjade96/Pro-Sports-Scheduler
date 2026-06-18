@@ -1,0 +1,37 @@
+{
+  "teams": [
+    { "id": "ARS", "name": "Arsenal",           "city": "London",     "ground": "Emirates Stadium",       "european": false, "rivalries": ["TOT"] },
+    { "id": "AVL", "name": "Aston Villa",        "city": "Birmingham", "ground": "Villa Park",             "european": false, "rivalries": ["BRE"] },
+    { "id": "BOU", "name": "Bournemouth",        "city": "Bournemouth","ground": "Vitality Stadium",       "european": false, "rivalries": [] },
+    { "id": "BRE", "name": "Brentford",          "city": "London",     "ground": "Gtech Community Stadium","european": false, "rivalries": ["CHE","FUL"] },
+    { "id": "BHA", "name": "Brighton",           "city": "Brighton",   "ground": "Amex Stadium",           "european": false, "rivalries": ["CRY"] },
+    { "id": "CHE", "name": "Chelsea",            "city": "London",     "ground": "Stamford Bridge",        "european": true,  "rivalries": ["ARS","TOT","FUL"] },
+    { "id": "CRY", "name": "Crystal Palace",     "city": "London",     "ground": "Selhurst Park",          "european": false, "rivalries": ["BHA","CHE"] },
+    { "id": "EVE", "name": "Everton",            "city": "Liverpool",  "ground": "Goodison Park",          "european": false, "rivalries": ["LIV"] },
+    { "id": "FUL", "name": "Fulham",             "city": "London",     "ground": "Craven Cottage",         "european": false, "rivalries": ["CHE","BRE"] },
+    { "id": "IPS", "name": "Ipswich Town",       "city": "Ipswich",    "ground": "Portman Road",           "european": false, "rivalries": [] },
+    { "id": "LEI", "name": "Leicester City",     "city": "Leicester",  "ground": "King Power Stadium",     "european": false, "rivalries": [] },
+    { "id": "LIV", "name": "Liverpool",          "city": "Liverpool",  "ground": "Anfield",                "european": true,  "rivalries": ["EVE","MCI","MUN"] },
+    { "id": "MCI", "name": "Manchester City",    "city": "Manchester", "ground": "Etihad Stadium",         "european": true,  "rivalries": ["MUN","LIV"] },
+    { "id": "MUN", "name": "Manchester United",  "city": "Manchester", "ground": "Old Trafford",           "european": true,  "rivalries": ["MCI","LIV","ARS"] },
+    { "id": "NEW", "name": "Newcastle United",   "city": "Newcastle",  "ground": "St James' Park",         "european": true,  "rivalries": [] },
+    { "id": "NFO", "name": "Nottm Forest",       "city": "Nottingham", "ground": "City Ground",            "european": false, "rivalries": [] },
+    { "id": "SOU", "name": "Southampton",        "city": "Southampton","ground": "St Mary's Stadium",      "european": false, "rivalries": [] },
+    { "id": "TOT", "name": "Tottenham Hotspur",  "city": "London",     "ground": "Tottenham Hotspur Stadium","european": true,"rivalries": ["ARS","CHE"] },
+    { "id": "WHU", "name": "West Ham United",    "city": "London",     "ground": "London Stadium",         "european": false, "rivalries": ["TOT","MIL"] },
+    { "id": "WOL", "name": "Wolverhampton",      "city": "Wolverhampton","ground": "Molineux Stadium",    "european": false, "rivalries": ["AVL"] }
+  ],
+  "city_groups": {
+    "London":       ["ARS","BRE","CHE","CRY","FUL","TOT","WHU"],
+    "Manchester":   ["MCI","MUN"],
+    "Liverpool":    ["LIV","EVE"],
+    "Birmingham":   ["AVL"]
+  },
+  "high_profile_derbies": [
+    ["ARS","TOT"],
+    ["MCI","MUN"],
+    ["LIV","EVE"],
+    ["CHE","ARS"],
+    ["CHE","TOT"]
+  ]
+}

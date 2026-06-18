@@ -1,0 +1,81 @@
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+CROSS-SEASON HISTORICAL ANALYSIS
+Seasons: 2015-16, 2016-17, 2017-18, 2018-19, 2019-20, 2020-21, 2021-22, 2022-23, 2023-24, 2024-25
+Generated: 2026-06-18 21:59
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+Metric                          2015-16  2016-17  2017-18  2018-19  2019-20  2020-21  2021-22  2022-23  2023-24  2024-25      MIN     MEAN      MAX  Note                    
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Total fixtures                      380      380      380      380      380      380      380      380      380      380      380      380      380  Full season = 380       
+Mean rest days                      7.4      7.1      7.0      7.0      9.1      6.6      7.2      7.6      7.2      7.2      6.6      7.3      9.1  Higher = more recovery  
+Min rest days (global)                0        0        0        0        0        0        0        0        0        0        0        0        0  HC1 target ≥ 3          
+Max rest days (global)               48       38       56       42       55       53       53       57       40       49       38     49.1       57                          
+City home clashes (same day)         14       22       22       24       16       28       31       32       30       34       14     25.3       34  SC7 same-day            
+City clashes (4-day window)         116      124      137      168       95      189      189      223      254      244       95    173.9      254  SC7 widened target = 0  
+Intl break violations                 0        0        0        0        0        0        0        0        0        0        0        0        0  HC3 target = 0          
+League max consec. home               7        9       10        5        8        7        7        7        8       11        5      7.9       11  SC2 target ≤ 3          
+League max consec. away               8        7        8        8       11        8        7        8       11        7        7      8.3       11  SC1 target ≤ 3          
+Teams >3 consec. away                14       17       16       18       16       14       14       15       20       15       14     15.9       20  historical baseline     
+Teams >3 consec. home                18       14       12       18       16       15       15       15       18       12       12     15.3       18  historical baseline     
+Teams >5 consec. away                 4        7        4        3        5        2        2        5        5        4        2      4.1        7  SC1 target (relaxed)    
+Teams >5 consec. home                 3        5        4        0        5        6        2        6       11        5        0      4.7       11  SC2 target (relaxed)    
+Derbies gap < 56 days                 3        1        3        3        1        5        2        3        1        1        1      2.3        5  SC3 violations          
+London cluster days >3                0        1        0        0        0        1        0        1        2        0        0      0.5        2  SC10 target = 0         
+Christmas Day fixtures                0        0        0        0        0        0        0        0        0        0        0        0        0  HC7 target = 0          
+Good Friday coverage                  0        0        0        0        0        0        0        0        0        0        0        0        0  SC9 target = 20         
+Easter Monday coverage                0        0        0        0        0        0        0        0        0        0        0        0        0  SC9 target = 20         
+Boxing Day coverage                   0        0        0        0        0        0        0        0        0        0        0        0        0  PR2 target = 20         
+New Year's Day coverage               0        0        0        0        0        0        0        0        0        0        0        0        0  PR2 target = 20         
+5-match pattern violations          239      240      241      239      253      215      228      249      286      247      215    243.7      286  SC13 target = 0         
+Season boundary violations           18       20       11       22       21       19       17       20       22       20       11       19       22  SC14 target = 0         
+BoxDay/NYD pair violations            0        0        0        1        0        0        0        2        0        0        0      0.3        2  SC15 target = 0         
+% Saturday fixtures                20.3     21.6     20.5     21.6     21.1     21.3     20.0     20.5     21.1     21.3     20.0     20.9     21.6                          
+% Sunday fixtures                  27.6     30.8     27.6     26.8     30.3     29.5     30.3     29.2     26.6     27.1     26.6     28.6     30.8                          
+% Monday fixtures                  23.4     23.2     23.2     18.7     22.1     22.4     22.4     24.2     18.4     19.5     18.4     21.8     24.2                          
+% midweek (Tue+Wed)                23.9     20.0     25.0     27.7     21.6     22.9     22.3     21.6     28.7     24.2     20.0     23.8     28.7                          
+% 15:00 kickoffs                   38.9     35.5     39.5     42.6     34.2     37.6     38.2     41.3     43.2     35.3     34.2     38.6     43.2  Typical broadcast       
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+TARGET RANGE SUMMARY (derived from historical baseline)
+────────────────────────────────────────────────────────────
+Metric                         Target / Range            Note
+────────────────────────────────────────────────────────────
+Total fixtures                 380 – 380  (mean 380)     Full season = 380
+Mean rest days                 6.6 – 9.1  (mean 7.3)     Higher = more recovery
+Min rest days (global)         0 – 0  (mean 0)           HC1 target ≥ 3
+Max rest days (global)         38 – 57  (mean 49.1)      
+City home clashes (same day)   14 – 34  (mean 25.3)      SC7 same-day
+City clashes (4-day window)    95 – 254  (mean 173.9)    SC7 widened target = 0
+Intl break violations          0 – 0  (mean 0)           HC3 target = 0
+League max consec. home        5 – 11  (mean 7.9)        SC2 target ≤ 3
+League max consec. away        7 – 11  (mean 8.3)        SC1 target ≤ 3
+Teams >3 consec. away          14 – 20  (mean 15.9)      historical baseline
+Teams >3 consec. home          12 – 18  (mean 15.3)      historical baseline
+Teams >5 consec. away          2 – 7  (mean 4.1)         SC1 target (relaxed)
+Teams >5 consec. home          0 – 11  (mean 4.7)        SC2 target (relaxed)
+Derbies gap < 56 days          1 – 5  (mean 2.3)         SC3 violations
+London cluster days >3         0 – 2  (mean 0.5)         SC10 target = 0
+Christmas Day fixtures         0 – 0  (mean 0)           HC7 target = 0
+Good Friday coverage           0 – 0  (mean 0)           SC9 target = 20
+Easter Monday coverage         0 – 0  (mean 0)           SC9 target = 20
+Boxing Day coverage            0 – 0  (mean 0)           PR2 target = 20
+New Year's Day coverage        0 – 0  (mean 0)           PR2 target = 20
+5-match pattern violations     215 – 286  (mean 243.7)   SC13 target = 0
+Season boundary violations     11 – 22  (mean 19)        SC14 target = 0
+BoxDay/NYD pair violations     0 – 2  (mean 0.3)         SC15 target = 0
+% Saturday fixtures            20.0 – 21.6  (mean 20.9)  
+% Sunday fixtures              26.6 – 30.8  (mean 28.6)  
+% Monday fixtures              18.4 – 24.2  (mean 21.8)  
+% midweek (Tue+Wed)            20.0 – 28.7  (mean 23.8)  
+% 15:00 kickoffs               34.2 – 43.2  (mean 38.6)  Typical broadcast
+
+CONSISTENCY CHECK (metrics with high cross-season variance)
+────────────────────────────────────────────────────────────
+  ⚑  City home clashes (same day)   CV=27%  (stdev=6.8, mean=25.3)
+  ⚑  City clashes (4-day window)    CV=32%  (stdev=55.4, mean=173.9)
+  ⚑  League max consec. home        CV=22%  (stdev=1.7, mean=7.9)
+  ⚑  Teams >5 consec. away          CV=37%  (stdev=1.5, mean=4.1)
+  ⚑  Teams >5 consec. home          CV=62%  (stdev=2.9, mean=4.7)
+  ⚑  Derbies gap < 56 days          CV=58%  (stdev=1.3, mean=2.3)
+  ⚑  London cluster days >3         CV=141%  (stdev=0.7, mean=0.5)
+  ⚑  BoxDay/NYD pair violations     CV=225%  (stdev=0.7, mean=0.3)

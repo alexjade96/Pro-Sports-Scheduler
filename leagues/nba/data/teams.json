@@ -1,0 +1,61 @@
+{
+  "_notes": [
+    "30 NBA teams across 2 conferences (East/West), 3 divisions each, 5 teams per division.",
+    "Each team plays 82 games: more games against division/conference rivals.",
+    "Game distribution: division rivals x4, conference non-division x3-4, opposite conf x2."
+  ],
+
+  "teams": [
+    {"id": "BOS", "name": "Boston Celtics",          "city": "Boston",        "ground": "TD Garden",                  "conference": "East", "division": "Atlantic", "rivalries": ["NYK", "PHI", "MIL"]},
+    {"id": "BKN", "name": "Brooklyn Nets",           "city": "Brooklyn",      "ground": "Barclays Center",            "conference": "East", "division": "Atlantic", "rivalries": ["NYK"]},
+    {"id": "NYK", "name": "New York Knicks",         "city": "New York",      "ground": "Madison Square Garden",      "conference": "East", "division": "Atlantic", "rivalries": ["BOS", "BKN"]},
+    {"id": "PHI", "name": "Philadelphia 76ers",      "city": "Philadelphia",  "ground": "Wells Fargo Center",         "conference": "East", "division": "Atlantic", "rivalries": ["BOS", "NYK"]},
+    {"id": "TOR", "name": "Toronto Raptors",         "city": "Toronto",       "ground": "Scotiabank Arena",           "conference": "East", "division": "Atlantic", "rivalries": []},
+
+    {"id": "CHI", "name": "Chicago Bulls",           "city": "Chicago",       "ground": "United Center",              "conference": "East", "division": "Central",  "rivalries": ["MIL", "DET"]},
+    {"id": "CLE", "name": "Cleveland Cavaliers",     "city": "Cleveland",     "ground": "Rocket Mortgage FieldHouse", "conference": "East", "division": "Central",  "rivalries": []},
+    {"id": "DET", "name": "Detroit Pistons",         "city": "Detroit",       "ground": "Little Caesars Arena",       "conference": "East", "division": "Central",  "rivalries": ["CHI"]},
+    {"id": "IND", "name": "Indiana Pacers",          "city": "Indianapolis",  "ground": "Gainbridge Fieldhouse",      "conference": "East", "division": "Central",  "rivalries": []},
+    {"id": "MIL", "name": "Milwaukee Bucks",         "city": "Milwaukee",     "ground": "Fiserv Forum",               "conference": "East", "division": "Central",  "rivalries": ["CHI", "BOS"]},
+
+    {"id": "ATL", "name": "Atlanta Hawks",           "city": "Atlanta",       "ground": "State Farm Arena",           "conference": "East", "division": "Southeast", "rivalries": []},
+    {"id": "CHA", "name": "Charlotte Hornets",       "city": "Charlotte",     "ground": "Spectrum Center",            "conference": "East", "division": "Southeast", "rivalries": []},
+    {"id": "MIA", "name": "Miami Heat",              "city": "Miami",         "ground": "Kaseya Center",              "conference": "East", "division": "Southeast", "rivalries": ["BOS", "NYK"]},
+    {"id": "ORL", "name": "Orlando Magic",           "city": "Orlando",       "ground": "Kia Center",                 "conference": "East", "division": "Southeast", "rivalries": ["MIA"]},
+    {"id": "WAS", "name": "Washington Wizards",      "city": "Washington DC", "ground": "Capital One Arena",          "conference": "East", "division": "Southeast", "rivalries": []},
+
+    {"id": "GSW", "name": "Golden State Warriors",   "city": "San Francisco", "ground": "Chase Center",               "conference": "West", "division": "Pacific",  "rivalries": ["LAL", "LAC", "PHX"]},
+    {"id": "LAC", "name": "Los Angeles Clippers",    "city": "Inglewood",     "ground": "Intuit Dome",                "conference": "West", "division": "Pacific",  "rivalries": ["LAL", "GSW"]},
+    {"id": "LAL", "name": "Los Angeles Lakers",      "city": "Los Angeles",   "ground": "Crypto.com Arena",           "conference": "West", "division": "Pacific",  "rivalries": ["LAC", "GSW", "BOS"]},
+    {"id": "PHX", "name": "Phoenix Suns",            "city": "Phoenix",       "ground": "Footprint Center",           "conference": "West", "division": "Pacific",  "rivalries": ["GSW", "LAL"]},
+    {"id": "SAC", "name": "Sacramento Kings",        "city": "Sacramento",    "ground": "Golden 1 Center",            "conference": "West", "division": "Pacific",  "rivalries": ["GSW"]},
+
+    {"id": "DEN", "name": "Denver Nuggets",          "city": "Denver",        "ground": "Ball Arena",                 "conference": "West", "division": "Northwest", "rivalries": ["OKC", "MIN"]},
+    {"id": "MIN", "name": "Minnesota Timberwolves",  "city": "Minneapolis",   "ground": "Target Center",              "conference": "West", "division": "Northwest", "rivalries": ["DEN"]},
+    {"id": "OKC", "name": "Oklahoma City Thunder",   "city": "Oklahoma City", "ground": "Paycom Center",              "conference": "West", "division": "Northwest", "rivalries": ["HOU", "DEN"]},
+    {"id": "POR", "name": "Portland Trail Blazers",  "city": "Portland",      "ground": "Moda Center",                "conference": "West", "division": "Northwest", "rivalries": []},
+    {"id": "UTA", "name": "Utah Jazz",               "city": "Salt Lake City","ground": "Delta Center",               "conference": "West", "division": "Northwest", "rivalries": ["DEN"]},
+
+    {"id": "DAL", "name": "Dallas Mavericks",        "city": "Dallas",        "ground": "American Airlines Center",   "conference": "West", "division": "Southwest", "rivalries": ["HOU", "SAS"]},
+    {"id": "HOU", "name": "Houston Rockets",         "city": "Houston",       "ground": "Toyota Center",              "conference": "West", "division": "Southwest", "rivalries": ["DAL", "SAS", "OKC"]},
+    {"id": "MEM", "name": "Memphis Grizzlies",       "city": "Memphis",       "ground": "FedExForum",                 "conference": "West", "division": "Southwest", "rivalries": []},
+    {"id": "NOP", "name": "New Orleans Pelicans",    "city": "New Orleans",   "ground": "Smoothie King Center",       "conference": "West", "division": "Southwest", "rivalries": []},
+    {"id": "SAS", "name": "San Antonio Spurs",       "city": "San Antonio",   "ground": "Frost Bank Center",          "conference": "West", "division": "Southwest", "rivalries": ["DAL", "HOU"]}
+  ],
+
+  "shared_venues": [
+    {"ground": "Crypto.com Arena",   "teams": ["LAL"],       "note": "LAL primary; LAC moved to Intuit Dome in 2024"},
+    {"ground": "Madison Square Garden", "teams": ["NYK"],    "note": "NYK primary; Rangers (NHL) share"}
+  ],
+
+  "city_groups": {
+    "Los Angeles": ["LAL", "LAC"],
+    "New York":    ["NYK", "BKN"]
+  },
+
+  "high_profile_derbies": [
+    ["LAL", "LAC"], ["LAL", "GSW"], ["BOS", "MIA"],
+    ["BOS", "NYK"], ["NYK", "BKN"], ["CHI", "MIL"],
+    ["LAL", "BOS"]
+  ]
+}

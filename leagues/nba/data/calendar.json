@@ -1,0 +1,47 @@
+{
+  "_notes": [
+    "2025-26 NBA regular season: ~178 days, 82 games per team, 1230 total games.",
+    "Playoffs: April–June. NBA Finals typically mid-June.",
+    "All-Star break in mid-February. In-Season Tournament November–December."
+  ],
+
+  "season": "2025-26",
+  "start_date": "2025-10-21",
+  "end_date":   "2026-04-12",
+  "games_per_team": 82,
+  "total_games": 1230,
+
+  "blocked_windows": [
+    {"label": "All-Star Break",        "start": "2026-02-13", "end": "2026-02-23"},
+    {"label": "Christmas Day (games played)", "start": "2025-12-25", "end": "2025-12-25", "note": "Christmas is a MAJOR game day — 5 marquee matchups, not blocked"}
+  ],
+
+  "special_matchdays": {
+    "opening_night":        "2025-10-21",
+    "christmas_day":        "2025-12-25",
+    "mlk_day":              "2026-01-19",
+    "all_star_weekend":     "2026-02-20",
+    "in_season_tournament": {
+      "group_play_end":   "2025-11-26",
+      "knockout_rounds":  ["2025-12-02", "2025-12-04", "2025-12-09"]
+    }
+  },
+
+  "matchday_slots": [
+    {"day": "Monday",    "times": ["19:00", "22:00"]},
+    {"day": "Tuesday",   "times": ["19:00", "19:30", "22:00"]},
+    {"day": "Wednesday", "times": ["19:00", "19:30", "22:00"]},
+    {"day": "Thursday",  "times": ["19:00", "22:00"]},
+    {"day": "Friday",    "times": ["19:00", "19:30", "22:00"]},
+    {"day": "Saturday",  "times": ["19:00", "19:30", "22:00", "22:30"]},
+    {"day": "Sunday",    "times": ["15:00", "17:00", "19:30"]}
+  ],
+
+  "broadcast_windows": [
+    {"slot": "TNT_Tuesday",   "label": "TNT Tuesday",          "broadcaster": "TNT"},
+    {"slot": "ESPN_Wednesday","label": "ESPN Wednesday",        "broadcaster": "ESPN"},
+    {"slot": "ABC_Sunday",    "label": "ABC Sunday afternoon",  "broadcaster": "ABC"},
+    {"slot": "Christmas",     "label": "ABC/ESPN Christmas Day","note": "5 marquee games"},
+    {"slot": "NBC_primetime", "label": "NBC primetime (2025+)", "broadcaster": "NBC", "note": "New deal starting 2025-26"}
+  ]
+}
