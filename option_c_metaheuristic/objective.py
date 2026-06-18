@@ -95,15 +95,25 @@ def score(schedule: Schedule, teams: dict) -> float:
     for sf in schedule.fixtures:
         home_by_date[str(sf.slot.date)].append(sf.home_team_id)
 
-    # ── SC7: same-city home clash (was HC2 — now soft) ────────────────────
+    # ── SC7: same-city home clash — widened to 4-day matchday window ─────
     p_city = _WEIGHTS.get("SC7", 40)
-    for home_teams in home_by_date.values():
-        city_count: dict[str, int] = defaultdict(int)
-        for t in home_teams:
-            city_count[city_lookup.get(t, "_")] += 1
-        for city, count in city_count.items():
-            if count > 1 and city != "_":
-                total += p_city * (count - 1)
+    home_dates_by_team: dict[str, list[date]] = defaultdict(list)
+    for sf in schedule.fixtures:
+        home_dates_by_team[sf.home_team_id].append(sf.slot.date)
+
+    city_groups_local = load_city_groups()
+    checked: set[frozenset] = set()
+    for city, members in city_groups_local.items():
+        for i, ta in enumerate(members):
+            for tb in members[i+1:]:
+                pair = frozenset([ta, tb])
+                if pair in checked:
+                    continue
+                checked.add(pair)
+                for da in home_dates_by_team.get(ta, []):
+                    for db in home_dates_by_team.get(tb, []):
+                        if abs((da - db).days) <= 4:
+                            total += p_city
 
     # ── SC10: London cluster cap ──────────────────────────────────────────
     p_london   = _WEIGHTS.get("SC10", 30)
@@ -157,6 +167,41 @@ def score(schedule: Schedule, teams: dict) -> float:
                 playing.add(sf.home_team_id)
                 playing.add(sf.away_team_id)
         total += p_easter * len(team_ids - playing)
+
+    # ── SC13: five-match H/A pattern ─────────────────────────────────────
+    p_5match = _WEIGHTS.get("SC13", 25)
+    for team_id in teams:
+        fx = sorted(schedule.fixtures_for_team(team_id), key=lambda sf: sf.slot.date)
+        for i in range(len(fx) - 4):
+            home_count = sum(1 for sf in fx[i:i+5] if sf.home_team_id == team_id)
+            if home_count not in (2, 3):
+                total += p_5match
+
+    # ── SC14: season boundary H/A ─────────────────────────────────────────
+    p_boundary = _WEIGHTS.get("SC14", 30)
+    for team_id in teams:
+        fx = sorted(schedule.fixtures_for_team(team_id), key=lambda sf: sf.slot.date)
+        if len(fx) < 2:
+            continue
+        open_home = [sf.home_team_id == team_id for sf in fx[:2]]
+        if open_home[0] == open_home[1]:
+            total += p_boundary
+        close_home = [sf.home_team_id == team_id for sf in fx[-2:]]
+        if close_home[0] == close_home[1]:
+            total += p_boundary
+
+    # ── SC15: Boxing Day / NYD pairing ────────────────────────────────────
+    p_festive = _WEIGHTS.get("SC15", 35)
+    for team_id in teams:
+        bd_home = nyd_home = None
+        for sf in schedule.fixtures_for_team(team_id):
+            d = sf.slot.date
+            if d.month == 12 and d.day == 26:
+                bd_home = (sf.home_team_id == team_id)
+            if d.month == 1 and d.day == 1:
+                nyd_home = (sf.home_team_id == team_id)
+        if bd_home is not None and nyd_home is not None and bd_home == nyd_home:
+            total += p_festive
 
     # ── SC12: opening balance (rounds 1-5) ────────────────────────────────
     all_dates   = sorted({sf.slot.date for sf in schedule.fixtures})

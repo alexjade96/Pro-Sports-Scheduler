@@ -114,9 +114,10 @@
     {
       "id": "SC7",
       "type": "same_city_home_clash",
+      "window_days": 4,
       "penalty_per_clash": 40,
-      "source": "Police resource constraint — downgraded from hard (HC2) because historical data shows 14-34 clashes/season; police negotiate specific fixtures rather than eliminating all clashes",
-      "description": "Avoid scheduling two same-city teams at home on the same day (police resource pressure)"
+      "source": "Police resource constraint (Atos/PL confirmed): rival city pairs (LIV+EVE, MCI+MUN, ARS+TOT, CHE+FUL etc.) cannot be home in the SAME MATCHDAY WEEKEND (Fri–Mon window, not just same day). Widened from same-day after research confirmed police plan by matchday round, not calendar date.",
+      "description": "Avoid same-city teams both at home within the same matchday weekend window (4-day radius)"
     },
     {
       "id": "SC8",
@@ -158,6 +159,30 @@
       "penalty_per_violation": 20,
       "source": "PL scheduling standard — teams should not start the season with a very heavy home or away run",
       "description": "No team should have more than 3 consecutive home or away games in rounds 1-5"
+    },
+    {
+      "id": "SC13",
+      "type": "five_match_ha_pattern",
+      "window": 5,
+      "min_home": 2,
+      "max_home": 3,
+      "penalty_per_violation": 25,
+      "source": "Atos/PL Golden Rule (confirmed via Atos press releases and PL documentation): in any 5 consecutive fixtures the H/A split must be 3+2 or 2+3. This is the primary structural constraint the sequencing algorithm enforces.",
+      "description": "In any sliding window of 5 consecutive fixtures, a team must have exactly 2 or 3 home games (never 0, 1, 4, or 5)"
+    },
+    {
+      "id": "SC14",
+      "type": "season_boundary_ha",
+      "penalty_per_violation": 30,
+      "source": "Atos/PL Golden Rule: teams must never start OR finish the season with 2 consecutive home or 2 consecutive away fixtures. Confirmed in multiple Atos and PL scheduling documentation.",
+      "description": "Teams cannot start the season with H+H or A+A, and cannot finish with H+H or A+A in their last two fixtures"
+    },
+    {
+      "id": "SC15",
+      "type": "boxing_day_nyd_pairing",
+      "penalty_per_violation": 35,
+      "source": "Atos/PL Golden Rule: if a team is at home on Boxing Day (Dec 26) they must be away on New Year's Day (Jan 1), and vice versa. Ensures equitable festive travel burden across all clubs.",
+      "description": "A team's Boxing Day and New Year's Day fixtures must have opposite H/A designation (home on one, away on the other)"
     }
   ],
 

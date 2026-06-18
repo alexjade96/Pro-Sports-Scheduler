@@ -60,7 +60,8 @@ class MetricsReport:
 
     # CITY
     city_clash_dates:     list[tuple[str, str, list[str]]] = field(default_factory=list)
-    city_clash_count:     int                         = 0
+    city_clash_count:     int                         = 0   # legacy same-day count
+    city_weekend_clash_count: int                     = 0   # SC7 widened: 4-day window
     london_cluster_violations: int                    = 0   # SC10: >3 London home games/day
 
     # DERBY
@@ -74,6 +75,11 @@ class MetricsReport:
     new_years_day_coverage: int                       = 0
     good_friday_coverage: int                         = 0   # SC9
     easter_monday_coverage: int                       = 0   # SC9
+
+    # GOLDEN RULES (Atos)
+    five_match_pattern_violations: int                = 0   # SC13
+    season_boundary_violations:    int                = 0   # SC14
+    boxing_day_nyd_violations:     int                = 0   # SC15
 
     # COMPLIANCE
     intl_break_violations:  list[tuple[str, str]]     = field(default_factory=list)
@@ -189,11 +195,13 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
     report.kickoff_time_counts = dict(ko_counts)
     report.kickoff_time_pct    = {t: round(c / total * 100, 1) for t, c in ko_counts.items()}
 
-    # --- CITY CLASHES (SC7) + LONDON CLUSTER (SC10) ---
+    # --- CITY CLASHES (SC7 same-day + SC7 4-day window) + LONDON CLUSTER (SC10) ---
     home_by_date: dict[str, list[str]] = defaultdict(list)
+    home_dates_by_team: dict[str, list[date]] = defaultdict(list)
     london_teams = set(city_groups.get("London", []))
     for sf in schedule.fixtures:
         home_by_date[str(sf.slot.date)].append(sf.home_team_id)
+        home_dates_by_team[sf.home_team_id].append(sf.slot.date)
 
     for date_str, home_teams in home_by_date.items():
         city_count: dict[str, list[str]] = defaultdict(list)
@@ -207,6 +215,20 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
             report.london_cluster_violations += 1
 
     report.city_clash_count = len(report.city_clash_dates)
+
+    # SC7 widened: count same-city pairs with home fixtures within 4 days
+    checked_pairs: set[frozenset] = set()
+    for city, members in city_groups.items():
+        for i, team_a in enumerate(members):
+            for team_b in members[i+1:]:
+                pair = frozenset([team_a, team_b])
+                if pair in checked_pairs:
+                    continue
+                checked_pairs.add(pair)
+                for da in home_dates_by_team.get(team_a, []):
+                    for db in home_dates_by_team.get(team_b, []):
+                        if abs((da - db).days) <= 4:
+                            report.city_weekend_clash_count += 1
 
     # --- DERBY GAPS ---
     derby_fixture_dates: dict[str, list[date]] = defaultdict(list)
@@ -265,6 +287,44 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
                 playing.add(sf.home_team_id)
                 playing.add(sf.away_team_id)
         setattr(report, attr, len(playing))
+
+    # --- SC13: five-match H/A pattern ---
+    for team_id in all_team_ids:
+        team_fx = sorted(
+            schedule.fixtures_for_team(team_id),
+            key=lambda sf: sf.slot.date,
+        )
+        for i in range(len(team_fx) - 4):
+            home_count = sum(1 for sf in team_fx[i:i+5] if sf.home_team_id == team_id)
+            if home_count not in (2, 3):
+                report.five_match_pattern_violations += 1
+
+    # --- SC14: season boundary H/A ---
+    for team_id in all_team_ids:
+        team_fx = sorted(
+            schedule.fixtures_for_team(team_id),
+            key=lambda sf: sf.slot.date,
+        )
+        if len(team_fx) >= 2:
+            open_h = [sf.home_team_id == team_id for sf in team_fx[:2]]
+            if open_h[0] == open_h[1]:
+                report.season_boundary_violations += 1
+            close_h = [sf.home_team_id == team_id for sf in team_fx[-2:]]
+            if close_h[0] == close_h[1]:
+                report.season_boundary_violations += 1
+
+    # --- SC15: Boxing Day / NYD pairing ---
+    for team_id in all_team_ids:
+        bd_home: bool | None = None
+        nyd_home: bool | None = None
+        for sf in schedule.fixtures_for_team(team_id):
+            d = sf.slot.date
+            if d.month == 12 and d.day == 26:
+                bd_home = (sf.home_team_id == team_id)
+            if d.month == 1 and d.day == 1:
+                nyd_home = (sf.home_team_id == team_id)
+        if bd_home is not None and nyd_home is not None and bd_home == nyd_home:
+            report.boxing_day_nyd_violations += 1
 
     # --- HOME/AWAY BALANCE per half-season ---
     for team_id in all_team_ids:

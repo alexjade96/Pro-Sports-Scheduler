@@ -21,12 +21,15 @@ Soft:
   SC4  european_team_rest_days (CL/EL Tue/Wed → ≥3 days before next PL)
   SC5  balanced_home_away_split (9-10 H and 9-10 A per half)
   SC6  avoid_same_opponent_cup_league_window (4-week buffer)
-  SC7  same_city_home_clash (was HC2 — demoted; 14-34/season historically)
+  SC7  same_city_home_clash — WIDENED to 4-day matchday window (not same-day only)
   SC8  uefa_thursday_five_day_rest (EL/ECL Thu → ≥5 days)
   SC9  easter_coverage (all 20 clubs play Good Friday + Easter Monday)
   SC10 london_cluster_cap (≤3 London home games per day)
   SC11 promoted_team_separation (promoted trio avoid each other rounds 1-3)
   SC12 opening_home_away_balance (≤3 consec H or A in rounds 1-5)
+  SC13 five_match_ha_pattern (any 5 consecutive: 2 or 3 home — Atos Golden Rule)
+  SC14 season_boundary_ha (no H+H or A+A in first 2 or last 2 fixtures)
+  SC15 boxing_day_nyd_pairing (home on Dec 26 → away on Jan 1, and vice versa)
 """
 from datetime import date, timedelta
 from collections import defaultdict
@@ -125,23 +128,39 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                 soft_v.append({"constraint": "SC2", "team": team_id, "run": home_run})
                 penalty += p_home
 
-    # ── SC7: same-city home clash (was HC2 — now soft) ────────────────────
-    p_city  = sc["SC7"]["penalty_per_clash"]
-    hbd     = _home_by_date(schedule)
-    for date_str, home_teams in hbd.items():
-        city_count: dict[str, list[str]] = defaultdict(list)
-        for t in home_teams:
-            city_count[city_lookup.get(t, "_")].append(t)
-        for city, clashing in city_count.items():
-            if len(clashing) > 1 and city != "_":
-                soft_v.append({"constraint": "SC7", "date": date_str,
-                                "city": city, "teams": clashing})
-                penalty += p_city * (len(clashing) - 1)
+    # ── SC7: same-city home clash — widened to matchday weekend window ────
+    # Two same-city home fixtures within 4 days = same matchday round clash
+    p_city     = sc["SC7"]["penalty_per_clash"]
+    window_days = sc["SC7"].get("window_days", 4)
+    home_fixtures_by_team: dict[str, list[date]] = defaultdict(list)
+    for sf in schedule.fixtures:
+        home_fixtures_by_team[sf.home_team_id].append(sf.slot.date)
+
+    checked_pairs: set[frozenset] = set()
+    for city, members in city_groups.items():
+        for i, team_a in enumerate(members):
+            for team_b in members[i+1:]:
+                pair = frozenset([team_a, team_b])
+                if pair in checked_pairs:
+                    continue
+                checked_pairs.add(pair)
+                for d_a in home_fixtures_by_team.get(team_a, []):
+                    for d_b in home_fixtures_by_team.get(team_b, []):
+                        if abs((d_a - d_b).days) <= window_days:
+                            soft_v.append({
+                                "constraint": "SC7",
+                                "city": city,
+                                "teams": [team_a, team_b],
+                                "dates": [str(d_a), str(d_b)],
+                                "gap_days": abs((d_a - d_b).days),
+                            })
+                            penalty += p_city
 
     # ── SC10: London cluster cap (≤3 London home games per day) ──────────
     london_teams = set(city_groups.get("London", []))
     p_london     = sc["SC10"]["penalty_per_violation"]
     max_london   = sc["SC10"]["max_home_same_day"]
+    hbd          = _home_by_date(schedule)
     for date_str, home_teams in hbd.items():
         london_home = [t for t in home_teams if t in london_teams]
         if len(london_home) > max_london:
@@ -188,6 +207,56 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "home_run": h_run, "away_run": a_run})
                 penalty += p_open
                 break   # count once per team
+
+    # ── SC13: five-match H/A pattern (Atos Golden Rule) ──────────────────
+    p_5match = sc["SC13"]["penalty_per_violation"]
+    for team_id in teams:
+        team_fx = _sorted_for_team(schedule, team_id)
+        for i in range(len(team_fx) - 4):
+            window = team_fx[i:i+5]
+            home_count = sum(1 for sf in window if sf.home_team_id == team_id)
+            if home_count not in (2, 3):
+                soft_v.append({"constraint": "SC13", "team": team_id,
+                                "window_start": str(window[0].slot.date),
+                                "home_in_5": home_count})
+                penalty += p_5match
+
+    # ── SC14: season boundary H/A (no H+H or A+A at start/end) ──────────
+    p_boundary = sc["SC14"]["penalty_per_violation"]
+    for team_id in teams:
+        team_fx = _sorted_for_team(schedule, team_id)
+        if len(team_fx) < 2:
+            continue
+        # Opening two fixtures
+        open_home = [sf.home_team_id == team_id for sf in team_fx[:2]]
+        if open_home[0] == open_home[1]:
+            soft_v.append({"constraint": "SC14", "team": team_id,
+                            "boundary": "opening", "pattern": "HH" if open_home[0] else "AA"})
+            penalty += p_boundary
+        # Closing two fixtures
+        close_home = [sf.home_team_id == team_id for sf in team_fx[-2:]]
+        if close_home[0] == close_home[1]:
+            soft_v.append({"constraint": "SC14", "team": team_id,
+                            "boundary": "closing", "pattern": "HH" if close_home[0] else "AA"})
+            penalty += p_boundary
+
+    # ── SC15: Boxing Day / NYD pairing ────────────────────────────────────
+    p_festive = sc["SC15"]["penalty_per_violation"]
+    for team_id in teams:
+        bd_home: bool | None = None   # True=home on Dec26, False=away
+        nyd_home: bool | None = None  # True=home on Jan1,  False=away
+        for sf in schedule.fixtures_for_team(team_id):
+            d = sf.slot.date
+            if d.month == 12 and d.day == 26:
+                bd_home = (sf.home_team_id == team_id)
+            if d.month == 1 and d.day == 1:
+                nyd_home = (sf.home_team_id == team_id)
+        if bd_home is not None and nyd_home is not None:
+            if bd_home == nyd_home:   # same role both days = violation
+                soft_v.append({"constraint": "SC15", "team": team_id,
+                                "boxing_day": "home" if bd_home else "away",
+                                "nyd": "home" if nyd_home else "away"})
+                penalty += p_festive
 
     # ── SC5: balanced home/away split per half ─────────────────────────────
     season_start = date.fromisoformat(calendar["start_date"])
