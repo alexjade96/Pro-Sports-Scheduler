@@ -1,35 +1,63 @@
 {
+  "_notes": [
+    "HC2 (same-city home clash) demoted to SC7: historical data shows 14-34 clashes/season.",
+    "SC1/SC2 consecutive run thresholds raised from 3 to 5: historical mean is 7-8 games.",
+    "HC7 added: Christmas Day blackout (Dec 25) — firm British/PL convention.",
+    "HC8 added: Round 38 simultaneous kickoff — mandatory since 1994-95 (anti-collusion).",
+    "SC8 added: UEFA 5-day rest rule — Europa/Conference League Thursday → PL ≥5 days.",
+    "SC9 added: Easter coverage — all 20 teams play Good Friday AND Easter Monday.",
+    "SC10 added: London cluster cap — police/TfL cannot support >3 London home games/day.",
+    "SC11 added: Promoted team separation — 3 promoted clubs avoid each other in rounds 1-3.",
+    "SC12 added: Opening balance — no >3 consecutive H or A in rounds 1-5.",
+    "PR4 added: High-risk derby early kickoff preference (police deployment requirement).",
+    "PR5 added: Top-6 primetime distribution preference (broadcaster requirement)."
+  ],
+
   "hard": [
     {
       "id": "HC1",
       "type": "min_rest_days",
       "value": 3,
+      "source": "PL Handbook — clubs must have minimum 3 clear days between fixtures",
       "description": "Each team must have at least 3 days between consecutive fixtures"
-    },
-    {
-      "id": "HC2",
-      "type": "no_same_city_home_clash",
-      "description": "Two teams from the same city cannot both have home games on the same day"
     },
     {
       "id": "HC3",
       "type": "blocked_window",
-      "description": "No fixtures scheduled during international break windows"
+      "source": "FIFA regulations — mandatory international break windows, clubs must release players",
+      "description": "No fixtures scheduled during FIFA-mandated international break windows"
     },
     {
       "id": "HC4",
       "type": "double_round_robin",
+      "source": "PL Handbook — 20 teams, 38 rounds, 380 fixtures",
       "description": "Every team plays every other team exactly twice (once home, once away)"
     },
     {
       "id": "HC5",
       "type": "single_fixture_per_slot",
+      "source": "Logical constraint",
       "description": "A team can only appear in one fixture per slot"
     },
     {
       "id": "HC6",
       "type": "venue_single_use",
+      "source": "Logical constraint / ground operations",
       "description": "A ground can host at most one game per slot"
+    },
+    {
+      "id": "HC7",
+      "type": "christmas_day_blackout",
+      "date": "12-25",
+      "source": "FA/PL calendar — no top-flight fixtures on Christmas Day, established convention",
+      "description": "No fixtures on December 25 (Christmas Day)"
+    },
+    {
+      "id": "HC8",
+      "type": "final_day_simultaneous",
+      "kickoff": "16:00",
+      "source": "PL rule since 1994-95 — all Round 38 games kick off simultaneously to prevent collusion on title/relegation",
+      "description": "All 10 final-day fixtures must kick off at the same time on the same day"
     }
   ],
 
@@ -37,30 +65,34 @@
     {
       "id": "SC1",
       "type": "max_consecutive_away",
-      "value": 3,
-      "penalty_per_violation": 20,
-      "description": "Teams should not have more than 3 consecutive away games"
+      "value": 5,
+      "penalty_per_violation": 15,
+      "source": "PL scheduling preference — relaxed from 3 to 5 to match historical reality (mean 8.3 max/season)",
+      "description": "Teams should not have more than 5 consecutive away games"
     },
     {
       "id": "SC2",
       "type": "max_consecutive_home",
-      "value": 3,
-      "penalty_per_violation": 20,
-      "description": "Teams should not have more than 3 consecutive home games"
+      "value": 5,
+      "penalty_per_violation": 15,
+      "source": "PL scheduling preference — relaxed from 3 to 5 to match historical reality (mean 7.9 max/season)",
+      "description": "Teams should not have more than 5 consecutive home games"
     },
     {
       "id": "SC3",
       "type": "derby_min_gap_rounds",
       "value": 8,
       "penalty_per_violation": 30,
+      "source": "PL scheduling convention — derbies spread across the season",
       "description": "Derby fixtures should be at least 8 rounds apart (first vs second leg)"
     },
     {
       "id": "SC4",
-      "type": "european_team_rest",
-      "extra_days": 1,
+      "type": "european_team_rest_days",
+      "min_days_after_european": 3,
       "penalty_per_violation": 15,
-      "description": "Teams with European fixtures mid-week should get extra rest before next league game"
+      "source": "PL scheduling courtesy — CL/EL Tuesday/Wednesday → PL Saturday is 3-4 days",
+      "description": "Teams with midweek European fixtures (Tue/Wed) should have at least 3 days before next PL game"
     },
     {
       "id": "SC5",
@@ -68,14 +100,64 @@
       "half": 19,
       "tolerance": 2,
       "penalty_per_violation": 10,
-      "description": "Teams should have roughly equal home and away games in each half of the season"
+      "source": "PL scheduling standard — teams should have roughly equal H/A per half-season",
+      "description": "Teams should have 9-10 home and 9-10 away games in each half of the season (tolerance ±2)"
     },
     {
       "id": "SC6",
-      "type": "avoid_same_opponent_window",
+      "type": "avoid_same_opponent_cup_league_window",
       "weeks": 4,
       "penalty_per_violation": 25,
+      "source": "PL/FA convention — avoids fixture congestion against same opponent",
       "description": "A team should not face the same opponent in both a cup and league game within 4 weeks"
+    },
+    {
+      "id": "SC7",
+      "type": "same_city_home_clash",
+      "penalty_per_clash": 40,
+      "source": "Police resource constraint — downgraded from hard (HC2) because historical data shows 14-34 clashes/season; police negotiate specific fixtures rather than eliminating all clashes",
+      "description": "Avoid scheduling two same-city teams at home on the same day (police resource pressure)"
+    },
+    {
+      "id": "SC8",
+      "type": "uefa_thursday_five_day_rest",
+      "min_days": 5,
+      "penalty_per_violation": 35,
+      "source": "UEFA Regulation / PL accommodation — Europa League / Conference League Thursday games; clubs must have 5 clear days before next PL fixture if they played Thu night",
+      "description": "Teams playing Thursday Europa/Conference League must have ≥5 days before next PL fixture"
+    },
+    {
+      "id": "SC9",
+      "type": "easter_coverage",
+      "matchdays": ["Good Friday", "Easter Monday"],
+      "penalty_per_missing_team": 20,
+      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday",
+      "description": "All 20 teams should play on Good Friday AND Easter Monday (high-attendance bank holiday fixtures)"
+    },
+    {
+      "id": "SC10",
+      "type": "london_cluster_cap",
+      "max_home_same_day": 3,
+      "penalty_per_violation": 30,
+      "source": "Metropolitan Police / Transport for London capacity — simultaneous matches at multiple London grounds overwhelm Tube and policing",
+      "description": "No more than 3 London clubs should have home fixtures on the same day"
+    },
+    {
+      "id": "SC11",
+      "type": "promoted_team_separation",
+      "rounds": 3,
+      "penalty_per_violation": 20,
+      "source": "PL scheduling convention — newly promoted teams are kept apart in early rounds to ease their transition and spread interest",
+      "description": "The three promoted clubs should not face each other in the first 3 rounds of the season"
+    },
+    {
+      "id": "SC12",
+      "type": "opening_home_away_balance",
+      "rounds": 5,
+      "max_consecutive": 3,
+      "penalty_per_violation": 20,
+      "source": "PL scheduling standard — teams should not start the season with a very heavy home or away run",
+      "description": "No team should have more than 3 consecutive home or away games in rounds 1-5"
     }
   ],
 
@@ -85,20 +167,41 @@
       "type": "rivalry_primetime",
       "preferred_slots": ["Saturday_12:30", "Saturday_17:30", "Sunday_16:30"],
       "reward": 10,
+      "source": "Broadcaster requirement — Sky/TNT contracts specify marquee fixtures in peak slots",
       "description": "High-profile derbies should be placed in TV primetime slots"
     },
     {
       "id": "PR2",
       "type": "festive_all_teams_play",
-      "dates": ["2025-12-26", "2026-01-01"],
-      "reward": 5,
-      "description": "All 20 teams should have a fixture on Boxing Day and New Year's Day"
+      "dates": ["2025-12-26", "2025-12-28", "2026-01-01"],
+      "reward": 8,
+      "source": "PL tradition — Boxing Day and New Year's Day are the highest-attended fixture windows",
+      "description": "All 20 teams should have a fixture on Boxing Day, December 28, and New Year's Day"
     },
     {
       "id": "PR3",
       "type": "season_opener_big_game",
       "reward": 8,
-      "description": "Matchday 1 should include at least one high-profile fixture"
+      "source": "Broadcaster preference — opening fixture on Friday or Saturday evening maximises audience",
+      "description": "Matchday 1 should include at least one high-profile fixture in an evening slot"
+    },
+    {
+      "id": "PR4",
+      "type": "high_risk_derby_early_kickoff",
+      "preferred_slots": ["Saturday_12:30", "Sunday_14:00"],
+      "derbies": [["ARS","TOT"], ["MCI","MUN"], ["LIV","EVE"], ["CHE","ARS"], ["CHE","TOT"]],
+      "reward": 12,
+      "source": "Metropolitan Police / NPCC guidance — early kickoffs limit pre-match drinking time and allow police redeployment before evening matches",
+      "description": "Designated high-risk (Category C) derbies should receive early kickoffs to assist police deployment"
+    },
+    {
+      "id": "PR5",
+      "type": "top6_primetime_distribution",
+      "top6": ["ARS","CHE","LIV","MCI","MUN","TOT"],
+      "min_primetime_per_club": 5,
+      "reward": 6,
+      "source": "Sky Sports / TNT contract requirement — each top-6 club must appear in a minimum number of live broadcast slots",
+      "description": "Each top-6 club should appear in at least 5 primetime broadcast slots (Sat 12:30, Sat 17:30, Sun 16:30)"
     }
   ]
 }

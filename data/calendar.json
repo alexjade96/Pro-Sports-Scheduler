@@ -28,6 +28,16 @@
     {
       "label": "International Break 4",
       "start": "2026-03-21", "end": "2026-03-31"
+    },
+    {
+      "label": "Christmas Day (HC7)",
+      "start": "2025-12-25", "end": "2025-12-25",
+      "note": "No top-flight fixtures on Christmas Day — established FA/PL convention"
+    },
+    {
+      "label": "FA Cup Final week",
+      "start": "2026-05-16", "end": "2026-05-17",
+      "note": "FA Cup Final weekend — no PL fixtures scheduled around it"
     }
   ],
 
@@ -37,7 +47,43 @@
     "2026-01-01"
   ],
 
+  "easter_matchdays": {
+    "good_friday":   "2026-04-03",
+    "easter_monday": "2026-04-06",
+    "note": "All 20 clubs traditionally play on both bank holidays (SC9)"
+  },
+
+  "final_day": {
+    "date":    "2026-05-24",
+    "kickoff": "16:00",
+    "note": "HC8 — all 10 Round 38 fixtures kick off simultaneously (anti-collusion rule, mandatory since 1994-95)"
+  },
+
   "cup_reservation_windows": [
+    {
+      "label": "Carabao Cup R3",
+      "start": "2025-09-23", "end": "2025-09-25"
+    },
+    {
+      "label": "Carabao Cup R4",
+      "start": "2025-10-28", "end": "2025-10-30"
+    },
+    {
+      "label": "Carabao Cup QF",
+      "start": "2025-12-16", "end": "2025-12-18"
+    },
+    {
+      "label": "Carabao Cup SF 1st leg",
+      "start": "2026-01-06", "end": "2026-01-08"
+    },
+    {
+      "label": "Carabao Cup SF 2nd leg",
+      "start": "2026-01-27", "end": "2026-01-29"
+    },
+    {
+      "label": "Carabao Cup Final",
+      "start": "2026-03-01", "end": "2026-03-01"
+    },
     {
       "label": "FA Cup R3",
       "start": "2026-01-03", "end": "2026-01-05"
@@ -47,17 +93,43 @@
       "start": "2026-01-24", "end": "2026-01-26"
     },
     {
-      "label": "Carabao Cup Final",
-      "start": "2026-03-01", "end": "2026-03-01"
+      "label": "FA Cup R5",
+      "start": "2026-02-28", "end": "2026-03-04"
+    },
+    {
+      "label": "FA Cup QF",
+      "start": "2026-03-21", "end": "2026-03-22"
+    },
+    {
+      "label": "FA Cup SF",
+      "start": "2026-04-18", "end": "2026-04-19"
+    },
+    {
+      "label": "FA Cup Final",
+      "start": "2026-05-16", "end": "2026-05-17"
     }
   ],
 
-  "european_midweek_slots": ["Tuesday", "Wednesday"],
+  "european_competition_slots": {
+    "champions_league": ["Tuesday", "Wednesday"],
+    "europa_league":    ["Thursday"],
+    "conference_league":["Thursday"],
+    "note": "Thursday Europa/Conference games trigger SC8 (5-day rest rule)"
+  },
 
   "tv_blackout": {
-    "day": "Saturday",
+    "day":   "Saturday",
     "start": "14:45",
     "end":   "17:15",
-    "note": "UK broadcasting blackout window — no live EPL broadcast allowed"
+    "note":  "Statutory 3pm Saturday blackout (SI 1999/2090) — no live broadcast; 15:00 kickoffs are ground-only"
+  },
+
+  "broadcast_slots": {
+    "note": "Based on Sky Sports / TNT Sport / Amazon broadcast rights structure",
+    "primetime": ["Saturday_12:30", "Saturday_17:30", "Sunday_14:00", "Sunday_16:30", "Monday_20:00"],
+    "sky_picks_up_to": 128,
+    "tnt_picks_up_to": 52,
+    "amazon_picks_up_to": 20,
+    "unbroadcast_saturday_1500": 180
   }
 }

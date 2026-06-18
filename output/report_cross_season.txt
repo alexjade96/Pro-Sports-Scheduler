@@ -2,7 +2,7 @@
 ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 CROSS-SEASON HISTORICAL ANALYSIS
 Seasons: 2015-16, 2016-17, 2017-18, 2018-19, 2019-20, 2020-21, 2021-22, 2022-23, 2023-24, 2024-25
-Generated: 2026-06-18 21:33
+Generated: 2026-06-18 21:43
 ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 Metric                          2015-16  2016-17  2017-18  2018-19  2019-20  2020-21  2021-22  2022-23  2023-24  2024-25      MIN     MEAN      MAX  Note                    
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -14,9 +14,15 @@ City home clashes                    14       22       22       24       16     
 Intl break violations                 0        0        0        0        0        0        0        0        0        0        0        0        0  HC3 target = 0          
 League max consec. home               7        9       10        5        8        7        7        7        8       11        5      7.9       11  SC2 target ≤ 3          
 League max consec. away               8        7        8        8       11        8        7        8       11        7        7      8.3       11  SC1 target ≤ 3          
-Teams >3 consec. away                14       17       16       18       16       14       14       15       20       15       14     15.9       20  SC1 violations          
-Teams >3 consec. home                18       14       12       18       16       15       15       15       18       12       12     15.3       18  SC2 violations          
+Teams >3 consec. away                14       17       16       18       16       14       14       15       20       15       14     15.9       20  historical baseline     
+Teams >3 consec. home                18       14       12       18       16       15       15       15       18       12       12     15.3       18  historical baseline     
+Teams >5 consec. away                 4        7        4        3        5        2        2        5        5        4        2      4.1        7  SC1 target (relaxed)    
+Teams >5 consec. home                 3        5        4        0        5        6        2        6       11        5        0      4.7       11  SC2 target (relaxed)    
 Derbies gap < 56 days                 3        1        3        3        1        5        2        3        1        1        1      2.3        5  SC3 violations          
+London cluster days >3                0        1        0        0        0        1        0        1        2        0        0      0.5        2  SC10 target = 0         
+Christmas Day fixtures                0        0        0        0        0        0        0        0        0        0        0        0        0  HC7 target = 0          
+Good Friday coverage                  0        0        0        0        0        0        0        0        0        0        0        0        0  SC9 target = 20         
+Easter Monday coverage                0        0        0        0        0        0        0        0        0        0        0        0        0  SC9 target = 20         
 Boxing Day coverage                   0        0        0        0        0        0        0        0        0        0        0        0        0  PR2 target = 20         
 New Year's Day coverage               0        0        0        0        0        0        0        0        0        0        0        0        0  PR2 target = 20         
 % Saturday fixtures                20.3     21.6     20.5     21.6     21.1     21.3     20.0     20.5     21.1     21.3     20.0     20.9     21.6                          
@@ -38,9 +44,15 @@ City home clashes              14 – 34  (mean 25.3)      HC2 target = 0
 Intl break violations          0 – 0  (mean 0)           HC3 target = 0
 League max consec. home        5 – 11  (mean 7.9)        SC2 target ≤ 3
 League max consec. away        7 – 11  (mean 8.3)        SC1 target ≤ 3
-Teams >3 consec. away          14 – 20  (mean 15.9)      SC1 violations
-Teams >3 consec. home          12 – 18  (mean 15.3)      SC2 violations
+Teams >3 consec. away          14 – 20  (mean 15.9)      historical baseline
+Teams >3 consec. home          12 – 18  (mean 15.3)      historical baseline
+Teams >5 consec. away          2 – 7  (mean 4.1)         SC1 target (relaxed)
+Teams >5 consec. home          0 – 11  (mean 4.7)        SC2 target (relaxed)
 Derbies gap < 56 days          1 – 5  (mean 2.3)         SC3 violations
+London cluster days >3         0 – 2  (mean 0.5)         SC10 target = 0
+Christmas Day fixtures         0 – 0  (mean 0)           HC7 target = 0
+Good Friday coverage           0 – 0  (mean 0)           SC9 target = 20
+Easter Monday coverage         0 – 0  (mean 0)           SC9 target = 20
 Boxing Day coverage            0 – 0  (mean 0)           PR2 target = 20
 New Year's Day coverage        0 – 0  (mean 0)           PR2 target = 20
 % Saturday fixtures            20.0 – 21.6  (mean 20.9)  
@@ -53,4 +65,7 @@ CONSISTENCY CHECK (metrics with high cross-season variance)
 ────────────────────────────────────────────────────────────
   ⚑  City home clashes              CV=27%  (stdev=6.8, mean=25.3)
   ⚑  League max consec. home        CV=22%  (stdev=1.7, mean=7.9)
+  ⚑  Teams >5 consec. away          CV=37%  (stdev=1.5, mean=4.1)
+  ⚑  Teams >5 consec. home          CV=62%  (stdev=2.9, mean=4.7)
   ⚑  Derbies gap < 56 days          CV=58%  (stdev=1.3, mean=2.3)
+  ⚑  London cluster days >3         CV=141%  (stdev=0.7, mean=0.5)

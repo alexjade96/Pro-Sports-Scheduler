@@ -49,6 +49,8 @@ class MetricsReport:
     league_max_consec_away:   int                     = 0
     teams_over_3_away:        list[str]               = field(default_factory=list)
     teams_over_3_home:        list[str]               = field(default_factory=list)
+    teams_over_5_away:        list[str]               = field(default_factory=list)
+    teams_over_5_home:        list[str]               = field(default_factory=list)
 
     # DISTRIBUTION
     day_of_week_counts:   dict[str, int]              = field(default_factory=dict)
@@ -59,6 +61,7 @@ class MetricsReport:
     # CITY
     city_clash_dates:     list[tuple[str, str, list[str]]] = field(default_factory=list)
     city_clash_count:     int                         = 0
+    london_cluster_violations: int                    = 0   # SC10: >3 London home games/day
 
     # DERBY
     derby_gaps_days:      dict[str, int]              = field(default_factory=dict)
@@ -69,10 +72,13 @@ class MetricsReport:
     new_years_day_teams:  list[str]                   = field(default_factory=list)
     boxing_day_coverage:  int                         = 0
     new_years_day_coverage: int                       = 0
+    good_friday_coverage: int                         = 0   # SC9
+    easter_monday_coverage: int                       = 0   # SC9
 
     # COMPLIANCE
     intl_break_violations:  list[tuple[str, str]]     = field(default_factory=list)
     intl_break_violation_count: int                   = 0
+    christmas_day_violations: int                     = 0   # HC7
 
     # BALANCE
     home_pct_first_half:  dict[str, float]            = field(default_factory=dict)
@@ -162,6 +168,10 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
             report.teams_over_3_away.append(team_id)
         if max_home > 3:
             report.teams_over_3_home.append(team_id)
+        if max_away > 5:
+            report.teams_over_5_away.append(team_id)
+        if max_home > 5:
+            report.teams_over_5_home.append(team_id)
 
     report.league_max_consec_home = max(report.max_consec_home_per_team.values(), default=0)
     report.league_max_consec_away = max(report.max_consec_away_per_team.values(), default=0)
@@ -179,8 +189,9 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
     report.kickoff_time_counts = dict(ko_counts)
     report.kickoff_time_pct    = {t: round(c / total * 100, 1) for t, c in ko_counts.items()}
 
-    # --- CITY CLASHES ---
+    # --- CITY CLASHES (SC7) + LONDON CLUSTER (SC10) ---
     home_by_date: dict[str, list[str]] = defaultdict(list)
+    london_teams = set(city_groups.get("London", []))
     for sf in schedule.fixtures:
         home_by_date[str(sf.slot.date)].append(sf.home_team_id)
 
@@ -191,6 +202,9 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
         for city, clashing in city_count.items():
             if len(clashing) > 1 and city != "_unknown":
                 report.city_clash_dates.append((date_str, city, clashing))
+        london_home = [t for t in home_teams if t in london_teams]
+        if len(london_home) > 3:
+            report.london_cluster_violations += 1
 
     report.city_clash_count = len(report.city_clash_dates)
 
@@ -225,7 +239,7 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
             report.new_years_day_teams    = sorted(set(teams))
             report.new_years_day_coverage = len(set(teams))
 
-    # --- INTERNATIONAL BREAK COMPLIANCE ---
+    # --- INTERNATIONAL BREAK COMPLIANCE + CHRISTMAS DAY (HC7) ---
     for sf in schedule.fixtures:
         match_date = sf.slot.date
         for start, end in blocked_windows:
@@ -234,7 +248,23 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
                     str(match_date),
                     f"{sf.home_team_id} v {sf.away_team_id}",
                 ))
+        if match_date.month == 12 and match_date.day == 25:
+            report.christmas_day_violations += 1
     report.intl_break_violation_count = len(report.intl_break_violations)
+
+    # --- EASTER COVERAGE (SC9) ---
+    easter_cfg = calendar.get("easter_matchdays", {})
+    for attr, date_key in [("good_friday_coverage", "good_friday"),
+                            ("easter_monday_coverage", "easter_monday")]:
+        if date_key not in easter_cfg:
+            continue
+        easter_date = date.fromisoformat(easter_cfg[date_key])
+        playing: set[str] = set()
+        for sf in schedule.fixtures:
+            if sf.slot.date == easter_date:
+                playing.add(sf.home_team_id)
+                playing.add(sf.away_team_id)
+        setattr(report, attr, len(playing))
 
     # --- HOME/AWAY BALANCE per half-season ---
     for team_id in all_team_ids:
