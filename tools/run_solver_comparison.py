@@ -15,6 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
+from datetime import date as _date
+
 from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
 from core.validator import validate, print_report
 from generators.leagues.epl.generate_epl import generate_fixtures
@@ -42,7 +44,8 @@ def export_csv(schedule, path: Path) -> None:
             ])
 
 
-def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit):
+def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
+               season_start=None, season_end=None):
     from solvers.cp_sat.solver import solve
     print(f"\n{'='*60}")
     print(f"  SOLVER A: CP-SAT (OR-Tools)  [limit: {time_limit}s]")
@@ -55,6 +58,8 @@ def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit):
         constraint_config=constraints,
         season=season,
         time_limit_seconds=time_limit,
+        season_start=season_start,
+        season_end=season_end,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -64,7 +69,8 @@ def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit):
     return None, elapsed
 
 
-def run_ilp(fixtures, slots, teams, constraints, season, time_limit):
+def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
+            season_start=None, season_end=None):
     from solvers.ilp.solver import solve
     print(f"\n{'='*60}")
     print(f"  SOLVER B: ILP / PuLP+CBC      [limit: {time_limit}s]")
@@ -77,6 +83,8 @@ def run_ilp(fixtures, slots, teams, constraints, season, time_limit):
         constraint_config=constraints,
         season=season,
         time_limit_seconds=time_limit,
+        season_start=season_start,
+        season_end=season_end,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -121,25 +129,29 @@ def main():
 
     # --- Shared data (loaded once) ---
     print("\nLoading shared data...")
-    teams       = load_teams()
-    calendar    = load_calendar()
-    constraints = load_constraints()
-    slots       = generate_slots(calendar)
-    fixtures    = generate_fixtures(teams)
-    season      = calendar["season"]
+    teams         = load_teams()
+    calendar      = load_calendar()
+    constraints   = load_constraints()
+    slots         = generate_slots(calendar)
+    fixtures      = generate_fixtures(teams)
+    season        = calendar["season"]
+    season_start  = _date.fromisoformat(calendar["start_date"])
+    season_end    = _date.fromisoformat(calendar["end_date"])
     print(f"  {len(teams)} teams | {len(fixtures)} fixtures | {len(slots)} slots available")
 
     # --- Run solvers ---
     results: dict[str, tuple] = {}
 
     if not args.skip_cp_sat:
-        sched, elapsed = run_cp_sat(fixtures, slots, teams, constraints, season, tl)
+        sched, elapsed = run_cp_sat(fixtures, slots, teams, constraints, season, tl,
+                                    season_start=season_start, season_end=season_end)
         results["CP-SAT"] = (sched, elapsed)
         if sched:
             export_csv(sched, OUTPUT_DIR / "schedule_cp_sat.csv")
 
     if not args.skip_ilp:
-        sched, elapsed = run_ilp(fixtures, slots, teams, constraints, season, tl)
+        sched, elapsed = run_ilp(fixtures, slots, teams, constraints, season, tl,
+                                  season_start=season_start, season_end=season_end)
         results["ILP"] = (sched, elapsed)
         if sched:
             export_csv(sched, OUTPUT_DIR / "schedule_ilp.csv")
