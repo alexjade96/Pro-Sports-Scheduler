@@ -10,8 +10,8 @@ values are penalised in the objective.
 """
 import pulp
 
-from scheduler.models import Fixture, Slot, Team
-from scheduler.data_loader import load_city_groups, load_high_profile_derbies
+from core.models import Fixture, Slot, Team
+from core.data_loader import load_city_groups, load_high_profile_derbies
 
 
 # ---------------------------------------------------------------------------

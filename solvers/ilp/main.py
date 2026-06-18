@@ -5,10 +5,10 @@ Usage: python -m option_b_ilp.main
 import csv
 from pathlib import Path
 
-from scheduler.data_loader import load_teams, load_calendar, load_constraints, generate_slots
-from scheduler.round_robin import generate_fixtures
-from scheduler.validator import validate, print_report
-from option_b_ilp.solver import solve
+from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
+from leagues.epl.generator import generate_fixtures
+from core.validator import validate, print_report
+from solvers.ilp.solver import solve
 
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"

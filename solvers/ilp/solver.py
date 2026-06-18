@@ -12,9 +12,9 @@ Install: pip install pulp
 """
 import pulp
 
-from scheduler.models import Fixture, Slot, Schedule, ScheduledFixture, Team
-from scheduler.data_loader import load_constraints
-from option_b_ilp.constraints import (
+from core.models import Fixture, Slot, Schedule, ScheduledFixture, Team
+from core.data_loader import load_constraints
+from solvers.ilp.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_day,
     add_min_rest_days,

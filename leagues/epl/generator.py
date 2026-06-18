@@ -5,7 +5,7 @@ and once away across two half-seasons.
 
 Reference: Knuth TAOCP Vol 4A, or any combinatorics textbook.
 """
-from scheduler.models import Fixture, Team
+from core.models import Fixture, Team
 
 
 def _circle_method_rounds(team_ids: list[str]) -> list[list[tuple[str, str]]]:

@@ -10,8 +10,8 @@ Decision variable layout:
 """
 from ortools.sat.python import cp_model
 
-from scheduler.models import Fixture, Slot, Team
-from scheduler.data_loader import load_constraints, load_city_groups, load_high_profile_derbies
+from core.models import Fixture, Slot, Team
+from core.data_loader import load_constraints, load_city_groups, load_high_profile_derbies
 
 
 # ---------------------------------------------------------------------------

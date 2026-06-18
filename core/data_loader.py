@@ -1,18 +1,30 @@
 """
-Loads teams, calendar slots, and constraints from JSON config files.
+Loads teams, calendar slots, and constraints from the active league's data directory.
+
+Default league is "epl". Call set_league("nfl") etc. before loading to switch.
 """
 import json
 from datetime import date, timedelta
 from pathlib import Path
 
-from scheduler.models import Team, Slot
+from core.models import Team, Slot
 
 
-DATA_DIR = Path(__file__).parent.parent / "data"
+_ACTIVE_LEAGUE = "epl"
+
+
+def set_league(league: str) -> None:
+    """Switch the active league; all subsequent loads use its data directory."""
+    global _ACTIVE_LEAGUE
+    _ACTIVE_LEAGUE = league
+
+
+def _data_dir() -> Path:
+    return Path(__file__).parent.parent / "leagues" / _ACTIVE_LEAGUE / "data"
 
 
 def load_teams() -> dict[str, Team]:
-    with open(DATA_DIR / "teams.json") as f:
+    with open(_data_dir() / "teams.json") as f:
         raw = json.load(f)
     return {
         t["id"]: Team(
@@ -20,40 +32,39 @@ def load_teams() -> dict[str, Team]:
             name=t["name"],
             city=t["city"],
             ground=t["ground"],
-            european=t["european"],
-            rivalries=t["rivalries"],
+            european=t.get("european", False),
+            rivalries=t.get("rivalries", []),
         )
         for t in raw["teams"]
     }
 
 
 def load_calendar() -> dict:
-    with open(DATA_DIR / "calendar.json") as f:
+    with open(_data_dir() / "calendar.json") as f:
         return json.load(f)
 
 
 def load_constraints() -> dict:
-    with open(DATA_DIR / "constraints.json") as f:
+    with open(_data_dir() / "constraints.json") as f:
         return json.load(f)
 
 
 def load_city_groups() -> dict[str, list[str]]:
-    with open(DATA_DIR / "teams.json") as f:
+    with open(_data_dir() / "teams.json") as f:
         raw = json.load(f)
-    return raw["city_groups"]
+    return raw.get("city_groups", {})
 
 
 def load_high_profile_derbies() -> list[tuple[str, str]]:
-    with open(DATA_DIR / "teams.json") as f:
+    with open(_data_dir() / "teams.json") as f:
         raw = json.load(f)
-    return [tuple(pair) for pair in raw["high_profile_derbies"]]
+    return [tuple(pair) for pair in raw.get("high_profile_derbies", [])]
 
 
 def generate_slots(calendar: dict) -> list[Slot]:
     """
     Walk every date in the season window and generate a Slot for each
-    valid (day, time) combination, excluding blocked international-break
-    windows.
+    valid (day, time) combination, excluding blocked windows.
     """
     start = date.fromisoformat(calendar["start_date"])
     end   = date.fromisoformat(calendar["end_date"])

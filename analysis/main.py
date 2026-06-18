@@ -45,7 +45,7 @@ def _load_generated_csv(csv_path: str) -> "Schedule":
     """
     import csv as _csv
     from datetime import date as _date
-    from scheduler.models import Fixture, Slot, ScheduledFixture, Schedule
+    from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
     path  = Path(csv_path)
     label = path.stem

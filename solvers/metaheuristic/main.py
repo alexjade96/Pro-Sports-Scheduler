@@ -1,14 +1,14 @@
 """
-Option A entry point — CP-SAT solver.
-Usage: python -m option_a_cp_sat.main
+Option C entry point — Metaheuristic (Simulated Annealing + Tabu).
+Usage: python -m option_c_metaheuristic.main
 """
 import csv
 from pathlib import Path
 
-from scheduler.data_loader import load_teams, load_calendar, load_constraints, generate_slots
-from scheduler.round_robin import generate_fixtures
-from scheduler.validator import validate, print_report
-from option_a_cp_sat.solver import solve
+from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
+from leagues.epl.generator import generate_fixtures
+from core.validator import validate, print_report
+from solvers.metaheuristic.solver import solve
 
 
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
@@ -43,18 +43,18 @@ def main():
         fixtures=fixtures,
         slots=slots,
         teams=teams,
-        constraint_config=constraints,
         season=calendar["season"],
+        initial_temp=5000.0,
+        cooling_rate=0.995,
+        max_iterations=100_000,
+        tabu_size=200,
         time_limit_seconds=300,
     )
 
-    if schedule:
-        report = validate(schedule, teams)
-        print_report(report)
-        OUTPUT_DIR.mkdir(exist_ok=True)
-        export_csv(schedule, OUTPUT_DIR / "schedule_cp_sat.csv")
-    else:
-        print("No feasible schedule found.")
+    report = validate(schedule, teams)
+    print_report(report)
+    OUTPUT_DIR.mkdir(exist_ok=True)
+    export_csv(schedule, OUTPUT_DIR / "schedule_metaheuristic.csv")
 
 
 if __name__ == "__main__":

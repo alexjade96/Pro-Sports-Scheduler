@@ -13,10 +13,10 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 
-from scheduler.models import Fixture, Slot, ScheduledFixture, Schedule
+from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 
-HISTORICAL_DIR = Path(__file__).parent.parent / "data" / "historical"
+HISTORICAL_DIR = Path(__file__).parent.parent / "leagues" / "epl" / "data" / "historical"
 NAME_MAP_PATH  = HISTORICAL_DIR / "team_name_map.json"
 
 

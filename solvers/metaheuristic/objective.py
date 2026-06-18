@@ -17,8 +17,8 @@ Soft : SC1, SC2 (consecutive runs), SC3 (derby gap), SC5 (H/A balance),
 from collections import defaultdict
 from datetime import date
 
-from scheduler.models import Schedule
-from scheduler.data_loader import (
+from core.models import Schedule
+from core.data_loader import (
     load_constraints, load_city_groups, load_high_profile_derbies, load_calendar,
 )
 

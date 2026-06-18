@@ -19,9 +19,9 @@ import time
 from collections import deque
 from copy import deepcopy
 
-from scheduler.models import Fixture, Slot, Schedule, ScheduledFixture, Team
-from option_c_metaheuristic.objective import score
-from option_c_metaheuristic.neighborhood import random_move
+from core.models import Fixture, Slot, Schedule, ScheduledFixture, Team
+from solvers.metaheuristic.objective import score
+from solvers.metaheuristic.neighborhood import random_move
 
 
 # ---------------------------------------------------------------------------

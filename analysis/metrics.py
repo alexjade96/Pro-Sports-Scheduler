@@ -23,8 +23,8 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Optional
 
-from scheduler.models import Schedule, ScheduledFixture
-from scheduler.data_loader import load_city_groups, load_high_profile_derbies, load_calendar
+from core.models import Schedule, ScheduledFixture
+from core.data_loader import load_city_groups, load_high_profile_derbies, load_calendar
 
 
 # ---------------------------------------------------------------------------

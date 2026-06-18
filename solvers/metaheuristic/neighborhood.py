@@ -10,7 +10,7 @@ a copy) without altering the original.
 import random
 from copy import deepcopy
 
-from scheduler.models import Schedule, ScheduledFixture, Slot
+from core.models import Schedule, ScheduledFixture, Slot
 
 
 def swap_slots(schedule: Schedule, slots: list[Slot]) -> Schedule:

@@ -1,0 +1,53 @@
+{
+  "_notes": [
+    "2025-26 NFL regular season: 18 weeks, 17 games per team, 272 total games.",
+    "Playoffs run January–February; Super Bowl LX on 2026-02-08 (New Orleans).",
+    "Kickoff times in US Eastern. Thursday Night Football, Sunday Night Football,",
+    "Monday Night Football are designated broadcast windows, not all-game slots."
+  ],
+
+  "season": "2025-26",
+  "start_date": "2025-09-04",
+  "end_date":   "2026-01-04",
+  "total_weeks": 18,
+  "games_per_team": 17,
+  "total_games": 272,
+
+  "blocked_windows": [
+    {"label": "Pro Bowl week",       "start": "2026-01-25", "end": "2026-02-01"},
+    {"label": "Super Bowl bye week", "start": "2026-02-01", "end": "2026-02-07"}
+  ],
+
+  "broadcast_windows": [
+    {"slot": "Sunday_13:00_ET",  "label": "Early Sunday",          "games_per_week": 8},
+    {"slot": "Sunday_16:05_ET",  "label": "Late Sunday (NFC)",     "games_per_week": 3},
+    {"slot": "Sunday_16:25_ET",  "label": "Late Sunday (AFC)",     "games_per_week": 3},
+    {"slot": "Sunday_20:20_ET",  "label": "Sunday Night Football", "games_per_week": 1, "broadcaster": "NBC"},
+    {"slot": "Monday_20:15_ET",  "label": "Monday Night Football", "games_per_week": 1, "broadcaster": "ESPN/ABC"},
+    {"slot": "Thursday_20:15_ET","label": "Thursday Night Football","games_per_week": 1, "broadcaster": "Amazon Prime", "weeks": "2-18"}
+  ],
+
+  "special_matchdays": {
+    "week_1_kickoff":    "2025-09-04",
+    "thanksgiving":      ["2025-11-27"],
+    "christmas_day":     ["2025-12-25"],
+    "new_years_day":     ["2026-01-01"],
+    "international_games": [
+      {"location": "London",    "window": ["2025-10-05", "2025-10-12"]},
+      {"location": "Munich",    "window": ["2025-10-12", "2025-10-12"]},
+      {"location": "Sao Paulo", "window": ["2025-09-07", "2025-09-07"]}
+    ]
+  },
+
+  "playoffs": {
+    "wild_card_weekend":  "2026-01-17",
+    "divisional_round":   "2026-01-24",
+    "conference_championships": "2026-02-01",
+    "super_bowl":         {"date": "2026-02-08", "venue": "Caesars Superdome, New Orleans"}
+  },
+
+  "bye_weeks": {
+    "note": "Each of 32 teams receives exactly one bye week in weeks 6-14.",
+    "window": [6, 14]
+  }
+}
