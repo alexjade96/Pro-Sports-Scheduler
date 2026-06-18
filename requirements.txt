@@ -1,0 +1,8 @@
+# Option A — Constraint Programming
+ortools>=9.8
+
+# Option B — Integer Linear Programming
+pulp>=2.8
+
+# Option C — Metaheuristic (pure Python, no extra deps)
+# No additional packages required

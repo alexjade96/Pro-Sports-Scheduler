@@ -1,0 +1,104 @@
+{
+  "hard": [
+    {
+      "id": "HC1",
+      "type": "min_rest_days",
+      "value": 3,
+      "description": "Each team must have at least 3 days between consecutive fixtures"
+    },
+    {
+      "id": "HC2",
+      "type": "no_same_city_home_clash",
+      "description": "Two teams from the same city cannot both have home games on the same day"
+    },
+    {
+      "id": "HC3",
+      "type": "blocked_window",
+      "description": "No fixtures scheduled during international break windows"
+    },
+    {
+      "id": "HC4",
+      "type": "double_round_robin",
+      "description": "Every team plays every other team exactly twice (once home, once away)"
+    },
+    {
+      "id": "HC5",
+      "type": "single_fixture_per_slot",
+      "description": "A team can only appear in one fixture per slot"
+    },
+    {
+      "id": "HC6",
+      "type": "venue_single_use",
+      "description": "A ground can host at most one game per slot"
+    }
+  ],
+
+  "soft": [
+    {
+      "id": "SC1",
+      "type": "max_consecutive_away",
+      "value": 3,
+      "penalty_per_violation": 20,
+      "description": "Teams should not have more than 3 consecutive away games"
+    },
+    {
+      "id": "SC2",
+      "type": "max_consecutive_home",
+      "value": 3,
+      "penalty_per_violation": 20,
+      "description": "Teams should not have more than 3 consecutive home games"
+    },
+    {
+      "id": "SC3",
+      "type": "derby_min_gap_rounds",
+      "value": 8,
+      "penalty_per_violation": 30,
+      "description": "Derby fixtures should be at least 8 rounds apart (first vs second leg)"
+    },
+    {
+      "id": "SC4",
+      "type": "european_team_rest",
+      "extra_days": 1,
+      "penalty_per_violation": 15,
+      "description": "Teams with European fixtures mid-week should get extra rest before next league game"
+    },
+    {
+      "id": "SC5",
+      "type": "balanced_home_away_split",
+      "half": 19,
+      "tolerance": 2,
+      "penalty_per_violation": 10,
+      "description": "Teams should have roughly equal home and away games in each half of the season"
+    },
+    {
+      "id": "SC6",
+      "type": "avoid_same_opponent_window",
+      "weeks": 4,
+      "penalty_per_violation": 25,
+      "description": "A team should not face the same opponent in both a cup and league game within 4 weeks"
+    }
+  ],
+
+  "preferences": [
+    {
+      "id": "PR1",
+      "type": "rivalry_primetime",
+      "preferred_slots": ["Saturday_12:30", "Saturday_17:30", "Sunday_16:30"],
+      "reward": 10,
+      "description": "High-profile derbies should be placed in TV primetime slots"
+    },
+    {
+      "id": "PR2",
+      "type": "festive_all_teams_play",
+      "dates": ["2025-12-26", "2026-01-01"],
+      "reward": 5,
+      "description": "All 20 teams should have a fixture on Boxing Day and New Year's Day"
+    },
+    {
+      "id": "PR3",
+      "type": "season_opener_big_game",
+      "reward": 8,
+      "description": "Matchday 1 should include at least one high-profile fixture"
+    }
+  ]
+}
