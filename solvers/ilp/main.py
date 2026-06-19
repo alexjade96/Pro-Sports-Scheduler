@@ -6,7 +6,7 @@ import csv
 from pathlib import Path
 
 from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
-from leagues.epl.generator import generate_fixtures
+from generators.leagues.epl.generate_epl import generate_fixtures
 from core.validator import validate, print_report
 from solvers.ilp.solver import solve
 
