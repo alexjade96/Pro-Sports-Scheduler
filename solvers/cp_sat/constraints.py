@@ -214,7 +214,7 @@ def add_soft_ha_window(
                 model.add(hc == sum(home_in_win))
                 exc = model.new_int_var(0, len(home_in_win) - max_home,
                                         f"exc_{team_id}_{d}")
-                model.add_max_equality(exc, [0, hc - max_home])
+                model.add(exc >= hc - max_home)
                 penalty_terms.append((penalty, exc))
 
             # Deficit home penalty: fire when away_count > (window - min_home)
@@ -225,7 +225,7 @@ def add_soft_ha_window(
                 model.add(ac == sum(away_in_win))
                 dfc = model.new_int_var(0, len(away_in_win) - max_away,
                                         f"dfc_{team_id}_{d}")
-                model.add_max_equality(dfc, [0, ac - max_away])
+                model.add(dfc >= ac - max_away)
                 penalty_terms.append((penalty, dfc))
 
     return penalty_terms
