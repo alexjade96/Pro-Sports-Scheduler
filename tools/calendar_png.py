@@ -6,21 +6,19 @@ Each month is rendered as a calendar grid. Day cells are colour-coded:
 Full-season mode:
   - Sky blue    : regular matchday
   - Gold        : festive matchday (Boxing Day / Dec 28 / NYD)
-  - Red         : high-profile derby
-  - Amber       : festive derby (both)
   - Peach       : international break (hard block — no fixtures)
   - Violet      : cup reservation window (FA Cup / Carabao Cup)
   - Light grey  : other hard block (Christmas Day)
   - White       : no fixtures
+  Derby fixtures are indicated by a ◆ symbol in the fixture text.
 
 Team mode (--team TEAM_ID):
   - Green       : home fixture
   - Lavender    : away fixture
   - Gold        : festive fixture
-  - Red         : derby fixture
-  - Amber       : festive derby
   - Peach/Violet: blocked window (same scheme as full-season)
   - White       : no fixture for this team
+  Derby fixtures are indicated by a ◆ next to the H/A label in the cell.
 
 Usage:
     python tools/calendar_png.py
@@ -61,8 +59,6 @@ DAY_ABBREVS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
 C_FESTIVE    = "#fef9c3"   # festive matchday       (light gold)
-C_DERBY      = "#fee2e2"   # derby                  (light red)
-C_BOTH       = "#fde68a"   # festive + derby        (amber)
 C_HOME       = "#dcfce7"   # team home fixture      (light green)
 C_AWAY       = "#ede9fe"   # team away fixture      (light lavender)
 C_INTL       = "#ffedd5"   # international break    (peach)
@@ -257,7 +253,6 @@ def _render_month(
             fixtures   = sorted(by_date.get(d, []), key=lambda s: s.slot.kickoff)
             n_fix      = len(fixtures)
             is_festive = d in FESTIVE_DATES
-            has_derby  = any((sf.home_team_id, sf.away_team_id) in derby_pairs for sf in fixtures)
 
             # ── Blocked window with no fixtures ───────────────────────────────
             if n_fix == 0 and d in blocked_dates:
@@ -268,12 +263,8 @@ def _render_month(
             # ── Normal fixture / empty cell ────────────────────────────────────────
             if n_fix == 0:
                 bg = C_EMPTY
-            elif is_festive and has_derby:
-                bg = C_BOTH
             elif is_festive:
                 bg = C_FESTIVE
-            elif has_derby:
-                bg = C_DERBY
             else:
                 bg = C_REGULAR
 
@@ -299,14 +290,13 @@ def _render_month(
                 start_y  = y + 0.78
 
                 for i, sf in enumerate(shown):
-                    h, a      = sf.home_team_id, sf.away_team_id
-                    is_derby  = (h, a) in derby_pairs
-                    label     = f"{h}-{a}{'◆' if is_derby else ''}"
-                    colour    = C_ACCENT if is_derby else C_TEXT
+                    h, a     = sf.home_team_id, sf.away_team_id
+                    is_derby = (h, a) in derby_pairs
+                    label    = f"{h}-{a}{'◆' if is_derby else ''}"
                     ax.text(
                         x + 0.06, start_y - i * line_h, label,
                         ha="left", va="top", fontsize=4.8,
-                        color=colour, zorder=2, fontfamily="monospace",
+                        color=C_TEXT, zorder=2, fontfamily="monospace",
                     )
 
                 if overflow > 0:
@@ -410,12 +400,8 @@ def _render_month_team(
             is_festive = d in FESTIVE_DATES
             is_derby   = (sf.home_team_id, sf.away_team_id) in derby_pairs
 
-            if is_festive and is_derby:
-                bg = C_BOTH
-            elif is_festive:
+            if is_festive:
                 bg = C_FESTIVE
-            elif is_derby:
-                bg = C_DERBY
             elif is_home:
                 bg = C_HOME
             else:
@@ -436,24 +422,22 @@ def _render_month_team(
                     color="#92400e", fontstyle="italic", zorder=2,
                 )
 
-            ha_label  = "H" if is_home else "A"
             ha_colour = C_HOME_TEXT if is_home else C_AWAY_TEXT
+            ha_label  = ("H" if is_home else "A") + (" ◆" if is_derby else "")
             ax.text(
                 x + 0.06, y + 0.72, ha_label,
                 ha="left", va="top", fontsize=8, color=ha_colour,
                 fontweight="bold", zorder=2,
             )
 
-            derby_mark = "◆" if is_derby else ""
-            opp_colour = C_ACCENT if is_derby else C_TEXT
             ax.text(
-                x + 0.28, y + 0.74, f"vs {opponent}{derby_mark}",
-                ha="left", va="top", fontsize=6, color=opp_colour,
+                x + 0.06, y + 0.46, f"vs {opponent}",
+                ha="left", va="top", fontsize=6, color=C_TEXT,
                 fontweight="bold", zorder=2, fontfamily="monospace",
             )
 
             ax.text(
-                x + 0.06, y + 0.44, sf.slot.kickoff,
+                x + 0.06, y + 0.22, sf.slot.kickoff,
                 ha="left", va="top", fontsize=5.5, color=C_FAINT, zorder=2,
             )
 
@@ -513,15 +497,11 @@ def render_season_png(
             mpatches.Patch(facecolor=C_HOME,    edgecolor="#9ca3af", label="Home"),
             mpatches.Patch(facecolor=C_AWAY,    edgecolor="#9ca3af", label="Away"),
             mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive  ★"),
-            mpatches.Patch(facecolor=C_DERBY,   edgecolor="#9ca3af", label="Derby  ◆"),
-            mpatches.Patch(facecolor=C_BOTH,    edgecolor="#9ca3af", label="Festive derby"),
         ]
     else:
         fixture_patches = [
             mpatches.Patch(facecolor=C_REGULAR, edgecolor="#9ca3af", label="Matchday"),
             mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive  ★"),
-            mpatches.Patch(facecolor=C_DERBY,   edgecolor="#9ca3af", label="Derby  ◆"),
-            mpatches.Patch(facecolor=C_BOTH,    edgecolor="#9ca3af", label="Festive derby"),
         ]
 
     constraint_patches = [
