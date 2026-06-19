@@ -20,6 +20,7 @@ from solvers.cp_sat.constraints import (
     add_min_rest_days,
     add_no_same_city_home_clash,
     add_soft_max_consecutive_home_away,
+    add_soft_ha_window,
     add_soft_derby_gap,
 )
 
@@ -71,6 +72,15 @@ def build_model(
         model, x, fixtures, slots, teams,
         max_run=soft["SC1"]["value"],
         penalty=soft["SC1"]["penalty_per_violation"],
+    )
+
+    sc13 = soft.get("SC13", {})
+    penalty_terms += add_soft_ha_window(
+        model, x, fixtures, slots, teams,
+        window=sc13.get("window", 5),
+        min_home=sc13.get("min_home", 2),
+        max_home=sc13.get("max_home", 3),
+        penalty=sc13.get("penalty_per_violation", 25),
     )
 
     penalty_terms += add_soft_derby_gap(

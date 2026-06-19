@@ -35,8 +35,11 @@ def _circle_method_rounds(team_ids: list[str]) -> list[list[tuple[str, str]]]:
 def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
     """
     Generates 380 fixtures for a 20-team double round-robin.
-    First 190 are the 'first half' (arbitrary home/away assignment).
-    Second 190 flip home and away.
+
+    Each first-half round is immediately followed by its H/A-swapped second-half
+    counterpart (interleaved pairing). This guarantees that any 5-consecutive-round
+    window contains exactly 2 or 3 home games per team, satisfying SC13 from the
+    natural fixture ordering before the solver even runs.
     """
     team_ids = list(teams.keys())
     first_half_rounds = _circle_method_rounds(team_ids)
@@ -44,7 +47,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
     fixtures: list[Fixture] = []
     fixture_num = 1
 
-    for round_idx, pairs in enumerate(first_half_rounds):
+    for pairs in first_half_rounds:
+        # First half of this round
         for home, away in pairs:
             if home == "BYE" or away == "BYE":
                 continue
@@ -54,16 +58,14 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
                 away_team_id=away,
             ))
             fixture_num += 1
-
-    # Second half: swap home/away
-    for round_idx, pairs in enumerate(first_half_rounds):
+        # Second half of this round (H/A swapped) immediately follows
         for home, away in pairs:
             if home == "BYE" or away == "BYE":
                 continue
             fixtures.append(Fixture(
                 fixture_id=f"F{fixture_num:03d}",
-                home_team_id=away,   # swapped
-                away_team_id=home,   # swapped
+                home_team_id=away,
+                away_team_id=home,
             ))
             fixture_num += 1
 

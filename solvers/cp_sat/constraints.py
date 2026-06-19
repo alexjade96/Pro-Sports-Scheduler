@@ -152,6 +152,85 @@ def add_soft_max_consecutive_home_away(
     return []
 
 
+def add_soft_ha_window(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    window: int = 5,
+    min_home: int = 2,
+    max_home: int = 3,
+    penalty: int = 25,
+) -> list:
+    """SC13 (Atos Golden Rule) — penalise home-game clusters within date windows.
+
+    True consecutive-fixture SC13 requires sequence-ordering auxiliary variables.
+    Instead we use a date-window approximation: for each team and each rolling
+    35-day window, penalise the excess over max_home home games assigned there.
+    A 35-day span covers ~4.7 rounds, so clusters of 4+ home games in that
+    period almost always produce a real 5-consecutive-fixture SC13 violation.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    # Build team → date → [home_x_vars]
+    team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    if not all_dates:
+        return penalty_terms
+
+    # Rolling window width: chosen to capture ~5 fixtures' worth of calendar time
+    window_days = 35
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for d in all_dates:
+            end_d = d + timedelta(days=window_days)
+
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates:
+                if wd < d or wd > end_d:
+                    continue
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            # Excess home penalty: fire when home_count > max_home
+            if len(home_in_win) > max_home:
+                hc = model.new_int_var(0, len(home_in_win), f"hc_{team_id}_{d}")
+                model.add(hc == sum(home_in_win))
+                exc = model.new_int_var(0, len(home_in_win) - max_home,
+                                        f"exc_{team_id}_{d}")
+                model.add_max_equality(exc, [0, hc - max_home])
+                penalty_terms.append((penalty, exc))
+
+            # Deficit home penalty: fire when away_count > (window - min_home)
+            # i.e. team plays too many away games in the window (symmetric)
+            max_away = window - min_home  # e.g. 5 - 2 = 3
+            if len(away_in_win) > max_away:
+                ac = model.new_int_var(0, len(away_in_win), f"ac_{team_id}_{d}")
+                model.add(ac == sum(away_in_win))
+                dfc = model.new_int_var(0, len(away_in_win) - max_away,
+                                        f"dfc_{team_id}_{d}")
+                model.add_max_equality(dfc, [0, ac - max_away])
+                penalty_terms.append((penalty, dfc))
+
+    return penalty_terms
+
+
 def add_soft_derby_gap(
     model: cp_model.CpModel,
     x: dict,
