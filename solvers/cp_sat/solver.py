@@ -13,6 +13,7 @@ from ortools.sat.python import cp_model
 
 from core.models import Fixture, Slot, Schedule, ScheduledFixture, Team
 from core.data_loader import load_constraints
+from solvers.slot_filter import build_eligible_slots, log_filter_stats
 from solvers.cp_sat.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_slot,
@@ -28,17 +29,26 @@ def build_model(
     slots: list[Slot],
     teams: dict[str, Team],
     constraint_config: dict,
+    season_start=None,
+    season_end=None,
 ) -> tuple[cp_model.CpModel, dict]:
     model = cp_model.CpModel()
 
-    # --- Decision variables ---
-    # Only create variables for (fixture, slot) pairs that are feasible
-    # (avoids an enormous sparse matrix; further filtered by slot eligibility)
+    # --- Decision variables (temporally filtered) ---
+    # Only create variables for (fixture, slot) pairs within the fixture's
+    # natural round window.  Reduces variable count from ~142K → ~19K.
+    if season_start and season_end:
+        eligible = build_eligible_slots(fixtures, slots, season_start, season_end)
+        log_filter_stats(eligible)
+    else:
+        eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}
+
+    slot_map = {s.slot_id: s for s in slots}
     x = {}
     for fixture in fixtures:
-        for slot in slots:
-            x[(fixture.fixture_id, slot.slot_id)] = model.new_bool_var(
-                f"x_{fixture.fixture_id}_{slot.slot_id}"
+        for sid in eligible[fixture.fixture_id]:
+            x[(fixture.fixture_id, sid)] = model.new_bool_var(
+                f"x_{fixture.fixture_id}_{sid}"
             )
 
     # --- Hard constraints ---
@@ -84,13 +94,15 @@ def extract_schedule(
     solver: cp_model.CpSolver,
     season: str,
 ) -> Schedule:
-    slot_map = {s.slot_id: s for s in slots}
-    scheduled = []
-    for fixture in fixtures:
-        for slot in slots:
-            if solver.value(x[(fixture.fixture_id, slot.slot_id)]):
-                scheduled.append(ScheduledFixture(fixture=fixture, slot=slot_map[slot.slot_id]))
-                break
+    slot_map   = {s.slot_id: s for s in slots}
+    fixture_map = {f.fixture_id: f for f in fixtures}
+    scheduled  = []
+    for (fid, sid), var in x.items():
+        if solver.value(var):
+            scheduled.append(ScheduledFixture(
+                fixture=fixture_map[fid],
+                slot=slot_map[sid],
+            ))
     return Schedule(season=season, fixtures=scheduled)
 
 
@@ -101,12 +113,17 @@ def solve(
     constraint_config: dict,
     season: str,
     time_limit_seconds: int = 300,
+    season_start=None,
+    season_end=None,
 ) -> Schedule | None:
-    model, x = build_model(fixtures, slots, teams, constraint_config)
+    model, x = build_model(
+        fixtures, slots, teams, constraint_config,
+        season_start=season_start, season_end=season_end,
+    )
 
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit_seconds
-    solver.parameters.num_workers = 4  # parallelism
+    solver.parameters.num_workers = 2  # reduced to limit memory
 
     print(f"[CP-SAT] Solving with time limit {time_limit_seconds}s ...")
     status = solver.solve(model)
