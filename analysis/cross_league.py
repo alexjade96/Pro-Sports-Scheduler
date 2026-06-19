@@ -19,6 +19,7 @@ DATA_ROOT = Path(__file__).parent.parent / "data" / "leagues"
 
 LEAGUES = ["epl", "nfl", "nba"]
 
+
 LEAGUE_META = {
     "epl": {
         "name": "English Premier League",
