@@ -39,7 +39,7 @@ def build_model(
     # Only create variables for (fixture, slot) pairs within the fixture's
     # natural round window.  Reduces variable count from ~142K → ~19K.
     if season_start and season_end:
-        eligible = build_eligible_slots(fixtures, slots, season_start, season_end)
+        eligible = build_eligible_slots(fixtures, slots, season_start, season_end, window_rounds=2)
         log_filter_stats(eligible)
     else:
         eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}

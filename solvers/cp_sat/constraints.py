@@ -165,16 +165,21 @@ def add_soft_ha_window(
 ) -> list:
     """SC13 (Atos Golden Rule) — penalise home-game clusters within date windows.
 
-    True consecutive-fixture SC13 requires sequence-ordering auxiliary variables.
-    Instead we use a date-window approximation: for each team and each rolling
-    35-day window, penalise the excess over max_home home games assigned there.
-    A 35-day span covers ~4.7 rounds, so clusters of 4+ home games in that
-    period almost always produce a real 5-consecutive-fixture SC13 violation.
+    For each team and each rolling date window, penalise excess home or away
+    games assigned within that span.
+
+    The primary constraint for SC13 correctness is the slot filter in
+    build_eligible_slots (window_rounds=2): by limiting each fixture to dates
+    within ±2 natural rounds, the solver cannot reorder fixtures by more than
+    2 rounds, keeping consecutive-fixture H/A patterns close to the natural
+    ordering (which has 0 SC13 violations by construction from generate_epl.py).
+
+    This date-window penalty acts as a secondary soft push to discourage the
+    residual reordering violations that can still occur within the ±2 window.
     """
     fsi = _fixture_slot_index(x, slots)
     penalty_terms = []
 
-    # Build team → date → [home_x_vars]
     team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
     team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
     for fixture in fixtures:
@@ -190,7 +195,10 @@ def add_soft_ha_window(
     if not all_dates:
         return penalty_terms
 
-    # Rolling window width: chosen to capture ~5 fixtures' worth of calendar time
+    # 35-day window: covers ~5 EPL fixtures in normal periods.
+    # The slot filter (window_rounds=2) prevents fixtures from spanning
+    # more than ±2 rounds (~15 days) from their natural position, so 5
+    # consecutive games now fit comfortably within 35 days in most cases.
     window_days = 35
 
     for team_id in teams:
@@ -208,7 +216,6 @@ def add_soft_ha_window(
                 home_in_win.extend(home_by_date.get(wd, []))
                 away_in_win.extend(away_by_date.get(wd, []))
 
-            # Excess home penalty: fire when home_count > max_home
             if len(home_in_win) > max_home:
                 hc = model.new_int_var(0, len(home_in_win), f"hc_{team_id}_{d}")
                 model.add(hc == sum(home_in_win))
@@ -217,9 +224,7 @@ def add_soft_ha_window(
                 model.add(exc >= hc - max_home)
                 penalty_terms.append((penalty, exc))
 
-            # Deficit home penalty: fire when away_count > (window - min_home)
-            # i.e. team plays too many away games in the window (symmetric)
-            max_away = window - min_home  # e.g. 5 - 2 = 3
+            max_away = window - min_home
             if len(away_in_win) > max_away:
                 ac = model.new_int_var(0, len(away_in_win), f"ac_{team_id}_{d}")
                 model.add(ac == sum(away_in_win))
