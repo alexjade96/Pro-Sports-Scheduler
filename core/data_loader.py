@@ -20,11 +20,7 @@ def set_league(league: str) -> None:
 
 
 def _data_dir() -> Path:
-    root = Path(__file__).parent.parent
-    new_path = root / "data" / "leagues" / _ACTIVE_LEAGUE
-    if new_path.exists():
-        return new_path
-    return root / "leagues" / _ACTIVE_LEAGUE / "data"
+    return Path(__file__).parent.parent / "data" / "leagues" / _ACTIVE_LEAGUE
 
 
 def load_teams() -> dict[str, Team]:

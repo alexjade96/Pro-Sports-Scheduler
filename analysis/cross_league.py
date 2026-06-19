@@ -15,15 +15,10 @@ from pathlib import Path
 from typing import Any
 
 
+DATA_ROOT = Path(__file__).parent.parent / "data" / "leagues"
+
 LEAGUES = ["epl", "nfl", "nba"]
 
-
-def _constraints_path(league: str) -> Path:
-    root = Path(__file__).parent.parent
-    new_path = root / "data" / "leagues" / league / "constraints.json"
-    if new_path.exists():
-        return new_path
-    return root / "leagues" / league / "data" / "constraints.json"
 
 LEAGUE_META = {
     "epl": {
@@ -127,7 +122,8 @@ class ConstraintSummary:
 
 
 def load_constraints(league: str) -> dict[str, Any]:
-    with open(_constraints_path(league)) as f:
+    path = DATA_ROOT / league / "constraints.json"
+    with open(path) as f:
         return json.load(f)
 
 

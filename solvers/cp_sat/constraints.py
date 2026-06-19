@@ -152,6 +152,90 @@ def add_soft_max_consecutive_home_away(
     return []
 
 
+def add_soft_ha_window(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    window: int = 5,
+    min_home: int = 2,
+    max_home: int = 3,
+    penalty: int = 25,
+) -> list:
+    """SC13 (Atos Golden Rule) — penalise home-game clusters within date windows.
+
+    For each team and each rolling date window, penalise excess home or away
+    games assigned within that span.
+
+    The primary constraint for SC13 correctness is the slot filter in
+    build_eligible_slots (window_rounds=2): by limiting each fixture to dates
+    within ±2 natural rounds, the solver cannot reorder fixtures by more than
+    2 rounds, keeping consecutive-fixture H/A patterns close to the natural
+    ordering (which has 0 SC13 violations by construction from generate_epl.py).
+
+    This date-window penalty acts as a secondary soft push to discourage the
+    residual reordering violations that can still occur within the ±2 window.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    if not all_dates:
+        return penalty_terms
+
+    # 35-day window: covers ~5 EPL fixtures in normal periods.
+    # The slot filter (window_rounds=2) prevents fixtures from spanning
+    # more than ±2 rounds (~15 days) from their natural position, so 5
+    # consecutive games now fit comfortably within 35 days in most cases.
+    window_days = 35
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for d in all_dates:
+            end_d = d + timedelta(days=window_days)
+
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates:
+                if wd < d or wd > end_d:
+                    continue
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            if len(home_in_win) > max_home:
+                hc = model.new_int_var(0, len(home_in_win), f"hc_{team_id}_{d}")
+                model.add(hc == sum(home_in_win))
+                exc = model.new_int_var(0, len(home_in_win) - max_home,
+                                        f"exc_{team_id}_{d}")
+                model.add(exc >= hc - max_home)
+                penalty_terms.append((penalty, exc))
+
+            max_away = window - min_home
+            if len(away_in_win) > max_away:
+                ac = model.new_int_var(0, len(away_in_win), f"ac_{team_id}_{d}")
+                model.add(ac == sum(away_in_win))
+                dfc = model.new_int_var(0, len(away_in_win) - max_away,
+                                        f"dfc_{team_id}_{d}")
+                model.add(dfc >= ac - max_away)
+                penalty_terms.append((penalty, dfc))
+
+    return penalty_terms
+
+
 def add_soft_derby_gap(
     model: cp_model.CpModel,
     x: dict,

@@ -1,0 +1,211 @@
+{
+  "_notes": [
+    "NBA scheduling constraints derived from the NBA CBA (2023), broadcast contracts, and arena operations.",
+    "The NBA uses Fastbreak.ai (since 2024) with 1M+ constraints; prior years used a custom MIP solver.",
+    "Key difference from EPL/NFL: back-to-back games are unavoidable but minimized; season density ~4x EPL.",
+    "Sources: NBA CBA 2023, ESPN/TNT/ABC/NBC/Amazon broadcast contracts, Fastbreak.ai public statements,",
+    "  NBA Operations scheduling documentation, In-Season Tournament rules (2023-present)."
+  ],
+
+  "hard": [
+    {
+      "id": "HC1",
+      "type": "games_per_team",
+      "value": 82,
+      "source": "NBA CBA 2023 — 82-game regular season maintained",
+      "description": "Each team plays exactly 82 regular-season games"
+    },
+    {
+      "id": "HC2",
+      "type": "division_game_distribution",
+      "games_per_division_rival": 4,
+      "total_division_games": 16,
+      "home": 2,
+      "away": 2,
+      "source": "NBA scheduling formula — each of 4 division rivals plays home and away twice",
+      "description": "Each team plays 4 games against each division rival (2H + 2A) = 16 division games total"
+    },
+    {
+      "id": "HC3",
+      "type": "conference_nondivision_distribution",
+      "total_conference_nondivision_games": 36,
+      "distribution": "6 teams x4 games + 4 teams x3 games",
+      "source": "NBA scheduling formula — conference non-division opponents play 3 or 4 times",
+      "description": "Within the same conference, 10 non-division opponents: 6 play 4 times (2H+2A), 4 play 3 times (varies H/A), totaling 36 games"
+    },
+    {
+      "id": "HC4",
+      "type": "inter_conference_distribution",
+      "games_per_opponent": 2,
+      "total_inter_conference_games": 30,
+      "source": "NBA scheduling formula — all 15 opposite-conference teams play exactly twice",
+      "description": "Each team plays all 15 opposite-conference opponents exactly twice (1H + 1A) = 30 inter-conference games"
+    },
+    {
+      "id": "HC5",
+      "type": "no_four_in_five_nights",
+      "source": "NBA CBA 2023 Art. XXII — player health and performance protection",
+      "description": "No team may play 4 games in any 5 consecutive nights"
+    },
+    {
+      "id": "HC6",
+      "type": "no_eight_in_twelve_nights",
+      "source": "NBA CBA 2023 Art. XXII — extended rest protection clause",
+      "description": "No team may play 8 games in any 12 consecutive nights"
+    },
+    {
+      "id": "HC7",
+      "type": "no_back_to_back_long_travel",
+      "max_travel_miles_on_b2b_second_night": 1000,
+      "source": "NBA CBA 2023 — back-to-back games with travel exceeding 1000 miles to second venue are prohibited",
+      "description": "Back-to-back games where the second game requires travel of more than 1000 miles from the first venue are not permitted"
+    },
+    {
+      "id": "HC8",
+      "type": "max_back_to_backs",
+      "target_per_team": 14,
+      "hard_ceiling": 16,
+      "source": "NBA CBA 2023 and league operations agreement — back-to-back limit for player welfare",
+      "description": "Each team should have no more than 16 back-to-back game pairs per season (target is 14)"
+    },
+    {
+      "id": "HC9",
+      "type": "marquee_game_minimum_rest",
+      "applies_to": ["christmas_day", "opening_night", "in_season_tournament_finals"],
+      "min_days_rest_before": 3,
+      "source": "NBA operations — marquee broadcast events require rested, competitive teams",
+      "description": "Teams participating in Christmas Day, Opening Night, or IST Finals must have at least 3 days rest before the game"
+    },
+    {
+      "id": "HC10",
+      "type": "all_star_break_blackout",
+      "source": "NBA calendar — mandatory All-Star break; no regular season games scheduled",
+      "description": "No regular season games may be scheduled during the All-Star break weekend (Friday through Sunday)"
+    },
+    {
+      "id": "HC11",
+      "type": "all_star_host_city_blackout",
+      "source": "NBA All-Star operations — host arena unavailable in the days surrounding the All-Star game",
+      "description": "The All-Star host team cannot schedule home games in the 3 days before and 2 days after the All-Star break"
+    },
+    {
+      "id": "HC12",
+      "type": "in_season_tournament_game_days",
+      "source": "NBA In-Season Tournament rules (2023-present) — IST group stage games on designated Tuesdays and Fridays",
+      "description": "In-Season Tournament group stage games must be scheduled on league-designated Tuesday and Friday slots in November"
+    },
+    {
+      "id": "HC13",
+      "type": "all_teams_play_final_day",
+      "source": "NBA operations — playoff seeding integrity; all 30 teams play on the last day of the regular season",
+      "description": "All 30 teams must be scheduled to play on the final day of the regular season to ensure fair playoff seeding"
+    }
+  ],
+
+  "soft": [
+    {
+      "id": "SC1",
+      "type": "minimize_back_to_backs",
+      "target_per_team": 14,
+      "penalty_per_occurrence_above_target": 10,
+      "source": "NBA CBA / Fastbreak.ai optimization — primary welfare metric; league target is 14 B2Bs per team per season",
+      "description": "Minimize back-to-back game instances per team; target is ≤14 B2B pairs per team (was 18 pre-2023)"
+    },
+    {
+      "id": "SC2",
+      "type": "no_road_back_to_back",
+      "penalty_per_violation": 30,
+      "source": "NBA player welfare and union pressure — road B2Bs are most fatiguing; compound travel + game stress",
+      "description": "Avoid scheduling back-to-back games where both are road games (road B2B is harder than home B2B)"
+    },
+    {
+      "id": "SC3",
+      "type": "max_road_trip_length",
+      "max_consecutive_road_games": 6,
+      "penalty_per_violation": 20,
+      "source": "NBA team operations — road trips beyond 6 games disrupt player routines and homelife",
+      "description": "Teams should not embark on road trips exceeding 6 consecutive away games"
+    },
+    {
+      "id": "SC4",
+      "type": "home_away_balance",
+      "total_home": 41,
+      "total_away": 41,
+      "tolerance_per_half": 3,
+      "penalty_per_violation": 15,
+      "source": "NBA scheduling standard — each team plays 41H + 41A across the full season",
+      "description": "Each team plays exactly 41 home and 41 away games; the split should be roughly even (within 3 games) in each half of the season"
+    },
+    {
+      "id": "SC5",
+      "type": "christmas_day_coverage",
+      "target_games": 5,
+      "required_markets": ["LAL", "GSW", "BOS", "NYK", "MIL", "PHX", "DEN"],
+      "penalty_per_missing_game": 50,
+      "source": "ABC/ESPN broadcast contract — Christmas Day is the highest-rated NBA broadcast day; near-contractual obligation",
+      "description": "Exactly 5 marquee games must be scheduled on Christmas Day; top-market teams must participate (near-hard constraint due to broadcast revenue)"
+    },
+    {
+      "id": "SC6",
+      "type": "opening_night_champion",
+      "penalty_per_violation": 40,
+      "source": "NBA/broadcast tradition — defending champion plays Opening Night for ring ceremony and marquee matchup",
+      "description": "The defending NBA champion must play on Opening Night (typically as home team for ring ceremony)"
+    },
+    {
+      "id": "SC7",
+      "type": "mlk_day_preferred_hosts",
+      "preferred_markets": ["ATL", "BOS", "MEM", "MIL", "PHI", "WAS", "BKN"],
+      "penalty_per_violation": 15,
+      "source": "NBA community relations — Martin Luther King Jr. Day preference for markets with historical significance",
+      "description": "Prefer scheduling home games on MLK Day for teams in markets with strong historical significance (Atlanta etc.)"
+    },
+    {
+      "id": "SC8",
+      "type": "fte_rest_equity",
+      "metric": "Fresh-Tired-Even factor",
+      "target_range": [-5, 5],
+      "penalty_per_unit_outside_range": 8,
+      "source": "NBA Fastbreak.ai optimization — FTE factor measures rest advantage/disadvantage vs opponent; range -5 to +5 is acceptable",
+      "description": "The Fresh-Tired-Even (FTE) factor per game should stay within ±5; measures relative rest advantage (fresh=more rest, tired=less rest than opponent)"
+    },
+    {
+      "id": "SC9",
+      "type": "travel_timezone_fairness",
+      "max_timezone_change_on_b2b": 2,
+      "penalty_per_violation": 20,
+      "source": "NBA Fastbreak.ai / player welfare — transcontinental travel on a B2B second night severely impacts performance",
+      "description": "Minimize situations where teams cross more than 2 time zones on the second night of a back-to-back"
+    },
+    {
+      "id": "SC10",
+      "type": "weekend_home_game_preference",
+      "preferred_days": ["Friday", "Saturday"],
+      "penalty_per_non_weekend_home": 5,
+      "source": "NBA arena operations — Friday and Saturday home games maximize ticket sales and arena revenue",
+      "description": "Prefer scheduling home games on Fridays and Saturdays to maximize local attendance and arena revenue"
+    },
+    {
+      "id": "SC11",
+      "type": "ist_no_b2b_second_night",
+      "penalty_per_violation": 20,
+      "source": "NBA In-Season Tournament rules — IST group stage games should not be the second leg of a back-to-back",
+      "description": "Teams playing In-Season Tournament group stage games should not have played a game the night before"
+    },
+    {
+      "id": "SC12",
+      "type": "arena_unavailability_windows",
+      "penalty_per_violation": 100,
+      "source": "NBA team operations — arena sharing with NHL, concerts, and other events creates hard calendar conflicts",
+      "description": "Home games must not be scheduled during arena-unavailability windows (NHL conflicts, major concerts, convention bookings) — treated as near-hard"
+    },
+    {
+      "id": "SC13",
+      "type": "avoid_monday_home_in_nfl_markets",
+      "months": ["September", "October", "November", "December"],
+      "penalty_per_violation": 10,
+      "source": "NBA/NFL broadcast awareness — Monday Night Football draws viewers away from NBA in NFL markets",
+      "description": "Avoid scheduling home games on Monday nights for teams in NFL markets (NY, LA, Chicago, Dallas, etc.) during the NFL regular season"
+    }
+  ]
+}
