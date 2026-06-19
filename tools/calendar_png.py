@@ -2,19 +2,29 @@
 Generates a PNG calendar graphic of the full EPL season schedule.
 
 Each month is rendered as a calendar grid. Day cells are colour-coded:
+
+Full-season mode:
   - Sky blue   : regular matchday
   - Gold       : festive matchday (Boxing Day / Dec 28 / NYD)
   - Red        : high-profile derby
-  - Red + gold : festive derby (both)
+  - Amber      : festive derby (both)
   - White      : no fixtures
 
-Each cell lists the fixtures as HOME-AWY (up to 5; remaining count shown).
+Team mode (--team TEAM_ID):
+  - Green      : home fixture
+  - Lavender   : away fixture
+  - Gold       : festive fixture (home or away)
+  - Red        : derby fixture
+  - Amber      : festive derby
+  - White      : no fixture for this team
 
 Usage:
     python tools/calendar_png.py
     python tools/calendar_png.py --csv output/schedule_ilp.csv
     python tools/calendar_png.py --out output/calendar.png
     python tools/calendar_png.py --month 12
+    python tools/calendar_png.py --team LIV
+    python tools/calendar_png.py --team ARS --month 11
 """
 from __future__ import annotations
 
@@ -49,11 +59,15 @@ C_REGULAR    = "#dbeafe"   # regular matchday  (light blue)
 C_FESTIVE    = "#fef9c3"   # festive            (light gold)
 C_DERBY      = "#fee2e2"   # derby              (light red)
 C_BOTH       = "#fde68a"   # festive + derby    (amber)
+C_HOME       = "#dcfce7"   # team home fixture  (light green)
+C_AWAY       = "#ede9fe"   # team away fixture  (light lavender)
 C_HEADER_BG  = "#1e3a5f"   # month header       (dark navy)
 C_DAY_HDR    = "#374151"   # day-of-week header (dark grey)
 C_TEXT       = "#111827"
 C_FAINT      = "#9ca3af"
 C_ACCENT     = "#b91c1c"   # derby marker text
+C_HOME_TEXT  = "#166534"   # home label text    (dark green)
+C_AWAY_TEXT  = "#4c1d95"   # away label text    (dark purple)
 
 FESTIVE_DATES = {date(2025, 12, 26), date(2025, 12, 28), date(2026, 1, 1)}
 FESTIVE_LABEL = {
@@ -92,7 +106,7 @@ def _load_csv(path: Path) -> Schedule:
 
 
 # ---------------------------------------------------------------------------
-# Single-month renderer
+# Single-month renderer — full season
 # ---------------------------------------------------------------------------
 
 def _render_month(
@@ -102,7 +116,7 @@ def _render_month(
     by_date: dict,
     derby_pairs: set,
 ) -> None:
-    """Draw one month calendar onto ax."""
+    """Draw one month calendar (all fixtures) onto ax."""
     weeks      = _cal.monthcalendar(year, month)
     month_name = _cal.month_name[month]
     n_weeks    = len(weeks)
@@ -114,9 +128,7 @@ def _render_month(
     ax.set_ylim(0, ROWS)
     ax.axis("off")
 
-    cell_h = 1.0   # normalised units
-
-    # ── Month header ────────────────────────────────────────────────────────────────────
+    # ── Month header ──────────────────────────────────────────────────────────────────
     ax.add_patch(FancyBboxPatch(
         (0, ROWS - 1), COLS, 1,
         boxstyle="square,pad=0", linewidth=0,
@@ -128,7 +140,7 @@ def _render_month(
         color="white", zorder=2,
     )
 
-    # ── Day-of-week header ────────────────────────────────────────────────────────────────────────
+    # ── Day-of-week header ─────────────────────────────────────────────────────────────────
     for col, dname in enumerate(DAY_ABBREVS):
         ax.add_patch(FancyBboxPatch(
             (col, ROWS - 2), 1, 1,
@@ -141,16 +153,14 @@ def _render_month(
             fontweight="bold", zorder=2,
         )
 
-    # ── Day cells ────────────────────────────────────────────────────────────────────────
+    # ── Day cells ───────────────────────────────────────────────────────────────────────
     for week_idx, week in enumerate(weeks):
-        row_y = ROWS - 3 - week_idx   # top of this week row
+        row_y = ROWS - 3 - week_idx
 
         for col, day_num in enumerate(week):
-            x = col
-            y = row_y
+            x, y = col, row_y
 
             if day_num == 0:
-                # Outside month — blank cell
                 ax.add_patch(FancyBboxPatch(
                     (x, y), 1, 1,
                     boxstyle="square,pad=0", linewidth=0.3,
@@ -159,12 +169,11 @@ def _render_month(
                 continue
 
             d = date(year, month, day_num)
-            fixtures = sorted(by_date.get(d, []), key=lambda s: s.slot.kickoff)
-            n_fix    = len(fixtures)
+            fixtures   = sorted(by_date.get(d, []), key=lambda s: s.slot.kickoff)
+            n_fix      = len(fixtures)
             is_festive = d in FESTIVE_DATES
             has_derby  = any((sf.home_team_id, sf.away_team_id) in derby_pairs for sf in fixtures)
 
-            # Cell background colour
             if n_fix == 0:
                 bg = C_EMPTY
             elif is_festive and has_derby:
@@ -182,14 +191,12 @@ def _render_month(
                 edgecolor="#9ca3af", facecolor=bg, zorder=1,
             ))
 
-            # Date number
             ax.text(
                 x + 0.06, y + 0.92, str(day_num),
                 ha="left", va="top", fontsize=6.5, color=C_TEXT,
                 fontweight="bold", zorder=2,
             )
 
-            # Festive label
             if is_festive and n_fix > 0:
                 ax.text(
                     x + 0.94, y + 0.92, FESTIVE_LABEL[d],
@@ -197,11 +204,9 @@ def _render_month(
                     color="#92400e", fontstyle="italic", zorder=2,
                 )
 
-            # Fixture lines
             if n_fix > 0:
                 shown    = fixtures[:MAX_FIXTURES_SHOWN]
                 overflow = n_fix - MAX_FIXTURES_SHOWN
-
                 line_h   = 0.13
                 start_y  = y + 0.78
 
@@ -210,12 +215,10 @@ def _render_month(
                     is_derby = (h, a) in derby_pairs
                     label    = f"{h}-{a}{'◆' if is_derby else ''}"
                     colour   = C_ACCENT if is_derby else C_TEXT
-
                     ax.text(
                         x + 0.06, start_y - i * line_h, label,
                         ha="left", va="top", fontsize=4.8,
-                        color=colour, zorder=2,
-                        fontfamily="monospace",
+                        color=colour, zorder=2, fontfamily="monospace",
                     )
 
                 if overflow > 0:
@@ -228,7 +231,155 @@ def _render_month(
 
 
 # ---------------------------------------------------------------------------
-# Full season PNG
+# Single-month renderer — one team
+# ---------------------------------------------------------------------------
+
+def _render_month_team(
+    ax: plt.Axes,
+    year: int,
+    month: int,
+    by_date: dict,
+    derby_pairs: set,
+    team_id: str,
+    team_name: str,
+) -> None:
+    """Draw one month calendar filtered to a single team's fixtures."""
+    weeks      = _cal.monthcalendar(year, month)
+    month_name = _cal.month_name[month]
+    n_weeks    = len(weeks)
+
+    COLS = 7
+    ROWS = n_weeks + 2
+
+    ax.set_xlim(0, COLS)
+    ax.set_ylim(0, ROWS)
+    ax.axis("off")
+
+    # ── Month header ──────────────────────────────────────────────────────────────────
+    ax.add_patch(FancyBboxPatch(
+        (0, ROWS - 1), COLS, 1,
+        boxstyle="square,pad=0", linewidth=0,
+        facecolor=C_HEADER_BG, zorder=1,
+    ))
+    ax.text(
+        COLS / 2, ROWS - 0.5, f"{month_name} {year}",
+        ha="center", va="center", fontsize=9, fontweight="bold",
+        color="white", zorder=2,
+    )
+
+    # ── Day-of-week header ─────────────────────────────────────────────────────────────────
+    for col, dname in enumerate(DAY_ABBREVS):
+        ax.add_patch(FancyBboxPatch(
+            (col, ROWS - 2), 1, 1,
+            boxstyle="square,pad=0", linewidth=0.3,
+            edgecolor="#d1d5db", facecolor=C_DAY_HDR, zorder=1,
+        ))
+        ax.text(
+            col + 0.5, ROWS - 1.5, dname,
+            ha="center", va="center", fontsize=7, color="white",
+            fontweight="bold", zorder=2,
+        )
+
+    # ── Day cells ───────────────────────────────────────────────────────────────────────
+    for week_idx, week in enumerate(weeks):
+        row_y = ROWS - 3 - week_idx
+
+        for col, day_num in enumerate(week):
+            x, y = col, row_y
+
+            if day_num == 0:
+                ax.add_patch(FancyBboxPatch(
+                    (x, y), 1, 1,
+                    boxstyle="square,pad=0", linewidth=0.3,
+                    edgecolor="#e5e7eb", facecolor=C_EMPTY, zorder=1,
+                ))
+                continue
+
+            d = date(year, month, day_num)
+            all_fixtures = by_date.get(d, [])
+            sf = next(
+                (f for f in all_fixtures
+                 if f.home_team_id == team_id or f.away_team_id == team_id),
+                None,
+            )
+
+            if sf is None:
+                ax.add_patch(FancyBboxPatch(
+                    (x, y), 1, 1,
+                    boxstyle="square,pad=0", linewidth=0.3,
+                    edgecolor="#e5e7eb", facecolor=C_EMPTY, zorder=1,
+                ))
+                ax.text(
+                    x + 0.06, y + 0.92, str(day_num),
+                    ha="left", va="top", fontsize=6.5, color=C_FAINT,
+                    fontweight="bold", zorder=2,
+                )
+                continue
+
+            is_home    = sf.home_team_id == team_id
+            opponent   = sf.away_team_id if is_home else sf.home_team_id
+            is_festive = d in FESTIVE_DATES
+            is_derby   = (sf.home_team_id, sf.away_team_id) in derby_pairs
+
+            if is_festive and is_derby:
+                bg = C_BOTH
+            elif is_festive:
+                bg = C_FESTIVE
+            elif is_derby:
+                bg = C_DERBY
+            elif is_home:
+                bg = C_HOME
+            else:
+                bg = C_AWAY
+
+            ax.add_patch(FancyBboxPatch(
+                (x, y), 1, 1,
+                boxstyle="square,pad=0", linewidth=0.4,
+                edgecolor="#9ca3af", facecolor=bg, zorder=1,
+            ))
+
+            # Date number
+            ax.text(
+                x + 0.06, y + 0.92, str(day_num),
+                ha="left", va="top", fontsize=6.5, color=C_TEXT,
+                fontweight="bold", zorder=2,
+            )
+
+            # Festive label
+            if is_festive:
+                ax.text(
+                    x + 0.94, y + 0.92, FESTIVE_LABEL[d],
+                    ha="right", va="top", fontsize=4.2,
+                    color="#92400e", fontstyle="italic", zorder=2,
+                )
+
+            # H / A badge
+            ha_label  = "H" if is_home else "A"
+            ha_colour = C_HOME_TEXT if is_home else C_AWAY_TEXT
+            ax.text(
+                x + 0.06, y + 0.72, ha_label,
+                ha="left", va="top", fontsize=8, color=ha_colour,
+                fontweight="bold", zorder=2,
+            )
+
+            # Opponent code
+            derby_mark = "◆" if is_derby else ""
+            opp_colour = C_ACCENT if is_derby else C_TEXT
+            ax.text(
+                x + 0.28, y + 0.74, f"vs {opponent}{derby_mark}",
+                ha="left", va="top", fontsize=6, color=opp_colour,
+                fontweight="bold", zorder=2, fontfamily="monospace",
+            )
+
+            # Kickoff time
+            ax.text(
+                x + 0.06, y + 0.44, sf.slot.kickoff,
+                ha="left", va="top", fontsize=5.5, color=C_FAINT, zorder=2,
+            )
+
+
+# ---------------------------------------------------------------------------
+# Full-season PNG (both modes)
 # ---------------------------------------------------------------------------
 
 def render_season_png(
@@ -237,11 +388,13 @@ def render_season_png(
     months: list[tuple[int, int]],
     out_path: Path,
     solver_label: str = "",
+    team_id: str | None = None,
+    team_name: str = "",
 ) -> None:
-    N_COLS   = 2          # months per row
-    N_ROWS   = (len(months) + N_COLS - 1) // N_COLS
-    FIG_W    = 18         # inches
-    MONTH_H  = 3.6        # inches per month row
+    N_COLS  = 2
+    N_ROWS  = (len(months) + N_COLS - 1) // N_COLS
+    FIG_W   = 18
+    MONTH_H = 3.6
 
     fig, axes = plt.subplots(
         N_ROWS, N_COLS,
@@ -251,27 +404,51 @@ def render_season_png(
     axes_flat = axes.flatten()
 
     for i, (year, month) in enumerate(months):
-        _render_month(axes_flat[i], year, month, by_date, derby_pairs)
+        if team_id:
+            _render_month_team(
+                axes_flat[i], year, month, by_date, derby_pairs, team_id, team_name,
+            )
+        else:
+            _render_month(axes_flat[i], year, month, by_date, derby_pairs)
 
-    # Hide any unused axes (if odd number of months)
     for j in range(len(months), len(axes_flat)):
         axes_flat[j].axis("off")
 
-    # ── Title & legend ──────────────────────────────────────────────────────────────────────
-    fig.suptitle(
-        f"EPL 2025/26 Season Calendar{f'  —  {solver_label}' if solver_label else ''}",
-        fontsize=14, fontweight="bold", color=C_HEADER_BG, y=0.995,
-    )
+    # ── Title ──────────────────────────────────────────────────────────────────────────
+    if team_id:
+        title = f"{team_name} ({team_id}) — EPL 2025/26 Fixture Calendar"
+        if solver_label:
+            title += f"  —  {solver_label}"
+    else:
+        title = f"EPL 2025/26 Season Calendar"
+        if solver_label:
+            title += f"  —  {solver_label}"
 
-    legend_patches = [
-        mpatches.Patch(facecolor=C_REGULAR, edgecolor="#9ca3af", label="Matchday"),
-        mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive matchday  ★"),
-        mpatches.Patch(facecolor=C_DERBY,   edgecolor="#9ca3af", label="Derby fixture  ◆"),
-        mpatches.Patch(facecolor=C_BOTH,    edgecolor="#9ca3af", label="Festive derby"),
-        mpatches.Patch(facecolor=C_EMPTY,   edgecolor="#9ca3af", label="No fixtures"),
-    ]
+    fig.suptitle(title, fontsize=14, fontweight="bold", color=C_HEADER_BG, y=0.995)
+
+    # ── Legend ──────────────────────────────────────────────────────────────────────────
+    if team_id:
+        legend_patches = [
+            mpatches.Patch(facecolor=C_HOME,    edgecolor="#9ca3af", label="Home"),
+            mpatches.Patch(facecolor=C_AWAY,    edgecolor="#9ca3af", label="Away"),
+            mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive  ★"),
+            mpatches.Patch(facecolor=C_DERBY,   edgecolor="#9ca3af", label="Derby  ◆"),
+            mpatches.Patch(facecolor=C_BOTH,    edgecolor="#9ca3af", label="Festive derby"),
+            mpatches.Patch(facecolor=C_EMPTY,   edgecolor="#9ca3af", label="No fixture"),
+        ]
+        ncol = 6
+    else:
+        legend_patches = [
+            mpatches.Patch(facecolor=C_REGULAR, edgecolor="#9ca3af", label="Matchday"),
+            mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive matchday  ★"),
+            mpatches.Patch(facecolor=C_DERBY,   edgecolor="#9ca3af", label="Derby fixture  ◆"),
+            mpatches.Patch(facecolor=C_BOTH,    edgecolor="#9ca3af", label="Festive derby"),
+            mpatches.Patch(facecolor=C_EMPTY,   edgecolor="#9ca3af", label="No fixtures"),
+        ]
+        ncol = 5
+
     fig.legend(
-        handles=legend_patches, loc="lower center", ncol=5,
+        handles=legend_patches, loc="lower center", ncol=ncol,
         fontsize=8, frameon=True, framealpha=0.9,
         bbox_to_anchor=(0.5, 0.001),
     )
@@ -298,6 +475,10 @@ def main() -> None:
     )
     parser.add_argument("--month", type=int, default=None, help="Render only this month (1-12)")
     parser.add_argument("--year",  type=int, default=None)
+    parser.add_argument(
+        "--team", default=None,
+        help="Team ID to generate individual team schedule (e.g. LIV, ARS, MCI)",
+    )
     args = parser.parse_args()
 
     csv_path = Path(args.csv)
@@ -306,24 +487,41 @@ def main() -> None:
         sys.exit(1)
 
     schedule    = _load_csv(csv_path)
+    teams       = load_teams()
     derby_pairs = {(a, b) for a, b in load_high_profile_derbies()}
     derby_pairs |= {(b, a) for a, b in derby_pairs}
+
+    # Validate team arg
+    team_id   = args.team.upper() if args.team else None
+    team_name = ""
+    if team_id:
+        if team_id not in teams:
+            valid = ", ".join(sorted(teams))
+            print(f"Unknown team '{team_id}'. Valid IDs: {valid}")
+            sys.exit(1)
+        team_name = teams[team_id].name
 
     by_date: dict[date, list[ScheduledFixture]] = defaultdict(list)
     for sf in schedule.fixtures:
         by_date[sf.slot.date].append(sf)
 
+    solver_label = csv_path.stem.replace("schedule_", "").upper()
+
     if args.month:
         year   = args.year or (2025 if args.month >= 8 else 2026)
         months = [(year, args.month)]
-        out    = Path(args.out).with_name(f"calendar_{_cal.month_abbr[args.month].lower()}.png")
+        stem   = f"calendar_{team_id.lower() if team_id else ''}{'_' if team_id else ''}{_cal.month_abbr[args.month].lower()}"
+        out    = Path(args.out).with_name(f"{stem}.png")
+    elif team_id:
+        months = MONTHS
+        out    = Path(args.out).with_name(f"calendar_{team_id.lower()}.png")
     else:
         months = MONTHS
         out    = Path(args.out)
 
     render_season_png(
-        by_date, derby_pairs, months, out,
-        solver_label=csv_path.stem.replace("schedule_", "").upper(),
+        by_date, derby_pairs, months, out, solver_label,
+        team_id=team_id, team_name=team_name,
     )
 
 
