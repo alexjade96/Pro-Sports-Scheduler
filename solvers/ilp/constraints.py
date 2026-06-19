@@ -78,30 +78,41 @@ def add_min_rest_days(
     teams: dict[str, Team],
     min_days: int = 3,
 ) -> None:
-    """HC1 — minimum days between consecutive team fixtures."""
-    fsi = _fixture_slot_index(x, slots)
-    added: set[tuple] = set()
+    """HC1 — minimum days between consecutive team fixtures.
 
-    for team_id in teams:
-        team_fixtures = [
-            f for f in fixtures
-            if f.home_team_id == team_id or f.away_team_id == team_id
-        ]
-        for i, f1 in enumerate(team_fixtures):
-            f1_slots = fsi.get(f1.fixture_id, [])
-            for f2 in team_fixtures[i + 1:]:
-                f2_slots = fsi.get(f2.fixture_id, [])
-                for sid1, s1 in f1_slots:
-                    for sid2, s2 in f2_slots:
-                        gap = abs((s2.date - s1.date).days)
-                        if 0 < gap < min_days:
-                            key = tuple(sorted([(f1.fixture_id, sid1), (f2.fixture_id, sid2)]))
-                            if key not in added:
-                                added.add(key)
-                                prob += (
-                                    x[(f1.fixture_id, sid1)] + x[(f2.fixture_id, sid2)] <= 1,
-                                    f"rest_{f1.fixture_id}_{sid1}_{f2.fixture_id}_{sid2}",
-                                )
+    Uses a sliding-window formulation: for each team and each date d, the
+    sum of assignment variables for all (fixture, slot) pairs belonging to
+    that team where the slot falls in [d, d + min_days - 1] must be ≤ 1.
+
+    This produces O(teams × dates) ≈ 7,460 constraints instead of the
+    O(fixture_pairs × slot_pairs) ≈ 563K from the naive pairwise approach,
+    making CBC tractable within a 90-second time limit.
+    """
+    from datetime import timedelta
+
+    fsi = _fixture_slot_index(x, slots)
+
+    # Build {team_id: {date: [(fixture_id, slot_id), ...]}}
+    team_date_vars: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            for team_id in (fixture.home_team_id, fixture.away_team_id):
+                team_date_vars[team_id][slot.date].append((fixture.fixture_id, sid))
+
+    for team_id, date_map in team_date_vars.items():
+        all_dates = sorted(date_map.keys())
+        for d in all_dates:
+            # Gather vars for this team in the window [d, d + min_days - 1]
+            window_vars = []
+            for offset in range(min_days):
+                wd = d + timedelta(days=offset)
+                for fid, sid in date_map.get(wd, []):
+                    window_vars.append(x[(fid, sid)])
+            if len(window_vars) >= 2:
+                prob += (
+                    pulp.lpSum(window_vars) <= 1,
+                    f"rest_window_{team_id}_{d}",
+                )
 
 
 def add_no_same_city_home_clash(
