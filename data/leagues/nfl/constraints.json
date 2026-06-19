@@ -1,8 +1,10 @@
 {
   "_notes": [
-    "NFL scheduling constraints derived from the NFL Constitution, CBA, and broadcast contracts.",
+    "NFL scheduling constraints derived from the NFL Constitution, CBA (2020), and broadcast contracts.",
     "Hard constraints are inviolable; soft constraints carry weighted penalties.",
-    "The NFL schedule is not round-robin: fixture generation uses a rotation formula."
+    "The NFL schedule is not round-robin: fixture generation uses a rotation formula.",
+    "Sources: NFL Competition Committee rulebook, NFLPA CBA 2020, Recentive Analytics public statements,",
+    "  ESPN/NBC/CBS/Amazon/Fox broadcast contracts, NFL International Series operations manual."
   ],
 
   "hard": [
@@ -10,42 +12,92 @@
       "id": "HC1",
       "type": "games_per_team",
       "value": 17,
-      "source": "NFL Constitution — 17-game regular season since 2021",
-      "description": "Each team plays exactly 17 regular-season games"
+      "source": "NFL Constitution Art. XVII; 17-game regular season effective 2021",
+      "description": "Each team plays exactly 17 regular-season games across 18 weeks (one bye week)"
     },
     {
       "id": "HC2",
-      "type": "division_games",
+      "type": "intra_division_games",
       "home": 3,
       "away": 3,
-      "source": "NFL scheduling formula — all 6 intra-division games are mandatory",
-      "description": "Each team plays home and away against each of its 3 division rivals"
+      "total": 6,
+      "source": "NFL scheduling formula — all 6 intra-division games are mandatory and fixed",
+      "description": "Each team plays home and away against each of its 3 division rivals (6 games)"
     },
     {
       "id": "HC3",
-      "type": "one_bye_week",
-      "window_start": 6,
-      "window_end": 14,
-      "source": "NFL/NFLPA CBA — each team receives exactly one bye week between weeks 6-14",
-      "description": "Every team has exactly one bye week; no game that week"
+      "type": "intra_conference_rotation",
+      "games": 4,
+      "description": "4 games vs one other division within same conference (home vs all or away vs all), rotating on a 3-year cycle",
+      "source": "NFL scheduling formula — intra-conference cross-division rotation"
     },
     {
       "id": "HC4",
-      "type": "no_consecutive_byes",
-      "source": "Logical constraint",
-      "description": "A team cannot have a bye in consecutive weeks (trivially satisfied with one bye)"
+      "type": "inter_conference_rotation",
+      "games": 4,
+      "description": "4 games vs one division from the opposite conference (home/away split), rotating on a 4-year cycle",
+      "source": "NFL scheduling formula — inter-conference cross-division rotation"
     },
     {
       "id": "HC5",
-      "type": "shared_venue_single_use",
-      "source": "Stadium operations — MetLife (NYJ/NYG) and SoFi (LAC/LAR) cannot host both tenants same day",
-      "description": "Teams sharing a stadium cannot both play home games on the same day"
+      "type": "standings_crossover_games",
+      "games": 2,
+      "description": "2 games vs teams from remaining two same-conference divisions that finished in the same place in standings the prior year",
+      "source": "NFL scheduling formula — strength-of-schedule equalizer"
     },
     {
       "id": "HC6",
-      "type": "no_thanksgiving_away_following_home",
-      "source": "NFL tradition — Thanksgiving home teams (DAL, DET + 1 night game) are fixed annually",
-      "description": "Traditional Thanksgiving hosts (Dallas, Detroit) must play home on Thanksgiving"
+      "type": "seventeenth_game",
+      "games": 1,
+      "description": "1 game vs team from the opposite conference division that mirrors the team's own inter-conference rotation, matched by same prior-year division finish",
+      "source": "NFL Constitution — 17th game formula introduced 2021"
+    },
+    {
+      "id": "HC7",
+      "type": "bye_week",
+      "count": 1,
+      "window_start_week": 6,
+      "window_end_week": 14,
+      "source": "NFLPA CBA 2020 Art. 27 — mandatory bye weeks between weeks 6-14 inclusive",
+      "description": "Every team has exactly one bye week; scheduling window is weeks 6-14"
+    },
+    {
+      "id": "HC8",
+      "type": "shared_venue_single_use",
+      "venues": [
+        {"stadium": "MetLife Stadium", "tenants": ["NYJ", "NYG"]},
+        {"stadium": "SoFi Stadium", "tenants": ["LAC", "LAR"]}
+      ],
+      "source": "Stadium operations — shared stadiums cannot host both tenants on the same day",
+      "description": "Teams sharing a stadium cannot both play home games on the same date"
+    },
+    {
+      "id": "HC9",
+      "type": "thanksgiving_home_teams",
+      "mandatory_hosts": ["DAL", "DET"],
+      "source": "NFL tradition codified in broadcast contracts (CBS/Fox) — since 1966 (DET) and 1978 (DAL)",
+      "description": "Dallas Cowboys and Detroit Lions must play home on Thanksgiving Day; a third evening game is also scheduled (host varies)"
+    },
+    {
+      "id": "HC10",
+      "type": "thursday_night_minimum_rest",
+      "min_days_since_last_game": 10,
+      "exception": "season_opener",
+      "source": "NFLPA CBA 2020 — health & safety; minimum rest before Thursday Night Football",
+      "description": "Teams playing TNF must have at least 10 days since their previous game (exception: season-opening Thursday game)"
+    },
+    {
+      "id": "HC11",
+      "type": "no_christmas_back_to_back",
+      "source": "NFL operational rule — teams cannot play on Dec 24 and Dec 25 consecutively",
+      "description": "No team may play a game on Christmas Eve (Dec 24) and Christmas Day (Dec 25) in the same season"
+    },
+    {
+      "id": "HC12",
+      "type": "season_length",
+      "weeks": 18,
+      "source": "NFL Constitution — 18-week regular season calendar with one bye per team",
+      "description": "The regular season spans exactly 18 calendar weeks from opening weekend to Week 18 finale"
     }
   ],
 
@@ -55,7 +107,7 @@
       "type": "max_consecutive_road_games",
       "value": 3,
       "penalty_per_violation": 25,
-      "source": "NFL scheduling preference — player welfare and fan attendance",
+      "source": "NFL scheduling preference — player welfare, home attendance, fan engagement",
       "description": "Teams should not play more than 3 consecutive road games"
     },
     {
@@ -63,69 +115,89 @@
       "type": "max_consecutive_home_games",
       "value": 4,
       "penalty_per_violation": 20,
-      "source": "NFL scheduling preference — competitive balance",
+      "source": "NFL scheduling preference — competitive balance and broadcast variety",
       "description": "Teams should not play more than 4 consecutive home games"
     },
     {
       "id": "SC3",
-      "type": "short_week_after_road_game",
-      "penalty_per_violation": 30,
-      "source": "NFLPA CBA — Thursday Night Football team played Sunday road game = short turnaround",
-      "description": "Avoid scheduling a team on Thursday Night Football the week after a Sunday road game"
+      "type": "tnf_after_road_game",
+      "penalty_per_violation": 40,
+      "source": "NFLPA CBA 2020 — short-week rest; teams on TNF after Sunday road game get only 3 days rest",
+      "description": "Strongly avoid scheduling a team on Thursday Night Football the week after a Sunday road game (only 3 days rest)"
     },
     {
       "id": "SC4",
-      "type": "primetime_distribution",
-      "min_primetime_per_team": 1,
+      "type": "primetime_minimum",
+      "min_appearances_per_team": 1,
+      "slots": ["SNF", "MNF", "TNF"],
       "penalty_per_missing_team": 15,
-      "source": "Broadcast contracts — all teams should appear in at least one prime-time slot",
-      "description": "Every team should have at least one SNF, MNF, or TNF appearance per season"
+      "source": "NFL broadcast commitment — all 32 teams should appear in at least one prime-time national window",
+      "description": "Every team should appear in at least one Sunday Night Football, Monday Night Football, or Thursday Night Football broadcast"
     },
     {
       "id": "SC5",
-      "type": "strength_of_schedule_balance",
-      "penalty_per_violation": 20,
-      "source": "NFL competitive integrity — schedule formula ensures equivalent SOS across division rivals",
-      "description": "Teams in the same division face opponents of equivalent prior-year strength"
+      "type": "primetime_maximum",
+      "max_appearances_per_team": 8,
+      "top_market_teams": ["DAL", "GB", "NE", "KC", "SF", "PHI", "NYG", "NYJ", "LAR", "LAC"],
+      "penalty_per_violation": 10,
+      "source": "NFL broadcast distribution — cap on primetime concentration to maintain variety for fans",
+      "description": "No team should appear in more than 8 prime-time windows per season (prevents primetime saturation)"
     },
     {
       "id": "SC6",
-      "type": "travel_fairness",
-      "max_consecutive_cross_country": 2,
+      "type": "strength_of_schedule_balance",
       "penalty_per_violation": 20,
-      "source": "NFLPA CBA / team operations — minimize coast-to-coast consecutive trips",
-      "description": "Minimize consecutive long-haul road trips (e.g. East Coast team traveling to West Coast twice back-to-back)"
+      "source": "NFL Competition Committee — scheduling formula is designed so division rivals face identical opponents in rotation games",
+      "description": "Teams in the same division face opponents of equivalent prior-year strength in rotation slots"
     },
     {
       "id": "SC7",
-      "type": "home_away_balance",
-      "tolerance": 1,
-      "penalty_per_violation": 15,
-      "source": "NFL scheduling standard — home/away split across first and second half of season",
-      "description": "Teams should have a balanced home/away split across the first and second half of the season"
+      "type": "travel_fairness",
+      "max_consecutive_cross_country_trips": 2,
+      "penalty_per_violation": 20,
+      "source": "NFLPA CBA / team operations — minimize consecutive coast-to-coast trips (3+ time zone crossings)",
+      "description": "Minimize consecutive long-haul road trips (e.g. East Coast team to West Coast back-to-back weeks)"
     },
     {
       "id": "SC8",
-      "type": "international_game_rest",
-      "min_rest_days_before": 7,
-      "penalty_per_violation": 35,
-      "source": "NFL International Series rules — traveling teams get additional preparation time",
-      "description": "Teams playing international games (London, Munich, Brazil) should have adequate rest before and after"
+      "type": "home_away_half_season_balance",
+      "tolerance_games": 1,
+      "penalty_per_violation": 15,
+      "source": "NFL scheduling standard — competitive balance; teams should not front-load or back-load home games",
+      "description": "Teams should have a balanced home/away split across the first half (weeks 1-9) and second half (weeks 10-18) of the season"
     },
     {
       "id": "SC9",
-      "type": "flex_scheduling_eligibility",
-      "penalty_per_violation": 10,
-      "source": "NBC/NFL broadcast agreement — SNF flex scheduling requires viable matchup options in late season",
-      "description": "Weeks 5-18 should include at least one flex-eligible game per week for SNF broadcast"
+      "type": "international_series_rest",
+      "min_rest_days_before": 7,
+      "min_rest_days_after": 7,
+      "penalty_per_violation": 35,
+      "source": "NFL International Series operations — London, Munich, São Paulo games require extra preparation and recovery",
+      "description": "Teams playing international games (London, Munich, Brazil) should have at least 7 days rest before and after the game"
     },
     {
       "id": "SC10",
+      "type": "snf_flex_eligibility",
+      "eligible_weeks": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+      "penalty_per_violation": 10,
+      "source": "NBC/NFL broadcast agreement — SNF flex scheduling requires viable matchup options in late-season weeks 5-18",
+      "description": "Each week from 5-18 should include at least one flex-eligible game (competitive teams) so NBC can promote the best matchup to SNF"
+    },
+    {
+      "id": "SC11",
       "type": "division_rivalry_spread",
       "min_gap_weeks": 5,
       "penalty_per_violation": 20,
-      "source": "NFL scheduling preference — spread division games across the season for sustained interest",
-      "description": "The two legs of each division rivalry should be at least 5 weeks apart"
+      "source": "NFL scheduling preference — spread division games across the season for sustained rivalry interest",
+      "description": "The home and away legs of each division rivalry should be at least 5 weeks apart"
+    },
+    {
+      "id": "SC12",
+      "type": "thanksgiving_rotation",
+      "excluded_recent_hosts": true,
+      "penalty_per_violation": 15,
+      "source": "NFL operations — Thanksgiving night game (non-DAL/DET) should rotate among teams that haven't hosted recently",
+      "description": "The third Thanksgiving game host (prime-time slot) should rotate; teams shouldn't host consecutive years unless they are DAL or DET"
     }
   ]
 }
