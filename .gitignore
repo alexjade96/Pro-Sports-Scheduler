@@ -2,3 +2,6 @@ __pycache__/
 *.py[cod]
 *.pyo
 .env
+.venv/
+output/
+solvers/output/

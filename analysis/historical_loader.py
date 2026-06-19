@@ -16,7 +16,14 @@ from pathlib import Path
 from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 
-HISTORICAL_DIR = Path(__file__).parent.parent / "leagues" / "epl" / "data" / "historical"
+def _historical_dir() -> Path:
+    root = Path(__file__).parent.parent
+    new_path = root / "data" / "leagues" / "epl" / "historical"
+    if new_path.exists():
+        return new_path
+    return root / "leagues" / "epl" / "data" / "historical"
+
+HISTORICAL_DIR = _historical_dir()
 NAME_MAP_PATH  = HISTORICAL_DIR / "team_name_map.json"
 
 
