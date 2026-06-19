@@ -14,6 +14,7 @@ import pulp
 
 from core.models import Fixture, Slot, Schedule, ScheduledFixture, Team
 from core.data_loader import load_constraints
+from solvers.slot_filter import build_eligible_slots, log_filter_stats
 from solvers.ilp.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_day,
@@ -28,16 +29,24 @@ def build_problem(
     slots: list[Slot],
     teams: dict[str, Team],
     constraint_config: dict,
+    season_start=None,
+    season_end=None,
 ) -> tuple[pulp.LpProblem, dict, list]:
     prob = pulp.LpProblem("EPL_Scheduler", pulp.LpMinimize)
 
-    # --- Decision variables ---
+    # --- Decision variables (temporally filtered) ---
+    if season_start and season_end:
+        eligible = build_eligible_slots(fixtures, slots, season_start, season_end)
+        log_filter_stats(eligible)
+    else:
+        eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}
+
     x = {
-        (fixture.fixture_id, slot.slot_id): pulp.LpVariable(
-            f"x_{fixture.fixture_id}_{slot.slot_id}", cat="Binary"
+        (fixture.fixture_id, sid): pulp.LpVariable(
+            f"x_{fixture.fixture_id}_{sid}", cat="Binary"
         )
         for fixture in fixtures
-        for slot in slots
+        for sid in eligible[fixture.fixture_id]
     }
 
     # --- Hard constraints ---
@@ -71,13 +80,15 @@ def extract_schedule(
     slots: list[Slot],
     season: str,
 ) -> Schedule:
-    slot_map = {s.slot_id: s for s in slots}
-    scheduled = []
-    for fixture in fixtures:
-        for slot in slots:
-            if pulp.value(x[(fixture.fixture_id, slot.slot_id)]) == 1:
-                scheduled.append(ScheduledFixture(fixture=fixture, slot=slot_map[slot.slot_id]))
-                break
+    slot_map    = {s.slot_id: s for s in slots}
+    fixture_map = {f.fixture_id: f for f in fixtures}
+    scheduled   = []
+    for (fid, sid), var in x.items():
+        if pulp.value(var) == 1:
+            scheduled.append(ScheduledFixture(
+                fixture=fixture_map[fid],
+                slot=slot_map[sid],
+            ))
     return Schedule(season=season, fixtures=scheduled)
 
 
@@ -88,8 +99,13 @@ def solve(
     constraint_config: dict,
     season: str,
     time_limit_seconds: int = 300,
+    season_start=None,
+    season_end=None,
 ) -> Schedule | None:
-    prob, x, _ = build_problem(fixtures, slots, teams, constraint_config)
+    prob, x, _ = build_problem(
+        fixtures, slots, teams, constraint_config,
+        season_start=season_start, season_end=season_end,
+    )
 
     # CBC solver (swap to pulp.GUROBI_CMD() or pulp.CPLEX_CMD() for commercial solvers)
     solver = pulp.PULP_CBC_CMD(
