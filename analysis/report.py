@@ -235,7 +235,7 @@ def render_per_team_table(reports: list[MetricsReport]) -> str:
     for r in reports:
         lbl = r.label[:col_w]
         header += f" {lbl:>{col_w}}{'':>{col_w}}{'':>{col_w}}"
-    subheader = f"{'':  <{label_w}}"
+    subheader = f"{'':>{label_w}}"
     for r in reports:
         subheader += f" {'minRst':>{col_w}}{'maxH':>{col_w}}{'maxA':>{col_w}}"
 
