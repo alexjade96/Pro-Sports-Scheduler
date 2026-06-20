@@ -166,8 +166,8 @@
       "id": "SC9",
       "type": "easter_coverage",
       "matchdays": ["Good Friday", "Easter Monday"],
-      "penalty_per_missing_team": 20,
-      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday",
+      "penalty_per_missing_team": 50,
+      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday; raised from 20 to 50 to compete with SC7 in the objective",
       "description": "All 20 teams should play on Good Friday AND Easter Monday (high-attendance bank holiday fixtures)"
     },
     {

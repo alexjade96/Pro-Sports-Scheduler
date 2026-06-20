@@ -68,6 +68,10 @@ def generate_slots(calendar: dict) -> list[Slot]:
 
     If a matchday_slots entry has "max_per_season", that day's slots are
     thinned to that count by evenly spacing them across the season.
+
+    Dates in "special_date_slots" override the day-of-week slot lookup,
+    giving festive matchdays (Boxing Day, NYD, Easter) a full complement
+    of kickoff times regardless of weekday.
     """
     start = date.fromisoformat(calendar["start_date"])
     end   = date.fromisoformat(calendar["end_date"])
@@ -87,6 +91,12 @@ def generate_slots(calendar: dict) -> list[Slot]:
         if "max_per_season" in entry
     }
 
+    # Special per-date slot overrides (festive matchdays)
+    special_dates: dict[date, list[str]] = {
+        date.fromisoformat(entry["date"]): entry["times"]
+        for entry in calendar.get("special_date_slots", [])
+    }
+
     # Collect all candidate slots per day type separately
     from collections import defaultdict
     by_day: dict[str, list[Slot]] = defaultdict(list)
@@ -94,16 +104,25 @@ def generate_slots(calendar: dict) -> list[Slot]:
 
     current = start
     while current <= end:
+        in_blocked = any(s <= current <= e for s, e in blocked_ranges)
+        if in_blocked:
+            current += timedelta(days=1)
+            continue
+
         day_name = current.strftime("%A")
-        if day_name in day_slot_map:
-            in_blocked = any(s <= current <= e for s, e in blocked_ranges)
-            if not in_blocked:
-                for t in day_slot_map[day_name]:
-                    slot = Slot(date=current, kickoff=t, day_of_week=day_name)
-                    if day_name in day_max:
-                        by_day[day_name].append(slot)
-                    else:
-                        unlimited.append(slot)
+
+        if current in special_dates:
+            # Override: use festive times, bypass day-of-week cap entirely
+            for t in special_dates[current]:
+                unlimited.append(Slot(date=current, kickoff=t, day_of_week=day_name))
+        elif day_name in day_slot_map:
+            for t in day_slot_map[day_name]:
+                slot = Slot(date=current, kickoff=t, day_of_week=day_name)
+                if day_name in day_max:
+                    by_day[day_name].append(slot)
+                else:
+                    unlimited.append(slot)
+
         current += timedelta(days=1)
 
     # Thin capped days by even spacing
