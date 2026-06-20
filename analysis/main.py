@@ -30,12 +30,15 @@ Output
 """
 import argparse
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 from analysis.historical_loader import load_season
 from analysis.metrics import compute, MetricsReport
 from analysis.comparator import compare_to_historical, compare_solvers
 from analysis import report as rpt
+from core.validator import validate
+from core.data_loader import load_teams
 
 
 def _load_generated_csv(csv_path: str) -> "Schedule":
@@ -67,6 +70,32 @@ def _load_generated_csv(csv_path: str) -> "Schedule":
     return Schedule(season=label, fixtures=fixtures)
 
 
+def _validate_generated(schedule, teams: dict) -> dict:
+    """
+    Run the constraint validator on a generated schedule and return a
+    solver_meta dict ready to pass to metrics.compute().
+    """
+    result = validate(schedule, teams)
+
+    # Per-constraint violation counts from both hard and soft violations
+    constraint_violations: dict[str, int] = defaultdict(int)
+    for v in result.get("hard_violations", []):
+        cid = v.get("constraint", "unknown")
+        constraint_violations[cid] += 1
+    for v in result.get("soft_violations", []):
+        cid = v.get("constraint", "unknown")
+        constraint_violations[cid] += 1
+
+    hc8_violated = constraint_violations.get("HC8", 0) > 0
+    return {
+        "hard_violations":       result["hard_violation_count"],
+        "soft_violations":       result["soft_violation_count"],
+        "penalty_score":         result["total_penalty_score"],
+        "constraint_violations": dict(constraint_violations),
+        "final_day_enforced":    result["feasible"] and not hc8_violated,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="EPL Scheduler — Analysis Report")
     parser.add_argument("--historical",     type=str, help="Path to historical CSV (football-data.co.uk format)")
@@ -75,6 +104,7 @@ def main():
     parser.add_argument("--no-html",        action="store_true", help="Skip HTML output")
     args = parser.parse_args()
 
+    teams = load_teams()
     hist_report: MetricsReport | None = None
     gen_reports: list[MetricsReport]  = []
 
@@ -87,17 +117,21 @@ def main():
     # --- Load single generated ---
     if args.generated:
         gen_schedule = _load_generated_csv(args.generated)
-        gen_report   = compute(gen_schedule)
+        solver_meta  = _validate_generated(gen_schedule, teams)
+        gen_report   = compute(gen_schedule, solver_meta=solver_meta)
         gen_reports.append(gen_report)
-        print(f"[Analysis] Loaded generated: {gen_report.label} ({gen_report.total_fixtures} fixtures)")
+        print(f"[Analysis] Loaded generated: {gen_report.label} ({gen_report.total_fixtures} fixtures) "
+              f"| hard={solver_meta['hard_violations']} soft={solver_meta['soft_violations']}")
 
     # --- Load multiple for solver comparison ---
     if args.solver_compare:
         for csv_path in args.solver_compare:
             gen_schedule = _load_generated_csv(csv_path)
-            gen_report   = compute(gen_schedule)
+            solver_meta  = _validate_generated(gen_schedule, teams)
+            gen_report   = compute(gen_schedule, solver_meta=solver_meta)
             gen_reports.append(gen_report)
-            print(f"[Analysis] Loaded solver: {gen_report.label} ({gen_report.total_fixtures} fixtures)")
+            print(f"[Analysis] Loaded solver: {gen_report.label} ({gen_report.total_fixtures} fixtures) "
+                  f"| hard={solver_meta['hard_violations']} soft={solver_meta['soft_violations']}")
 
     if not hist_report and not gen_reports:
         print("Nothing to analyse. Pass --historical and/or --generated / --solver-compare.")

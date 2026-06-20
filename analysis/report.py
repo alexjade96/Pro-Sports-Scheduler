@@ -91,11 +91,17 @@ def render_text_solver_comparison(comparison: dict) -> str:
         sep,
     ]
     for row in rows:
+        metric = row["metric"]
+        if metric.startswith("──"):
+            lines.append(sep)
+            lines.append(f"{metric}")
+            lines.append(sep)
+            continue
         vals = "".join(
             f"{_pad(row['values'].get(lbl), col_w, '>'):>{col_w}}"
             for lbl in labels
         )
-        lines.append(f"{_pad(row['metric'], metric_w)}{vals}  {row.get('note','')}")
+        lines.append(f"{_pad(metric, metric_w)}{vals}  {row.get('note','')}")
 
     lines += ["=" * len(sep), ""]
     return "\n".join(lines)
@@ -158,11 +164,19 @@ def _html_table_solver(comparison: dict) -> str:
 
     tbody_rows = []
     for row in rows:
+        metric = row["metric"]
+        if metric.startswith("──"):
+            # Section separator row
+            span = len(labels) + 2
+            tbody_rows.append(
+                f"<tr class='section-header'><td colspan='{span}'>{metric}</td></tr>"
+            )
+            continue
         vals = "".join(
-            f"<td>{row['values'].get(lbl, '—')}</td>"
+            f"<td>{'—' if row['values'].get(lbl) is None else row['values'].get(lbl, '—')}</td>"
             for lbl in labels
         )
-        tbody_rows.append(f"<tr><td>{row['metric']}</td>{vals}<td class='note'>{row.get('note','')}</td></tr>")
+        tbody_rows.append(f"<tr><td>{metric}</td>{vals}<td class='note'>{row.get('note','')}</td></tr>")
 
     return f"""
     <h2>Solver Comparison</h2>
@@ -186,6 +200,8 @@ _HTML_STYLE = """
   .negative { color: #27ae60; font-weight: bold; }
   .note { color: #666; font-size: 0.9em; text-align: left; }
   .timestamp { font-size: 0.85em; color: #888; }
+  .section-header td { background: #34495e; color: #ecf0f1; font-weight: bold;
+                       text-align: left; padding: 4px 10px; font-size: 0.85em; }
 </style>
 """
 

@@ -99,6 +99,9 @@ class MetricsReport:
     penalty_score:        Optional[float]             = None
     hard_violations:      Optional[int]               = None
     soft_violations:      Optional[int]               = None
+    # Per-constraint violation breakdown from validator (generated schedules only)
+    constraint_violations: dict[str, int]             = field(default_factory=dict)
+    final_day_enforced:   Optional[bool]              = None  # HC8
 
 
 # ---------------------------------------------------------------------------
@@ -345,9 +348,11 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
 
     # --- SOLVER META ---
     if solver_meta:
-        report.solve_time_seconds = solver_meta.get("solve_time_seconds")
-        report.penalty_score      = solver_meta.get("penalty_score")
-        report.hard_violations    = solver_meta.get("hard_violations")
-        report.soft_violations    = solver_meta.get("soft_violations")
+        report.solve_time_seconds    = solver_meta.get("solve_time_seconds")
+        report.penalty_score         = solver_meta.get("penalty_score")
+        report.hard_violations       = solver_meta.get("hard_violations")
+        report.soft_violations       = solver_meta.get("soft_violations")
+        report.constraint_violations = solver_meta.get("constraint_violations", {})
+        report.final_day_enforced    = solver_meta.get("final_day_enforced")
 
     return report
