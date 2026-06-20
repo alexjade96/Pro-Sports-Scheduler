@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Schedule{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-0 fw-bold">Schedule Viewer</h1>
+    <p class="text-muted mb-0 small">2025/26 EPL Season — all 380 fixtures</p>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="card shadow-sm mb-3">
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-center">
+      <div class="col-auto">
+        <label class="col-form-label col-form-label-sm fw-semibold">Solver</label>
+      </div>
+      <div class="col-auto">
+        <select id="solverSelect" class="form-select form-select-sm">
+          {% for lbl in labels %}
+          <option value="{{ lbl }}" {% if lbl == default_label %}selected{% endif %}>{{ lbl }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-auto">
+        <label class="col-form-label col-form-label-sm fw-semibold">Team</label>
+      </div>
+      <div class="col-auto">
+        <select id="teamFilter" class="form-select form-select-sm">
+          <option value="">All teams</option>
+          {% for t in team_display %}
+          <option value="{{ t.id }}">{{ t.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-auto">
+        <label class="col-form-label col-form-label-sm fw-semibold">Month</label>
+      </div>
+      <div class="col-auto">
+        <select id="monthFilter" class="form-select form-select-sm">
+          <option value="">All months</option>
+          <option value="-08-">Aug</option>
+          <option value="-09-">Sep</option>
+          <option value="-10-">Oct</option>
+          <option value="-11-">Nov</option>
+          <option value="-12-">Dec</option>
+          <option value="-01-">Jan</option>
+          <option value="-02-">Feb</option>
+          <option value="-03-">Mar</option>
+          <option value="-04-">Apr</option>
+          <option value="-05-">May</option>
+        </select>
+      </div>
+      <div class="col-auto ms-auto">
+        <span id="rowCount" class="badge bg-secondary">— fixtures</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table id="scheduleTable" class="table table-sm table-hover table-striped mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Kickoff</th>
+          <th>Home</th>
+          <th>Away</th>
+          <th>ID</th>
+        </tr>
+      </thead>
+      <tbody id="scheduleBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Pre-loaded data (server-side JSON) -->
+<script id="allRowsData" type="application/json">{{ rows_json | tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const allRowsData = JSON.parse(document.getElementById('allRowsData').textContent);
+let dt;
+
+function renderTable(rows) {
+  if (dt) { dt.destroy(); }
+  const body = document.getElementById('scheduleBody');
+  body.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.date}</td>
+      <td>${r.day}</td>
+      <td>${r.kickoff}</td>
+      <td class="fw-semibold">${r.home}</td>
+      <td>${r.away}</td>
+      <td class="text-muted small">${r.fixture_id}</td>
+    </tr>
+  `).join('');
+  dt = $('#scheduleTable').DataTable({
+    pageLength: 25,
+    order: [[0, 'asc']],
+    columnDefs: [{ orderable: false, targets: 5 }],
+    language: { search: 'Search fixtures:' },
+    drawCallback: function() {
+      document.getElementById('rowCount').textContent =
+        this.api().rows({ filter: 'applied' }).count() + ' fixtures';
+    }
+  });
+  document.getElementById('rowCount').textContent = rows.length + ' fixtures';
+}
+
+function applyFilters() {
+  const solver = document.getElementById('solverSelect').value;
+  const team   = document.getElementById('teamFilter').value;
+  const month  = document.getElementById('monthFilter').value;
+  let rows = allRowsData[solver] || [];
+  if (team)  rows = rows.filter(r => r.home === team || r.away === team);
+  if (month) rows = rows.filter(r => r.date.includes(month));
+  renderTable(rows);
+}
+
+document.getElementById('solverSelect').addEventListener('change', applyFilters);
+document.getElementById('teamFilter').addEventListener('change', applyFilters);
+document.getElementById('monthFilter').addEventListener('change', applyFilters);
+
+// Initial render
+const defaultLabel = {{ default_label | tojson }};
+document.getElementById('solverSelect').value = defaultLabel;
+applyFilters();
+</script>
+{% endblock %}

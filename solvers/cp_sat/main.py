@@ -49,6 +49,7 @@ def main():
         time_limit_seconds=300,
         season_start=date.fromisoformat(calendar["start_date"]),
         season_end=date.fromisoformat(calendar["end_date"]),
+        final_day=calendar.get("final_day"),
     )
 
     if schedule:

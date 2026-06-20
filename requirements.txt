@@ -6,3 +6,6 @@ pulp>=2.8
 
 # Option C — Metaheuristic (pure Python, no extra deps)
 # No additional packages required
+
+# Web dashboard
+flask>=3.0

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Calendar{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-0 fw-bold">Calendar View</h1>
+    <p class="text-muted mb-0 small">Visual match calendar — full season or per team</p>
+  </div>
+</div>
+
+<!-- Picker -->
+<div class="card shadow-sm mb-4">
+  <div class="card-body py-2">
+    <div class="row g-2 align-items-center">
+      <div class="col-auto fw-semibold">View:</div>
+      <div class="col-auto">
+        <div class="d-flex flex-wrap gap-2" id="calPicker">
+          {% for img in images %}
+          <button
+            class="btn btn-sm {% if img.key == 'season' %}btn-primary{% else %}btn-outline-secondary{% endif %} cal-btn"
+            data-key="{{ img.key }}"
+            data-filename="{{ img.filename }}">
+            {{ img.label }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Calendar image display -->
+<div class="card shadow-sm">
+  <div class="card-header d-flex align-items-center">
+    <span id="calTitle" class="fw-semibold">Full Season</span>
+    <a id="calDownload" href="#" download class="btn btn-sm btn-outline-secondary ms-auto">Download PNG</a>
+  </div>
+  <div class="card-body text-center p-2">
+    <div id="calSpinner" class="py-5 text-muted">
+      <div class="spinner-border spinner-border-sm me-2"></div>Loading calendar…
+    </div>
+    <img id="calImg" src="" alt="Calendar" class="img-fluid d-none rounded"
+         style="max-height:85vh; border:1px solid #dee2e6;">
+    <div id="calError" class="d-none text-muted py-5">
+      <p>Calendar image not found.<br>
+      <small>Run <code>python tools/calendar_png.py</code> to generate calendars.</small></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function loadCalendar(key, filename, label) {
+  const img = document.getElementById('calImg');
+  const spinner = document.getElementById('calSpinner');
+  const err = document.getElementById('calError');
+  document.getElementById('calTitle').textContent = label;
+
+  img.classList.add('d-none');
+  err.classList.add('d-none');
+  spinner.classList.remove('d-none');
+
+  const url = '/calendar-img/' + filename;
+  document.getElementById('calDownload').href = url;
+
+  const probe = new Image();
+  probe.onload = () => {
+    img.src = url;
+    spinner.classList.add('d-none');
+    img.classList.remove('d-none');
+  };
+  probe.onerror = () => {
+    spinner.classList.add('d-none');
+    err.classList.remove('d-none');
+  };
+  probe.src = url;
+
+  // Highlight active button
+  document.querySelectorAll('.cal-btn').forEach(b => {
+    b.classList.toggle('btn-primary', b.dataset.key === key);
+    b.classList.toggle('btn-outline-secondary', b.dataset.key !== key);
+  });
+}
+
+document.querySelectorAll('.cal-btn').forEach(btn => {
+  btn.addEventListener('click', () =>
+    loadCalendar(btn.dataset.key, btn.dataset.filename, btn.textContent.trim())
+  );
+});
+
+// Load full season by default
+const first = document.querySelector('.cal-btn');
+if (first) loadCalendar(first.dataset.key, first.dataset.filename, first.textContent.trim());
+</script>
+{% endblock %}
