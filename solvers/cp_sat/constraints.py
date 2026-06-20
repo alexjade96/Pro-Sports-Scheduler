@@ -321,6 +321,59 @@ def add_soft_ha_window(
     return penalty_terms
 
 
+def add_soft_same_city_home_clash(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    window_days: int = 4,
+    penalty: int = 40,
+) -> list:
+    """SC7 — penalise same-city teams both at home within a window_days window.
+
+    HC2 was demoted to SC7 because 14–34 same-city home clashes occur per
+    real EPL season, making a hard ban infeasible. The 4-day window captures
+    the matchday-weekend planning horizon used by police.
+    """
+    city_groups = load_city_groups()
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    home_date_vars: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            home_date_vars[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    if not all_dates:
+        return penalty_terms
+
+    for city, members in city_groups.items():
+        if len(members) < 2:
+            continue
+        for i, d in enumerate(all_dates):
+            end_d = d + timedelta(days=window_days - 1)
+            city_home_in_win: list = []
+            for wd in all_dates[i:]:
+                if wd > end_d:
+                    break
+                for team_id in members:
+                    city_home_in_win.extend(home_date_vars[team_id].get(wd, []))
+
+            if len(city_home_in_win) <= 1:
+                continue
+
+            hc = model.new_int_var(0, len(city_home_in_win), f"sc7h_{city}_{d}")
+            model.add(hc == sum(city_home_in_win))
+            exc = model.new_int_var(0, len(city_home_in_win) - 1, f"sc7e_{city}_{d}")
+            model.add(exc >= hc - 1)
+            penalty_terms.append((penalty, exc))
+
+    return penalty_terms
+
+
 def add_soft_derby_gap(
     model: cp_model.CpModel,
     x: dict,

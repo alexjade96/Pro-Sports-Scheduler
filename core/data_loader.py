@@ -116,4 +116,18 @@ def generate_slots(calendar: dict) -> list[Slot]:
             step = len(candidates) / cap
             slots.extend(candidates[int(i * step)] for i in range(cap))
 
+    # HC8: add the final-day slot explicitly (e.g. 16:00 on the last Sunday —
+    # not part of regular matchday_slots so it must be injected here).
+    fd = calendar.get("final_day", {})
+    if fd:
+        fd_date = date.fromisoformat(fd["date"])
+        fd_slot = Slot(
+            date=fd_date,
+            kickoff=fd["kickoff"],
+            day_of_week=fd_date.strftime("%A"),
+        )
+        existing_ids = {s.slot_id for s in slots}
+        if fd_slot.slot_id not in existing_ids:
+            slots.append(fd_slot)
+
     return slots

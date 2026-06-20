@@ -18,7 +18,6 @@ from solvers.cp_sat.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_slot,
     add_min_rest_days,
-    add_no_same_city_home_clash,
     add_max_friday_games_per_team,
     add_max_midweek_games_per_team,
     add_max_monday_games_per_team,
@@ -26,7 +25,12 @@ from solvers.cp_sat.constraints import (
     add_soft_max_consecutive_home_away,
     add_soft_ha_window,
     add_soft_derby_gap,
+    add_soft_same_city_home_clash,
 )
+
+
+_FIXTURES_PER_ROUND = 10
+_TOTAL_ROUNDS = 38
 
 
 def build_model(
@@ -36,6 +40,7 @@ def build_model(
     constraint_config: dict,
     season_start=None,
     season_end=None,
+    final_day: dict | None = None,
 ) -> tuple[cp_model.CpModel, dict]:
     model = cp_model.CpModel()
 
@@ -47,6 +52,28 @@ def build_model(
         log_filter_stats(eligible)
     else:
         eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}
+
+    # HC8: Round 38 fixtures must use only the final-day slot, and all
+    # earlier fixtures must be scheduled strictly before that date (so they
+    # don't violate HC1 rest days or appear out of round order).
+    if final_day:
+        from datetime import date as _date
+        fd_date = _date.fromisoformat(final_day["date"])
+        final_day_sid = f"{fd_date}_{final_day['kickoff'].replace(':', '')}"
+        slot_ids = {s.slot_id for s in slots}
+        if final_day_sid in slot_ids:
+            # Pin Round 38 to final-day slot
+            for f in fixtures[-_FIXTURES_PER_ROUND:]:
+                eligible[f.fixture_id] = [final_day_sid]
+            # Restrict all earlier fixtures to slots before the final day
+            before_fd = {s.slot_id for s in slots if s.date < fd_date}
+            for f in fixtures[:-_FIXTURES_PER_ROUND]:
+                eligible[f.fixture_id] = [
+                    sid for sid in eligible[f.fixture_id] if sid in before_fd
+                ]
+            print(f"[HC8] Round 38 pinned to {final_day_sid}; earlier rounds capped to < {fd_date}")
+        else:
+            print(f"[HC8] WARNING: final-day slot {final_day_sid} not in pool — HC8 not enforced")
 
     slot_map = {s.slot_id: s for s in slots}
     x = {}
@@ -66,7 +93,10 @@ def build_model(
     min_rest = hard["HC1"]["value"]
     add_min_rest_days(model, x, fixtures, slots, teams, min_rest)
 
-    add_no_same_city_home_clash(model, x, fixtures, slots)
+    # HC2 was demoted to SC7 in constraints.json (14–34 same-city clashes/season
+    # in real EPL history — too frequent to be a hard constraint, and incompatible
+    # with HC8 when multiple same-city teams are home in Round 38).
+    # Enforced as a soft penalty below (add_soft_same_city_home_clash).
 
     max_friday = hard.get("HC9", {}).get("value", 3)
     add_max_friday_games_per_team(model, x, fixtures, slots, teams, max_friday)
@@ -102,6 +132,13 @@ def build_model(
     penalty_terms += add_soft_derby_gap(
         model, x, fixtures, slots,
         penalty=soft["SC3"]["penalty_per_violation"],
+    )
+
+    sc7 = soft.get("SC7", {})
+    penalty_terms += add_soft_same_city_home_clash(
+        model, x, fixtures, slots,
+        window_days=sc7.get("window_days", 4),
+        penalty=sc7.get("penalty_per_clash", 40),
     )
 
     # Minimise total weighted penalty
@@ -141,10 +178,12 @@ def solve(
     time_limit_seconds: int = 300,
     season_start=None,
     season_end=None,
+    final_day: dict | None = None,
 ) -> Schedule | None:
     model, x = build_model(
         fixtures, slots, teams, constraint_config,
         season_start=season_start, season_end=season_end,
+        final_day=final_day,
     )
 
     solver = cp_model.CpSolver()
