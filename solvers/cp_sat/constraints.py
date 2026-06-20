@@ -134,6 +134,30 @@ def add_no_same_city_home_clash(
                 model.add(sum(city_vars) <= 1)
 
 
+def add_max_friday_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_friday: int = 3,
+) -> None:
+    """HC9 — each team plays at most max_friday games on a Friday."""
+    fsi = _fixture_slot_index(x, slots)
+    friday_sids = {s.slot_id for s in slots if s.day_of_week == "Friday"}
+
+    for team_id in teams:
+        friday_vars = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id and fixture.away_team_id != team_id:
+                continue
+            for sid, _ in fsi.get(fixture.fixture_id, []):
+                if sid in friday_sids:
+                    friday_vars.append(x[(fixture.fixture_id, sid)])
+        if len(friday_vars) > max_friday:
+            model.add(sum(friday_vars) <= max_friday)
+
+
 # ---------------------------------------------------------------------------
 # Soft constraints (returned as (weight, bool_var) penalty terms)
 # ---------------------------------------------------------------------------
