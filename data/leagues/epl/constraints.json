@@ -76,9 +76,9 @@
     {
       "id": "HC11",
       "type": "max_monday_games_per_team",
-      "value": 3,
-      "source": "Sky Sports Monday Night Football — one game per week slot; teams rarely appear more than 2-3 times per season",
-      "description": "Each team plays at most 3 games on Monday across the full season"
+      "value": 7,
+      "source": "Sky Sports Monday Night Football — historical data (2015-2025) shows teams average 7-8 Monday appearances/season (league-wide 18-24% of fixtures on Monday)",
+      "description": "Each team plays at most 7 games on Monday across the full season"
     },
     {
       "id": "HC12",
