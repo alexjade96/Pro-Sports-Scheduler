@@ -15,7 +15,7 @@ from datetime import timedelta
 from ortools.sat.python import cp_model
 
 from core.models import Fixture, Slot, Team
-from core.data_loader import load_city_groups, load_high_profile_derbies
+from core.data_loader import load_city_groups, load_high_profile_derbies, load_calendar
 
 
 def _fixture_slot_index(x: dict, slots: list[Slot]) -> dict[str, list[tuple[str, Slot]]]:
@@ -409,5 +409,98 @@ def add_soft_derby_gap(
                         x[(leg2.fixture_id, sid2)],
                     ]).only_enforce_if(viol)
                     penalty_terms.append((penalty, viol))
+
+    return penalty_terms
+
+
+def add_soft_london_cluster(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    max_per_day: int = 3,
+    penalty: int = 30,
+) -> list:
+    """SC10 — penalise >max_per_day London teams hosting on the same calendar day."""
+    city_groups = load_city_groups()
+    london_teams = set(city_groups.get("London", []))
+    if not london_teams:
+        return []
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    home_date_vars: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        if fixture.home_team_id in london_teams:
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                home_date_vars[fixture.home_team_id][slot.date].append(
+                    x[(fixture.fixture_id, sid)]
+                )
+
+    all_dates = sorted({slot.date for slot in slots})
+    for d in all_dates:
+        day_vars = []
+        for team_id in london_teams:
+            day_vars.extend(home_date_vars[team_id].get(d, []))
+
+        if len(day_vars) <= max_per_day:
+            continue
+
+        total = model.new_int_var(0, len(day_vars), f"sc10_{d}")
+        model.add(total == sum(day_vars))
+        exc = model.new_int_var(0, len(day_vars) - max_per_day, f"sc10e_{d}")
+        model.add(exc >= total - max_per_day)
+        penalty_terms.append((penalty, exc))
+
+    return penalty_terms
+
+
+def add_soft_festive_coverage(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    penalty: int = 20,
+) -> list:
+    """SC9/PR2 — penalise missing team coverage on Boxing Day, Dec 28, Good Friday, Easter Monday.
+
+    Only fires for festive dates that actually have eligible slots in the pool.
+    NYD (Jan 1) is currently a Thursday with no slots defined — it will be
+    skipped here until Thursday slots are added to calendar.json.
+    """
+    from datetime import date as _date
+
+    fsi = _fixture_slot_index(x, slots)
+    calendar = load_calendar()
+    penalty_terms = []
+    all_team_ids = set(teams.keys())
+
+    festive_dates: set[_date] = set()
+    for d in calendar.get("festive_matchdays", []):
+        festive_dates.add(_date.fromisoformat(d))
+    easter = calendar.get("easter_matchdays", {})
+    for key in ("good_friday", "easter_monday"):
+        if key in easter:
+            festive_dates.add(_date.fromisoformat(easter[key]))
+
+    slot_dates = {slot.date for slot in slots}
+    active_festive = sorted(festive_dates & slot_dates)
+
+    for fest_date in active_festive:
+        for team_id in all_team_ids:
+            team_vars = [
+                x[(f.fixture_id, sid)]
+                for f in fixtures
+                if f.home_team_id == team_id or f.away_team_id == team_id
+                for sid, slot in fsi.get(f.fixture_id, [])
+                if slot.date == fest_date
+            ]
+            if not team_vars:
+                continue
+            plays = model.new_bool_var(f"fst_{team_id}_{fest_date}")
+            model.add_max_equality(plays, team_vars)
+            penalty_terms.append((penalty, plays.Not()))
 
     return penalty_terms
