@@ -109,6 +109,18 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "note": f"{len(wrong_ko)} final-day fixture(s) not at {final_ko}",
                                 "fixtures": [f"{sf.home_team_id} v {sf.away_team_id}" for sf in wrong_ko]})
 
+    # ── HC13: max Thursday games per team ────────────────────────────────
+    hard_map   = {c["id"]: c for c in constraints["hard"]}
+    max_thu    = hard_map.get("HC13", {}).get("value", 2)
+    for team_id in teams:
+        thu_games = [sf for sf in schedule.fixtures_for_team(team_id)
+                     if sf.slot.day_of_week == "Thursday"]
+        if len(thu_games) > max_thu:
+            hard_v.append({
+                "constraint": "HC13", "team": team_id,
+                "thursday_count": len(thu_games), "limit": max_thu,
+            })
+
     # ── SC1/SC2: consecutive home/away runs ───────────────────────────────
     max_away   = sc["SC1"]["value"]
     max_home   = sc["SC2"]["value"]

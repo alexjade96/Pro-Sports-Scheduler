@@ -26,16 +26,18 @@ from core.data_loader import (
 HARD_PENALTY = 10_000
 _WEIGHTS: dict[str, int] = {}
 _CALENDAR: dict = {}
+_HARD: dict[str, dict] = {}
 
 
 def _init():
-    global _WEIGHTS, _CALENDAR
+    global _WEIGHTS, _CALENDAR, _HARD
     if not _WEIGHTS:
         constraints = load_constraints()
         _WEIGHTS    = {c["id"]: c.get("penalty_per_violation",
                                        c.get("penalty_per_clash",
                                        c.get("penalty_per_missing_team", 20)))
                        for c in constraints["soft"]}
+        _HARD       = {c["id"]: c for c in constraints["hard"]}
     if not _CALENDAR:
         _CALENDAR = load_calendar()
 
@@ -89,6 +91,16 @@ def score(schedule: Schedule, teams: dict) -> float:
         for sf in schedule.fixtures:
             if sf.slot.date == final_date and sf.slot.kickoff != final_ko:
                 total += HARD_PENALTY
+
+    # ── HC13: max Thursday games per team ────────────────────────────────
+    max_thu = _HARD.get("HC13", {}).get("value", 2)
+    for team_id in teams:
+        thu_count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Thursday"
+        )
+        if thu_count > max_thu:
+            total += HARD_PENALTY * (thu_count - max_thu)
 
     # ── home-by-date map (used by SC7 and SC10) ───────────────────────────
     home_by_date: dict[str, list[str]] = defaultdict(list)

@@ -86,6 +86,13 @@
       "value": 6,
       "source": "PL scheduling practice — Wednesday mid-week rounds are concentrated windows; no team plays more than 5-6 Wednesday games per season",
       "description": "Each team plays at most 6 games on Wednesday across the full season"
+    },
+    {
+      "id": "HC13",
+      "type": "max_thursday_games_per_team",
+      "value": 2,
+      "source": "Historical EPL data (2015-2025) — Thursday fixtures average 1.6-4.2% of total (6-16 games/season); teams play at most 1-2 Thursday games; Thursday slots reserved primarily for NYD when it falls on Thursday",
+      "description": "Each team plays at most 2 games on Thursday across the full season"
     }
   ],
 

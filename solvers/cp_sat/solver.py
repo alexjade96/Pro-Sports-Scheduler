@@ -22,6 +22,7 @@ from solvers.cp_sat.constraints import (
     add_max_midweek_games_per_team,
     add_max_monday_games_per_team,
     add_max_wednesday_games_per_team,
+    add_max_thursday_games_per_team,
     add_soft_max_consecutive_home_away,
     add_soft_ha_window,
     add_soft_derby_gap,
@@ -111,6 +112,9 @@ def build_model(
 
     max_wednesday = hard.get("HC12", {}).get("value", 6)
     add_max_wednesday_games_per_team(model, x, fixtures, slots, teams, max_wednesday)
+
+    max_thursday = hard.get("HC13", {}).get("value", 2)
+    add_max_thursday_games_per_team(model, x, fixtures, slots, teams, max_thursday)
 
     # --- Soft constraints (penalty objective) ---
     soft = {c["id"]: c for c in constraint_config["soft"]}

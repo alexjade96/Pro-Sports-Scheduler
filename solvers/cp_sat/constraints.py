@@ -219,6 +219,18 @@ def add_max_wednesday_games_per_team(
     add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Wednesday", max_wednesday)
 
 
+def add_max_thursday_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_thursday: int = 2,
+) -> None:
+    """HC13 — each team plays at most max_thursday games on Thursday."""
+    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Thursday", max_thursday)
+
+
 # ---------------------------------------------------------------------------
 # Soft constraints (returned as (weight, bool_var) penalty terms)
 # ---------------------------------------------------------------------------
