@@ -58,6 +58,13 @@
       "kickoff": "16:00",
       "source": "PL rule since 1994-95 — all Round 38 games kick off simultaneously to prevent collusion on title/relegation",
       "description": "All 10 final-day fixtures must kick off at the same time on the same day"
+    },
+    {
+      "id": "HC9",
+      "type": "max_friday_games_per_team",
+      "value": 3,
+      "source": "Sky Sports Friday Night Football — broadcaster allocates ~10-15 Friday slots per season; no team plays more than 2-3 Friday games",
+      "description": "Each team plays at most 3 games on Friday across the full season"
     }
   ],
 

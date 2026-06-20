@@ -9,7 +9,7 @@
     { "day": "Monday",    "times": ["20:00"] },
     { "day": "Tuesday",   "times": ["19:45", "20:00"] },
     { "day": "Wednesday", "times": ["19:45", "20:00"] },
-    { "day": "Friday",    "times": ["20:00"] }
+    { "day": "Friday",    "times": ["20:00"], "max_per_season": 12 }
   ],
 
   "blocked_windows": [
