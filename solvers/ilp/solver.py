@@ -19,6 +19,7 @@ from solvers.ilp.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_day,
     add_min_rest_days,
+    add_max_thursday_games_per_team,
     add_soft_derby_gap,
 )
 
@@ -57,6 +58,9 @@ def build_problem(
     min_rest = hard["HC1"]["value"]
     add_min_rest_days(prob, x, fixtures, slots, teams, min_rest)
     # HC2 demoted to SC7 — see cp_sat/solver.py for rationale
+
+    max_thursday = hard.get("HC13", {}).get("value", 2)
+    add_max_thursday_games_per_team(prob, x, fixtures, slots, teams, max_thursday)
 
     # --- Soft constraints (penalty terms) ---
     soft = {c["id"]: c for c in constraint_config["soft"]}

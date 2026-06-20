@@ -22,10 +22,13 @@ from solvers.cp_sat.constraints import (
     add_max_midweek_games_per_team,
     add_max_monday_games_per_team,
     add_max_wednesday_games_per_team,
+    add_max_thursday_games_per_team,
     add_soft_max_consecutive_home_away,
     add_soft_ha_window,
     add_soft_derby_gap,
     add_soft_same_city_home_clash,
+    add_soft_london_cluster,
+    add_soft_festive_coverage,
 )
 
 
@@ -110,6 +113,9 @@ def build_model(
     max_wednesday = hard.get("HC12", {}).get("value", 6)
     add_max_wednesday_games_per_team(model, x, fixtures, slots, teams, max_wednesday)
 
+    max_thursday = hard.get("HC13", {}).get("value", 2)
+    add_max_thursday_games_per_team(model, x, fixtures, slots, teams, max_thursday)
+
     # --- Soft constraints (penalty objective) ---
     soft = {c["id"]: c for c in constraint_config["soft"]}
     penalty_terms = []
@@ -139,6 +145,19 @@ def build_model(
         model, x, fixtures, slots,
         window_days=sc7.get("window_days", 4),
         penalty=sc7.get("penalty_per_clash", 40),
+    )
+
+    sc10 = soft.get("SC10", {})
+    penalty_terms += add_soft_london_cluster(
+        model, x, fixtures, slots,
+        max_per_day=sc10.get("max_home_same_day", 3),
+        penalty=sc10.get("penalty_per_violation", 30),
+    )
+
+    sc9 = soft.get("SC9", {})
+    penalty_terms += add_soft_festive_coverage(
+        model, x, fixtures, slots, teams,
+        penalty=sc9.get("penalty_per_missing_team", 20),
     )
 
     # Minimise total weighted penalty
@@ -188,7 +207,7 @@ def solve(
 
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit_seconds
-    solver.parameters.num_workers = 2  # reduced to limit memory
+    solver.parameters.num_workers = 8
 
     print(f"[CP-SAT] Solving with time limit {time_limit_seconds}s ...")
     status = solver.solve(model)

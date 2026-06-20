@@ -45,8 +45,8 @@ def main():
         teams=teams,
         season=calendar["season"],
         initial_temp=5000.0,
-        cooling_rate=0.995,
-        max_iterations=100_000,
+        cooling_rate=0.9998,
+        max_iterations=500_000,
         tabu_size=200,
         time_limit_seconds=300,
     )

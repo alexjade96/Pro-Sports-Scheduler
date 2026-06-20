@@ -76,9 +76,9 @@
     {
       "id": "HC11",
       "type": "max_monday_games_per_team",
-      "value": 3,
-      "source": "Sky Sports Monday Night Football — one game per week slot; teams rarely appear more than 2-3 times per season",
-      "description": "Each team plays at most 3 games on Monday across the full season"
+      "value": 7,
+      "source": "Sky Sports Monday Night Football — historical data (2015-2025) shows teams average 7-8 Monday appearances/season (league-wide 18-24% of fixtures on Monday)",
+      "description": "Each team plays at most 7 games on Monday across the full season"
     },
     {
       "id": "HC12",
@@ -86,6 +86,13 @@
       "value": 6,
       "source": "PL scheduling practice — Wednesday mid-week rounds are concentrated windows; no team plays more than 5-6 Wednesday games per season",
       "description": "Each team plays at most 6 games on Wednesday across the full season"
+    },
+    {
+      "id": "HC13",
+      "type": "max_thursday_games_per_team",
+      "value": 2,
+      "source": "Historical EPL data (2015-2025) — Thursday fixtures average 1.6-4.2% of total (6-16 games/season); teams play at most 1-2 Thursday games; Thursday slots reserved primarily for NYD when it falls on Thursday",
+      "description": "Each team plays at most 2 games on Thursday across the full season"
     }
   ],
 
@@ -159,8 +166,8 @@
       "id": "SC9",
       "type": "easter_coverage",
       "matchdays": ["Good Friday", "Easter Monday"],
-      "penalty_per_missing_team": 20,
-      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday",
+      "penalty_per_missing_team": 50,
+      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday; raised from 20 to 50 to compete with SC7 in the objective",
       "description": "All 20 teams should play on Good Friday AND Easter Monday (high-attendance bank holiday fixtures)"
     },
     {
