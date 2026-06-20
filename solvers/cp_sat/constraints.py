@@ -134,6 +134,67 @@ def add_no_same_city_home_clash(
                 model.add(sum(city_vars) <= 1)
 
 
+def add_max_midweek_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_midweek: int = 10,
+) -> None:
+    """HC10 — each team plays at most max_midweek games on Tuesday or Wednesday."""
+    fsi = _fixture_slot_index(x, slots)
+    midweek_sids = {s.slot_id for s in slots if s.day_of_week in ("Tuesday", "Wednesday")}
+
+    for team_id in teams:
+        mw_vars = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id and fixture.away_team_id != team_id:
+                continue
+            for sid, _ in fsi.get(fixture.fixture_id, []):
+                if sid in midweek_sids:
+                    mw_vars.append(x[(fixture.fixture_id, sid)])
+        if len(mw_vars) > max_midweek:
+            model.add(sum(mw_vars) <= max_midweek)
+
+
+def add_max_single_day_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    day_of_week: str,
+    max_games: int,
+) -> None:
+    """Generic per-team cap on games falling on a specific day of week."""
+    fsi = _fixture_slot_index(x, slots)
+    target_sids = {s.slot_id for s in slots if s.day_of_week == day_of_week}
+
+    for team_id in teams:
+        team_vars = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id and fixture.away_team_id != team_id:
+                continue
+            for sid, _ in fsi.get(fixture.fixture_id, []):
+                if sid in target_sids:
+                    team_vars.append(x[(fixture.fixture_id, sid)])
+        if len(team_vars) > max_games:
+            model.add(sum(team_vars) <= max_games)
+
+
+def add_max_monday_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_monday: int = 3,
+) -> None:
+    """HC11 — each team plays at most max_monday games on Monday."""
+    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Monday", max_monday)
+
+
 def add_max_friday_games_per_team(
     model: cp_model.CpModel,
     x: dict,
@@ -143,19 +204,19 @@ def add_max_friday_games_per_team(
     max_friday: int = 3,
 ) -> None:
     """HC9 — each team plays at most max_friday games on a Friday."""
-    fsi = _fixture_slot_index(x, slots)
-    friday_sids = {s.slot_id for s in slots if s.day_of_week == "Friday"}
+    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Friday", max_friday)
 
-    for team_id in teams:
-        friday_vars = []
-        for fixture in fixtures:
-            if fixture.home_team_id != team_id and fixture.away_team_id != team_id:
-                continue
-            for sid, _ in fsi.get(fixture.fixture_id, []):
-                if sid in friday_sids:
-                    friday_vars.append(x[(fixture.fixture_id, sid)])
-        if len(friday_vars) > max_friday:
-            model.add(sum(friday_vars) <= max_friday)
+
+def add_max_wednesday_games_per_team(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_wednesday: int = 6,
+) -> None:
+    """HC12 — each team plays at most max_wednesday games on Wednesday."""
+    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Wednesday", max_wednesday)
 
 
 # ---------------------------------------------------------------------------
