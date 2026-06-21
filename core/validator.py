@@ -30,6 +30,9 @@ Soft:
   SC13 five_match_ha_pattern (any 5 consecutive: 2 or 3 home — Atos Golden Rule)
   SC14 season_boundary_ha (no H+H or A+A in first 2 or last 2 fixtures)
   SC15 boxing_day_nyd_pairing (home on Dec 26 → away on Jan 1, and vice versa)
+  SC16 spare_rescheduling_window (≥1 free midweek date per month)
+  SC17 min_sat_1500_appearances (each team ≥5 Saturday 15:00 fixtures)
+  SC18 min_monday_appearances (each team ≥3 Monday Night Football fixtures)
 """
 from datetime import date, timedelta
 from collections import defaultdict
@@ -257,6 +260,34 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "boxing_day": "home" if bd_home else "away",
                                 "nyd": "home" if nyd_home else "away"})
                 penalty += p_festive
+
+    # ── SC17: min Saturday 15:00 appearances per team ────────────────────────
+    sc17 = sc.get("SC17", {})
+    p_sat15 = sc17.get("penalty_per_violation", 10)
+    min_sat15 = sc17.get("min_per_team", 5)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Saturday" and sf.slot.kickoff == "15:00"
+        )
+        if count < min_sat15:
+            soft_v.append({"constraint": "SC17", "team": team_id,
+                            "sat1500_appearances": count, "minimum": min_sat15})
+            penalty += p_sat15 * (min_sat15 - count)
+
+    # ── SC18: min Monday appearances per team ─────────────────────────────────
+    sc18 = sc.get("SC18", {})
+    p_mon_min = sc18.get("penalty_per_violation", 12)
+    min_mon = sc18.get("min_per_team", 3)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count < min_mon:
+            soft_v.append({"constraint": "SC18", "team": team_id,
+                            "monday_appearances": count, "minimum": min_mon})
+            penalty += p_mon_min * (min_mon - count)
 
     # ── SC5: balanced home/away split per half ─────────────────────────────
     season_start = date.fromisoformat(calendar["start_date"])

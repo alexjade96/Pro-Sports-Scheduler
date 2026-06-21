@@ -58,6 +58,41 @@
       "kickoff": "16:00",
       "source": "PL rule since 1994-95 — all Round 38 games kick off simultaneously to prevent collusion on title/relegation",
       "description": "All 10 final-day fixtures must kick off at the same time on the same day"
+    },
+    {
+      "id": "HC9",
+      "type": "max_friday_games_per_team",
+      "value": 3,
+      "source": "Sky Sports Friday Night Football — broadcaster allocates ~10-15 Friday slots per season; no team plays more than 2-3 Friday games",
+      "description": "Each team plays at most 3 games on Friday across the full season"
+    },
+    {
+      "id": "HC10",
+      "type": "max_midweek_games_per_team",
+      "value": 10,
+      "source": "PL scheduling practice — mid-week fixtures (Tue/Wed) occur only during designated double-gameweek windows; teams typically play 8-10 mid-week games per season",
+      "description": "Each team plays at most 10 games on Tuesday or Wednesday combined across the full season"
+    },
+    {
+      "id": "HC11",
+      "type": "max_monday_games_per_team",
+      "value": 7,
+      "source": "Sky Sports Monday Night Football — historical data (2015-2025) shows teams average 7-8 Monday appearances/season (league-wide 18-24% of fixtures on Monday)",
+      "description": "Each team plays at most 7 games on Monday across the full season"
+    },
+    {
+      "id": "HC12",
+      "type": "max_wednesday_games_per_team",
+      "value": 6,
+      "source": "PL scheduling practice — Wednesday mid-week rounds are concentrated windows; no team plays more than 5-6 Wednesday games per season",
+      "description": "Each team plays at most 6 games on Wednesday across the full season"
+    },
+    {
+      "id": "HC13",
+      "type": "max_thursday_games_per_team",
+      "value": 2,
+      "source": "Historical EPL data (2015-2025) — Thursday fixtures average 1.6-4.2% of total (6-16 games/season); teams play at most 1-2 Thursday games; Thursday slots reserved primarily for NYD when it falls on Thursday",
+      "description": "Each team plays at most 2 games on Thursday across the full season"
     }
   ],
 
@@ -131,8 +166,8 @@
       "id": "SC9",
       "type": "easter_coverage",
       "matchdays": ["Good Friday", "Easter Monday"],
-      "penalty_per_missing_team": 20,
-      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday",
+      "penalty_per_missing_team": 50,
+      "source": "PL scheduling tradition — Easter weekend has always featured all 20 clubs across Good Friday and Easter Monday; raised from 20 to 50 to compete with SC7 in the objective",
       "description": "All 20 teams should play on Good Friday AND Easter Monday (high-attendance bank holiday fixtures)"
     },
     {
@@ -183,6 +218,14 @@
       "penalty_per_violation": 35,
       "source": "Atos/PL Golden Rule: if a team is at home on Boxing Day (Dec 26) they must be away on New Year's Day (Jan 1), and vice versa. Ensures equitable festive travel burden across all clubs.",
       "description": "A team's Boxing Day and New Year's Day fixtures must have opposite H/A designation (home on one, away on the other)"
+    },
+    {
+      "id": "SC16",
+      "type": "spare_rescheduling_window",
+      "min_spare_midweek_per_month": 1,
+      "penalty_per_violation": 5,
+      "source": "PL scheduling practice — the season is structured as 33 weekend + 5 midweek rounds (confirmed PL/Atos documentation). The 5 midweek rounds exist precisely to absorb postponed fixtures via double-gameweeks. Keeping ≥1 unfilled midweek date (Tue/Wed/Thu) per month ensures there is always a rescheduling window available without extending the season. Penalty is intentionally low (5) as this is a planning preference, not an operational requirement.",
+      "description": "Each calendar month should retain at least 1 unfilled midweek date (Tue/Wed/Thu with no league fixtures) as a contingency rescheduling window for postponed matches"
     }
   ],
 

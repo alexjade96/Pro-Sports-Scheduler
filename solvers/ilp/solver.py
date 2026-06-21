@@ -21,6 +21,10 @@ from solvers.ilp.constraints import (
     add_min_rest_days,
     add_no_same_city_home_clash,
     add_soft_derby_gap,
+    add_soft_sc14_season_boundary,
+    add_soft_sc15_boxing_day_nyd,
+    add_soft_min_sat_1500,
+    add_soft_min_monday,
 )
 
 
@@ -66,6 +70,32 @@ def build_problem(
     penalty_terms += add_soft_derby_gap(
         prob, x, fixtures, slots,
         penalty=soft["SC3"]["penalty_per_violation"],
+    )
+
+    sc14 = soft.get("SC14", {})
+    penalty_terms += add_soft_sc14_season_boundary(
+        prob, x, fixtures, slots, teams,
+        penalty=sc14.get("penalty_per_violation", 30),
+    )
+
+    sc15 = soft.get("SC15", {})
+    penalty_terms += add_soft_sc15_boxing_day_nyd(
+        prob, x, fixtures, slots, teams,
+        penalty=sc15.get("penalty_per_violation", 35),
+    )
+
+    sc17 = soft.get("SC17", {})
+    penalty_terms += add_soft_min_sat_1500(
+        prob, x, fixtures, slots, teams,
+        min_per_team=sc17.get("min_per_team", 5),
+        penalty=sc17.get("penalty_per_violation", 10),
+    )
+
+    sc18 = soft.get("SC18", {})
+    penalty_terms += add_soft_min_monday(
+        prob, x, fixtures, slots, teams,
+        min_per_team=sc18.get("min_per_team", 3),
+        penalty=sc18.get("penalty_per_violation", 12),
     )
 
     # Objective: minimise total penalty
