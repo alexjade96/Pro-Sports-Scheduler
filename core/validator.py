@@ -291,6 +291,37 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "half": half, "home": hg, "away": ag})
                 penalty += p_balance
 
+    # ── SC16: spare rescheduling window — ≥1 unfilled midweek date per month ─
+    sc16 = sc.get("SC16", {})
+    p_spare = sc16.get("penalty_per_violation", 5)
+    midweek_days = {"Tuesday", "Wednesday", "Thursday"}
+    fixture_dates: set[date] = {sf.slot.date for sf in schedule.fixtures}
+    season_start_d = date.fromisoformat(calendar["start_date"])
+    season_end_d   = date.fromisoformat(calendar["end_date"])
+    # Walk every month in the season window
+    cur = date(season_start_d.year, season_start_d.month, 1)
+    while cur <= season_end_d:
+        # Build set of all midweek dates in this month that are in-season and unblocked
+        month_midweek_free: list[date] = []
+        d = cur
+        while d.month == cur.month and d <= season_end_d:
+            if d.strftime("%A") in midweek_days and d >= season_start_d:
+                in_block = any(s <= d <= e for s, e in blocked)
+                if not in_block and d not in fixture_dates:
+                    month_midweek_free.append(d)
+            d += timedelta(days=1)
+        if not month_midweek_free:
+            # All midweek dates in this month are either blocked or have fixtures
+            month_label = cur.strftime("%Y-%m")
+            soft_v.append({"constraint": "SC16", "month": month_label,
+                            "note": "no spare midweek date available for rescheduling"})
+            penalty += p_spare
+        # Advance to next month
+        if cur.month == 12:
+            cur = date(cur.year + 1, 1, 1)
+        else:
+            cur = date(cur.year, cur.month + 1, 1)
+
     return {
         "hard_violations":       hard_v,
         "hard_violation_count":  len(hard_v),

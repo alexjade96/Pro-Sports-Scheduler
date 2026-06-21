@@ -218,6 +218,14 @@
       "penalty_per_violation": 35,
       "source": "Atos/PL Golden Rule: if a team is at home on Boxing Day (Dec 26) they must be away on New Year's Day (Jan 1), and vice versa. Ensures equitable festive travel burden across all clubs.",
       "description": "A team's Boxing Day and New Year's Day fixtures must have opposite H/A designation (home on one, away on the other)"
+    },
+    {
+      "id": "SC16",
+      "type": "spare_rescheduling_window",
+      "min_spare_midweek_per_month": 1,
+      "penalty_per_violation": 5,
+      "source": "PL scheduling practice — the season is structured as 33 weekend + 5 midweek rounds (confirmed PL/Atos documentation). The 5 midweek rounds exist precisely to absorb postponed fixtures via double-gameweeks. Keeping ≥1 unfilled midweek date (Tue/Wed/Thu) per month ensures there is always a rescheduling window available without extending the season. Penalty is intentionally low (5) as this is a planning preference, not an operational requirement.",
+      "description": "Each calendar month should retain at least 1 unfilled midweek date (Tue/Wed/Thu with no league fixtures) as a contingency rescheduling window for postponed matches"
     }
   ],
 
