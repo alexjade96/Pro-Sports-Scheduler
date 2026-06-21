@@ -27,6 +27,13 @@ HARD_PENALTY = 1_000_000
 _WEIGHTS: dict[str, int] = {}
 _CALENDAR: dict = {}
 _HARD: dict[str, dict] = {}
+_R38_FIXTURE_IDS: frozenset[str] = frozenset()
+
+
+def set_r38_fixture_ids(ids: frozenset[str]) -> None:
+    """Register Round 38 fixture IDs so HC8 can penalise them if off final day."""
+    global _R38_FIXTURE_IDS
+    _R38_FIXTURE_IDS = ids
 
 
 def _init():
@@ -91,6 +98,9 @@ def score(schedule: Schedule, teams: dict) -> float:
         for sf in schedule.fixtures:
             if sf.slot.date == final_date and sf.slot.kickoff != final_ko:
                 total += HARD_PENALTY
+            elif _R38_FIXTURE_IDS and sf.fixture.fixture_id in _R38_FIXTURE_IDS:
+                if sf.slot.date != final_date:
+                    total += HARD_PENALTY
 
     # ── HC13: max Thursday games per team ────────────────────────────────
     max_thu = _HARD.get("HC13", {}).get("value", 2)

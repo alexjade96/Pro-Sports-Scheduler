@@ -36,6 +36,8 @@ def greedy_initial_schedule(
     min_rest_days: int = 3,
     max_thursday: int = 2,
     max_friday: int = 3,
+    final_day: dict | None = None,
+    fixtures_per_round: int = 10,
 ) -> Schedule:
     """
     Assigns fixtures to slots in round order, choosing the earliest available
@@ -43,6 +45,9 @@ def greedy_initial_schedule(
       - HC1: minimum rest days (3) for both teams
       - HC13: at most max_thursday Thursday games per team
       - HC9: at most max_friday Friday games per team
+      - HC8: if final_day provided, Round 38 (last fixtures_per_round) is
+             pinned to the final-day slot; all final-day date slots are
+             excluded from consideration for earlier rounds.
     Uses bisect for O(log n) HC1 checks.  Falls back to first remaining slot
     only when no compliant slot is found (rare with a well-formed calendar).
     """
@@ -88,8 +93,33 @@ def greedy_initial_schedule(
             fri_counts[home] = fri_counts.get(home, 0) + 1
             fri_counts[away] = fri_counts.get(away, 0) + 1
 
+    # ── HC8: pre-assign Round 38 to the final-day slot ───────────────────
+    r38_fixture_ids: set[str] = set()
+    if final_day:
+        from datetime import date as _date
+        fd_date = _date.fromisoformat(final_day["date"])
+        fd_ko   = final_day["kickoff"]
+        fd_slot = next(
+            (s for s in available_slots if s.date == fd_date and s.kickoff == fd_ko),
+            None,
+        )
+        if fd_slot:
+            r38 = fixtures[-fixtures_per_round:]
+            r38_fixture_ids = {f.fixture_id for f in r38}
+            for f in r38:
+                assigned.append(ScheduledFixture(fixture=f, slot=fd_slot))
+                _record(fd_slot, f.home_team_id, f.away_team_id, fd_slot.date.toordinal())
+            # Remove ALL final-day slots so earlier rounds can't land there
+            available_slots = [s for s in available_slots if s.date != fd_date]
+            print(f"[Greedy] Round 38 pinned to {fd_slot.slot_id}; final-day slots removed from pool")
+        else:
+            print(f"[Greedy] WARNING: final-day slot ({fd_date} {fd_ko}) not found — HC8 not enforced")
+
     fallbacks = 0
     for fixture in fixtures:
+        if fixture.fixture_id in r38_fixture_ids:
+            continue  # already assigned above
+
         home, away = fixture.home_team_id, fixture.away_team_id
         placed = False
 
@@ -193,9 +223,21 @@ def solve(
     max_iterations: int = 5_000_000,
     tabu_size: int = 100,
     time_limit_seconds: int = 600,
+    final_day: dict | None = None,
+    fixtures_per_round: int = 10,
 ) -> Schedule:
+    from solvers.metaheuristic.objective import set_r38_fixture_ids
+    if final_day:
+        r38_ids = frozenset(f.fixture_id for f in fixtures[-fixtures_per_round:])
+        set_r38_fixture_ids(r38_ids)
+    else:
+        set_r38_fixture_ids(frozenset())
+
     print("[Metaheuristic] Building greedy initial solution ...")
-    initial = greedy_initial_schedule(fixtures, slots, season)
+    initial = greedy_initial_schedule(
+        fixtures, slots, season,
+        final_day=final_day, fixtures_per_round=fixtures_per_round,
+    )
     initial_penalty = score(initial, teams)
     print(f"[Metaheuristic] Greedy score: {initial_penalty:.1f}")
 

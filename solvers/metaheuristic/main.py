@@ -49,6 +49,7 @@ def main():
         max_iterations=5_000_000,
         tabu_size=200,
         time_limit_seconds=600,
+        final_day=calendar.get("final_day"),
     )
 
     report = validate(schedule, teams)

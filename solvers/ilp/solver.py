@@ -165,6 +165,7 @@ def solve(
     time_limit_seconds: int = 300,
     season_start=None,
     season_end=None,
+    final_day=None,
 ) -> Schedule | None:
     prob, x, _ = build_problem(
         fixtures, slots, teams, constraint_config,
