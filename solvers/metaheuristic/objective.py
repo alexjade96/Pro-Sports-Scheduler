@@ -15,7 +15,7 @@ Soft : SC1, SC2 (consecutive runs), SC3 (derby gap), SC5 (H/A balance),
        SC12 (opening balance)
 """
 from collections import defaultdict
-from datetime import date
+from datetime import date, timedelta
 
 from core.models import Schedule
 from core.data_loader import (
@@ -233,5 +233,32 @@ def score(schedule: Schedule, teams: dict) -> float:
             if h_run > 3 or a_run > 3:
                 total += p_open
                 break
+
+    # ── SC16: spare rescheduling window — ≥1 unfilled midweek per month ──────
+    p_spare      = _WEIGHTS.get("SC16", 5)
+    midweek_days = {"Tuesday", "Wednesday", "Thursday"}
+    fixture_dates: set[date] = {sf.slot.date for sf in schedule.fixtures}
+    season_start_d = date.fromisoformat(_CALENDAR["start_date"])
+    season_end_d   = date.fromisoformat(_CALENDAR["end_date"])
+    cur = date(season_start_d.year, season_start_d.month, 1)
+    while cur <= season_end_d:
+        month_has_free = False
+        d = cur
+        while d.month == cur.month and d <= season_end_d:
+            if d.strftime("%A") in midweek_days and d >= season_start_d:
+                in_block = any(s <= d <= e for s, e in [
+                    (date.fromisoformat(w["start"]), date.fromisoformat(w["end"]))
+                    for w in _CALENDAR.get("blocked_windows", [])
+                ])
+                if not in_block and d not in fixture_dates:
+                    month_has_free = True
+                    break
+            d += timedelta(days=1)
+        if not month_has_free:
+            total += p_spare
+        if cur.month == 12:
+            cur = date(cur.year + 1, 1, 1)
+        else:
+            cur = date(cur.year, cur.month + 1, 1)
 
     return total
