@@ -23,7 +23,7 @@ from core.data_loader import (
 )
 
 
-HARD_PENALTY = 10_000
+HARD_PENALTY = 1_000_000
 _WEIGHTS: dict[str, int] = {}
 _CALENDAR: dict = {}
 _HARD: dict[str, dict] = {}

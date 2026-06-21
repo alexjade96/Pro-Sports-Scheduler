@@ -25,8 +25,6 @@ from solvers.ilp.constraints import (
     add_soft_sc15_boxing_day_nyd,
     add_soft_min_sat_1500,
     add_soft_min_monday,
-    add_soft_max_consecutive_home_away,
-    add_soft_ha_window,
     add_soft_same_city_home_clash,
     add_soft_festive_coverage,
     add_soft_london_cluster,
@@ -79,21 +77,6 @@ def build_problem(
     penalty_terms += add_soft_derby_gap(
         prob, x, fixtures, slots,
         penalty=soft["SC3"]["penalty_per_violation"],
-    )
-
-    penalty_terms += add_soft_max_consecutive_home_away(
-        prob, x, fixtures, slots, teams,
-        max_run=soft["SC1"]["value"],
-        penalty=soft["SC1"]["penalty_per_violation"],
-    )
-
-    sc13 = soft.get("SC13", {})
-    penalty_terms += add_soft_ha_window(
-        prob, x, fixtures, slots, teams,
-        window=sc13.get("window", 5),
-        min_home=sc13.get("min_home", 2),
-        max_home=sc13.get("max_home", 3),
-        penalty=sc13.get("penalty_per_violation", 25),
     )
 
     sc7 = soft.get("SC7", {})

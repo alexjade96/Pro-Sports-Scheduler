@@ -33,7 +33,7 @@ from solvers.cp_sat.constraints import (
     add_soft_sc15_boxing_day_nyd,
     add_soft_min_sat_1500,
     add_soft_min_monday,
-    add_soft_half_season_balance,
+    add_hard_half_season_balance,
 )
 
 
@@ -56,7 +56,7 @@ def build_model(
     # Only create variables for (fixture, slot) pairs within the fixture's
     # natural round window.  Reduces variable count from ~142K → ~19K.
     if season_start and season_end:
-        eligible = build_eligible_slots(fixtures, slots, season_start, season_end, window_rounds=2)
+        eligible = build_eligible_slots(fixtures, slots, season_start, season_end, window_rounds=4)
         log_filter_stats(eligible)
     else:
         eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}
@@ -166,26 +166,21 @@ def build_model(
     )
 
     sc5 = soft.get("SC5", {})
-    penalty_terms += add_soft_half_season_balance(
+    add_hard_half_season_balance(
         model, x, fixtures, slots, teams,
         tolerance=sc5.get("tolerance", 2),
-        penalty=sc5.get("penalty_per_violation", 15),
     )
 
-    # SC14/SC15/SC17/SC18 re-wired with reduced penalty weights to avoid
-    # degrading the LP relaxation that SC13 depends on.  Empirical testing
-    # showed that using the full penalty values (30/35/10/12) caused SC13
-    # violations to jump from ~11 to ~500+ within the 300s budget.  The
-    # reduced weights (5/5/10/12) keep SC13 dominant in the objective while
-    # still providing corrective signal for boundary and festive patterns.
+    sc14 = soft.get("SC14", {})
     penalty_terms += add_soft_sc14_season_boundary(
         model, x, fixtures, slots, teams,
-        penalty=5,
+        penalty=sc14.get("penalty_per_violation", 30),
     )
 
+    sc15 = soft.get("SC15", {})
     penalty_terms += add_soft_sc15_boxing_day_nyd(
         model, x, fixtures, slots, teams,
-        penalty=5,
+        penalty=sc15.get("penalty_per_violation", 35),
     )
 
     sc17 = soft.get("SC17", {})

@@ -45,7 +45,7 @@ def main():
         teams=teams,
         constraint_config=constraints,
         season=calendar["season"],
-        time_limit_seconds=300,
+        time_limit_seconds=600,
     )
 
     if schedule:

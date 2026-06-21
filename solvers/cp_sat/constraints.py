@@ -848,6 +848,51 @@ def add_soft_min_monday(
     return penalty_terms
 
 
+def add_hard_half_season_balance(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    tolerance: int = 2,
+) -> None:
+    """SC5 as hard constraint — enforce lo ≤ H1_home ≤ hi per team.
+
+    With tolerance=2: lo=7, hi=12. Requires window_rounds≥4 in the slot filter
+    so that fixtures near the H1/H2 boundary have eligible slots on both sides.
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
+    midpoint     = _date.fromordinal(
+        (season_start.toordinal() + season_end.toordinal()) // 2
+    )
+
+    fsi = _fixture_slot_index(x, slots)
+
+    for team_id in teams:
+        home_h1: list = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id:
+                continue
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                if slot.date <= midpoint:
+                    home_h1.append(x[(fixture.fixture_id, sid)])
+
+        if not home_h1:
+            continue
+
+        n   = len(home_h1)
+        h1s = sum(home_h1)
+        lo  = max(0, 9 - tolerance)   # 7 with tolerance=2
+        hi  = min(n, 10 + tolerance)  # 12 with tolerance=2
+
+        model.add(h1s >= lo)
+        model.add(h1s <= hi)
+
+
 def add_soft_half_season_balance(
     model: cp_model.CpModel,
     x: dict,

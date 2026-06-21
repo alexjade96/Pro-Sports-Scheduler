@@ -74,10 +74,10 @@ def simulated_annealing(
     slots: list[Slot],
     teams: dict[str, Team],
     initial_temp: float = 5000.0,
-    cooling_rate: float = 0.995,
-    max_iterations: int = 50_000,
+    cooling_rate: float = 0.9997,
+    max_iterations: int = 5_000_000,
     tabu_size: int = 100,
-    time_limit_seconds: int = 300,
+    time_limit_seconds: int = 600,
 ) -> Schedule:
     current = deepcopy(initial)
     current_score = score(current, teams)
@@ -139,10 +139,10 @@ def solve(
     teams: dict[str, Team],
     season: str,
     initial_temp: float = 5000.0,
-    cooling_rate: float = 0.995,
-    max_iterations: int = 50_000,
+    cooling_rate: float = 0.9997,
+    max_iterations: int = 5_000_000,
     tabu_size: int = 100,
-    time_limit_seconds: int = 300,
+    time_limit_seconds: int = 600,
 ) -> Schedule:
     print("[Metaheuristic] Building greedy initial solution ...")
     initial = greedy_initial_schedule(fixtures, slots, season)
