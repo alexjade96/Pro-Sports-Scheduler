@@ -13,6 +13,7 @@ No external solver library required — pure Python.
 
 Tune: initial_temp, cooling_rate, max_iterations, tabu_size
 """
+import bisect
 import math
 import random
 import time
@@ -32,35 +33,84 @@ def greedy_initial_schedule(
     fixtures: list[Fixture],
     slots: list[Slot],
     season: str,
+    min_rest_days: int = 3,
+    max_thursday: int = 2,
+    max_friday: int = 3,
 ) -> Schedule:
     """
-    Assigns fixtures to slots sequentially, skipping a slot if the team
-    is already playing that day. Not guaranteed feasible but provides a
-    warm start for the metaheuristic.
+    Assigns fixtures to slots in round order, choosing the earliest available
+    slot that satisfies:
+      - HC1: minimum rest days (3) for both teams
+      - HC13: at most max_thursday Thursday games per team
+      - HC9: at most max_friday Friday games per team
+    Uses bisect for O(log n) HC1 checks.  Falls back to first remaining slot
+    only when no compliant slot is found (rare with a well-formed calendar).
     """
-    available_slots = list(slots)
-    random.shuffle(available_slots)
-    slot_iter = iter(available_slots)
+    available_slots = sorted(slots, key=lambda s: (s.date, s.kickoff))
 
     assigned: list[ScheduledFixture] = []
-    team_dates: dict[str, set] = {}
+    team_ords: dict[str, list[int]] = {}   # team -> sorted ordinals of assigned dates
+    thu_counts: dict[str, int] = {}        # team -> Thursday game count
+    fri_counts: dict[str, int] = {}        # team -> Friday game count
 
+    def _hc1_ok(team_id: str, ord_: int) -> bool:
+        ords = team_ords.get(team_id)
+        if not ords:
+            return True
+        pos = bisect.bisect_left(ords, ord_)
+        if pos > 0 and ord_ - ords[pos - 1] < min_rest_days:
+            return False
+        if pos < len(ords) and ords[pos] - ord_ < min_rest_days:
+            return False
+        return True
+
+    def _day_cap_ok(slot: Slot, home: str, away: str) -> bool:
+        dow = slot.day_of_week
+        if dow == "Thursday":
+            if thu_counts.get(home, 0) >= max_thursday:
+                return False
+            if thu_counts.get(away, 0) >= max_thursday:
+                return False
+        elif dow == "Friday":
+            if fri_counts.get(home, 0) >= max_friday:
+                return False
+            if fri_counts.get(away, 0) >= max_friday:
+                return False
+        return True
+
+    def _record(slot: Slot, home: str, away: str, ord_: int) -> None:
+        bisect.insort(team_ords.setdefault(home, []), ord_)
+        bisect.insort(team_ords.setdefault(away, []), ord_)
+        if slot.day_of_week == "Thursday":
+            thu_counts[home] = thu_counts.get(home, 0) + 1
+            thu_counts[away] = thu_counts.get(away, 0) + 1
+        elif slot.day_of_week == "Friday":
+            fri_counts[home] = fri_counts.get(home, 0) + 1
+            fri_counts[away] = fri_counts.get(away, 0) + 1
+
+    fallbacks = 0
     for fixture in fixtures:
         home, away = fixture.home_team_id, fixture.away_team_id
+        placed = False
+
         for slot in available_slots:
-            date_str = str(slot.date)
-            if date_str not in team_dates.get(home, set()) and \
-               date_str not in team_dates.get(away, set()):
+            ord_ = slot.date.toordinal()
+            if _hc1_ok(home, ord_) and _hc1_ok(away, ord_) and _day_cap_ok(slot, home, away):
                 assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
-                team_dates.setdefault(home, set()).add(date_str)
-                team_dates.setdefault(away, set()).add(date_str)
+                _record(slot, home, away, ord_)
                 available_slots.remove(slot)
+                placed = True
                 break
-        else:
-            # Fallback: assign to first remaining slot (may violate constraints)
+
+        if not placed:
+            fallbacks += 1
             if available_slots:
                 slot = available_slots.pop(0)
                 assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
+                _record(slot, home, away, slot.date.toordinal())
+
+    if fallbacks:
+        print(f"[Greedy] {fallbacks} fixture(s) fell back (no HC1/HC13/HC9-compliant slot found)")
 
     return Schedule(season=season, fixtures=assigned)
 

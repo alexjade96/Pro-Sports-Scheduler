@@ -33,7 +33,7 @@ from solvers.cp_sat.constraints import (
     add_soft_sc15_boxing_day_nyd,
     add_soft_min_sat_1500,
     add_soft_min_monday,
-    add_hard_half_season_balance,
+    add_soft_half_season_balance,
 )
 
 
@@ -166,9 +166,10 @@ def build_model(
     )
 
     sc5 = soft.get("SC5", {})
-    add_hard_half_season_balance(
+    penalty_terms += add_soft_half_season_balance(
         model, x, fixtures, slots, teams,
         tolerance=sc5.get("tolerance", 2),
+        penalty=200,
     )
 
     sc14 = soft.get("SC14", {})
