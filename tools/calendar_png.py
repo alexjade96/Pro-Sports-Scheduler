@@ -58,12 +58,11 @@ from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-# Fixture list layout — all sizes derive from these; no hardcoded pixels.
-_LIST_FONT_PT = 7.0    # type size in points
-_LIST_LEADING = 1.1    # line height as × of type size (tight table leading)
+# Fixture list layout — column positions and panel width derive from these.
+_LIST_FONT_PT  = 7.0   # reference type size for panel-width calculation (pt)
 _LIST_MONO_ADV = 0.6   # monospace advance width as fraction of em (standard)
 _LIST_COL_PAD  = 2     # padding chars between / around columns
-# (label, max_chars) — drives both panel width and column x-positions
+# (label, max_chars) — drives panel width and column x-positions
 _LIST_COLS = [("#", 2), ("DATE", 8), ("H/A", 3), ("OPPONENT", 5)]
 
 C_EMPTY      = "#f8f9fa"   # no fixtures
@@ -490,10 +489,10 @@ def _draw_fixture_list(
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    N_HDR   = 2          # header rows (title + col labels)
+    N_HDR   = 3          # header rows (title + col labels + divider space)
     N_ROWS  = len(fixtures) + N_HDR
     row_h   = 1.0 / N_ROWS
-    fs_main = _LIST_FONT_PT
+    fs_main = max(5.0, min(7.5, 230 / N_ROWS))
 
     # ── Panel background ────────────────────────────────────────────────────
     ax.add_patch(FancyBboxPatch(
@@ -503,21 +502,21 @@ def _draw_fixture_list(
     ))
 
     # ── Title row ───────────────────────────────────────────────────────────
-    title_h = row_h
+    title_h = row_h * 1.5
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h), 1, title_h,
         boxstyle="square,pad=0", linewidth=0,
         facecolor=C_HEADER_BG, zorder=1,
     ))
     ax.text(0.5, 1 - title_h / 2, "SEASON FIXTURES",
-            ha="center", va="center", fontsize=fs_main,
+            ha="center", va="center", fontsize=fs_main + 0.5,
             fontweight="bold", color="white", zorder=2)
 
     # Column x-positions derived from _LIST_COLS (no hardcoded values)
     col_x = _list_col_positions()
 
     # ── Column header row ───────────────────────────────────────────────────
-    col_y = 1 - title_h - row_h * 0.5
+    col_y = 1 - title_h - row_h * 0.85
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h - row_h), 1, row_h,
         boxstyle="square,pad=0", linewidth=0,
@@ -595,25 +594,19 @@ def render_season_png(
         # Panel size is content-driven: width from _list_panel_width_frac()
         # (derives from character widths in _LIST_COLS), height from row count
         # × font-based row height.  No hardcoded pixel or inch values.
-        team_fx_count = sum(
-            1 for sfs in by_date.values() for sf in sfs
-            if sf.home_team_id == team_id or sf.away_team_id == team_id
-        )
-        N_LIST      = team_fx_count + 2        # +2: title row + column-header row
         LIST_TOP    = 0.965
+        LIST_BOT    = 0.035
         LIST_W_FRAC = _list_panel_width_frac(FIG_W)
-        row_h_in    = _LIST_FONT_PT * _LIST_LEADING / 72.0
-        list_h_frac = min((row_h_in * N_LIST) / fig_h, LIST_TOP - 0.035)
         cal_right   = 1.0 - LIST_W_FRAC - 0.012
 
         gs = GridSpec(
             N_ROWS, 2, figure=fig,
             hspace=0.35, wspace=0.04,
-            left=0.01, right=cal_right, top=LIST_TOP, bottom=0.035,
+            left=0.01, right=cal_right, top=LIST_TOP, bottom=LIST_BOT,
         )
         axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
-        list_ax = fig.add_axes([
-            cal_right + 0.008, LIST_TOP - list_h_frac, LIST_W_FRAC, list_h_frac,
+        list_ax   = fig.add_axes([
+            cal_right + 0.008, LIST_BOT, LIST_W_FRAC, LIST_TOP - LIST_BOT,
         ])
     else:
         FIG_W = 18
