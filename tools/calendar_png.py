@@ -68,12 +68,12 @@ _LIST_COLS = [("#", 2), ("DATE", 8), ("H/A", 3), ("OPPONENT", 5)]
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
 C_FESTIVE    = "#fef9c3"   # festive matchday       (light gold)
-C_HOME       = "#dcfce7"   # team home fixture      (light green)
+C_HOME       = "#dcfce7"   # team home fixture      (light green, overridden by team color)
 C_AWAY       = "#ede9fe"   # team away fixture      (light lavender)
 C_INTL       = "#ffedd5"   # international break    (peach)
 C_CUP        = "#f3e8ff"   # cup reservation window (violet)
 C_HARDBLOCK  = "#e5e7eb"   # other hard block       (light grey)
-C_HEADER_BG  = "#1e3a5f"   # month header           (dark navy)
+C_HEADER_BG  = "#1e3a5f"   # month header           (dark navy, overridden by team color)
 C_DAY_HDR    = "#374151"   # day-of-week header     (dark grey)
 C_TEXT       = "#111827"
 C_FAINT      = "#9ca3af"
@@ -83,6 +83,52 @@ C_AWAY_TEXT  = "#4c1d95"   # away label text        (dark purple)
 C_INTL_TEXT  = "#7c2d12"   # international break label
 C_CUP_TEXT   = "#581c87"   # cup window label
 C_BLOCK_TEXT = "#374151"   # hard block label
+
+# Primary brand colours used in team-mode calendars for headers and home cells.
+TEAM_COLORS: dict[str, str] = {
+    "ARS": "#EF0107",  # Arsenal — red
+    "AVL": "#670E36",  # Aston Villa — claret
+    "BHA": "#0057B8",  # Brighton — blue
+    "BOU": "#B22222",  # Bournemouth — red
+    "BRE": "#B22222",  # Brentford — red
+    "CHE": "#034694",  # Chelsea — blue
+    "CRY": "#1B458F",  # Crystal Palace — blue
+    "EVE": "#003399",  # Everton — blue
+    "FUL": "#1a1a1a",  # Fulham — black
+    "IPS": "#0044A9",  # Ipswich — blue
+    "LEI": "#003090",  # Leicester — blue
+    "LIV": "#C8102E",  # Liverpool — red
+    "MCI": "#0085CA",  # Man City — sky blue
+    "MUN": "#DA291C",  # Man United — red
+    "NEW": "#241F20",  # Newcastle — black
+    "NFO": "#CC0000",  # Nottm Forest — red
+    "SOU": "#B00020",  # Southampton — red
+    "TOT": "#132257",  # Tottenham — navy
+    "WHU": "#7A263A",  # West Ham — claret
+    "WOL": "#B07D00",  # Wolves — gold (darkened for white-text contrast)
+}
+
+
+def _lighten(hex_color: str, factor: float = 0.75) -> str:
+    """Blend hex_color toward white by factor (0 = original, 1 = white)."""
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return "#{:02x}{:02x}{:02x}".format(
+        int(r + (255 - r) * factor),
+        int(g + (255 - g) * factor),
+        int(b + (255 - b) * factor),
+    )
+
+
+def _darken(hex_color: str, factor: float = 0.25) -> str:
+    """Darken hex_color by reducing each channel by factor."""
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return "#{:02x}{:02x}{:02x}".format(
+        int(r * (1 - factor)),
+        int(g * (1 - factor)),
+        int(b * (1 - factor)),
+    )
 
 FESTIVE_DATES = {date(2025, 12, 26), date(2025, 12, 28), date(2026, 1, 1)}
 FESTIVE_LABEL = {
@@ -330,6 +376,7 @@ def _render_month_team(
     team_id: str,
     team_name: str,
     blocked_dates: dict,
+    team_color: str = C_HEADER_BG,
 ) -> None:
     """Draw one month calendar filtered to a single team's fixtures."""
     weeks      = _cal.monthcalendar(year, month)
@@ -347,7 +394,7 @@ def _render_month_team(
     ax.add_patch(FancyBboxPatch(
         (0, ROWS - 1), COLS, 1,
         boxstyle="square,pad=0", linewidth=0,
-        facecolor=C_HEADER_BG, zorder=1,
+        facecolor=team_color, zorder=1,
     ))
     ax.text(
         COLS / 2, ROWS - 0.5, f"{month_name} {year}",
@@ -360,7 +407,7 @@ def _render_month_team(
         ax.add_patch(FancyBboxPatch(
             (col, ROWS - 2), 1, 1,
             boxstyle="square,pad=0", linewidth=0.3,
-            edgecolor="#d1d5db", facecolor=C_DAY_HDR, zorder=1,
+            edgecolor="#d1d5db", facecolor=_darken(team_color, 0.3), zorder=1,
         ))
         ax.text(
             col + 0.5, ROWS - 1.5, dname,
@@ -412,7 +459,7 @@ def _render_month_team(
             if is_festive:
                 bg = C_FESTIVE
             elif is_home:
-                bg = C_HOME
+                bg = _lighten(team_color, 0.75)
             else:
                 bg = C_AWAY
 
@@ -477,6 +524,7 @@ def _draw_fixture_list(
     team_id: str,
     by_date: dict,
     derby_pairs: set,
+    team_color: str = C_HEADER_BG,
 ) -> None:
     """Draw an ordered season fixture list to the right of the calendar grid."""
     fixtures = sorted(
@@ -506,7 +554,7 @@ def _draw_fixture_list(
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h), 1, title_h,
         boxstyle="square,pad=0", linewidth=0,
-        facecolor=C_HEADER_BG, zorder=1,
+        facecolor=team_color, zorder=1,
     ))
     ax.text(0.5, 1 - title_h / 2, "SEASON FIXTURES",
             ha="center", va="center", fontsize=fs_main + 0.5,
@@ -520,7 +568,7 @@ def _draw_fixture_list(
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h - row_h), 1, row_h,
         boxstyle="square,pad=0", linewidth=0,
-        facecolor="#374151", zorder=1,
+        facecolor=_darken(team_color, 0.3), zorder=1,
     ))
     for label, _ in _LIST_COLS:
         ax.text(col_x[label], col_y, label,
@@ -586,6 +634,8 @@ def render_season_png(
     N_ROWS  = (len(months) + 1) // 2   # always 2 calendar columns
     MONTH_H = 3.6
 
+    team_color = TEAM_COLORS.get(team_id, C_HEADER_BG) if team_id else C_HEADER_BG
+
     if team_id:
         FIG_W = 22
         fig_h = MONTH_H * N_ROWS + 1.2
@@ -624,6 +674,7 @@ def render_season_png(
             _render_month_team(
                 axes_flat[i], year, month, by_date, derby_pairs,
                 team_id, team_name, blocked_dates,
+                team_color=team_color,
             )
         else:
             _render_month(
@@ -634,7 +685,7 @@ def render_season_png(
         axes_flat[j].axis("off")
 
     if list_ax is not None:
-        _draw_fixture_list(list_ax, team_id, by_date, derby_pairs)
+        _draw_fixture_list(list_ax, team_id, by_date, derby_pairs, team_color=team_color)
 
     # ── Title ─────────────────────────────────────────────────────────────────
     if team_id:
@@ -643,12 +694,12 @@ def render_season_png(
         title = "EPL 2025/26 Season Calendar"
     if solver_label:
         title += f"  —  {solver_label}"
-    fig.suptitle(title, fontsize=14, fontweight="bold", color=C_HEADER_BG, y=0.998)
+    fig.suptitle(title, fontsize=14, fontweight="bold", color=team_color, y=0.998)
 
     # ── Legend ────────────────────────────────────────────────────────────────
     if team_id:
         fixture_patches = [
-            mpatches.Patch(facecolor=C_HOME,    edgecolor="#9ca3af", label="Home"),
+            mpatches.Patch(facecolor=_lighten(team_color, 0.75), edgecolor="#9ca3af", label="Home"),
             mpatches.Patch(facecolor=C_AWAY,    edgecolor="#9ca3af", label="Away"),
             mpatches.Patch(facecolor=C_FESTIVE, edgecolor="#9ca3af", label="Festive  ★"),
         ]
