@@ -58,6 +58,11 @@ from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+# Fixture list typography — shared by _draw_fixture_list and render_season_png
+# so font size and row height are always in sync.
+_LIST_FONT_PT = 7.0    # type size in points
+_LIST_LEADING = 1.35   # line height as multiple of type size (tight table leading)
+
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
 C_FESTIVE    = "#fef9c3"   # festive matchday       (light gold)
@@ -468,7 +473,7 @@ def _draw_fixture_list(
     N_HDR   = 2          # header rows (title + col labels)
     N_ROWS  = len(fixtures) + N_HDR
     row_h   = 1.0 / N_ROWS
-    fs_main = max(5.0, min(7.0, 210 / N_ROWS))   # adaptive font size
+    fs_main = _LIST_FONT_PT
 
     # ── Panel background ────────────────────────────────────────────────────
     ax.add_patch(FancyBboxPatch(
@@ -572,10 +577,9 @@ def render_season_png(
         fig_h = MONTH_H * N_ROWS + 1.2
         fig   = plt.figure(figsize=(FIG_W, fig_h))
 
-        # Size the fixture list to its content rather than stretching it to
-        # match the calendar height.  Row height is derived from the font size
-        # (same formula as _draw_fixture_list) with standard 2.4× line spacing,
-        # so the panel height is purely content-driven with no magic constants.
+        # Panel height is exactly content rows × one row height.
+        # Row height uses the same module constants as _draw_fixture_list
+        # (_LIST_FONT_PT, _LIST_LEADING) so font size and spacing stay in sync.
         team_fx_count = sum(
             1 for sfs in by_date.values() for sf in sfs
             if sf.home_team_id == team_id or sf.away_team_id == team_id
@@ -583,8 +587,7 @@ def render_season_png(
         N_LIST      = team_fx_count + 2        # +2: title row + column-header row
         LIST_TOP    = 0.965                    # align to top of calendar grid
         LIST_W_FRAC = 0.21                     # fraction of figure width
-        fs_main     = max(5.0, min(7.0, 210 / N_LIST))   # mirrors _draw_fixture_list
-        row_h_in    = fs_main * 2.4 / 72.0    # line spacing: 2.4× type size → inches
+        row_h_in    = _LIST_FONT_PT * _LIST_LEADING / 72.0   # pt → inches
         list_h_frac = min((row_h_in * N_LIST) / fig_h, LIST_TOP - 0.035)
         cal_right   = 1.0 - LIST_W_FRAC - 0.012
 
