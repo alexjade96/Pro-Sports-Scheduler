@@ -573,17 +573,19 @@ def render_season_png(
         fig   = plt.figure(figsize=(FIG_W, fig_h))
 
         # Size the fixture list to its content rather than stretching it to
-        # match the calendar height.  ROW_IN sets the physical row height in
-        # inches; the axes height is then exactly content_rows × ROW_IN.
+        # match the calendar height.  Row height is derived from the font size
+        # (same formula as _draw_fixture_list) with standard 2.4× line spacing,
+        # so the panel height is purely content-driven with no magic constants.
         team_fx_count = sum(
             1 for sfs in by_date.values() for sf in sfs
             if sf.home_team_id == team_id or sf.away_team_id == team_id
         )
         N_LIST      = team_fx_count + 2        # +2: title row + column-header row
-        ROW_IN      = 0.18                     # inches per row
         LIST_TOP    = 0.965                    # align to top of calendar grid
         LIST_W_FRAC = 0.21                     # fraction of figure width
-        list_h_frac = min((ROW_IN * N_LIST) / fig_h, LIST_TOP - 0.035)
+        fs_main     = max(5.0, min(7.0, 210 / N_LIST))   # mirrors _draw_fixture_list
+        row_h_in    = fs_main * 2.4 / 72.0    # line spacing: 2.4× type size → inches
+        list_h_frac = min((row_h_in * N_LIST) / fig_h, LIST_TOP - 0.035)
         cal_right   = 1.0 - LIST_W_FRAC - 0.012
 
         gs = GridSpec(
@@ -592,7 +594,7 @@ def render_season_png(
             left=0.01, right=cal_right, top=LIST_TOP, bottom=0.035,
         )
         axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
-        list_ax   = fig.add_axes([
+        list_ax = fig.add_axes([
             cal_right + 0.008, LIST_TOP - list_h_frac, LIST_W_FRAC, list_h_frac,
         ])
     else:
