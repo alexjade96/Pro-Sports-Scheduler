@@ -61,7 +61,7 @@ DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 # Fixture list typography — shared by _draw_fixture_list and render_season_png
 # so font size and row height are always in sync.
 _LIST_FONT_PT = 7.0    # type size in points
-_LIST_LEADING = 1.35   # line height as multiple of type size (tight table leading)
+_LIST_LEADING = 1.1    # line height as multiple of type size (tight table leading)
 
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
