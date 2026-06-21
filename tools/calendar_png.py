@@ -58,10 +58,13 @@ from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-# Fixture list typography — shared by _draw_fixture_list and render_season_png
-# so font size and row height are always in sync.
+# Fixture list layout — all sizes derive from these; no hardcoded pixels.
 _LIST_FONT_PT = 7.0    # type size in points
-_LIST_LEADING = 1.1    # line height as multiple of type size (tight table leading)
+_LIST_LEADING = 1.1    # line height as × of type size (tight table leading)
+_LIST_MONO_ADV = 0.6   # monospace advance width as fraction of em (standard)
+_LIST_COL_PAD  = 2     # padding chars between / around columns
+# (label, max_chars) — drives both panel width and column x-positions
+_LIST_COLS = [("#", 2), ("DATE", 8), ("H/A", 3), ("OPPONENT", 5)]
 
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
@@ -453,6 +456,23 @@ def _render_month_team(
 # Fixture list panel (team mode only)
 # ---------------------------------------------------------------------------
 
+def _list_col_positions() -> dict[str, float]:
+    """Return {label: x_fraction} for each column, computed from _LIST_COLS."""
+    total = sum(c for _, c in _LIST_COLS) + _LIST_COL_PAD * (len(_LIST_COLS) + 1)
+    positions, x = {}, _LIST_COL_PAD
+    for label, n_chars in _LIST_COLS:
+        positions[label] = x / total
+        x += n_chars + _LIST_COL_PAD
+    return positions
+
+
+def _list_panel_width_frac(fig_w_in: float) -> float:
+    """Panel width as figure fraction, sized to fit _LIST_COLS content exactly."""
+    total     = sum(c for _, c in _LIST_COLS) + _LIST_COL_PAD * (len(_LIST_COLS) + 1)
+    char_w_in = _LIST_FONT_PT * _LIST_MONO_ADV / 72.0
+    return (total * char_w_in) / fig_w_in
+
+
 def _draw_fixture_list(
     ax: plt.Axes,
     team_id: str,
@@ -493,6 +513,9 @@ def _draw_fixture_list(
             ha="center", va="center", fontsize=fs_main,
             fontweight="bold", color="white", zorder=2)
 
+    # Column x-positions derived from _LIST_COLS (no hardcoded values)
+    col_x = _list_col_positions()
+
     # ── Column header row ───────────────────────────────────────────────────
     col_y = 1 - title_h - row_h * 0.5
     ax.add_patch(FancyBboxPatch(
@@ -500,8 +523,8 @@ def _draw_fixture_list(
         boxstyle="square,pad=0", linewidth=0,
         facecolor="#374151", zorder=1,
     ))
-    for label, x in [("#", 0.03), ("DATE", 0.12), ("H/A", 0.47), ("OPPONENT", 0.57)]:
-        ax.text(x, col_y, label,
+    for label, _ in _LIST_COLS:
+        ax.text(col_x[label], col_y, label,
                 ha="left", va="center", fontsize=fs_main - 0.5,
                 fontweight="bold", color="white", zorder=2)
 
@@ -510,7 +533,6 @@ def _draw_fixture_list(
     for i, sf in enumerate(fixtures):
         y = top_of_rows - (i + 1) * row_h
 
-        # Alternating row background
         row_bg = "#ffffff" if i % 2 == 0 else "#f3f4f6"
         ax.add_patch(FancyBboxPatch(
             (0, y), 1, row_h,
@@ -526,30 +548,23 @@ def _draw_fixture_list(
         date_str = sf.slot.date.strftime("%m/%d/%y")
         text_y   = y + row_h * 0.52
 
-        # Match number
-        ax.text(0.03, text_y, str(i + 1),
+        ax.text(col_x["#"], text_y, str(i + 1),
                 ha="left", va="center", fontsize=fs_main - 1.0,
                 color=C_FAINT, zorder=2)
-
-        # Date
-        ax.text(0.12, text_y, date_str,
+        ax.text(col_x["DATE"], text_y, date_str,
                 ha="left", va="center", fontsize=fs_main,
                 color=C_TEXT, zorder=2, fontfamily="monospace")
-
-        # H / A badge
-        ax.text(0.47, text_y, ha_label,
+        ax.text(col_x["H/A"], text_y, ha_label,
                 ha="left", va="center", fontsize=fs_main,
                 fontweight="bold", color=ha_color, zorder=2)
 
-        # Opponent + derby marker
         opp_label = opponent + (" ◆" if is_derby else "")
-        ax.text(0.57, text_y, opp_label,
+        ax.text(col_x["OPPONENT"], text_y, opp_label,
                 ha="left", va="center", fontsize=fs_main,
                 color=C_ACCENT if is_derby else C_TEXT,
                 fontweight="bold" if is_derby else "normal",
                 zorder=2, fontfamily="monospace")
 
-        # Subtle row divider
         ax.axhline(y, color="#e5e7eb", linewidth=0.3, zorder=3)
 
 
@@ -577,17 +592,17 @@ def render_season_png(
         fig_h = MONTH_H * N_ROWS + 1.2
         fig   = plt.figure(figsize=(FIG_W, fig_h))
 
-        # Panel height is exactly content rows × one row height.
-        # Row height uses the same module constants as _draw_fixture_list
-        # (_LIST_FONT_PT, _LIST_LEADING) so font size and spacing stay in sync.
+        # Panel size is content-driven: width from _list_panel_width_frac()
+        # (derives from character widths in _LIST_COLS), height from row count
+        # × font-based row height.  No hardcoded pixel or inch values.
         team_fx_count = sum(
             1 for sfs in by_date.values() for sf in sfs
             if sf.home_team_id == team_id or sf.away_team_id == team_id
         )
         N_LIST      = team_fx_count + 2        # +2: title row + column-header row
-        LIST_TOP    = 0.965                    # align to top of calendar grid
-        LIST_W_FRAC = 0.21                     # fraction of figure width
-        row_h_in    = _LIST_FONT_PT * _LIST_LEADING / 72.0   # pt → inches
+        LIST_TOP    = 0.965
+        LIST_W_FRAC = _list_panel_width_frac(FIG_W)
+        row_h_in    = _LIST_FONT_PT * _LIST_LEADING / 72.0
         list_h_frac = min((row_h_in * N_LIST) / fig_h, LIST_TOP - 0.035)
         cal_right   = 1.0 - LIST_W_FRAC - 0.012
 
