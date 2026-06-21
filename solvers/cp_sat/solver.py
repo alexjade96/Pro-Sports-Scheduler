@@ -29,6 +29,11 @@ from solvers.cp_sat.constraints import (
     add_soft_same_city_home_clash,
     add_soft_london_cluster,
     add_soft_festive_coverage,
+    add_soft_sc14_season_boundary,
+    add_soft_sc15_boxing_day_nyd,
+    add_soft_min_sat_1500,
+    add_soft_min_monday,
+    add_soft_half_season_balance,
 )
 
 
@@ -144,7 +149,7 @@ def build_model(
     penalty_terms += add_soft_same_city_home_clash(
         model, x, fixtures, slots,
         window_days=sc7.get("window_days", 4),
-        penalty=sc7.get("penalty_per_clash", 40),
+        penalty=sc7.get("penalty_per_clash", 80),
     )
 
     sc10 = soft.get("SC10", {})
@@ -160,13 +165,42 @@ def build_model(
         penalty=sc9.get("penalty_per_missing_team", 20),
     )
 
-    # SC14/SC15/SC17/SC18 are intentionally omitted from the CP-SAT objective.
-    # Empirical testing shows that adding these to the model weakens the LP
-    # relaxation enough that SC13/SC1/SC2 violations jump from ~11 to ~500+
-    # within the 300s time budget. The CP-SAT solver naturally satisfies
-    # SC14/SC15/SC17/SC18 as a by-product of optimising the structural
-    # constraints (SC13, SC1/SC2). They are explicitly enforced in the ILP
-    # model, the metaheuristic objective, and the validator.
+    sc5 = soft.get("SC5", {})
+    penalty_terms += add_soft_half_season_balance(
+        model, x, fixtures, slots, teams,
+        tolerance=sc5.get("tolerance", 2),
+        penalty=sc5.get("penalty_per_violation", 15),
+    )
+
+    # SC14/SC15/SC17/SC18 re-wired with reduced penalty weights to avoid
+    # degrading the LP relaxation that SC13 depends on.  Empirical testing
+    # showed that using the full penalty values (30/35/10/12) caused SC13
+    # violations to jump from ~11 to ~500+ within the 300s budget.  The
+    # reduced weights (5/5/10/12) keep SC13 dominant in the objective while
+    # still providing corrective signal for boundary and festive patterns.
+    penalty_terms += add_soft_sc14_season_boundary(
+        model, x, fixtures, slots, teams,
+        penalty=5,
+    )
+
+    penalty_terms += add_soft_sc15_boxing_day_nyd(
+        model, x, fixtures, slots, teams,
+        penalty=5,
+    )
+
+    sc17 = soft.get("SC17", {})
+    penalty_terms += add_soft_min_sat_1500(
+        model, x, fixtures, slots, teams,
+        min_per_team=sc17.get("min_per_team", 5),
+        penalty=sc17.get("penalty_per_violation", 10),
+    )
+
+    sc18 = soft.get("SC18", {})
+    penalty_terms += add_soft_min_monday(
+        model, x, fixtures, slots, teams,
+        min_per_team=sc18.get("min_per_team", 3),
+        penalty=sc18.get("penalty_per_violation", 12),
+    )
 
     # Minimise total weighted penalty
     if penalty_terms:

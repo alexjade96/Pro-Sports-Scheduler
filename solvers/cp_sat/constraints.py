@@ -242,11 +242,70 @@ def add_soft_max_consecutive_home_away(
     slots: list[Slot],
     teams: dict[str, Team],
     max_run: int = 3,
-    penalty: int = 20,
+    penalty: int = 15,
 ) -> list:
     """SC1/SC2 — penalise runs of more than max_run consecutive home or away.
-    Skeleton; full run-tracking requires auxiliary sequencing variables."""
-    return []
+
+    Uses a 42-day sliding window (≈6 EPL game-weeks). If a team has more
+    than max_run home fixtures assigned within that window the excess is
+    penalised; same for away. Consistent with the SC13 date-window approach
+    and avoids auxiliary ordering variables.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    window_days = 42  # ≈6 EPL game-weeks; large enough to catch >max_run runs
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for i, d in enumerate(all_dates):
+            end_d = d + timedelta(days=window_days)
+
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates[i:]:
+                if wd > end_d:
+                    break
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            if len(home_in_win) > max_run:
+                hc = model.new_int_var(
+                    0, len(home_in_win), f"sc2h_{team_id}_{d}"
+                )
+                model.add(hc == sum(home_in_win))
+                exc = model.new_int_var(
+                    0, len(home_in_win) - max_run, f"sc2he_{team_id}_{d}"
+                )
+                model.add(exc >= hc - max_run)
+                penalty_terms.append((penalty, exc))
+
+            if len(away_in_win) > max_run:
+                ac = model.new_int_var(
+                    0, len(away_in_win), f"sc1a_{team_id}_{d}"
+                )
+                model.add(ac == sum(away_in_win))
+                exc = model.new_int_var(
+                    0, len(away_in_win) - max_run, f"sc1ae_{team_id}_{d}"
+                )
+                model.add(exc >= ac - max_run)
+                penalty_terms.append((penalty, exc))
+
+    return penalty_terms
 
 
 def add_soft_ha_window(
@@ -785,5 +844,62 @@ def add_soft_min_monday(
         deficit = model.new_int_var(0, min_per_team, f"sc18_def_{team_id}")
         model.add(deficit >= min_per_team - sum(slot_appears))
         penalty_terms.append((penalty, deficit))
+
+    return penalty_terms
+
+
+def add_soft_half_season_balance(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    tolerance: int = 2,
+    penalty: int = 15,
+) -> list:
+    """SC5 — penalise unequal home/away distribution per half-season.
+
+    Splits the season at the calendar midpoint. Penalises each game by which
+    a team's H1 home count deviates beyond [9-tolerance, 10+tolerance].
+    With tolerance=2 the valid range is [7, 12]; ARS with 17 H1 homes incurs
+    (17-12)*penalty = 5*penalty. Fixes the extreme H/A half-imbalance that
+    arises when SC14/SC5 are absent from the model.
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
+    midpoint     = _date.fromordinal(
+        (season_start.toordinal() + season_end.toordinal()) // 2
+    )
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    for team_id in teams:
+        home_h1: list = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id:
+                continue
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                if slot.date <= midpoint:
+                    home_h1.append(x[(fixture.fixture_id, sid)])
+
+        if not home_h1:
+            continue
+
+        n   = len(home_h1)
+        h1s = sum(home_h1)
+        lo  = max(0, 9 - tolerance)   # e.g. 7 with tolerance=2
+        hi  = min(n, 10 + tolerance)  # e.g. 12 with tolerance=2
+
+        ub_exc = model.new_int_var(0, n, f"sc5_ub_{team_id}")
+        model.add(ub_exc >= h1s - hi)
+        penalty_terms.append((penalty, ub_exc))
+
+        lb_exc = model.new_int_var(0, n, f"sc5_lb_{team_id}")
+        model.add(lb_exc >= lo - h1s)
+        penalty_terms.append((penalty, lb_exc))
 
     return penalty_terms

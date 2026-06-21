@@ -150,7 +150,7 @@
       "id": "SC7",
       "type": "same_city_home_clash",
       "window_days": 4,
-      "penalty_per_clash": 40,
+      "penalty_per_clash": 80,
       "source": "Police resource constraint (Atos/PL confirmed): rival city pairs (LIV+EVE, MCI+MUN, ARS+TOT, CHE+FUL etc.) cannot be home in the SAME MATCHDAY WEEKEND (Fri–Mon window, not just same day). Widened from same-day after research confirmed police plan by matchday round, not calendar date.",
       "description": "Avoid same-city teams both at home within the same matchday weekend window (4-day radius)"
     },

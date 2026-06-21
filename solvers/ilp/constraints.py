@@ -387,3 +387,329 @@ def add_soft_min_monday(
         penalty_vars.append((penalty, deficit))
 
     return penalty_vars
+
+
+def add_soft_max_consecutive_home_away(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_run: int = 5,
+    penalty: int = 15,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC1/SC2 — penalise >max_run same-type games in a 42-day window.
+
+    Date-window formulation consistent with the CP-SAT implementation.
+    """
+    from datetime import timedelta
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+
+    from collections import defaultdict
+    team_home_date: dict = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    window_days = 42
+    counter = [0]
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for i, d in enumerate(all_dates):
+            end_d = d + timedelta(days=window_days)
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates[i:]:
+                if wd > end_d:
+                    break
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            counter[0] += 1
+            k = counter[0]
+
+            if len(home_in_win) > max_run:
+                slack = pulp.LpVariable(f"sc2h_{k}", lowBound=0)
+                prob += slack >= pulp.lpSum(home_in_win) - max_run
+                penalty_vars.append((penalty, slack))
+
+            if len(away_in_win) > max_run:
+                slack = pulp.LpVariable(f"sc1a_{k}", lowBound=0)
+                prob += slack >= pulp.lpSum(away_in_win) - max_run
+                penalty_vars.append((penalty, slack))
+
+    return penalty_vars
+
+
+def add_soft_ha_window(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    window: int = 5,
+    min_home: int = 2,
+    max_home: int = 3,
+    penalty: int = 25,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC13 — penalise home-game clusters within 35-day date windows.
+
+    Mirrors the CP-SAT add_soft_ha_window formulation.
+    """
+    from datetime import timedelta
+    from collections import defaultdict
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+
+    team_home_date: dict = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    window_days = 35
+    max_away = window - min_home
+    counter = [0]
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for d in all_dates:
+            end_d = d + timedelta(days=window_days)
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates:
+                if wd < d or wd > end_d:
+                    continue
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            counter[0] += 1
+            k = counter[0]
+
+            if len(home_in_win) > max_home:
+                slack = pulp.LpVariable(f"sc13h_{k}", lowBound=0)
+                prob += slack >= pulp.lpSum(home_in_win) - max_home
+                penalty_vars.append((penalty, slack))
+
+            if len(away_in_win) > max_away:
+                slack = pulp.LpVariable(f"sc13a_{k}", lowBound=0)
+                prob += slack >= pulp.lpSum(away_in_win) - max_away
+                penalty_vars.append((penalty, slack))
+
+    return penalty_vars
+
+
+def add_soft_same_city_home_clash(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    window_days: int = 4,
+    penalty: int = 80,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC7 — penalise same-city teams both at home within a 4-day window."""
+    from datetime import timedelta
+    from collections import defaultdict
+
+    city_groups = load_city_groups()
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+
+    home_date_vars: dict = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            home_date_vars[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    counter = [0]
+
+    for city, members in city_groups.items():
+        if len(members) < 2:
+            continue
+        for i, d in enumerate(all_dates):
+            end_d = d + timedelta(days=window_days - 1)
+            city_home: list = []
+            for wd in all_dates[i:]:
+                if wd > end_d:
+                    break
+                for team_id in members:
+                    city_home.extend(home_date_vars[team_id].get(wd, []))
+
+            if len(city_home) <= 1:
+                continue
+
+            counter[0] += 1
+            slack = pulp.LpVariable(f"sc7_{counter[0]}", lowBound=0)
+            prob += slack >= pulp.lpSum(city_home) - 1
+            penalty_vars.append((penalty, slack))
+
+    return penalty_vars
+
+
+def add_soft_festive_coverage(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    penalty: int = 50,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC9 — penalise missing team coverage on festive matchdays and Easter."""
+    from datetime import date as _date
+    from collections import defaultdict
+
+    calendar = load_calendar()
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+    all_team_ids = set(teams.keys())
+
+    festive_dates: set[_date] = set()
+    for d in calendar.get("festive_matchdays", []):
+        festive_dates.add(_date.fromisoformat(d))
+    easter = calendar.get("easter_matchdays", {})
+    for key in ("good_friday", "easter_monday"):
+        if key in easter:
+            festive_dates.add(_date.fromisoformat(easter[key]))
+
+    slot_dates = {slot.date for slot in slots}
+    active_festive = sorted(festive_dates & slot_dates)
+
+    team_date_vars: dict = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            for team_id in (fixture.home_team_id, fixture.away_team_id):
+                team_date_vars[team_id][slot.date].append(x[(fixture.fixture_id, sid)])
+
+    counter = [0]
+    for fest_date in active_festive:
+        for team_id in all_team_ids:
+            team_vars = team_date_vars[team_id].get(fest_date, [])
+            if not team_vars:
+                continue
+            counter[0] += 1
+            plays = pulp.LpVariable(f"sc9_plays_{counter[0]}", cat="Binary")
+            prob += plays <= pulp.lpSum(team_vars)
+            prob += plays * len(team_vars) >= pulp.lpSum(team_vars)
+            not_plays = pulp.LpVariable(f"sc9_miss_{counter[0]}", cat="Binary")
+            prob += not_plays == 1 - plays
+            penalty_vars.append((penalty, not_plays))
+
+    return penalty_vars
+
+
+def add_soft_london_cluster(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    max_per_day: int = 3,
+    penalty: int = 30,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC10 — penalise >max_per_day London teams hosting on the same day."""
+    from collections import defaultdict
+
+    city_groups = load_city_groups()
+    london_teams = set(city_groups.get("London", []))
+    if not london_teams:
+        return []
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+
+    home_date_vars: dict = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        if fixture.home_team_id in london_teams:
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                home_date_vars[fixture.home_team_id][slot.date].append(
+                    x[(fixture.fixture_id, sid)]
+                )
+
+    all_dates = sorted({slot.date for slot in slots})
+    counter = [0]
+    for d in all_dates:
+        day_vars: list = []
+        for team_id in london_teams:
+            day_vars.extend(home_date_vars[team_id].get(d, []))
+
+        if len(day_vars) <= max_per_day:
+            continue
+
+        counter[0] += 1
+        slack = pulp.LpVariable(f"sc10_{counter[0]}", lowBound=0)
+        prob += slack >= pulp.lpSum(day_vars) - max_per_day
+        penalty_vars.append((penalty, slack))
+
+    return penalty_vars
+
+
+def add_soft_half_season_balance(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    tolerance: int = 2,
+    penalty: int = 15,
+) -> list[tuple[int, pulp.LpVariable]]:
+    """SC5 — penalise unequal home/away distribution per half-season."""
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
+    midpoint     = _date.fromordinal(
+        (season_start.toordinal() + season_end.toordinal()) // 2
+    )
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_vars: list[tuple[int, pulp.LpVariable]] = []
+
+    for team_id in teams:
+        home_h1: list = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id:
+                continue
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                if slot.date <= midpoint:
+                    home_h1.append(x[(fixture.fixture_id, sid)])
+
+        if not home_h1:
+            continue
+
+        n   = len(home_h1)
+        h1s = pulp.lpSum(home_h1)
+        lo  = max(0, 9 - tolerance)
+        hi  = min(n, 10 + tolerance)
+
+        ub = pulp.LpVariable(f"sc5_ub_{team_id}", lowBound=0)
+        prob += ub >= h1s - hi
+        penalty_vars.append((penalty, ub))
+
+        lb = pulp.LpVariable(f"sc5_lb_{team_id}", lowBound=0)
+        prob += lb >= lo - h1s
+        penalty_vars.append((penalty, lb))
+
+    return penalty_vars
