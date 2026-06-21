@@ -1,16 +1,15 @@
 """
 Solver accuracy visualization — all three solvers vs. historical EPL 2024-25.
 
-Produces a multi-panel figure covering:
-  1. Solver performance (penalty score, hard/soft violations)
-  2. Schedule quality vs historical (rest days, consecutive runs, city clashes)
-  3. Constraint violations (SC7, SC10, SC13, SC14)
-  4. Day-of-week fixture distribution
-  5. Festive & special-event coverage
+Produces four separate PNGs:
+  viz_performance.png   — penalty score, hard/soft violations, rest days
+  viz_quality.png       — consecutive runs, city clashes, derby spacing
+  viz_constraints.png   — Atos Golden Rules, London cluster, festive coverage
+  viz_dow.png           — day-of-week fixture distribution
 
 Usage:
     python tools/solver_accuracy_viz.py
-    python tools/solver_accuracy_viz.py --out output/solver_accuracy.png
+    python tools/solver_accuracy_viz.py --out-dir output/
 """
 from __future__ import annotations
 
@@ -25,6 +24,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.ticker
 import numpy as np
 
 from analysis.historical_loader import load_season
@@ -34,7 +34,7 @@ from core.data_loader import load_teams
 
 
 # ---------------------------------------------------------------------------
-# Colour palette
+# Shared style
 # ---------------------------------------------------------------------------
 
 COLORS = {
@@ -52,6 +52,120 @@ HATCH = {
 
 DAYS_ORDER = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 DAY_ABBR   = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]
+
+SUBTITLE_COLOR = "#6b7280"
+NOTE_COLOR     = "#7c3aed"
+
+
+def _legend_handles(present: list[str]) -> list[mpatches.Patch]:
+    return [
+        mpatches.Patch(
+            facecolor=COLORS[k], hatch=HATCH[k],
+            edgecolor="white", label=k, alpha=0.88,
+        )
+        for k in present
+    ]
+
+
+def _polish(ax: plt.Axes) -> None:
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.set_axisbelow(True)
+    ax.yaxis.grid(True, linewidth=0.4, alpha=0.5)
+    ax.tick_params(axis="both", labelsize=8)
+
+
+def _save(fig: plt.Figure, path: Path) -> None:
+    path.parent.mkdir(exist_ok=True)
+    fig.savefig(path, dpi=150, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    print(f"Saved: {path}  ({path.stat().st_size // 1024} KB)")
+
+
+# ---------------------------------------------------------------------------
+# Grouped bar helper
+# ---------------------------------------------------------------------------
+
+def grouped_bars(
+    ax: plt.Axes,
+    labels: list[str],
+    groups: dict[str, list[float]],
+    group_labels: list[str],
+    ylabel: str = "",
+    title: str = "",
+    subtitle: str = "",
+    log_scale: bool = False,
+    ref_line: float | None = None,
+    ref_label: str = "",
+    note: str = "",
+) -> None:
+    n_groups = len(group_labels)
+    n_series = len(labels)
+    bar_w    = 0.7 / n_series
+    x        = np.arange(n_groups)
+
+    for i, lbl in enumerate(labels):
+        vals    = groups[lbl]
+        offsets = (i - (n_series - 1) / 2) * bar_w
+        bars = ax.bar(
+            x + offsets, vals, bar_w,
+            label=lbl,
+            color=COLORS[lbl],
+            hatch=HATCH[lbl],
+            edgecolor="white",
+            linewidth=0.5,
+            alpha=0.88,
+            zorder=3,
+        )
+        for bar, v in zip(bars, vals):
+            if v is None or (isinstance(v, float) and np.isnan(v)):
+                continue
+            top = bar.get_height()
+            label_text = (
+                f"{v:,.0f}" if v >= 1000
+                else f"{v:.1f}" if v < 10
+                else f"{int(v)}"
+            )
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                top + (top * 0.04 if log_scale else max(top * 0.02, 0.2)),
+                label_text,
+                ha="center", va="bottom", fontsize=7, color="#374151", zorder=4,
+            )
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(group_labels, fontsize=8.5)
+    ax.set_ylabel(ylabel, fontsize=8.5)
+    ax.set_title(title, fontsize=11, fontweight="bold", pad=6)
+    if subtitle:
+        ax.text(0.5, 1.01, subtitle, transform=ax.transAxes,
+                ha="center", va="bottom", fontsize=8, color=SUBTITLE_COLOR, style="italic")
+    _polish(ax)
+
+    if log_scale:
+        ax.set_yscale("log")
+        ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
+
+    if ref_line is not None:
+        ax.axhline(ref_line, color="#f59e0b", linewidth=1.4, linestyle="--", zorder=2)
+        ax.text(
+            n_groups - 0.5, ref_line, f"  {ref_label}",
+            va="bottom", ha="right", fontsize=7.5, color="#92400e",
+        )
+
+    if note:
+        ax.text(0.02, 0.97, note, transform=ax.transAxes,
+                fontsize=7, color=NOTE_COLOR, va="top", style="italic")
+
+
+# ---------------------------------------------------------------------------
+# Helpers for pulling values safely
+# ---------------------------------------------------------------------------
+
+def _cv(r: MetricsReport, key: str) -> int:
+    cv = r.constraint_violations
+    if isinstance(cv, dict):
+        return cv.get(key, 0)
+    return 0
 
 
 # ---------------------------------------------------------------------------
@@ -81,28 +195,221 @@ def load_reports() -> dict[str, MetricsReport]:
 
 
 # ---------------------------------------------------------------------------
-# Grouped bar helper
+# Figure 1 — Solver performance
 # ---------------------------------------------------------------------------
 
-def grouped_bars(
-    ax: plt.Axes,
-    labels: list[str],
-    groups: dict[str, list[float]],
-    group_labels: list[str],
-    ylabel: str = "",
-    title: str = "",
-    log_scale: bool = False,
-    ref_line: float | None = None,
-    ref_label: str = "",
-) -> None:
-    n_groups  = len(group_labels)
-    n_series  = len(labels)
-    bar_w     = 0.7 / n_series
-    x         = np.arange(n_groups)
+def render_performance(reports: dict[str, MetricsReport], out: Path) -> None:
+    solvers = [k for k in ["CP-SAT", "ILP", "Metaheuristic"] if k in reports]
+    present = [k for k in ["Historical"] + solvers if k in reports]
 
-    for i, lbl in enumerate(labels):
-        vals    = groups[lbl]
-        offsets = (i - (n_series - 1) / 2) * bar_w
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.5), facecolor="white")
+    fig.suptitle(
+        "Solver Performance vs. Historical — EPL 2025/26",
+        fontsize=14, fontweight="bold", color="#1e3a5f", y=1.01,
+    )
+
+    # Penalty score (solvers only)
+    grouped_bars(
+        axes[0], solvers,
+        {k: [reports[k].penalty_score or 0] for k in solvers},
+        ["Penalty Score"],
+        ylabel="Score (log scale)",
+        title="Optimisation Penalty Score",
+        subtitle="Solver objective — lower is better",
+        log_scale=True,
+    )
+
+    # Hard + soft violations (solvers only)
+    grouped_bars(
+        axes[1], solvers,
+        {k: [reports[k].hard_violations or 0, reports[k].soft_violations or 0] for k in solvers},
+        ["Hard Violations", "Soft Violations"],
+        ylabel="Count",
+        title="Constraint Violations",
+        subtitle="0 hard violations = feasible schedule",
+        ref_line=0, ref_label="hard target = 0",
+    )
+    axes[1].set_ylim(bottom=-8)
+
+    # Rest days (all incl. historical)
+    grouped_bars(
+        axes[2], present,
+        {k: [reports[k].rest_mean, reports[k].rest_min_global] for k in present},
+        ["Mean rest days", "Min rest days"],
+        ylabel="Days",
+        title="Rest Days vs. Historical",
+        subtitle="Min ≥ 3 is the hard constraint (HC1)",
+        ref_line=3, ref_label="HC1 min = 3",
+    )
+
+    fig.legend(
+        handles=_legend_handles(present), loc="lower center",
+        ncol=len(present), fontsize=9.5, frameon=False,
+        bbox_to_anchor=(0.5, -0.06),
+    )
+    fig.tight_layout()
+    _save(fig, out)
+
+
+# ---------------------------------------------------------------------------
+# Figure 2 — Schedule quality
+# ---------------------------------------------------------------------------
+
+def render_quality(reports: dict[str, MetricsReport], out: Path) -> None:
+    present = [k for k in ["Historical", "CP-SAT", "ILP", "Metaheuristic"] if k in reports]
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.5), facecolor="white")
+    fig.suptitle(
+        "Schedule Quality vs. Historical — EPL 2025/26",
+        fontsize=14, fontweight="bold", color="#1e3a5f", y=1.01,
+    )
+
+    # Consecutive runs
+    grouped_bars(
+        axes[0], present,
+        {k: [
+            reports[k].league_max_consec_home,
+            reports[k].league_max_consec_away,
+            len(reports[k].teams_over_3_away),
+        ] for k in present},
+        ["Max consec.\nhome", "Max consec.\naway", "Teams >3\nconsec. away"],
+        ylabel="Count",
+        title="Consecutive Fixture Runs",
+        subtitle="SC1/SC2 soft target ≤ 3; real EPL routinely exceeds this",
+        ref_line=3, ref_label="soft target = 3",
+    )
+
+    # City clashes
+    city_data = {
+        k: [reports[k].city_clash_count, _cv(reports[k], "SC7")]
+        for k in present
+    }
+    if "Historical" in reports:
+        city_data["Historical"][1] = reports["Historical"].city_weekend_clash_count
+    grouped_bars(
+        axes[1], present, city_data,
+        ["Same-day\nclashes", "4-day window\n(SC7)"],
+        ylabel="Clash count",
+        title="City Home Clashes",
+        subtitle="SC7: same-city clubs both home within 4 days",
+    )
+
+    # Derby spacing
+    grouped_bars(
+        axes[2], present,
+        {k: [len(reports[k].derbies_under_56d)] for k in present},
+        ["Derby pairs gap <56 days"],
+        ylabel="Count",
+        title="Derby Leg Spacing (SC3)",
+        subtitle="Fewer than 56 days between legs — lower is better",
+    )
+
+    fig.legend(
+        handles=_legend_handles(present), loc="lower center",
+        ncol=len(present), fontsize=9.5, frameon=False,
+        bbox_to_anchor=(0.5, -0.06),
+    )
+    fig.tight_layout()
+    _save(fig, out)
+
+
+# ---------------------------------------------------------------------------
+# Figure 3 — Constraint violations
+# ---------------------------------------------------------------------------
+
+def render_constraints(reports: dict[str, MetricsReport], out: Path) -> None:
+    present = [k for k in ["Historical", "CP-SAT", "ILP", "Metaheuristic"] if k in reports]
+
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.5), facecolor="white")
+    fig.suptitle(
+        "Constraint Violations vs. Historical — EPL 2025/26",
+        fontsize=14, fontweight="bold", color="#1e3a5f", y=1.01,
+    )
+
+    # Atos Golden Rules
+    golden_data = {
+        k: [
+            reports[k].five_match_pattern_violations,
+            reports[k].season_boundary_violations,
+            _cv(reports[k], "SC15") if isinstance(reports[k].constraint_violations, dict)
+                else reports[k].boxing_day_nyd_violations,
+        ]
+        for k in present
+    }
+    if "Historical" in reports:
+        h = reports["Historical"]
+        golden_data["Historical"] = [
+            h.five_match_pattern_violations,
+            h.season_boundary_violations,
+            h.boxing_day_nyd_violations,
+        ]
+    grouped_bars(
+        axes[0], present, golden_data,
+        ["SC13\n5-match H/A", "SC14\nSeason boundary", "SC15\nBoxDay/NYD pair"],
+        ylabel="Violations",
+        title="Atos Golden Rules",
+        subtitle="Target = 0 for all; real EPL averages 244 SC13 violations/season",
+        note="Real EPL avg: SC13=244, SC14=19, SC15=0.3",
+    )
+
+    # London cluster
+    grouped_bars(
+        axes[1], present,
+        {k: [reports[k].london_cluster_violations] for k in present},
+        [">3 London clubs\nhome same day"],
+        ylabel="Days with violation",
+        title="London Cluster (SC10)",
+        subtitle="More than 3 London clubs scheduled at home on the same day",
+        ref_line=0, ref_label="target = 0",
+    )
+    axes[1].set_ylim(bottom=-0.4)
+
+    # Festive coverage
+    grouped_bars(
+        axes[2], present,
+        {k: [
+            reports[k].boxing_day_coverage,
+            reports[k].new_years_day_coverage,
+            reports[k].good_friday_coverage,
+            reports[k].easter_monday_coverage,
+        ] for k in present},
+        ["Boxing\nDay", "New Year's\nDay", "Good\nFriday", "Easter\nMonday"],
+        ylabel="Teams playing",
+        title="Festive Date Coverage",
+        subtitle="Target = all 20 teams; historical = 0 due to data-source gap",
+        ref_line=20, ref_label="target = 20",
+        note="Historical = 0 is a data-source gap, not absence of fixtures",
+    )
+
+    fig.legend(
+        handles=_legend_handles(present), loc="lower center",
+        ncol=len(present), fontsize=9.5, frameon=False,
+        bbox_to_anchor=(0.5, -0.06),
+    )
+    fig.tight_layout()
+    _save(fig, out)
+
+
+# ---------------------------------------------------------------------------
+# Figure 4 — Day-of-week distribution
+# ---------------------------------------------------------------------------
+
+def render_dow(reports: dict[str, MetricsReport], out: Path) -> None:
+    present = [k for k in ["Historical", "CP-SAT", "ILP", "Metaheuristic"] if k in reports]
+
+    fig, ax = plt.subplots(figsize=(13, 5.5), facecolor="white")
+    fig.suptitle(
+        "Day-of-Week Fixture Distribution vs. Historical — EPL 2025/26",
+        fontsize=14, fontweight="bold", color="#1e3a5f", y=1.01,
+    )
+
+    x     = np.arange(len(DAYS_ORDER))
+    n_ser = len(present)
+    bar_w = 0.7 / n_ser
+
+    for i, lbl in enumerate(present):
+        vals    = [reports[lbl].day_of_week_pct.get(d, 0) for d in DAYS_ORDER]
+        offsets = (i - (n_ser - 1) / 2) * bar_w
         bars = ax.bar(
             x + offsets, vals, bar_w,
             label=lbl,
@@ -114,328 +421,37 @@ def grouped_bars(
             zorder=3,
         )
         for bar, v in zip(bars, vals):
-            if v is None or np.isnan(v):
-                continue
-            top = bar.get_height()
-            ax.text(
-                bar.get_x() + bar.get_width() / 2,
-                top + (top * 0.04 if log_scale else max(top * 0.02, 0.3)),
-                f"{v:,.0f}" if v >= 100 else f"{v:.1f}" if v < 10 else f"{int(v)}",
-                ha="center", va="bottom", fontsize=6.0, color="#374151", zorder=4,
-            )
-
-    ax.set_xticks(x)
-    ax.set_xticklabels(group_labels, fontsize=7.5)
-    ax.set_ylabel(ylabel, fontsize=7.5)
-    ax.set_title(title, fontsize=9, fontweight="bold", pad=5)
-    ax.tick_params(axis="y", labelsize=7)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.set_axisbelow(True)
-    ax.yaxis.grid(True, linewidth=0.4, alpha=0.5)
-
-    if log_scale:
-        ax.set_yscale("log")
-        ax.yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
-
-    if ref_line is not None:
-        ax.axhline(ref_line, color="#f59e0b", linewidth=1.2, linestyle="--", zorder=2)
-        ax.text(
-            n_groups - 0.5, ref_line,
-            f" {ref_label}",
-            va="bottom", ha="right", fontsize=6.5, color="#92400e",
-        )
-
-
-# ---------------------------------------------------------------------------
-# Main render
-# ---------------------------------------------------------------------------
-
-def render(reports: dict[str, MetricsReport], out_path: Path) -> None:
-    solvers   = [k for k in reports if k != "Historical"]
-    all_keys  = ["Historical"] + solvers
-    present   = [k for k in all_keys if k in reports]
-
-    fig = plt.figure(figsize=(22, 26), facecolor="white")
-    fig.suptitle(
-        "EPL Solver Accuracy vs. Historical 2024-25 Season",
-        fontsize=16, fontweight="bold", color="#1e3a5f", y=0.995,
-    )
-
-    # Grid: 5 rows, 3 cols
-    from matplotlib.gridspec import GridSpec
-    gs = GridSpec(
-        5, 3, figure=fig,
-        hspace=0.55, wspace=0.38,
-        left=0.06, right=0.97, top=0.97, bottom=0.04,
-    )
-
-    # ── Legend strip (row 0, spanning all cols) ─────────────────────────────
-    legend_ax = fig.add_subplot(gs[0, :])
-    legend_ax.axis("off")
-    handles = [
-        mpatches.Patch(
-            facecolor=COLORS[k], hatch=HATCH[k],
-            edgecolor="white", label=k, alpha=0.88,
-        )
-        for k in present
-    ]
-    legend_ax.legend(
-        handles=handles,
-        loc="center", ncol=len(present),
-        fontsize=10, frameon=False,
-        handlelength=2.0, handleheight=1.4,
-    )
-    legend_ax.set_title(
-        "Colour & hatch key — same across all panels below",
-        fontsize=8.5, color="#6b7280", pad=2,
-    )
-
-    # ─────────────────────────────────────────────────────────────────────────
-    # Panel A — Solver performance (penalty score, violations)
-    # ─────────────────────────────────────────────────────────────────────────
-    ax_pen  = fig.add_subplot(gs[1, 0])
-    ax_viol = fig.add_subplot(gs[1, 1])
-    ax_rest = fig.add_subplot(gs[1, 2])
-
-    # Penalty score (solvers only — historical has no penalty)
-    pen_keys  = [k for k in solvers if k in reports]
-    pen_vals  = {k: [reports[k].penalty_score or 0] for k in pen_keys}
-    grouped_bars(
-        ax_pen, pen_keys,
-        {k: [v[0]] for k, v in pen_vals.items()},
-        ["Penalty Score"],
-        ylabel="Score (log scale)",
-        title="A. Optimisation Penalty Score\n(solver objective — lower is better)",
-        log_scale=True,
-    )
-
-    # Hard + soft violations
-    viol_groups = ["Hard Violations", "Soft Violations"]
-    viol_data   = {
-        k: [
-            reports[k].hard_violations or 0,
-            reports[k].soft_violations or 0,
-        ]
-        for k in pen_keys
-    }
-    grouped_bars(
-        ax_viol, pen_keys, viol_data, viol_groups,
-        ylabel="Count",
-        title="B. Hard & Soft Constraint Violations\n(0 hard = feasible schedule)",
-        ref_line=0, ref_label="hard target = 0",
-    )
-    ax_viol.set_ylim(bottom=-5)
-
-    # Rest days
-    rest_groups = ["Mean rest days", "Min rest days"]
-    rest_data   = {
-        k: [
-            reports[k].rest_mean,
-            reports[k].rest_min_global,
-        ]
-        for k in present
-    }
-    grouped_bars(
-        ax_rest, present, rest_data, rest_groups,
-        ylabel="Days",
-        title="C. Rest Days vs. Historical\n(min ≥ 3 is the hard constraint)",
-        ref_line=3, ref_label="HC1 min = 3",
-    )
-
-    # ─────────────────────────────────────────────────────────────────────────
-    # Panel B — Consecutive runs & city clashes
-    # ─────────────────────────────────────────────────────────────────────────
-    ax_consec = fig.add_subplot(gs[2, 0])
-    ax_city   = fig.add_subplot(gs[2, 1])
-    ax_derby  = fig.add_subplot(gs[2, 2])
-
-    # Consecutive home/away
-    consec_groups = ["Max consec. home", "Max consec. away", "Teams >3 consec. away"]
-    consec_data   = {
-        k: [
-            reports[k].league_max_consec_home,
-            reports[k].league_max_consec_away,
-            len(reports[k].teams_over_3_away),
-        ]
-        for k in present
-    }
-    grouped_bars(
-        ax_consec, present, consec_data, consec_groups,
-        ylabel="Count",
-        title="D. Consecutive Fixture Runs\n(SC1/SC2 soft target ≤ 3/5)",
-        ref_line=3, ref_label="soft target = 3",
-    )
-
-    # City clashes — constraint_violations is a dict for solvers, empty list for historical
-    def _cv(r: MetricsReport, key: str) -> int:
-        cv = r.constraint_violations
-        if isinstance(cv, dict):
-            return cv.get(key, 0)
-        return 0
-
-    city_groups = ["Same-day clashes", "4-day window (SC7)"]
-    city_data   = {
-        k: [
-            reports[k].city_clash_count,
-            _cv(reports[k], "SC7"),
-        ]
-        for k in present
-    }
-    # Fill historical SC7 from the city_weekend_clash_count field
-    if "Historical" in reports:
-        city_data["Historical"][1] = reports["Historical"].city_weekend_clash_count
-    grouped_bars(
-        ax_city, present, city_data, city_groups,
-        ylabel="Clash count",
-        title="E. City Home Clashes\n(SC7: same-city clubs both home within 4 days)",
-    )
-
-    # Derby spacing
-    derby_groups = ["Derbies gap <56 days"]
-    derby_data   = {
-        k: [len(reports[k].derbies_under_56d)]
-        for k in present
-    }
-    grouped_bars(
-        ax_derby, present, derby_data, derby_groups,
-        ylabel="Derby pairs",
-        title="F. Derby Leg Spacing (SC3)\n(gap <56 days between legs — lower is better)",
-    )
-
-    # ─────────────────────────────────────────────────────────────────────────
-    # Panel C — Atos Golden Rule violations (SC13, SC14, SC15)
-    # ─────────────────────────────────────────────────────────────────────────
-    ax_golden  = fig.add_subplot(gs[3, 0])
-    ax_london  = fig.add_subplot(gs[3, 1])
-    ax_festive = fig.add_subplot(gs[3, 2])
-
-    golden_groups = ["SC13\n5-match H/A", "SC14\nSeason boundary", "SC15\nBoxDay/NYD pair"]
-    golden_data   = {
-        k: [
-            reports[k].five_match_pattern_violations,
-            reports[k].season_boundary_violations,
-            _cv(reports[k], "SC15") if isinstance(reports[k].constraint_violations, dict)
-                else reports[k].boxing_day_nyd_violations,
-        ]
-        for k in present
-    }
-    # Historical golden rule values come from the report fields directly
-    if "Historical" in reports:
-        h = reports["Historical"]
-        golden_data["Historical"] = [
-            h.five_match_pattern_violations,
-            h.season_boundary_violations,
-            h.boxing_day_nyd_violations,
-        ]
-    grouped_bars(
-        ax_golden, present, golden_data, golden_groups,
-        ylabel="Violations",
-        title="G. Atos Golden Rules\n(SC13/SC14/SC15 — target = 0, but historical ≠ 0)",
-    )
-    # Annotate historical baseline callout
-    ax_golden.text(
-        0.02, 0.97,
-        "Note: Real EPL averages 244 SC13 violations/season",
-        transform=ax_golden.transAxes,
-        fontsize=6.5, color="#7c3aed", va="top", fontstyle="italic",
-    )
-
-    # London cluster
-    london_groups = ["SC10 violations\n(>3 London clubs home same day)"]
-    london_data   = {
-        k: [reports[k].london_cluster_violations]
-        for k in present
-    }
-    grouped_bars(
-        ax_london, present, london_data, london_groups,
-        ylabel="Days with violation",
-        title="H. London Cluster (SC10)\n(>3 London clubs home on same day)",
-        ref_line=0, ref_label="target = 0",
-    )
-    ax_london.set_ylim(bottom=-0.3)
-
-    # Festive coverage
-    festive_groups = ["Boxing Day", "New Year's Day", "Good Friday", "Easter Monday"]
-    festive_data   = {
-        k: [
-            reports[k].boxing_day_coverage,
-            reports[k].new_years_day_coverage,
-            reports[k].good_friday_coverage,
-            reports[k].easter_monday_coverage,
-        ]
-        for k in present
-    }
-    grouped_bars(
-        ax_festive, present, festive_data, festive_groups,
-        ylabel="Teams playing",
-        title="I. Festive Date Coverage\n(target = all 20 teams; historical CSVs lack festive data)",
-        ref_line=20, ref_label="target = 20",
-    )
-    ax_festive.text(
-        0.02, 0.97,
-        "* Historical = 0 due to data-source gap, not actual absence of fixtures",
-        transform=ax_festive.transAxes,
-        fontsize=6.0, color="#6b7280", va="top", fontstyle="italic",
-    )
-
-    # ─────────────────────────────────────────────────────────────────────────
-    # Panel D — Day-of-week distribution
-    # ─────────────────────────────────────────────────────────────────────────
-    ax_dow = fig.add_subplot(gs[4, :])
-
-    x      = np.arange(len(DAYS_ORDER))
-    n_ser  = len(present)
-    bar_w  = 0.7 / n_ser
-
-    for i, lbl in enumerate(present):
-        vals    = [reports[lbl].day_of_week_pct.get(d, 0) for d in DAYS_ORDER]
-        offsets = (i - (n_ser - 1) / 2) * bar_w
-        bars = ax_dow.bar(
-            x + offsets, vals, bar_w,
-            label=lbl,
-            color=COLORS[lbl],
-            hatch=HATCH[lbl],
-            edgecolor="white",
-            linewidth=0.5,
-            alpha=0.88,
-            zorder=3,
-        )
-        for bar, v in zip(bars, vals):
-            if v > 1:
-                ax_dow.text(
+            if v > 0.5:
+                ax.text(
                     bar.get_x() + bar.get_width() / 2,
                     bar.get_height() + 0.3,
                     f"{v:.1f}%",
-                    ha="center", va="bottom", fontsize=5.8, color="#374151", zorder=4,
+                    ha="center", va="bottom", fontsize=6.5, color="#374151", zorder=4,
                 )
 
-    ax_dow.set_xticks(x)
-    ax_dow.set_xticklabels(DAY_ABBR, fontsize=9)
-    ax_dow.set_ylabel("% of fixtures", fontsize=8)
-    ax_dow.set_title(
-        "J. Day-of-Week Fixture Distribution vs. Historical\n"
-        "(solvers under-weight Monday; ILP/MH over-weight midweek)",
-        fontsize=9, fontweight="bold", pad=6,
+    ax.set_xticks(x)
+    ax.set_xticklabels(DAY_ABBR, fontsize=11)
+    ax.set_ylabel("% of season fixtures", fontsize=9)
+    ax.set_title(
+        "Solvers under-weight Monday (needs TV rights logic); ILP/MH over-weight midweek",
+        fontsize=8.5, color=SUBTITLE_COLOR, style="italic", pad=4,
     )
-    ax_dow.tick_params(axis="y", labelsize=7.5)
-    ax_dow.spines[["top", "right"]].set_visible(False)
-    ax_dow.set_axisbelow(True)
-    ax_dow.yaxis.grid(True, linewidth=0.4, alpha=0.5)
-    ax_dow.legend(fontsize=8.5, frameon=False, loc="upper right")
+    _polish(ax)
+    ax.legend(fontsize=9.5, frameon=False, loc="upper right")
 
-    # Annotate Monday gap
+    # Monday annotation
     mon_idx = DAYS_ORDER.index("Monday")
-    ax_dow.annotate(
-        "Monday gap:\nReal EPL ~19.5%\nCP-SAT only 12.6%",
-        xy=(mon_idx, 19.5), xytext=(mon_idx + 0.8, 25),
-        fontsize=7, color="#92400e",
+    hist_mon = reports["Historical"].day_of_week_pct.get("Monday", 0) if "Historical" in reports else 0
+    ax.annotate(
+        f"Historical: {hist_mon:.1f}%\nCP-SAT: {reports['CP-SAT'].day_of_week_pct.get('Monday', 0):.1f}%",
+        xy=(mon_idx, hist_mon),
+        xytext=(mon_idx + 1.1, hist_mon + 5),
+        fontsize=8, color="#92400e",
         arrowprops=dict(arrowstyle="->", color="#92400e", lw=1.0),
     )
 
-    out_path.parent.mkdir(exist_ok=True)
-    fig.savefig(out_path, dpi=150, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
-    print(f"Saved: {out_path}  ({out_path.stat().st_size // 1024} KB)")
+    fig.tight_layout()
+    _save(fig, out)
 
 
 # ---------------------------------------------------------------------------
@@ -443,18 +459,22 @@ def render(reports: dict[str, MetricsReport], out_path: Path) -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Solver accuracy visualization")
+    parser = argparse.ArgumentParser(description="Solver accuracy visualizations")
     parser.add_argument(
-        "--out", default=str(ROOT / "output" / "solver_accuracy.png"),
-        help="Output PNG path",
+        "--out-dir", default=str(ROOT / "output"),
+        help="Directory to write PNG files (default: output/)",
     )
     args = parser.parse_args()
+    out_dir = Path(args.out_dir)
 
     print("Loading reports…")
     reports = load_reports()
-    print(f"  Loaded: {list(reports.keys())}")
+    print(f"  Loaded: {list(reports.keys())}\n")
 
-    render(reports, Path(args.out))
+    render_performance(reports, out_dir / "viz_performance.png")
+    render_quality(reports,     out_dir / "viz_quality.png")
+    render_constraints(reports, out_dir / "viz_constraints.png")
+    render_dow(reports,         out_dir / "viz_dow.png")
 
 
 if __name__ == "__main__":
