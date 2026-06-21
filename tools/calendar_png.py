@@ -445,6 +445,110 @@ def _render_month_team(
 
 
 # ---------------------------------------------------------------------------
+# Fixture list panel (team mode only)
+# ---------------------------------------------------------------------------
+
+def _draw_fixture_list(
+    ax: plt.Axes,
+    team_id: str,
+    by_date: dict,
+    derby_pairs: set,
+) -> None:
+    """Draw an ordered season fixture list to the right of the calendar grid."""
+    fixtures = sorted(
+        (sf for sfs in by_date.values() for sf in sfs
+         if sf.home_team_id == team_id or sf.away_team_id == team_id),
+        key=lambda sf: (sf.slot.date, sf.slot.kickoff),
+    )
+
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis("off")
+
+    N_HDR   = 3          # header rows (title + col labels + divider)
+    N_ROWS  = len(fixtures) + N_HDR
+    row_h   = 1.0 / N_ROWS
+    fs_main = max(5.0, min(7.5, 230 / N_ROWS))   # adaptive font size
+
+    # ── Panel background ────────────────────────────────────────────────────
+    ax.add_patch(FancyBboxPatch(
+        (0, 0), 1, 1,
+        boxstyle="square,pad=0", linewidth=0.5,
+        edgecolor="#d1d5db", facecolor="#f9fafb", zorder=0,
+    ))
+
+    # ── Title row ───────────────────────────────────────────────────────────
+    title_h = row_h * 1.5
+    ax.add_patch(FancyBboxPatch(
+        (0, 1 - title_h), 1, title_h,
+        boxstyle="square,pad=0", linewidth=0,
+        facecolor=C_HEADER_BG, zorder=1,
+    ))
+    ax.text(0.5, 1 - title_h / 2, "SEASON FIXTURES",
+            ha="center", va="center", fontsize=fs_main + 0.5,
+            fontweight="bold", color="white", zorder=2)
+
+    # ── Column header row ───────────────────────────────────────────────────
+    col_y = 1 - title_h - row_h * 0.85
+    ax.add_patch(FancyBboxPatch(
+        (0, 1 - title_h - row_h), 1, row_h,
+        boxstyle="square,pad=0", linewidth=0,
+        facecolor="#374151", zorder=1,
+    ))
+    for label, x in [("#", 0.04), ("DATE", 0.14), ("H/A", 0.50), ("OPPONENT", 0.62)]:
+        ax.text(x, col_y, label,
+                ha="left", va="center", fontsize=fs_main - 0.5,
+                fontweight="bold", color="white", zorder=2)
+
+    # ── Fixture rows ────────────────────────────────────────────────────────
+    top_of_rows = 1 - title_h - row_h
+    for i, sf in enumerate(fixtures):
+        y = top_of_rows - (i + 1) * row_h
+
+        # Alternating row background
+        row_bg = "#ffffff" if i % 2 == 0 else "#f3f4f6"
+        ax.add_patch(FancyBboxPatch(
+            (0, y), 1, row_h,
+            boxstyle="square,pad=0", linewidth=0,
+            facecolor=row_bg, zorder=1,
+        ))
+
+        is_home  = sf.home_team_id == team_id
+        opponent = sf.away_team_id if is_home else sf.home_team_id
+        is_derby = (sf.home_team_id, sf.away_team_id) in derby_pairs
+        ha_label = "H" if is_home else "A"
+        ha_color = C_HOME_TEXT if is_home else C_AWAY_TEXT
+        date_str = sf.slot.date.strftime("%m/%d/%y")
+        text_y   = y + row_h * 0.52
+
+        # Match number
+        ax.text(0.04, text_y, str(i + 1),
+                ha="left", va="center", fontsize=fs_main - 1.0,
+                color=C_FAINT, zorder=2)
+
+        # Date
+        ax.text(0.14, text_y, date_str,
+                ha="left", va="center", fontsize=fs_main,
+                color=C_TEXT, zorder=2, fontfamily="monospace")
+
+        # H / A badge
+        ax.text(0.50, text_y, ha_label,
+                ha="left", va="center", fontsize=fs_main,
+                fontweight="bold", color=ha_color, zorder=2)
+
+        # Opponent + derby marker
+        opp_label = opponent + (" ◆" if is_derby else "")
+        ax.text(0.62, text_y, opp_label,
+                ha="left", va="center", fontsize=fs_main,
+                color=C_ACCENT if is_derby else C_TEXT,
+                fontweight="bold" if is_derby else "normal",
+                zorder=2, fontfamily="monospace")
+
+        # Subtle row divider
+        ax.axhline(y, color="#e5e7eb", linewidth=0.3, zorder=3)
+
+
+# ---------------------------------------------------------------------------
 # Full-season PNG (both modes)
 # ---------------------------------------------------------------------------
 
@@ -458,17 +562,32 @@ def render_season_png(
     team_id: str | None = None,
     team_name: str = "",
 ) -> None:
-    N_COLS  = 2
-    N_ROWS  = (len(months) + N_COLS - 1) // N_COLS
-    FIG_W   = 18
+    from matplotlib.gridspec import GridSpec
+
+    N_ROWS  = (len(months) + 1) // 2   # always 2 calendar columns
     MONTH_H = 3.6
 
-    fig, axes = plt.subplots(
-        N_ROWS, N_COLS,
-        figsize=(FIG_W, MONTH_H * N_ROWS + 1.2),
-        gridspec_kw={"hspace": 0.35, "wspace": 0.04},
-    )
-    axes_flat = axes.flatten()
+    if team_id:
+        FIG_W = 26
+        fig = plt.figure(figsize=(FIG_W, MONTH_H * N_ROWS + 1.2))
+        gs  = GridSpec(
+            N_ROWS, 3, figure=fig,
+            width_ratios=[1, 1, 0.58],
+            hspace=0.35, wspace=0.05,
+            left=0.01, right=0.99, top=0.965, bottom=0.035,
+        )
+        axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
+        list_ax   = fig.add_subplot(gs[:, 2])
+    else:
+        FIG_W = 18
+        fig   = plt.figure(figsize=(FIG_W, MONTH_H * N_ROWS + 1.2))
+        gs    = GridSpec(
+            N_ROWS, 2, figure=fig,
+            hspace=0.35, wspace=0.04,
+            left=0.01, right=0.99, top=0.975, bottom=0.03,
+        )
+        axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
+        list_ax   = None
 
     for i, (year, month) in enumerate(months):
         if team_id:
@@ -484,16 +603,19 @@ def render_season_png(
     for j in range(len(months), len(axes_flat)):
         axes_flat[j].axis("off")
 
-    # ── Title ──────────────────────────────────────────────────────────────────────────
+    if list_ax is not None:
+        _draw_fixture_list(list_ax, team_id, by_date, derby_pairs)
+
+    # ── Title ─────────────────────────────────────────────────────────────────
     if team_id:
         title = f"{team_name} ({team_id}) — EPL 2025/26 Fixture Calendar"
     else:
         title = "EPL 2025/26 Season Calendar"
     if solver_label:
         title += f"  —  {solver_label}"
-    fig.suptitle(title, fontsize=14, fontweight="bold", color=C_HEADER_BG, y=0.995)
+    fig.suptitle(title, fontsize=14, fontweight="bold", color=C_HEADER_BG, y=0.998)
 
-    # ── Legend ──────────────────────────────────────────────────────────────────────────
+    # ── Legend ────────────────────────────────────────────────────────────────
     if team_id:
         fixture_patches = [
             mpatches.Patch(facecolor=C_HOME,    edgecolor="#9ca3af", label="Home"),
