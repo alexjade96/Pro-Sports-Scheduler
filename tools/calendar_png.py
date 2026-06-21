@@ -47,6 +47,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch
 
+_cal.setfirstweekday(6)  # 6 = Sunday; shifts all monthcalendar() grids to Sun-start
+
 from core.data_loader import load_teams, load_high_profile_derbies, load_calendar
 from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
@@ -54,7 +56,7 @@ from core.models import Fixture, Slot, ScheduledFixture, Schedule
 # Constants / colours
 # ---------------------------------------------------------------------------
 
-DAY_ABBREVS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 C_EMPTY      = "#f8f9fa"   # no fixtures
 C_REGULAR    = "#dbeafe"   # regular matchday       (light blue)
