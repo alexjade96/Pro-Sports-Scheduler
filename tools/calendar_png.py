@@ -61,7 +61,7 @@ DAY_ABBREVS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 # Fixture list layout — column positions and panel width derive from these.
 _LIST_FONT_PT  = 7.0   # reference type size for panel-width calculation (pt)
 _LIST_MONO_ADV = 0.6   # monospace advance width as fraction of em (standard)
-_LIST_COL_PAD  = 2     # padding chars between / around columns
+_LIST_COL_PAD  = 4     # padding chars between / around columns
 # (label, max_chars) — drives panel width and column x-positions
 _LIST_COLS = [("#", 2), ("DATE", 8), ("H/A", 3), ("OPPONENT", 5)]
 
@@ -587,7 +587,7 @@ def render_season_png(
     MONTH_H = 3.6
 
     if team_id:
-        FIG_W = 24
+        FIG_W = 22
         fig_h = MONTH_H * N_ROWS + 1.2
         fig   = plt.figure(figsize=(FIG_W, fig_h))
 
