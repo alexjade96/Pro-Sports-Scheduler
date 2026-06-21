@@ -35,6 +35,17 @@ print_report(report)
 
 There are no automated tests. Validation is done via `core/validator.py` post-solve.
 
+## Git conventions
+
+Always set the commit author to the repo owner; committer stays as Claude:
+
+```bash
+git config user.name Claude
+git config user.email noreply@anthropic.com
+# then on every commit:
+git commit --author="alexjade96 <3687389+alexjade96@users.noreply.github.com>" ...
+```
+
 ## Architecture
 
 ### Data flow
