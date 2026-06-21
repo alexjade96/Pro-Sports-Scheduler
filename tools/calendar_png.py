@@ -465,10 +465,10 @@ def _draw_fixture_list(
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    N_HDR   = 3          # header rows (title + col labels + divider)
+    N_HDR   = 2          # header rows (title + col labels)
     N_ROWS  = len(fixtures) + N_HDR
     row_h   = 1.0 / N_ROWS
-    fs_main = max(5.0, min(7.5, 230 / N_ROWS))   # adaptive font size
+    fs_main = max(5.0, min(7.0, 210 / N_ROWS))   # adaptive font size
 
     # ── Panel background ────────────────────────────────────────────────────
     ax.add_patch(FancyBboxPatch(
@@ -478,24 +478,24 @@ def _draw_fixture_list(
     ))
 
     # ── Title row ───────────────────────────────────────────────────────────
-    title_h = row_h * 1.5
+    title_h = row_h
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h), 1, title_h,
         boxstyle="square,pad=0", linewidth=0,
         facecolor=C_HEADER_BG, zorder=1,
     ))
     ax.text(0.5, 1 - title_h / 2, "SEASON FIXTURES",
-            ha="center", va="center", fontsize=fs_main + 0.5,
+            ha="center", va="center", fontsize=fs_main,
             fontweight="bold", color="white", zorder=2)
 
     # ── Column header row ───────────────────────────────────────────────────
-    col_y = 1 - title_h - row_h * 0.85
+    col_y = 1 - title_h - row_h * 0.5
     ax.add_patch(FancyBboxPatch(
         (0, 1 - title_h - row_h), 1, row_h,
         boxstyle="square,pad=0", linewidth=0,
         facecolor="#374151", zorder=1,
     ))
-    for label, x in [("#", 0.04), ("DATE", 0.14), ("H/A", 0.50), ("OPPONENT", 0.62)]:
+    for label, x in [("#", 0.03), ("DATE", 0.12), ("H/A", 0.47), ("OPPONENT", 0.57)]:
         ax.text(x, col_y, label,
                 ha="left", va="center", fontsize=fs_main - 0.5,
                 fontweight="bold", color="white", zorder=2)
@@ -522,23 +522,23 @@ def _draw_fixture_list(
         text_y   = y + row_h * 0.52
 
         # Match number
-        ax.text(0.04, text_y, str(i + 1),
+        ax.text(0.03, text_y, str(i + 1),
                 ha="left", va="center", fontsize=fs_main - 1.0,
                 color=C_FAINT, zorder=2)
 
         # Date
-        ax.text(0.14, text_y, date_str,
+        ax.text(0.12, text_y, date_str,
                 ha="left", va="center", fontsize=fs_main,
                 color=C_TEXT, zorder=2, fontfamily="monospace")
 
         # H / A badge
-        ax.text(0.50, text_y, ha_label,
+        ax.text(0.47, text_y, ha_label,
                 ha="left", va="center", fontsize=fs_main,
                 fontweight="bold", color=ha_color, zorder=2)
 
         # Opponent + derby marker
         opp_label = opponent + (" ◆" if is_derby else "")
-        ax.text(0.62, text_y, opp_label,
+        ax.text(0.57, text_y, opp_label,
                 ha="left", va="center", fontsize=fs_main,
                 color=C_ACCENT if is_derby else C_TEXT,
                 fontweight="bold" if is_derby else "normal",
@@ -568,12 +568,12 @@ def render_season_png(
     MONTH_H = 3.6
 
     if team_id:
-        FIG_W = 26
+        FIG_W = 24
         fig = plt.figure(figsize=(FIG_W, MONTH_H * N_ROWS + 1.2))
         gs  = GridSpec(
             N_ROWS, 3, figure=fig,
-            width_ratios=[1, 1, 0.58],
-            hspace=0.35, wspace=0.05,
+            width_ratios=[1, 1, 0.42],
+            hspace=0.35, wspace=0.04,
             left=0.01, right=0.99, top=0.965, bottom=0.035,
         )
         axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
