@@ -569,15 +569,32 @@ def render_season_png(
 
     if team_id:
         FIG_W = 24
-        fig = plt.figure(figsize=(FIG_W, MONTH_H * N_ROWS + 1.2))
-        gs  = GridSpec(
-            N_ROWS, 3, figure=fig,
-            width_ratios=[1, 1, 0.42],
+        fig_h = MONTH_H * N_ROWS + 1.2
+        fig   = plt.figure(figsize=(FIG_W, fig_h))
+
+        # Size the fixture list to its content rather than stretching it to
+        # match the calendar height.  ROW_IN sets the physical row height in
+        # inches; the axes height is then exactly content_rows × ROW_IN.
+        team_fx_count = sum(
+            1 for sfs in by_date.values() for sf in sfs
+            if sf.home_team_id == team_id or sf.away_team_id == team_id
+        )
+        N_LIST      = team_fx_count + 2        # +2: title row + column-header row
+        ROW_IN      = 0.18                     # inches per row
+        LIST_TOP    = 0.965                    # align to top of calendar grid
+        LIST_W_FRAC = 0.21                     # fraction of figure width
+        list_h_frac = min((ROW_IN * N_LIST) / fig_h, LIST_TOP - 0.035)
+        cal_right   = 1.0 - LIST_W_FRAC - 0.012
+
+        gs = GridSpec(
+            N_ROWS, 2, figure=fig,
             hspace=0.35, wspace=0.04,
-            left=0.01, right=0.99, top=0.965, bottom=0.035,
+            left=0.01, right=cal_right, top=LIST_TOP, bottom=0.035,
         )
         axes_flat = [fig.add_subplot(gs[r, c]) for r in range(N_ROWS) for c in range(2)]
-        list_ax   = fig.add_subplot(gs[:, 2])
+        list_ax   = fig.add_axes([
+            cal_right + 0.008, LIST_TOP - list_h_frac, LIST_W_FRAC, list_h_frac,
+        ])
     else:
         FIG_W = 18
         fig   = plt.figure(figsize=(FIG_W, MONTH_H * N_ROWS + 1.2))
