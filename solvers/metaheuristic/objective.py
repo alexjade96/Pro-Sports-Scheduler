@@ -189,6 +189,28 @@ def score(schedule: Schedule, teams: dict) -> float:
             if home_count not in (2, 3):
                 total += p_5match
 
+    # ── SC5: balanced home/away split per half-season ─────────────────────
+    from datetime import date as _date2
+    p_balance = _WEIGHTS.get("SC5", 10)
+    tolerance_sc5 = 2
+    _season_start = _date2.fromisoformat(_CALENDAR["start_date"])
+    _season_end   = _date2.fromisoformat(_CALENDAR["end_date"])
+    _midpoint     = _date2.fromordinal(
+        (_season_start.toordinal() + _season_end.toordinal()) // 2
+    )
+    for team_id in teams:
+        h1_h = h1_a = h2_h = h2_a = 0
+        for sf in schedule.fixtures_for_team(team_id):
+            first = sf.slot.date <= _midpoint
+            home  = sf.home_team_id == team_id
+            if first:
+                h1_h += home; h1_a += not home
+            else:
+                h2_h += home; h2_a += not home
+        for hg, ag in [(h1_h, h1_a), (h2_h, h2_a)]:
+            if abs(hg - ag) > tolerance_sc5:
+                total += p_balance * (abs(hg - ag) - tolerance_sc5)
+
     # ── SC14: season boundary H/A ─────────────────────────────────────────
     p_boundary = _WEIGHTS.get("SC14", 30)
     for team_id in teams:
