@@ -226,6 +226,22 @@
       "penalty_per_violation": 5,
       "source": "PL scheduling practice — the season is structured as 33 weekend + 5 midweek rounds (confirmed PL/Atos documentation). The 5 midweek rounds exist precisely to absorb postponed fixtures via double-gameweeks. Keeping ≥1 unfilled midweek date (Tue/Wed/Thu) per month ensures there is always a rescheduling window available without extending the season. Penalty is intentionally low (5) as this is a planning preference, not an operational requirement.",
       "description": "Each calendar month should retain at least 1 unfilled midweek date (Tue/Wed/Thu with no league fixtures) as a contingency rescheduling window for postponed matches"
+    },
+    {
+      "id": "SC17",
+      "type": "min_sat_1500_appearances",
+      "min_per_team": 5,
+      "penalty_per_violation": 10,
+      "source": "PL/Sky Sports — the unbroadcast Saturday 15:00 slot accounts for ~47% of all EPL fixtures (180 of 380); historically each team plays ~9 home and ~9 away games at 15:00 per season. Solvers without a floor ignore this slot entirely, producing near-zero 15:00 usage vs 35%+ historically.",
+      "description": "Each team should appear in at least 5 Saturday 15:00 fixtures across the season (combined home and away)"
+    },
+    {
+      "id": "SC18",
+      "type": "min_monday_appearances",
+      "min_per_team": 3,
+      "penalty_per_violation": 12,
+      "source": "Sky Sports Monday Night Football — historical EPL data (2015-2025) shows teams average 3.7 Monday appearances per season. Without a floor, MIP solvers under-use Monday (only 1 kickoff time vs Saturday's 3), producing 12.6% Monday usage vs 19.5% historically.",
+      "description": "Each team should appear in at least 3 Monday Night Football fixtures across the season"
     }
   ],
 

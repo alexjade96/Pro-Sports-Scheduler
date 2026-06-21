@@ -234,6 +234,28 @@ def score(schedule: Schedule, teams: dict) -> float:
                 total += p_open
                 break
 
+    # ── SC17: min Saturday 15:00 appearances per team ─────────────────────────
+    p_sat15 = _WEIGHTS.get("SC17", 10)
+    min_sat15 = 5
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Saturday" and sf.slot.kickoff == "15:00"
+        )
+        if count < min_sat15:
+            total += p_sat15 * (min_sat15 - count)
+
+    # ── SC18: min Monday appearances per team ──────────────────────────────────
+    p_mon_min = _WEIGHTS.get("SC18", 12)
+    min_mon = 3
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count < min_mon:
+            total += p_mon_min * (min_mon - count)
+
     # ── SC16: spare rescheduling window — ≥1 unfilled midweek per month ──────
     p_spare      = _WEIGHTS.get("SC16", 5)
     midweek_days = {"Tuesday", "Wednesday", "Thursday"}

@@ -29,6 +29,10 @@ from solvers.cp_sat.constraints import (
     add_soft_same_city_home_clash,
     add_soft_london_cluster,
     add_soft_festive_coverage,
+    add_soft_sc14_season_boundary,
+    add_soft_sc15_boxing_day_nyd,
+    add_soft_min_sat_1500,
+    add_soft_min_monday,
 )
 
 
@@ -158,6 +162,32 @@ def build_model(
     penalty_terms += add_soft_festive_coverage(
         model, x, fixtures, slots, teams,
         penalty=sc9.get("penalty_per_missing_team", 20),
+    )
+
+    sc14 = soft.get("SC14", {})
+    penalty_terms += add_soft_sc14_season_boundary(
+        model, x, fixtures, slots, teams,
+        penalty=sc14.get("penalty_per_violation", 30),
+    )
+
+    sc15 = soft.get("SC15", {})
+    penalty_terms += add_soft_sc15_boxing_day_nyd(
+        model, x, fixtures, slots, teams,
+        penalty=sc15.get("penalty_per_violation", 35),
+    )
+
+    sc17 = soft.get("SC17", {})
+    penalty_terms += add_soft_min_sat_1500(
+        model, x, fixtures, slots, teams,
+        min_per_team=sc17.get("min_per_team", 5),
+        penalty=sc17.get("penalty_per_violation", 10),
+    )
+
+    sc18 = soft.get("SC18", {})
+    penalty_terms += add_soft_min_monday(
+        model, x, fixtures, slots, teams,
+        min_per_team=sc18.get("min_per_team", 3),
+        penalty=sc18.get("penalty_per_violation", 12),
     )
 
     # Minimise total weighted penalty
