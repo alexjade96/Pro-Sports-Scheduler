@@ -19,7 +19,6 @@ from solvers.ilp.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_day,
     add_min_rest_days,
-    add_no_same_city_home_clash,
     add_soft_derby_gap,
     add_soft_sc14_season_boundary,
     add_soft_sc15_boxing_day_nyd,
@@ -87,9 +86,9 @@ def build_problem(
     min_rest = hard["HC1"]["value"]
     add_min_rest_days(prob, x, fixtures, slots, teams, min_rest)
 
-    # HC2 kept as hard same-day clash prevention; SC7 soft handles the
-    # broader 4-day matchday window below.
-    add_no_same_city_home_clash(prob, x, fixtures, slots)
+    # HC2 demoted to SC7 (soft) — incompatible with HC8 when multiple
+    # same-city teams are both home in Round 38 (all pinned to the same day).
+    # SC7 soft penalty below handles same-city clashes.
 
     # --- Soft constraints (penalty terms) ---
     soft = {c["id"]: c for c in constraint_config["soft"]}
