@@ -1,0 +1,71 @@
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+body {
+  background: #f4f6f9;
+  font-size: 0.9rem;
+}
+
+/* ── Nav ──────────────────────────────────────────────────────────────────── */
+#main-nav {
+  background: #1a1f2e;
+  border-bottom: 2px solid #0d6efd;
+}
+#main-nav .navbar-brand { font-size: 1.1rem; letter-spacing: .02em; }
+#main-nav .nav-link { color: rgba(255,255,255,.75); font-size: .85rem; }
+#main-nav .nav-link:hover,
+#main-nav .nav-link.active { color: #fff; }
+
+/* ── KPI Cards ────────────────────────────────────────────────────────────── */
+.kpi-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  transition: transform .15s;
+}
+.kpi-card:hover { transform: translateY(-2px); }
+.kpi-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #1a1f2e;
+}
+.kpi-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: #6c757d; margin-top: 2px; }
+.kpi-sub   { font-size: .72rem; }
+
+.kpi-ok  { border-left: 4px solid #198754; }
+.kpi-bad { border-left: 4px solid #dc3545; }
+
+/* ── Cards ────────────────────────────────────────────────────────────────── */
+.card { border: none; border-radius: 10px; }
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid #e9ecef;
+  border-radius: 10px 10px 0 0 !important;
+  padding: .6rem 1rem;
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────── */
+.table th { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
+.table td { vertical-align: middle; }
+
+.section-header td {
+  background: #343a40 !important;
+  color: #f8f9fa;
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  padding: .35rem 1rem;
+}
+
+/* ── Delta colours ────────────────────────────────────────────────────────── */
+.delta-pos { color: #b5451b; font-weight: 600; }
+.delta-neg { color: #198754; font-weight: 600; }
+
+/* ── DataTables overrides ─────────────────────────────────────────────────── */
+div.dataTables_wrapper div.dataTables_filter input { border-radius: 6px; font-size: .85rem; }
+div.dataTables_wrapper div.dataTables_length select { border-radius: 6px; font-size: .85rem; }
+
+/* ── Calendar picker buttons ──────────────────────────────────────────────── */
+#calPicker .btn { font-size: .78rem; padding: .2rem .55rem; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+footer { font-size: .78rem; }

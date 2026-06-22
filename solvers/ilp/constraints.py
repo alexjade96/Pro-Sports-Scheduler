@@ -149,6 +149,30 @@ def add_no_same_city_home_clash(
                 )
 
 
+def add_max_thursday_games_per_team(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_thursday: int = 2,
+) -> None:
+    """HC13 — each team plays at most max_thursday games on Thursday."""
+    fsi = _fixture_slot_index(x, slots)
+    team_thu_vars: dict[str, list] = defaultdict(list)
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            if slot.day_of_week == "Thursday":
+                for team_id in (fixture.home_team_id, fixture.away_team_id):
+                    team_thu_vars[team_id].append(x[(fixture.fixture_id, sid)])
+    for team_id, thu_vars in team_thu_vars.items():
+        if len(thu_vars) > max_thursday:
+            prob += (
+                pulp.lpSum(thu_vars) <= max_thursday,
+                f"max_thu_{team_id}",
+            )
+
+
 # ---------------------------------------------------------------------------
 # Soft constraints (slack variables penalised in objective)
 # ---------------------------------------------------------------------------

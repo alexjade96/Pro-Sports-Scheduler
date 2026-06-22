@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Accuracy{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-0 fw-bold">Accuracy Report</h1>
+    <p class="text-muted mb-0 small">
+      <strong>{{ gen }}</strong> &nbsp;vs&nbsp; <strong>{{ hist }}</strong> (historical baseline)
+    </p>
+  </div>
+  <div class="ms-auto">
+    <a href="/solvers" class="btn btn-sm btn-outline-secondary">Solver Comparison →</a>
+  </div>
+</div>
+
+{% if not rows %}
+<div class="alert alert-warning">No accuracy data available. Make sure a generated schedule CSV exists in <code>output/</code>.</div>
+{% else %}
+
+<div class="mb-3 d-flex gap-3 small text-muted">
+  <span><span class="badge delta-pos px-2">+N</span> Generated is higher</span>
+  <span><span class="badge delta-neg px-2">−N</span> Generated is lower</span>
+  <span><span class="badge bg-secondary px-2">—</span> Not comparable</span>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-sm table-hover table-striped mb-0" id="accuracyTbl">
+      <thead class="table-dark">
+        <tr>
+          <th style="min-width:260px">Metric</th>
+          <th class="text-end">{{ gen }}</th>
+          <th class="text-end">{{ hist }} (hist)</th>
+          <th class="text-end">Delta</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          {% if row.metric.startswith('──') %}
+          <tr class="section-header">
+            <td colspan="5">{{ row.metric }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td>{{ row.metric }}</td>
+            <td class="text-end">
+              {% if row.generated is none or row.generated == '' %}—{% else %}{{ row.generated }}{% endif %}
+            </td>
+            <td class="text-end">
+              {% if row.historical is none or row.historical == '' %}—{% else %}{{ row.historical }}{% endif %}
+            </td>
+            <td class="text-end">
+              {% if row.delta is none %}
+                <span class="text-muted">—</span>
+              {% elif row.delta > 0 %}
+                <span class="delta-pos">+{{ row.delta }}</span>
+              {% elif row.delta < 0 %}
+                <span class="delta-neg">{{ row.delta }}</span>
+              {% else %}
+                <span class="text-muted">0</span>
+              {% endif %}
+            </td>
+            <td class="text-muted small">{{ row.note }}</td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#accuracyTbl').DataTable({
+  paging: false,
+  searching: true,
+  ordering: false,
+  info: false,
+  language: { search: 'Filter:' },
+});
+</script>
+{% endblock %}

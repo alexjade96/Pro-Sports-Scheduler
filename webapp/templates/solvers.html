@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}Solver Comparison{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-0 fw-bold">Solver Comparison</h1>
+    <p class="text-muted mb-0 small">Side-by-side metrics for all generated schedules</p>
+  </div>
+  <div class="ms-auto">
+    <a href="/accuracy" class="btn btn-sm btn-outline-secondary">← Accuracy Report</a>
+  </div>
+</div>
+
+{% if not labels %}
+<div class="alert alert-warning">No solver data available. Run at least two solvers and make sure their CSVs exist in <code>output/</code>.</div>
+{% else %}
+
+<!-- Radar / bar chart for top metrics -->
+<div class="row g-3 mb-4">
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold">Violation Summary</div>
+      <div class="card-body">
+        <canvas id="violChart" height="220"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold">Penalty Score</div>
+      <div class="card-body d-flex align-items-center">
+        <canvas id="penaltyChart" height="220" class="w-100"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Full comparison table -->
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover table-striped mb-0" id="solversTbl">
+        <thead class="table-dark">
+          <tr>
+            <th style="min-width:240px">Metric</th>
+            {% for lbl in labels %}
+            <th class="text-end">{{ lbl }}</th>
+            {% endfor %}
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            {% if row.metric.startswith('──') %}
+            <tr class="section-header">
+              <td colspan="{{ labels|length + 2 }}">{{ row.metric }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td>{{ row.metric }}</td>
+              {% for lbl in labels %}
+              <td class="text-end">
+                {% set val = row['values'].get(lbl) %}
+                {% if val is none or val == '' %}
+                  <span class="text-muted">—</span>
+                {% else %}
+                  {{ val }}
+                {% endif %}
+              </td>
+              {% endfor %}
+              <td class="text-muted small">{{ row.note }}</td>
+            </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if labels %}
+<script>
+// Build chart data from solver metrics API
+fetch('/api/metrics').then(r => r.json()).then(data => {
+  const labels = data.map(s => s.label);
+  const colors = ['rgba(13,110,253,0.8)', 'rgba(25,135,84,0.8)', 'rgba(255,193,7,0.9)'];
+  const border = ['rgba(13,110,253,1)',   'rgba(25,135,84,1)',   'rgba(255,193,7,1)'];
+
+  // Violation bar chart
+  new Chart(document.getElementById('violChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Hard Violations', 'Soft Violations'],
+      datasets: data.map((s, i) => ({
+        label: s.label,
+        data: [s.hard_violations ?? 0, s.soft_violations ?? 0],
+        backgroundColor: colors[i % colors.length],
+        borderColor:     border[i % border.length],
+        borderWidth: 1,
+        borderRadius: 3,
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { beginAtZero: true, title: { display: true, text: 'Count' } } }
+    }
+  });
+
+  // Penalty bar chart
+  new Chart(document.getElementById('penaltyChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Total Penalty Score',
+        data: data.map(s => s.penalty_score ?? 0),
+        backgroundColor: data.map((_, i) => colors[i % colors.length]),
+        borderColor:     data.map((_, i) => border[i % border.length]),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, title: { display: true, text: 'Penalty' } } }
+    }
+  });
+});
+
+// DataTable (no sorting — row order is meaningful)
+$('#solversTbl').DataTable({
+  paging: false,
+  searching: true,
+  ordering: false,
+  info: false,
+  language: { search: 'Filter:' },
+});
+</script>
+{% endif %}
+{% endblock %}

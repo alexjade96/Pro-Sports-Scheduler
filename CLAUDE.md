@@ -5,16 +5,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Activate the venv (required — ortools and pulp are not in system Python)
+# Activate the venv (required — ortools, pulp, flask are not in system Python)
 source .venv/bin/activate
 
 # Run a solver
 python -m solvers.cp_sat.main           # Option A: CP-SAT (~7s, reaches OPTIMAL)
-python -m solvers.ilp.main              # Option B: ILP / PuLP + CBC (~90s)
+python -m solvers.ilp.main              # Option B: ILP / PuLP + CBC (~1800s cap)
 python -m solvers.metaheuristic.main    # Option C: Simulated Annealing (~300s)
 
-# Run all three solvers and compare (90s cap each by default)
+# Run all three solvers and compare
 python tools/run_solver_comparison.py [--time-limit 90] [--skip-cp-sat] [--skip-ilp] [--skip-mh]
+
+# Web dashboard (requires solved output/ CSVs)
+python run_webapp.py                    # serves at http://127.0.0.1:5000
+python run_webapp.py --port 8080 --debug
 
 # Cross-season historical analysis (10 EPL seasons, 27 metrics)
 python -m analysis.cross_season
@@ -31,9 +35,31 @@ python -m analysis.main \
 from core.validator import validate, print_report
 report = validate(schedule, teams)
 print_report(report)
+
+# Sample schedule output (matchday grid, team card, derbies, festive)
+python tools/sample_schedule.py [--csv output/schedule_cp_sat.csv] [--team LIV] [--section derbies]
+
+# Validate H/A window constraints per team
+python tools/validate_ha_windows.py [--csv output/schedule_cp_sat.csv] [--team ARS]
+
+# Generate calendar PNGs
+python tools/calendar_png.py                    # full-season PNG → output/calendar.png
+python tools/calendar_png.py --team LIV         # team PNG → output/calendar_liv.png
+python tools/calendar_png.py --team ARS --month 11
 ```
 
 There are no automated tests. Validation is done via `core/validator.py` post-solve.
+
+## Git conventions
+
+Always set the commit author to the repo owner; committer stays as Claude:
+
+```bash
+git config user.name Claude
+git config user.email noreply@anthropic.com
+# then on every commit:
+git commit --author="alexjade96 <3687389+alexjade96@users.noreply.github.com>" ...
+```
 
 ## Architecture
 
@@ -52,12 +78,14 @@ core/data_loader.py          ← league-aware; call set_league("nfl") to switch
                 │
 generators/leagues/<league>/generate_<league>.py
         └─ generate_fixtures() → list[Fixture]  (ordered by round — 10/round for EPL)
-                │
+                │                               (NFL/NBA generators are stubs — NotImplementedError)
 solvers/<solver>/solver.py
         └─ solve(...) → Schedule | None
                 │
 core/validator.py → dict (hard_violations, soft_violations, total_penalty_score, feasible)
 analysis/metrics.py → MetricsReport (27 metrics)
+        │
+webapp/app.py → Flask dashboard (reads output/ CSVs + samples/calendars/ PNGs at startup)
 ```
 
 ### Core models (`core/models.py`)
@@ -84,6 +112,28 @@ The CP-SAT solver passes `season_start`/`season_end` dates from the calendar thr
 
 `solvers/metaheuristic/solver.py` runs greedy initialisation followed by simulated annealing. The penalty score is computed by `solvers/metaheuristic/objective.py → score(schedule, teams)`. The SA temperature drops to near-zero within a few thousand iterations at the default `cooling_rate=0.995`, making it effectively a hill-climber for most of the 300s budget. To get more exploration, lower `cooling_rate` (e.g. 0.9995) or reduce `initial_temp`.
 
+### Web dashboard (`webapp/`)
+
+`webapp/app.py` is a Flask app launched via `python run_webapp.py`. It loads all solver CSVs from `output/` at startup (cached in `_cache` dict) and exposes five pages:
+
+| Route | Page |
+|---|---|
+| `/` | KPI dashboard — hard violations, rest days, day-of-week chart |
+| `/schedule` | Filterable fixture table (by solver label and team) |
+| `/accuracy` | Generated vs historical EPL 2024-25 metric delta table |
+| `/solvers` | Side-by-side solver comparison |
+| `/calendar` | Gallery of committed PNG calendars from `samples/calendars/` |
+
+Calendar images are served from `samples/calendars/` (falling back to `output/`) via `/calendar-img/<filename>`. The webapp also exposes `/api/schedule/<label>` and `/api/metrics` JSON endpoints.
+
+### Calendar PNG tool (`tools/calendar_png.py`)
+
+`render_season_png()` produces either a full-season or single-team PNG. In team mode:
+- Panel width is content-driven: `_list_panel_width_frac(fig_w_in)` derives from `_LIST_COLS` character counts × `_LIST_FONT_PT` × `_LIST_MONO_ADV` — no hardcoded pixel values.
+- `TEAM_COLORS` dict maps each of the 20 EPL club IDs to a primary brand hex color. When adding/changing a team color, update only `TEAM_COLORS` — the rendering functions consume it via the `team_color` parameter.
+
+Committed samples live in `samples/calendars/` (21 PNGs: `calendar.png` + one per team). Generated output goes to `output/` (gitignored).
+
 ### Analysis framework
 
 `analysis/metrics.py → compute(schedule, solver_meta=None) → MetricsReport` is the single source of truth for all 27 metrics. It loads the active league's calendar and constraint data at call time — if `set_league()` was used before solving, metrics will use the same league's calendar.
@@ -94,7 +144,48 @@ The CP-SAT solver passes `season_start`/`season_end` dates from the calendar thr
 
 ### EPL constraint IDs
 
-The EPL solver and validator share a consistent constraint ID scheme. The Atos Golden Rules are **SC13** (five-match H/A pattern), **SC14** (season boundary H/A), and **SC15** (Boxing Day / NYD pairing). SC7 was widened from same-day to a 4-day matchday window. When adding or modifying EPL constraints, update all three locations: `data/leagues/epl/constraints.json`, `core/validator.py`, and `solvers/metaheuristic/objective.py`.
+The EPL solver and validator share a consistent constraint ID scheme. The Atos Golden Rules are **SC13** (five-match H/A pattern), **SC14** (season boundary H/A), and **SC15** (Boxing Day / NYD pairing). SC7 was widened from same-day to a 4-day matchday window.
+
+When adding or modifying EPL constraints, update all three locations: `data/leagues/epl/constraints.json`, `core/validator.py`, and `solvers/metaheuristic/objective.py`.
+
+**Constraint implementation matrix** (current state):
+
+| ID | Description | CP-SAT | ILP | MH | Validator |
+|----|-------------|--------|-----|----|-----------|
+| HC1 | Min 3 rest days | ✅ | ✅ | ✅ | ✅ |
+| HC3 | Blocked windows | ✅ | ✅ | ✅ | ✅ |
+| HC4 | Double round-robin | ✅ | ✅ | ✅ | implied |
+| HC5 | Team once per day | ✅ | ✅ | ✅ | — |
+| HC7 | Christmas Day blackout | ✅ | ✅ | ✅ | ✅ |
+| HC8 | Round 38 simultaneous | ✅ | ✅ | ✅ | ✅ |
+| HC9 | Max 3 Friday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC10 | Max 10 Tue/Wed games/team | ✅ | ✅ | ✅ | ✅ |
+| HC11 | Max 7 Monday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC12 | Max 6 Wednesday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC13 | Max 2 Thursday games/team | ✅ | ✅ | ✅ | ✅ |
+| SC1/SC2 | Max 5 consecutive H or A | ✅ | ✅ | ✅ | ✅ |
+| SC3 | Derby gap ≥8 rounds | ✅ | ✅ | ✅ | ✅ |
+| SC5 | Half-season H/A balance | ✅ | ✅ | ✅ | ✅ |
+| SC7 | Same-city home clash (4-day) | ✅ | ✅ | ✅ | ✅ |
+| SC9 | Easter coverage | ✅ | ✅ | ✅ | ✅ |
+| SC10 | London cluster cap (≤3/day) | ✅ | ✅ | ✅ | ✅ |
+| SC12 | Opening balance (rounds 1-5) | — | — | ✅ | ✅ |
+| SC13 | 5-match H/A pattern (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC14 | Season boundary H/A (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC15 | Boxing Day / NYD pairing (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC16 | Spare rescheduling window | — | — | ✅ | — |
+| SC17 | Min 5 Saturday 15:00/team | ✅ | ✅ | ✅ | ✅ |
+| SC18 | Min 3 Monday games/team | ✅ | ✅ | ✅ | ✅ |
+| SC4 | European Tue/Wed rest (≥3 days) | ❌ needs CL/EL match dates | | | |
+| SC6 | Cup+league same opponent window | ❌ needs FA Cup/Carabao draw | | | |
+| SC8 | UEFA Thursday 5-day rest | ❌ needs EL/ECL match dates | | | |
+| SC11 | Promoted team separation | ❌ needs `promoted` flag in teams.json | | | |
+
+HC2 (hard same-city ban) was demoted to SC7 (soft): it is incompatible with HC8 because all Round 38 home teams are pinned to the same final day, making same-city clashes unavoidable on that date.
+
+### NFL / NBA support
+
+Data files exist (`data/leagues/nfl/` and `data/leagues/nba/`) and are used by `analysis/cross_league.py` for constraint comparison. The fixture generators (`generators/leagues/nfl/generate_nfl.py` and `generators/leagues/nba/generate_nba.py`) are stubs that raise `NotImplementedError` — the full generation algorithms are not yet implemented.
 
 ### Adding a new league
 

@@ -3,6 +3,7 @@ Option A entry point — CP-SAT solver.
 Usage: python -m option_a_cp_sat.main
 """
 import csv
+from datetime import date
 from pathlib import Path
 
 from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
@@ -11,7 +12,7 @@ from core.validator import validate, print_report
 from solvers.cp_sat.solver import solve
 
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_csv(schedule, path: Path) -> None:
@@ -46,6 +47,9 @@ def main():
         constraint_config=constraints,
         season=calendar["season"],
         time_limit_seconds=600,
+        season_start=date.fromisoformat(calendar["start_date"]),
+        season_end=date.fromisoformat(calendar["end_date"]),
+        final_day=calendar.get("final_day"),
     )
 
     if schedule:
