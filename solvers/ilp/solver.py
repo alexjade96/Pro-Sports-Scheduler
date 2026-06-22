@@ -19,6 +19,8 @@ from solvers.ilp.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_day,
     add_min_rest_days,
+    add_max_games_on_day,
+    add_max_midweek_games,
     add_soft_derby_gap,
     add_soft_sc14_season_boundary,
     add_soft_sc15_boxing_day_nyd,
@@ -28,6 +30,8 @@ from solvers.ilp.constraints import (
     add_soft_festive_coverage,
     add_soft_london_cluster,
     add_soft_half_season_balance,
+    add_soft_max_consecutive_home_away,
+    add_soft_ha_window,
 )
 
 
@@ -90,9 +94,36 @@ def build_problem(
     # same-city teams are both home in Round 38 (all pinned to the same day).
     # SC7 soft penalty below handles same-city clashes.
 
+    # HC9-HC13: per-day game caps
+    add_max_games_on_day(prob, x, fixtures, slots, teams, "Friday",
+                         hard.get("HC9", {}).get("value", 3))
+    add_max_midweek_games(prob, x, fixtures, slots, teams,
+                          hard.get("HC10", {}).get("value", 10))
+    add_max_games_on_day(prob, x, fixtures, slots, teams, "Monday",
+                         hard.get("HC11", {}).get("value", 7))
+    add_max_games_on_day(prob, x, fixtures, slots, teams, "Wednesday",
+                         hard.get("HC12", {}).get("value", 6))
+    add_max_games_on_day(prob, x, fixtures, slots, teams, "Thursday",
+                         hard.get("HC13", {}).get("value", 2))
+
     # --- Soft constraints (penalty terms) ---
     soft = {c["id"]: c for c in constraint_config["soft"]}
     penalty_terms: list[tuple[int, pulp.LpVariable]] = []
+
+    penalty_terms += add_soft_max_consecutive_home_away(
+        prob, x, fixtures, slots, teams,
+        max_run=soft["SC1"]["value"],
+        penalty=soft["SC1"]["penalty_per_violation"],
+    )
+
+    sc13 = soft.get("SC13", {})
+    penalty_terms += add_soft_ha_window(
+        prob, x, fixtures, slots, teams,
+        window=sc13.get("window", 5),
+        min_home=sc13.get("min_home", 2),
+        max_home=sc13.get("max_home", 3),
+        penalty=sc13.get("penalty_per_violation", 25),
+    )
 
     penalty_terms += add_soft_derby_gap(
         prob, x, fixtures, slots,

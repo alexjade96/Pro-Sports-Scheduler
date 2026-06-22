@@ -38,7 +38,7 @@ from datetime import date, timedelta
 from collections import defaultdict
 
 from core.models import Schedule, ScheduledFixture
-from core.data_loader import load_constraints, load_city_groups, load_calendar
+from core.data_loader import load_constraints, load_city_groups, load_calendar, load_high_profile_derbies
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -112,6 +112,38 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "note": f"{len(wrong_ko)} final-day fixture(s) not at {final_ko}",
                                 "fixtures": [f"{sf.home_team_id} v {sf.away_team_id}" for sf in wrong_ko]})
 
+    # ── HC9-HC13: per-day game caps ───────────────────────────────────────
+    _DAY_CAPS = [
+        ("HC9",  "Friday",    lambda s: s.day_of_week == "Friday"),
+        ("HC11", "Monday",    lambda s: s.day_of_week == "Monday"),
+        ("HC12", "Wednesday", lambda s: s.day_of_week == "Wednesday"),
+        ("HC13", "Thursday",  lambda s: s.day_of_week == "Thursday"),
+    ]
+    hc_map = {c["id"]: c for c in constraints["hard"]}
+    for hc_id, label, day_test in _DAY_CAPS:
+        if hc_id not in hc_map:
+            continue
+        max_val = hc_map[hc_id]["value"]
+        for team_id in teams:
+            count = sum(1 for sf in schedule.fixtures_for_team(team_id) if day_test(sf.slot))
+            if count > max_val:
+                hard_v.append({
+                    "constraint": hc_id, "team": team_id,
+                    "day": label, "count": count, "max": max_val,
+                })
+    if "HC10" in hc_map:
+        max_mw = hc_map["HC10"]["value"]
+        for team_id in teams:
+            count = sum(
+                1 for sf in schedule.fixtures_for_team(team_id)
+                if sf.slot.day_of_week in ("Tuesday", "Wednesday")
+            )
+            if count > max_mw:
+                hard_v.append({
+                    "constraint": "HC10", "team": team_id,
+                    "day": "Tue/Wed", "count": count, "max": max_mw,
+                })
+
     # ── SC1/SC2: consecutive home/away runs ───────────────────────────────
     max_away   = sc["SC1"]["value"]
     max_home   = sc["SC2"]["value"]
@@ -130,6 +162,26 @@ def validate(schedule: Schedule, teams: dict) -> dict:
             if home_run > max_home:
                 soft_v.append({"constraint": "SC2", "team": team_id, "run": home_run})
                 penalty += p_home
+
+    # ── SC3: derby min gap (≥8 rounds ≈ 56 days) ─────────────────────────
+    p_derby  = sc["SC3"]["penalty_per_violation"]
+    derbies  = load_high_profile_derbies()
+    derby_set = {frozenset(pair) for pair in derbies}
+    derby_dates: dict[frozenset, list[date]] = defaultdict(list)
+    for sf in schedule.fixtures:
+        pair_key = frozenset([sf.home_team_id, sf.away_team_id])
+        if pair_key in derby_set:
+            derby_dates[pair_key].append(sf.slot.date)
+    for pair_key, dates in derby_dates.items():
+        if len(dates) == 2:
+            gap = abs((dates[1] - dates[0]).days)
+            if gap < 56:
+                soft_v.append({
+                    "constraint": "SC3",
+                    "pair": sorted(pair_key),
+                    "gap_days": gap,
+                })
+                penalty += p_derby * (1 + (56 - gap) // 7)
 
     # ── SC7: same-city home clash — widened to matchday weekend window ────
     # Two same-city home fixtures within 4 days = same matchday round clash

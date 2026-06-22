@@ -9,10 +9,15 @@ Soft violation weights are loaded from constraints.json.
 
 Constraints scored
 ------------------
-Hard : HC1 (rest), HC3 (blocked windows), HC7 (Christmas), HC8 (final day)
+Hard : HC1 (rest), HC3 (blocked windows), HC5 (team once/day),
+       HC7 (Christmas), HC8 (final day),
+       HC9 (max Friday), HC10 (max Tue/Wed), HC11 (max Monday),
+       HC12 (max Wednesday), HC13 (max Thursday)
 Soft : SC1, SC2 (consecutive runs), SC3 (derby gap), SC5 (H/A balance),
-       SC7 (city clash), SC8 (UEFA Thu 5-day), SC9 (Easter), SC10 (London cap),
-       SC12 (opening balance)
+       SC7 (city clash), SC9 (Easter), SC10 (London cap),
+       SC12 (opening balance), SC13 (5-match H/A), SC14 (season boundary),
+       SC15 (Boxing Day/NYD), SC16 (spare window), SC17 (min Sat 15:00),
+       SC18 (min Monday)
 """
 from collections import defaultdict
 from datetime import date, timedelta
@@ -101,6 +106,46 @@ def score(schedule: Schedule, teams: dict) -> float:
             elif _R38_FIXTURE_IDS and sf.fixture.fixture_id in _R38_FIXTURE_IDS:
                 if sf.slot.date != final_date:
                     total += HARD_PENALTY
+
+    # ── HC9: max Friday games per team ───────────────────────────────────
+    max_fri = _HARD.get("HC9", {}).get("value", 3)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Friday"
+        )
+        if count > max_fri:
+            total += HARD_PENALTY * (count - max_fri)
+
+    # ── HC10: max Tue+Wed games per team (combined) ───────────────────
+    max_mw = _HARD.get("HC10", {}).get("value", 10)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week in ("Tuesday", "Wednesday")
+        )
+        if count > max_mw:
+            total += HARD_PENALTY * (count - max_mw)
+
+    # ── HC11: max Monday games per team ──────────────────────────────
+    max_mon = _HARD.get("HC11", {}).get("value", 7)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count > max_mon:
+            total += HARD_PENALTY * (count - max_mon)
+
+    # ── HC12: max Wednesday games per team ───────────────────────────
+    max_wed = _HARD.get("HC12", {}).get("value", 6)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Wednesday"
+        )
+        if count > max_wed:
+            total += HARD_PENALTY * (count - max_wed)
 
     # ── HC13: max Thursday games per team ────────────────────────────────
     max_thu = _HARD.get("HC13", {}).get("value", 2)

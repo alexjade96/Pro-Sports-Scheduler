@@ -665,6 +665,63 @@ def add_soft_london_cluster(
     return penalty_vars
 
 
+def add_max_games_on_day(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    day_of_week: str,
+    max_games: int,
+) -> None:
+    """Generic per-team cap on games on a specific day of week (HC9/HC11/HC12/HC13)."""
+    fsi = _fixture_slot_index(x, slots)
+    target_sids = {s.slot_id for s in slots if s.day_of_week == day_of_week}
+    if not target_sids:
+        return
+    for team_id in teams:
+        team_vars = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures
+            if f.home_team_id == team_id or f.away_team_id == team_id
+            for sid, _ in fsi.get(f.fixture_id, [])
+            if sid in target_sids
+        ]
+        if len(team_vars) > max_games:
+            prob += (
+                pulp.lpSum(team_vars) <= max_games,
+                f"max_{day_of_week.lower()}_{team_id}",
+            )
+
+
+def add_max_midweek_games(
+    prob: pulp.LpProblem,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    max_games: int = 10,
+) -> None:
+    """HC10 — each team plays at most max_games games on Tuesday or Wednesday combined."""
+    fsi = _fixture_slot_index(x, slots)
+    mw_sids = {s.slot_id for s in slots if s.day_of_week in ("Tuesday", "Wednesday")}
+    if not mw_sids:
+        return
+    for team_id in teams:
+        team_vars = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures
+            if f.home_team_id == team_id or f.away_team_id == team_id
+            for sid, _ in fsi.get(f.fixture_id, [])
+            if sid in mw_sids
+        ]
+        if len(team_vars) > max_games:
+            prob += (
+                pulp.lpSum(team_vars) <= max_games,
+                f"max_midweek_{team_id}",
+            )
+
+
 def add_soft_half_season_balance(
     prob: pulp.LpProblem,
     x: dict,
