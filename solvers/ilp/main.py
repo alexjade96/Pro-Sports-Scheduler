@@ -31,11 +31,15 @@ def export_csv(schedule, path: Path) -> None:
 
 
 def main():
+    from datetime import date as _date
+
     teams       = load_teams()
     calendar    = load_calendar()
     constraints = load_constraints()
     slots       = generate_slots(calendar)
     fixtures    = generate_fixtures(teams)
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
 
     print(f"Teams: {len(teams)} | Fixtures: {len(fixtures)} | Slots available: {len(slots)}")
 
@@ -46,6 +50,9 @@ def main():
         constraint_config=constraints,
         season=calendar["season"],
         time_limit_seconds=1800,
+        season_start=season_start,
+        season_end=season_end,
+        final_day=calendar.get("final_day"),
     )
 
     if schedule:
