@@ -39,6 +39,7 @@ def build_problem(
     constraint_config: dict,
     season_start=None,
     season_end=None,
+    final_day=None,
 ) -> tuple[pulp.LpProblem, dict, list]:
     prob = pulp.LpProblem("EPL_Scheduler", pulp.LpMinimize)
 
@@ -48,6 +49,26 @@ def build_problem(
         log_filter_stats(eligible)
     else:
         eligible = {f.fixture_id: [s.slot_id for s in slots] for f in fixtures}
+
+    # HC8: pin Round 38 to the final-day slot; block all final-day slots from
+    # earlier rounds (mirrors the CP-SAT implementation).
+    _FIXTURES_PER_ROUND = 10
+    if final_day:
+        from datetime import date as _date
+        fd_date = _date.fromisoformat(final_day["date"])
+        final_day_sid = f"{fd_date}_{final_day['kickoff'].replace(':', '')}"
+        slot_ids = {s.slot_id for s in slots}
+        if final_day_sid in slot_ids:
+            for f in fixtures[-_FIXTURES_PER_ROUND:]:
+                eligible[f.fixture_id] = [final_day_sid]
+            before_fd = {s.slot_id for s in slots if s.date < fd_date}
+            for f in fixtures[:-_FIXTURES_PER_ROUND]:
+                eligible[f.fixture_id] = [
+                    sid for sid in eligible[f.fixture_id] if sid in before_fd
+                ]
+            print(f"[HC8] ILP: Round 38 pinned to {final_day_sid}; earlier rounds capped to < {fd_date}")
+        else:
+            print(f"[HC8] ILP WARNING: final-day slot {final_day_sid} not in pool — HC8 not enforced")
 
     x = {
         (fixture.fixture_id, sid): pulp.LpVariable(
@@ -170,6 +191,7 @@ def solve(
     prob, x, _ = build_problem(
         fixtures, slots, teams, constraint_config,
         season_start=season_start, season_end=season_end,
+        final_day=final_day,
     )
 
     # CBC solver (swap to pulp.GUROBI_CMD() or pulp.CPLEX_CMD() for commercial solvers)
