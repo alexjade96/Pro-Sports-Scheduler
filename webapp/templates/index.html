@@ -54,6 +54,10 @@
           <strong>Solver Comparison</strong>
           <br><small class="text-muted">CP-SAT vs ILP vs Metaheuristic side-by-side</small>
         </a>
+        <a href="/analysis" class="btn btn-outline-info w-100 text-start px-3">
+          <strong>Deep Analysis</strong>
+          <br><small class="text-muted">10-season trends, radar chart, team scorecard &amp; exports</small>
+        </a>
         <a href="/calendar" class="btn btn-outline-dark w-100 text-start px-3">
           <strong>Calendar View</strong>
           <br><small class="text-muted">Visual calendar for any team or full season</small>
@@ -92,7 +96,6 @@
 
 {% block scripts %}
 <script>
-// Day-of-week chart
 const dowCtx = document.getElementById('dowChart').getContext('2d');
 new Chart(dowCtx, {
   type: 'bar',
@@ -122,7 +125,6 @@ new Chart(dowCtx, {
   }
 });
 
-// Solver summary
 fetch('/api/metrics')
   .then(r => r.json())
   .then(data => {

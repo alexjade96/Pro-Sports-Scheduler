@@ -69,3 +69,12 @@ div.dataTables_wrapper div.dataTables_length select { border-radius: 6px; font-s
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 footer { font-size: .78rem; }
+
+/* ── Heatmap ──────────────────────────────────────────────────────────────── */
+.heatmap-tbl th, .heatmap-tbl td {
+  font-size: .78rem !important;
+  padding: .28rem .4rem !important;
+}
+
+/* ── Tiny button ──────────────────────────────────────────────────────────── */
+.btn-xs { font-size: .72rem; line-height: 1.3; }
