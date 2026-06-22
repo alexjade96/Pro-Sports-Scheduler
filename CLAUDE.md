@@ -10,10 +10,10 @@ source .venv/bin/activate
 
 # Run a solver
 python -m solvers.cp_sat.main           # Option A: CP-SAT (~7s, reaches OPTIMAL)
-python -m solvers.ilp.main              # Option B: ILP / PuLP + CBC (~90s)
+python -m solvers.ilp.main              # Option B: ILP / PuLP + CBC (~1800s cap)
 python -m solvers.metaheuristic.main    # Option C: Simulated Annealing (~300s)
 
-# Run all three solvers and compare (90s cap each by default)
+# Run all three solvers and compare
 python tools/run_solver_comparison.py [--time-limit 90] [--skip-cp-sat] [--skip-ilp] [--skip-mh]
 
 # Web dashboard (requires solved output/ CSVs)
@@ -46,13 +46,6 @@ python tools/validate_ha_windows.py [--csv output/schedule_cp_sat.csv] [--team A
 python tools/calendar_png.py                    # full-season PNG → output/calendar.png
 python tools/calendar_png.py --team LIV         # team PNG → output/calendar_liv.png
 python tools/calendar_png.py --team ARS --month 11
-
-# Regenerate all 21 committed sample PNGs (full season + 20 teams)
-source .venv/bin/activate
-python tools/calendar_png.py --out samples/calendars/calendar.png
-for team in ARS AVL BHA BOU BRE CHE CRY EVE FUL IPS LEI LIV MCI MUN NEW NFO SOU TOT WHU WOL; do
-  python tools/calendar_png.py --team $team --out samples/calendars/calendar_${team,,}.png
-done
 ```
 
 There are no automated tests. Validation is done via `core/validator.py` post-solve.
@@ -137,9 +130,7 @@ Calendar images are served from `samples/calendars/` (falling back to `output/`)
 
 `render_season_png()` produces either a full-season or single-team PNG. In team mode:
 - Panel width is content-driven: `_list_panel_width_frac(fig_w_in)` derives from `_LIST_COLS` character counts × `_LIST_FONT_PT` × `_LIST_MONO_ADV` — no hardcoded pixel values.
-- Column x-positions are computed by `_list_col_positions()` from the same `_LIST_COLS` spec.
-- `TEAM_COLORS` dict maps each of the 20 EPL club IDs to a primary brand hex color. `_lighten(color, factor)` and `_darken(color, factor)` blend toward white/black. These colors apply to: month headers, day-of-week headers, home cell backgrounds, fixture list title and column header, and the page suptitle.
-- When adding/changing a team color, update only `TEAM_COLORS` — the rendering functions consume it via the `team_color` parameter threaded through `_render_month_team` and `_draw_fixture_list`.
+- `TEAM_COLORS` dict maps each of the 20 EPL club IDs to a primary brand hex color. When adding/changing a team color, update only `TEAM_COLORS` — the rendering functions consume it via the `team_color` parameter.
 
 Committed samples live in `samples/calendars/` (21 PNGs: `calendar.png` + one per team). Generated output goes to `output/` (gitignored).
 
@@ -153,7 +144,44 @@ Committed samples live in `samples/calendars/` (21 PNGs: `calendar.png` + one pe
 
 ### EPL constraint IDs
 
-The EPL solver and validator share a consistent constraint ID scheme. The Atos Golden Rules are **SC13** (five-match H/A pattern), **SC14** (season boundary H/A), and **SC15** (Boxing Day / NYD pairing). SC7 was widened from same-day to a 4-day matchday window. When adding or modifying EPL constraints, update all three locations: `data/leagues/epl/constraints.json`, `core/validator.py`, and `solvers/metaheuristic/objective.py`.
+The EPL solver and validator share a consistent constraint ID scheme. The Atos Golden Rules are **SC13** (five-match H/A pattern), **SC14** (season boundary H/A), and **SC15** (Boxing Day / NYD pairing). SC7 was widened from same-day to a 4-day matchday window.
+
+When adding or modifying EPL constraints, update all three locations: `data/leagues/epl/constraints.json`, `core/validator.py`, and `solvers/metaheuristic/objective.py`.
+
+**Constraint implementation matrix** (current state):
+
+| ID | Description | CP-SAT | ILP | MH | Validator |
+|----|-------------|--------|-----|----|-----------|
+| HC1 | Min 3 rest days | ✅ | ✅ | ✅ | ✅ |
+| HC3 | Blocked windows | ✅ | ✅ | ✅ | ✅ |
+| HC4 | Double round-robin | ✅ | ✅ | ✅ | implied |
+| HC5 | Team once per day | ✅ | ✅ | ✅ | — |
+| HC7 | Christmas Day blackout | ✅ | ✅ | ✅ | ✅ |
+| HC8 | Round 38 simultaneous | ✅ | ✅ | ✅ | ✅ |
+| HC9 | Max 3 Friday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC10 | Max 10 Tue/Wed games/team | ✅ | ✅ | ✅ | ✅ |
+| HC11 | Max 7 Monday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC12 | Max 6 Wednesday games/team | ✅ | ✅ | ✅ | ✅ |
+| HC13 | Max 2 Thursday games/team | ✅ | ✅ | ✅ | ✅ |
+| SC1/SC2 | Max 5 consecutive H or A | ✅ | ✅ | ✅ | ✅ |
+| SC3 | Derby gap ≥8 rounds | ✅ | ✅ | ✅ | ✅ |
+| SC5 | Half-season H/A balance | ✅ | ✅ | ✅ | ✅ |
+| SC7 | Same-city home clash (4-day) | ✅ | ✅ | ✅ | ✅ |
+| SC9 | Easter coverage | ✅ | ✅ | ✅ | ✅ |
+| SC10 | London cluster cap (≤3/day) | ✅ | ✅ | ✅ | ✅ |
+| SC12 | Opening balance (rounds 1-5) | — | — | ✅ | ✅ |
+| SC13 | 5-match H/A pattern (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC14 | Season boundary H/A (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC15 | Boxing Day / NYD pairing (Atos) | ✅ | ✅ | ✅ | ✅ |
+| SC16 | Spare rescheduling window | — | — | ✅ | — |
+| SC17 | Min 5 Saturday 15:00/team | ✅ | ✅ | ✅ | ✅ |
+| SC18 | Min 3 Monday games/team | ✅ | ✅ | ✅ | ✅ |
+| SC4 | European Tue/Wed rest (≥3 days) | ❌ needs CL/EL match dates | | | |
+| SC6 | Cup+league same opponent window | ❌ needs FA Cup/Carabao draw | | | |
+| SC8 | UEFA Thursday 5-day rest | ❌ needs EL/ECL match dates | | | |
+| SC11 | Promoted team separation | ❌ needs `promoted` flag in teams.json | | | |
+
+HC2 (hard same-city ban) was demoted to SC7 (soft): it is incompatible with HC8 because all Round 38 home teams are pinned to the same final day, making same-city clashes unavoidable on that date.
 
 ### NFL / NBA support
 

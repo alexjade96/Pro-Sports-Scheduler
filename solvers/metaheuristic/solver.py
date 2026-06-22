@@ -13,6 +13,7 @@ No external solver library required — pure Python.
 
 Tune: initial_temp, cooling_rate, max_iterations, tabu_size
 """
+import bisect
 import math
 import random
 import time
@@ -32,35 +33,114 @@ def greedy_initial_schedule(
     fixtures: list[Fixture],
     slots: list[Slot],
     season: str,
+    min_rest_days: int = 3,
+    max_thursday: int = 2,
+    max_friday: int = 3,
+    final_day: dict | None = None,
+    fixtures_per_round: int = 10,
 ) -> Schedule:
     """
-    Assigns fixtures to slots sequentially, skipping a slot if the team
-    is already playing that day. Not guaranteed feasible but provides a
-    warm start for the metaheuristic.
+    Assigns fixtures to slots in round order, choosing the earliest available
+    slot that satisfies:
+      - HC1: minimum rest days (3) for both teams
+      - HC13: at most max_thursday Thursday games per team
+      - HC9: at most max_friday Friday games per team
+      - HC8: if final_day provided, Round 38 (last fixtures_per_round) is
+             pinned to the final-day slot; all final-day date slots are
+             excluded from consideration for earlier rounds.
+    Uses bisect for O(log n) HC1 checks.  Falls back to first remaining slot
+    only when no compliant slot is found (rare with a well-formed calendar).
     """
-    available_slots = list(slots)
-    random.shuffle(available_slots)
-    slot_iter = iter(available_slots)
+    available_slots = sorted(slots, key=lambda s: (s.date, s.kickoff))
 
     assigned: list[ScheduledFixture] = []
-    team_dates: dict[str, set] = {}
+    team_ords: dict[str, list[int]] = {}   # team -> sorted ordinals of assigned dates
+    thu_counts: dict[str, int] = {}        # team -> Thursday game count
+    fri_counts: dict[str, int] = {}        # team -> Friday game count
 
-    for fixture in fixtures:
-        home, away = fixture.home_team_id, fixture.away_team_id
-        for slot in available_slots:
-            date_str = str(slot.date)
-            if date_str not in team_dates.get(home, set()) and \
-               date_str not in team_dates.get(away, set()):
-                assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
-                team_dates.setdefault(home, set()).add(date_str)
-                team_dates.setdefault(away, set()).add(date_str)
-                available_slots.remove(slot)
-                break
+    def _hc1_ok(team_id: str, ord_: int) -> bool:
+        ords = team_ords.get(team_id)
+        if not ords:
+            return True
+        pos = bisect.bisect_left(ords, ord_)
+        if pos > 0 and ord_ - ords[pos - 1] < min_rest_days:
+            return False
+        if pos < len(ords) and ords[pos] - ord_ < min_rest_days:
+            return False
+        return True
+
+    def _day_cap_ok(slot: Slot, home: str, away: str) -> bool:
+        dow = slot.day_of_week
+        if dow == "Thursday":
+            if thu_counts.get(home, 0) >= max_thursday:
+                return False
+            if thu_counts.get(away, 0) >= max_thursday:
+                return False
+        elif dow == "Friday":
+            if fri_counts.get(home, 0) >= max_friday:
+                return False
+            if fri_counts.get(away, 0) >= max_friday:
+                return False
+        return True
+
+    def _record(slot: Slot, home: str, away: str, ord_: int) -> None:
+        bisect.insort(team_ords.setdefault(home, []), ord_)
+        bisect.insort(team_ords.setdefault(away, []), ord_)
+        if slot.day_of_week == "Thursday":
+            thu_counts[home] = thu_counts.get(home, 0) + 1
+            thu_counts[away] = thu_counts.get(away, 0) + 1
+        elif slot.day_of_week == "Friday":
+            fri_counts[home] = fri_counts.get(home, 0) + 1
+            fri_counts[away] = fri_counts.get(away, 0) + 1
+
+    # ── HC8: pre-assign Round 38 to the final-day slot ───────────────────
+    r38_fixture_ids: set[str] = set()
+    if final_day:
+        from datetime import date as _date
+        fd_date = _date.fromisoformat(final_day["date"])
+        fd_ko   = final_day["kickoff"]
+        fd_slot = next(
+            (s for s in available_slots if s.date == fd_date and s.kickoff == fd_ko),
+            None,
+        )
+        if fd_slot:
+            r38 = fixtures[-fixtures_per_round:]
+            r38_fixture_ids = {f.fixture_id for f in r38}
+            for f in r38:
+                assigned.append(ScheduledFixture(fixture=f, slot=fd_slot))
+                _record(fd_slot, f.home_team_id, f.away_team_id, fd_slot.date.toordinal())
+            # Remove ALL final-day slots so earlier rounds can't land there
+            available_slots = [s for s in available_slots if s.date != fd_date]
+            print(f"[Greedy] Round 38 pinned to {fd_slot.slot_id}; final-day slots removed from pool")
         else:
-            # Fallback: assign to first remaining slot (may violate constraints)
+            print(f"[Greedy] WARNING: final-day slot ({fd_date} {fd_ko}) not found — HC8 not enforced")
+
+    fallbacks = 0
+    for fixture in fixtures:
+        if fixture.fixture_id in r38_fixture_ids:
+            continue  # already assigned above
+
+        home, away = fixture.home_team_id, fixture.away_team_id
+        placed = False
+
+        for slot in available_slots:
+            ord_ = slot.date.toordinal()
+            if _hc1_ok(home, ord_) and _hc1_ok(away, ord_) and _day_cap_ok(slot, home, away):
+                assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
+                _record(slot, home, away, ord_)
+                available_slots.remove(slot)
+                placed = True
+                break
+
+        if not placed:
+            fallbacks += 1
             if available_slots:
                 slot = available_slots.pop(0)
                 assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
+                _record(slot, home, away, slot.date.toordinal())
+
+    if fallbacks:
+        print(f"[Greedy] {fallbacks} fixture(s) fell back (no HC1/HC13/HC9-compliant slot found)")
 
     return Schedule(season=season, fixtures=assigned)
 
@@ -74,10 +154,10 @@ def simulated_annealing(
     slots: list[Slot],
     teams: dict[str, Team],
     initial_temp: float = 5000.0,
-    cooling_rate: float = 0.9998,
-    max_iterations: int = 500_000,
+    cooling_rate: float = 0.9997,
+    max_iterations: int = 5_000_000,
     tabu_size: int = 100,
-    time_limit_seconds: int = 300,
+    time_limit_seconds: int = 600,
 ) -> Schedule:
     current = deepcopy(initial)
     current_score = score(current, teams)
@@ -139,13 +219,25 @@ def solve(
     teams: dict[str, Team],
     season: str,
     initial_temp: float = 5000.0,
-    cooling_rate: float = 0.9998,
-    max_iterations: int = 500_000,
+    cooling_rate: float = 0.9997,
+    max_iterations: int = 5_000_000,
     tabu_size: int = 100,
-    time_limit_seconds: int = 300,
+    time_limit_seconds: int = 600,
+    final_day: dict | None = None,
+    fixtures_per_round: int = 10,
 ) -> Schedule:
+    from solvers.metaheuristic.objective import set_r38_fixture_ids
+    if final_day:
+        r38_ids = frozenset(f.fixture_id for f in fixtures[-fixtures_per_round:])
+        set_r38_fixture_ids(r38_ids)
+    else:
+        set_r38_fixture_ids(frozenset())
+
     print("[Metaheuristic] Building greedy initial solution ...")
-    initial = greedy_initial_schedule(fixtures, slots, season)
+    initial = greedy_initial_schedule(
+        fixtures, slots, season,
+        final_day=final_day, fixtures_per_round=fixtures_per_round,
+    )
     initial_penalty = score(initial, teams)
     print(f"[Metaheuristic] Greedy score: {initial_penalty:.1f}")
 

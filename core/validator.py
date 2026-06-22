@@ -30,12 +30,15 @@ Soft:
   SC13 five_match_ha_pattern (any 5 consecutive: 2 or 3 home — Atos Golden Rule)
   SC14 season_boundary_ha (no H+H or A+A in first 2 or last 2 fixtures)
   SC15 boxing_day_nyd_pairing (home on Dec 26 → away on Jan 1, and vice versa)
+  SC16 spare_rescheduling_window (≥1 free midweek date per month)
+  SC17 min_sat_1500_appearances (each team ≥5 Saturday 15:00 fixtures)
+  SC18 min_monday_appearances (each team ≥3 Monday Night Football fixtures)
 """
 from datetime import date, timedelta
 from collections import defaultdict
 
 from core.models import Schedule, ScheduledFixture
-from core.data_loader import load_constraints, load_city_groups, load_calendar
+from core.data_loader import load_constraints, load_city_groups, load_calendar, load_high_profile_derbies
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -109,17 +112,37 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "note": f"{len(wrong_ko)} final-day fixture(s) not at {final_ko}",
                                 "fixtures": [f"{sf.home_team_id} v {sf.away_team_id}" for sf in wrong_ko]})
 
-    # ── HC13: max Thursday games per team ────────────────────────────────
-    hard_map   = {c["id"]: c for c in constraints["hard"]}
-    max_thu    = hard_map.get("HC13", {}).get("value", 2)
-    for team_id in teams:
-        thu_games = [sf for sf in schedule.fixtures_for_team(team_id)
-                     if sf.slot.day_of_week == "Thursday"]
-        if len(thu_games) > max_thu:
-            hard_v.append({
-                "constraint": "HC13", "team": team_id,
-                "thursday_count": len(thu_games), "limit": max_thu,
-            })
+    # ── HC9-HC13: per-day game caps ───────────────────────────────────────
+    _DAY_CAPS = [
+        ("HC9",  "Friday",    lambda s: s.day_of_week == "Friday"),
+        ("HC11", "Monday",    lambda s: s.day_of_week == "Monday"),
+        ("HC12", "Wednesday", lambda s: s.day_of_week == "Wednesday"),
+        ("HC13", "Thursday",  lambda s: s.day_of_week == "Thursday"),
+    ]
+    hc_map = {c["id"]: c for c in constraints["hard"]}
+    for hc_id, label, day_test in _DAY_CAPS:
+        if hc_id not in hc_map:
+            continue
+        max_val = hc_map[hc_id]["value"]
+        for team_id in teams:
+            count = sum(1 for sf in schedule.fixtures_for_team(team_id) if day_test(sf.slot))
+            if count > max_val:
+                hard_v.append({
+                    "constraint": hc_id, "team": team_id,
+                    "day": label, "count": count, "max": max_val,
+                })
+    if "HC10" in hc_map:
+        max_mw = hc_map["HC10"]["value"]
+        for team_id in teams:
+            count = sum(
+                1 for sf in schedule.fixtures_for_team(team_id)
+                if sf.slot.day_of_week in ("Tuesday", "Wednesday")
+            )
+            if count > max_mw:
+                hard_v.append({
+                    "constraint": "HC10", "team": team_id,
+                    "day": "Tue/Wed", "count": count, "max": max_mw,
+                })
 
     # ── SC1/SC2: consecutive home/away runs ───────────────────────────────
     max_away   = sc["SC1"]["value"]
@@ -139,6 +162,26 @@ def validate(schedule: Schedule, teams: dict) -> dict:
             if home_run > max_home:
                 soft_v.append({"constraint": "SC2", "team": team_id, "run": home_run})
                 penalty += p_home
+
+    # ── SC3: derby min gap (≥8 rounds ≈ 56 days) ─────────────────────────
+    p_derby  = sc["SC3"]["penalty_per_violation"]
+    derbies  = load_high_profile_derbies()
+    derby_set = {frozenset(pair) for pair in derbies}
+    derby_dates: dict[frozenset, list[date]] = defaultdict(list)
+    for sf in schedule.fixtures:
+        pair_key = frozenset([sf.home_team_id, sf.away_team_id])
+        if pair_key in derby_set:
+            derby_dates[pair_key].append(sf.slot.date)
+    for pair_key, dates in derby_dates.items():
+        if len(dates) == 2:
+            gap = abs((dates[1] - dates[0]).days)
+            if gap < 56:
+                soft_v.append({
+                    "constraint": "SC3",
+                    "pair": sorted(pair_key),
+                    "gap_days": gap,
+                })
+                penalty += p_derby * (1 + (56 - gap) // 7)
 
     # ── SC7: same-city home clash — widened to matchday weekend window ────
     # Two same-city home fixtures within 4 days = same matchday round clash
@@ -269,6 +312,34 @@ def validate(schedule: Schedule, teams: dict) -> dict:
                                 "boxing_day": "home" if bd_home else "away",
                                 "nyd": "home" if nyd_home else "away"})
                 penalty += p_festive
+
+    # ── SC17: min Saturday 15:00 appearances per team ────────────────────────
+    sc17 = sc.get("SC17", {})
+    p_sat15 = sc17.get("penalty_per_violation", 10)
+    min_sat15 = sc17.get("min_per_team", 5)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Saturday" and sf.slot.kickoff == "15:00"
+        )
+        if count < min_sat15:
+            soft_v.append({"constraint": "SC17", "team": team_id,
+                            "sat1500_appearances": count, "minimum": min_sat15})
+            penalty += p_sat15 * (min_sat15 - count)
+
+    # ── SC18: min Monday appearances per team ─────────────────────────────────
+    sc18 = sc.get("SC18", {})
+    p_mon_min = sc18.get("penalty_per_violation", 12)
+    min_mon = sc18.get("min_per_team", 3)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count < min_mon:
+            soft_v.append({"constraint": "SC18", "team": team_id,
+                            "monday_appearances": count, "minimum": min_mon})
+            penalty += p_mon_min * (min_mon - count)
 
     # ── SC5: balanced home/away split per half ─────────────────────────────
     season_start = date.fromisoformat(calendar["start_date"])

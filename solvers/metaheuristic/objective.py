@@ -9,10 +9,15 @@ Soft violation weights are loaded from constraints.json.
 
 Constraints scored
 ------------------
-Hard : HC1 (rest), HC3 (blocked windows), HC7 (Christmas), HC8 (final day)
+Hard : HC1 (rest), HC3 (blocked windows), HC5 (team once/day),
+       HC7 (Christmas), HC8 (final day),
+       HC9 (max Friday), HC10 (max Tue/Wed), HC11 (max Monday),
+       HC12 (max Wednesday), HC13 (max Thursday)
 Soft : SC1, SC2 (consecutive runs), SC3 (derby gap), SC5 (H/A balance),
-       SC7 (city clash), SC8 (UEFA Thu 5-day), SC9 (Easter), SC10 (London cap),
-       SC12 (opening balance)
+       SC7 (city clash), SC9 (Easter), SC10 (London cap),
+       SC12 (opening balance), SC13 (5-match H/A), SC14 (season boundary),
+       SC15 (Boxing Day/NYD), SC16 (spare window), SC17 (min Sat 15:00),
+       SC18 (min Monday)
 """
 from collections import defaultdict
 from datetime import date, timedelta
@@ -23,10 +28,17 @@ from core.data_loader import (
 )
 
 
-HARD_PENALTY = 10_000
+HARD_PENALTY = 1_000_000
 _WEIGHTS: dict[str, int] = {}
 _CALENDAR: dict = {}
 _HARD: dict[str, dict] = {}
+_R38_FIXTURE_IDS: frozenset[str] = frozenset()
+
+
+def set_r38_fixture_ids(ids: frozenset[str]) -> None:
+    """Register Round 38 fixture IDs so HC8 can penalise them if off final day."""
+    global _R38_FIXTURE_IDS
+    _R38_FIXTURE_IDS = ids
 
 
 def _init():
@@ -91,6 +103,49 @@ def score(schedule: Schedule, teams: dict) -> float:
         for sf in schedule.fixtures:
             if sf.slot.date == final_date and sf.slot.kickoff != final_ko:
                 total += HARD_PENALTY
+            elif _R38_FIXTURE_IDS and sf.fixture.fixture_id in _R38_FIXTURE_IDS:
+                if sf.slot.date != final_date:
+                    total += HARD_PENALTY
+
+    # ── HC9: max Friday games per team ───────────────────────────────────
+    max_fri = _HARD.get("HC9", {}).get("value", 3)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Friday"
+        )
+        if count > max_fri:
+            total += HARD_PENALTY * (count - max_fri)
+
+    # ── HC10: max Tue+Wed games per team (combined) ───────────────────
+    max_mw = _HARD.get("HC10", {}).get("value", 10)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week in ("Tuesday", "Wednesday")
+        )
+        if count > max_mw:
+            total += HARD_PENALTY * (count - max_mw)
+
+    # ── HC11: max Monday games per team ──────────────────────────────
+    max_mon = _HARD.get("HC11", {}).get("value", 7)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count > max_mon:
+            total += HARD_PENALTY * (count - max_mon)
+
+    # ── HC12: max Wednesday games per team ───────────────────────────
+    max_wed = _HARD.get("HC12", {}).get("value", 6)
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Wednesday"
+        )
+        if count > max_wed:
+            total += HARD_PENALTY * (count - max_wed)
 
     # ── HC13: max Thursday games per team ────────────────────────────────
     max_thu = _HARD.get("HC13", {}).get("value", 2)
@@ -189,6 +244,28 @@ def score(schedule: Schedule, teams: dict) -> float:
             if home_count not in (2, 3):
                 total += p_5match
 
+    # ── SC5: balanced home/away split per half-season ─────────────────────
+    from datetime import date as _date2
+    p_balance = _WEIGHTS.get("SC5", 10)
+    tolerance_sc5 = 2
+    _season_start = _date2.fromisoformat(_CALENDAR["start_date"])
+    _season_end   = _date2.fromisoformat(_CALENDAR["end_date"])
+    _midpoint     = _date2.fromordinal(
+        (_season_start.toordinal() + _season_end.toordinal()) // 2
+    )
+    for team_id in teams:
+        h1_h = h1_a = h2_h = h2_a = 0
+        for sf in schedule.fixtures_for_team(team_id):
+            first = sf.slot.date <= _midpoint
+            home  = sf.home_team_id == team_id
+            if first:
+                h1_h += home; h1_a += not home
+            else:
+                h2_h += home; h2_a += not home
+        for hg, ag in [(h1_h, h1_a), (h2_h, h2_a)]:
+            if abs(hg - ag) > tolerance_sc5:
+                total += p_balance * (abs(hg - ag) - tolerance_sc5)
+
     # ── SC14: season boundary H/A ─────────────────────────────────────────
     p_boundary = _WEIGHTS.get("SC14", 30)
     for team_id in teams:
@@ -233,6 +310,28 @@ def score(schedule: Schedule, teams: dict) -> float:
             if h_run > 3 or a_run > 3:
                 total += p_open
                 break
+
+    # ── SC17: min Saturday 15:00 appearances per team ─────────────────────────
+    p_sat15 = _WEIGHTS.get("SC17", 10)
+    min_sat15 = 5
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Saturday" and sf.slot.kickoff == "15:00"
+        )
+        if count < min_sat15:
+            total += p_sat15 * (min_sat15 - count)
+
+    # ── SC18: min Monday appearances per team ──────────────────────────────────
+    p_mon_min = _WEIGHTS.get("SC18", 12)
+    min_mon = 3
+    for team_id in teams:
+        count = sum(
+            1 for sf in schedule.fixtures_for_team(team_id)
+            if sf.slot.day_of_week == "Monday"
+        )
+        if count < min_mon:
+            total += p_mon_min * (min_mon - count)
 
     # ── SC16: spare rescheduling window — ≥1 unfilled midweek per month ──────
     p_spare      = _WEIGHTS.get("SC16", 5)

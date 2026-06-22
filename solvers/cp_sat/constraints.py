@@ -242,11 +242,70 @@ def add_soft_max_consecutive_home_away(
     slots: list[Slot],
     teams: dict[str, Team],
     max_run: int = 3,
-    penalty: int = 20,
+    penalty: int = 15,
 ) -> list:
     """SC1/SC2 — penalise runs of more than max_run consecutive home or away.
-    Skeleton; full run-tracking requires auxiliary sequencing variables."""
-    return []
+
+    Uses a 42-day sliding window (≈6 EPL game-weeks). If a team has more
+    than max_run home fixtures assigned within that window the excess is
+    penalised; same for away. Consistent with the SC13 date-window approach
+    and avoids auxiliary ordering variables.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    for fixture in fixtures:
+        for sid, slot in fsi.get(fixture.fixture_id, []):
+            team_home_date[fixture.home_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+            team_away_date[fixture.away_team_id][slot.date].append(
+                x[(fixture.fixture_id, sid)]
+            )
+
+    all_dates = sorted({slot.date for slot in slots})
+    window_days = 42  # ≈6 EPL game-weeks; large enough to catch >max_run runs
+
+    for team_id in teams:
+        home_by_date = team_home_date[team_id]
+        away_by_date = team_away_date[team_id]
+
+        for i, d in enumerate(all_dates):
+            end_d = d + timedelta(days=window_days)
+
+            home_in_win: list = []
+            away_in_win: list = []
+            for wd in all_dates[i:]:
+                if wd > end_d:
+                    break
+                home_in_win.extend(home_by_date.get(wd, []))
+                away_in_win.extend(away_by_date.get(wd, []))
+
+            if len(home_in_win) > max_run:
+                hc = model.new_int_var(
+                    0, len(home_in_win), f"sc2h_{team_id}_{d}"
+                )
+                model.add(hc == sum(home_in_win))
+                exc = model.new_int_var(
+                    0, len(home_in_win) - max_run, f"sc2he_{team_id}_{d}"
+                )
+                model.add(exc >= hc - max_run)
+                penalty_terms.append((penalty, exc))
+
+            if len(away_in_win) > max_run:
+                ac = model.new_int_var(
+                    0, len(away_in_win), f"sc1a_{team_id}_{d}"
+                )
+                model.add(ac == sum(away_in_win))
+                exc = model.new_int_var(
+                    0, len(away_in_win) - max_run, f"sc1ae_{team_id}_{d}"
+                )
+                model.add(exc >= ac - max_run)
+                penalty_terms.append((penalty, exc))
+
+    return penalty_terms
 
 
 def add_soft_ha_window(
@@ -514,5 +573,378 @@ def add_soft_festive_coverage(
             plays = model.new_bool_var(f"fst_{team_id}_{fest_date}")
             model.add_max_equality(plays, team_vars)
             penalty_terms.append((penalty, plays.Not()))
+
+    return penalty_terms
+
+
+def add_soft_sc14_season_boundary(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    penalty: int = 30,
+) -> list:
+    """SC14 — penalise HH or AA in the opening/closing 14-day boundary window.
+
+    Proxy for the Atos Golden Rule: teams must not start or finish with two
+    consecutive home (HH) or two consecutive away (AA) fixtures. Uses a 14-day
+    window from season start/end to approximate the first/last two rounds.
+
+    Direct sum inequalities (no intermediate aggregation var) for solver speed:
+    - hh_exc >= sum(home_vars) - 1: fires when ≥2 home in window
+    - aa_def >= 1 - sum(home_vars): fires when 0 home in window (all away)
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end = _date.fromisoformat(calendar["end_date"])
+    window = timedelta(days=14)
+    open_cutoff = season_start + window
+    close_cutoff = season_end - window
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    for team_id in teams:
+        for label, lo, hi in [
+            ("open", season_start, open_cutoff),
+            ("close", close_cutoff, season_end),
+        ]:
+            home_vars: list = []
+            total_vars: list = []
+            for fixture in fixtures:
+                is_home = (fixture.home_team_id == team_id)
+                is_away = (fixture.away_team_id == team_id)
+                if not (is_home or is_away):
+                    continue
+                for sid, slot in fsi.get(fixture.fixture_id, []):
+                    if lo <= slot.date <= hi:
+                        v = x[(fixture.fixture_id, sid)]
+                        total_vars.append(v)
+                        if is_home:
+                            home_vars.append(v)
+
+            if len(total_vars) < 2 or not home_vars:
+                continue
+
+            home_sum = sum(home_vars)
+
+            if len(home_vars) >= 2:
+                hh_exc = model.new_int_var(0, len(home_vars) - 1, f"sc14_hx_{team_id}_{label}")
+                model.add(hh_exc >= home_sum - 1)
+                penalty_terms.append((penalty, hh_exc))
+
+            aa_def = model.new_int_var(0, 1, f"sc14_ad_{team_id}_{label}")
+            model.add(aa_def >= 1 - home_sum)
+            penalty_terms.append((penalty, aa_def))
+
+    return penalty_terms
+
+
+def add_soft_sc15_boxing_day_nyd(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    penalty: int = 35,
+) -> list:
+    """SC15 — penalise matching H/A designation on Boxing Day and New Year's Day.
+
+    Atos Golden Rule: if a team is home on Dec 26 they must be away on Jan 1,
+    and vice versa. Penalises both HH (both home) and AA (both away).
+
+    Linear sum equality replaces add_max_equality — valid since HC5 ensures each
+    team has at most one fixture per date (sum ≡ max for binary vars). Each sum
+    becomes a single linear constraint vs n+1 OR-clause constraints from
+    add_max_equality, reducing model complexity significantly.
+    Linear AND encoding (no conditional constraints) for solver speed:
+    - same_hh = h_bd AND h_nyd (standard 3-inequality linearisation)
+    - same_aa = away_bd AND away_nyd, where away_x = plays_x − home_x
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    yr = _date.fromisoformat(calendar["start_date"]).year
+    boxing_day = _date(yr, 12, 26)
+    nyd = _date(yr + 1, 1, 1)
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    for team_id in teams:
+        home_bd = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures if f.home_team_id == team_id
+            for sid, slot in fsi.get(f.fixture_id, []) if slot.date == boxing_day
+        ]
+        home_nyd = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures if f.home_team_id == team_id
+            for sid, slot in fsi.get(f.fixture_id, []) if slot.date == nyd
+        ]
+        all_bd = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures
+            if f.home_team_id == team_id or f.away_team_id == team_id
+            for sid, slot in fsi.get(f.fixture_id, []) if slot.date == boxing_day
+        ]
+        all_nyd = [
+            x[(f.fixture_id, sid)]
+            for f in fixtures
+            if f.home_team_id == team_id or f.away_team_id == team_id
+            for sid, slot in fsi.get(f.fixture_id, []) if slot.date == nyd
+        ]
+
+        if not all_bd or not all_nyd:
+            continue
+
+        # sum() ≡ max() here because HC5 ensures at most one fixture per team per date
+        h_bd = model.new_bool_var(f"sc15_hbd_{team_id}")
+        model.add(h_bd == sum(home_bd))
+
+        h_nyd = model.new_bool_var(f"sc15_hnyd_{team_id}")
+        model.add(h_nyd == sum(home_nyd))
+
+        plays_bd = model.new_bool_var(f"sc15_pbd_{team_id}")
+        model.add(plays_bd == sum(all_bd))
+
+        plays_nyd = model.new_bool_var(f"sc15_pnyd_{team_id}")
+        model.add(plays_nyd == sum(all_nyd))
+
+        # HH: home on BD AND home on NYD (linear AND of two binary vars)
+        same_hh = model.new_bool_var(f"sc15_hh_{team_id}")
+        model.add(same_hh <= h_bd)
+        model.add(same_hh <= h_nyd)
+        model.add(same_hh >= h_bd + h_nyd - 1)
+
+        # AA: away on BD AND away on NYD (away_x = plays_x − home_x)
+        same_aa = model.new_bool_var(f"sc15_aa_{team_id}")
+        model.add(same_aa <= plays_bd - h_bd)
+        model.add(same_aa <= plays_nyd - h_nyd)
+        model.add(same_aa >= plays_bd - h_bd + plays_nyd - h_nyd - 1)
+
+        penalty_terms.append((penalty, same_hh))
+        penalty_terms.append((penalty, same_aa))
+
+    return penalty_terms
+
+
+def add_soft_min_sat_1500(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    min_per_team: int = 5,
+    penalty: int = 10,
+) -> list:
+    """SC17 — penalise fewer than min_per_team Saturday 15:00 appearances per team.
+
+    The unbroadcast Saturday 3pm slot accounts for ~47% of all EPL fixtures;
+    historically each team plays ~9 home and ~9 away games at 15:00. A soft
+    floor of 5 total pushes the solver toward realistic usage of this slot pool.
+
+    Per-slot aggregation: group eligible (fixture, slot) pairs by slot, build a
+    BoolVar per slot ("does team play at this slot?"), then sum over ~35 slot-level
+    BoolVars instead of ~133 raw decision variables. Reduces LP row density ~4×.
+    sum() == max() for binary slot-appears vars because HC5 ensures at most one
+    fixture per team per slot.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    sat15_sids = {
+        s.slot_id for s in slots
+        if s.day_of_week == "Saturday" and s.kickoff == "15:00"
+    }
+    if not sat15_sids:
+        return []
+
+    penalty_terms = []
+    for team_id in teams:
+        slot_to_fvars: dict[str, list] = defaultdict(list)
+        for f in fixtures:
+            if f.home_team_id == team_id or f.away_team_id == team_id:
+                for sid, _ in fsi.get(f.fixture_id, []):
+                    if sid in sat15_sids:
+                        slot_to_fvars[sid].append(x[(f.fixture_id, sid)])
+
+        if not slot_to_fvars:
+            continue
+
+        slot_appears = []
+        for slot_id, fvars in slot_to_fvars.items():
+            if len(fvars) == 1:
+                slot_appears.append(fvars[0])
+            else:
+                # Multiple fixtures eligible for same slot; sum() == max() (HC5)
+                appear = model.new_bool_var(f"sc17_ap_{team_id}_{slot_id}")
+                model.add(appear == sum(fvars))
+                slot_appears.append(appear)
+
+        if len(slot_appears) < min_per_team:
+            continue
+
+        deficit = model.new_int_var(0, min_per_team, f"sc17_def_{team_id}")
+        model.add(deficit >= min_per_team - sum(slot_appears))
+        penalty_terms.append((penalty, deficit))
+
+    return penalty_terms
+
+
+def add_soft_min_monday(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    min_per_team: int = 3,
+    penalty: int = 12,
+) -> list:
+    """SC18 — penalise fewer than min_per_team Monday appearances per team.
+
+    Historical data shows teams average ~3.7 Monday Night Football appearances
+    per season. A soft floor of 3 corrects the solver's tendency to avoid Monday
+    slots (which have only one kickoff time vs Saturday's three).
+
+    Per-slot aggregation: same pattern as SC17 — groups by Monday slot to
+    reduce LP row density from ~64 terms to ~17 terms per team.
+    """
+    fsi = _fixture_slot_index(x, slots)
+    mon_sids = {s.slot_id for s in slots if s.day_of_week == "Monday"}
+    if not mon_sids:
+        return []
+
+    penalty_terms = []
+    for team_id in teams:
+        slot_to_fvars: dict[str, list] = defaultdict(list)
+        for f in fixtures:
+            if f.home_team_id == team_id or f.away_team_id == team_id:
+                for sid, _ in fsi.get(f.fixture_id, []):
+                    if sid in mon_sids:
+                        slot_to_fvars[sid].append(x[(f.fixture_id, sid)])
+
+        if not slot_to_fvars:
+            continue
+
+        slot_appears = []
+        for slot_id, fvars in slot_to_fvars.items():
+            if len(fvars) == 1:
+                slot_appears.append(fvars[0])
+            else:
+                # Multiple fixtures eligible for same slot; sum() == max() (HC5)
+                appear = model.new_bool_var(f"sc18_ap_{team_id}_{slot_id}")
+                model.add(appear == sum(fvars))
+                slot_appears.append(appear)
+
+        if len(slot_appears) < min_per_team:
+            continue
+
+        deficit = model.new_int_var(0, min_per_team, f"sc18_def_{team_id}")
+        model.add(deficit >= min_per_team - sum(slot_appears))
+        penalty_terms.append((penalty, deficit))
+
+    return penalty_terms
+
+
+def add_hard_half_season_balance(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    tolerance: int = 2,
+) -> None:
+    """SC5 as hard constraint — enforce lo ≤ H1_home ≤ hi per team.
+
+    With tolerance=2: lo=7, hi=12. Requires window_rounds≥4 in the slot filter
+    so that fixtures near the H1/H2 boundary have eligible slots on both sides.
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
+    midpoint     = _date.fromordinal(
+        (season_start.toordinal() + season_end.toordinal()) // 2
+    )
+
+    fsi = _fixture_slot_index(x, slots)
+
+    for team_id in teams:
+        home_h1: list = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id:
+                continue
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                if slot.date <= midpoint:
+                    home_h1.append(x[(fixture.fixture_id, sid)])
+
+        if not home_h1:
+            continue
+
+        n   = len(home_h1)
+        h1s = sum(home_h1)
+        lo  = max(0, 9 - tolerance)   # 7 with tolerance=2
+        hi  = min(n, 10 + tolerance)  # 12 with tolerance=2
+
+        model.add(h1s >= lo)
+        model.add(h1s <= hi)
+
+
+def add_soft_half_season_balance(
+    model: cp_model.CpModel,
+    x: dict,
+    fixtures: list[Fixture],
+    slots: list[Slot],
+    teams: dict[str, Team],
+    tolerance: int = 2,
+    penalty: int = 15,
+) -> list:
+    """SC5 — penalise unequal home/away distribution per half-season.
+
+    Splits the season at the calendar midpoint. Penalises each game by which
+    a team's H1 home count deviates beyond [9-tolerance, 10+tolerance].
+    With tolerance=2 the valid range is [7, 12]; ARS with 17 H1 homes incurs
+    (17-12)*penalty = 5*penalty. Fixes the extreme H/A half-imbalance that
+    arises when SC14/SC5 are absent from the model.
+    """
+    from datetime import date as _date
+
+    calendar = load_calendar()
+    season_start = _date.fromisoformat(calendar["start_date"])
+    season_end   = _date.fromisoformat(calendar["end_date"])
+    midpoint     = _date.fromordinal(
+        (season_start.toordinal() + season_end.toordinal()) // 2
+    )
+
+    fsi = _fixture_slot_index(x, slots)
+    penalty_terms = []
+
+    for team_id in teams:
+        home_h1: list = []
+        for fixture in fixtures:
+            if fixture.home_team_id != team_id:
+                continue
+            for sid, slot in fsi.get(fixture.fixture_id, []):
+                if slot.date <= midpoint:
+                    home_h1.append(x[(fixture.fixture_id, sid)])
+
+        if not home_h1:
+            continue
+
+        n   = len(home_h1)
+        h1s = sum(home_h1)
+        lo  = max(0, 9 - tolerance)   # e.g. 7 with tolerance=2
+        hi  = min(n, 10 + tolerance)  # e.g. 12 with tolerance=2
+
+        ub_exc = model.new_int_var(0, n, f"sc5_ub_{team_id}")
+        model.add(ub_exc >= h1s - hi)
+        penalty_terms.append((penalty, ub_exc))
+
+        lb_exc = model.new_int_var(0, n, f"sc5_lb_{team_id}")
+        model.add(lb_exc >= lo - h1s)
+        penalty_terms.append((penalty, lb_exc))
 
     return penalty_terms

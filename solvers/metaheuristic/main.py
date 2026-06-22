@@ -45,10 +45,11 @@ def main():
         teams=teams,
         season=calendar["season"],
         initial_temp=5000.0,
-        cooling_rate=0.9998,
-        max_iterations=500_000,
+        cooling_rate=0.9997,
+        max_iterations=5_000_000,
         tabu_size=200,
-        time_limit_seconds=300,
+        time_limit_seconds=600,
+        final_day=calendar.get("final_day"),
     )
 
     report = validate(schedule, teams)

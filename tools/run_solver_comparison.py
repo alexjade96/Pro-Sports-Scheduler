@@ -45,7 +45,7 @@ def export_csv(schedule, path: Path) -> None:
 
 
 def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
-               season_start=None, season_end=None):
+               season_start=None, season_end=None, final_day=None):
     from solvers.cp_sat.solver import solve
     print(f"\n{'='*60}")
     print(f"  SOLVER A: CP-SAT (OR-Tools)  [limit: {time_limit}s]")
@@ -60,6 +60,7 @@ def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
         time_limit_seconds=time_limit,
         season_start=season_start,
         season_end=season_end,
+        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -70,7 +71,7 @@ def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
 
 
 def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
-            season_start=None, season_end=None):
+            season_start=None, season_end=None, final_day=None):
     from solvers.ilp.solver import solve
     print(f"\n{'='*60}")
     print(f"  SOLVER B: ILP / PuLP+CBC      [limit: {time_limit}s]")
@@ -85,6 +86,7 @@ def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
         time_limit_seconds=time_limit,
         season_start=season_start,
         season_end=season_end,
+        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -94,7 +96,7 @@ def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
     return None, elapsed
 
 
-def run_metaheuristic(fixtures, slots, teams, season, time_limit):
+def run_metaheuristic(fixtures, slots, teams, season, time_limit, final_day=None):
     from solvers.metaheuristic.solver import solve
     print(f"\n{'='*60}")
     print(f"  SOLVER C: Metaheuristic (SA)  [limit: {time_limit}s]")
@@ -106,10 +108,11 @@ def run_metaheuristic(fixtures, slots, teams, season, time_limit):
         teams=teams,
         season=season,
         initial_temp=5000.0,
-        cooling_rate=0.995,
-        max_iterations=500_000,
+        cooling_rate=0.9997,
+        max_iterations=5_000_000,
         tabu_size=200,
         time_limit_seconds=time_limit,
+        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     print(f"  Done in {elapsed}s — {len(schedule.fixtures)} fixtures scheduled")
@@ -118,8 +121,8 @@ def run_metaheuristic(fixtures, slots, teams, season, time_limit):
 
 def main():
     parser = argparse.ArgumentParser(description="Solver comparison runner")
-    parser.add_argument("--time-limit", type=int, default=90,
-                        help="Per-solver time limit in seconds (default: 90)")
+    parser.add_argument("--time-limit", type=int, default=300,
+                        help="Per-solver time limit in seconds (default: 300)")
     parser.add_argument("--skip-cp-sat", action="store_true")
     parser.add_argument("--skip-ilp",    action="store_true")
     parser.add_argument("--skip-mh",     action="store_true")
@@ -144,20 +147,23 @@ def main():
 
     if not args.skip_cp_sat:
         sched, elapsed = run_cp_sat(fixtures, slots, teams, constraints, season, tl,
-                                    season_start=season_start, season_end=season_end)
+                                    season_start=season_start, season_end=season_end,
+                                    final_day=calendar.get("final_day"))
         results["CP-SAT"] = (sched, elapsed)
         if sched:
             export_csv(sched, OUTPUT_DIR / "schedule_cp_sat.csv")
 
     if not args.skip_ilp:
         sched, elapsed = run_ilp(fixtures, slots, teams, constraints, season, tl,
-                                  season_start=season_start, season_end=season_end)
+                                  season_start=season_start, season_end=season_end,
+                                  final_day=calendar.get("final_day"))
         results["ILP"] = (sched, elapsed)
         if sched:
             export_csv(sched, OUTPUT_DIR / "schedule_ilp.csv")
 
     if not args.skip_mh:
-        sched, elapsed = run_metaheuristic(fixtures, slots, teams, season, tl)
+        sched, elapsed = run_metaheuristic(fixtures, slots, teams, season, tl,
+                                           final_day=calendar.get("final_day"))
         results["Metaheuristic"] = (sched, elapsed)
         if sched:
             export_csv(sched, OUTPUT_DIR / "schedule_metaheuristic.csv")

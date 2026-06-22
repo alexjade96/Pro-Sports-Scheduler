@@ -46,7 +46,7 @@ def main():
         teams=teams,
         constraint_config=constraints,
         season=calendar["season"],
-        time_limit_seconds=300,
+        time_limit_seconds=600,
         season_start=date.fromisoformat(calendar["start_date"]),
         season_end=date.fromisoformat(calendar["end_date"]),
         final_day=calendar.get("final_day"),
