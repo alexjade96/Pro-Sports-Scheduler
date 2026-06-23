@@ -1,0 +1,273 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2021_01_DAL_TB,2021,REG,1,2021-09-09,Thursday,20:20,DAL,29,TB,31,Home,2,0,0,7,7,Mike McCarthy,Bruce Arians,Shawn Hochuli,TAM00,Raymond James Stadium
+2021_01_PHI_ATL,2021,REG,1,2021-09-12,Sunday,13:00,PHI,32,ATL,6,Home,-26,0,0,7,7,Nick Sirianni,Arthur Smith,Scott Novak,ATL97,Mercedes-Benz Stadium
+2021_01_PIT_BUF,2021,REG,1,2021-09-12,Sunday,13:00,PIT,23,BUF,16,Home,-7,0,0,7,7,Mike Tomlin,Sean McDermott,John Hussey,BUF00,New Era Field
+2021_01_NYJ_CAR,2021,REG,1,2021-09-12,Sunday,13:00,NYJ,14,CAR,19,Home,5,0,0,7,7,Robert Saleh,Matt Rhule,Clay Martin,CAR00,Bank of America Stadium
+2021_01_MIN_CIN,2021,REG,1,2021-09-12,Sunday,13:00,MIN,24,CIN,27,Home,3,1,0,7,7,Mike Zimmer,Zac Taylor,Adrian Hill,CIN00,Paul Brown Stadium
+2021_01_SF_DET,2021,REG,1,2021-09-12,Sunday,13:00,SF,41,DET,33,Home,-8,0,0,7,7,Kyle Shanahan,Dan Campbell,Brad Rogers,DET00,Ford Field
+2021_01_JAX_HOU,2021,REG,1,2021-09-12,Sunday,13:00,JAX,21,HOU,37,Home,16,0,1,7,7,Urban Meyer,David Culley,Land Clark,HOU00,NRG Stadium
+2021_01_SEA_IND,2021,REG,1,2021-09-12,Sunday,13:00,SEA,28,IND,16,Home,-12,0,0,7,7,Pete Carroll,Frank Reich,Tony Corrente,IND00,Lucas Oil Stadium
+2021_01_ARI_TEN,2021,REG,1,2021-09-12,Sunday,13:00,ARI,38,TEN,13,Home,-25,0,0,7,7,Kliff Kingsbury,Mike Vrabel,Jerome Boger,NAS00,Nissan Stadium
+2021_01_LAC_WAS,2021,REG,1,2021-09-12,Sunday,13:00,LAC,20,WAS,16,Home,-4,0,0,7,7,Brandon Staley,Ron Rivera,Alex Kemp,WAS00,FedExField
+2021_01_CLE_KC,2021,REG,1,2021-09-12,Sunday,16:25,CLE,29,KC,33,Home,4,0,0,7,7,Kevin Stefanski,Andy Reid,Bill Vinovich,KAN00,GEHA Field at Arrowhead Stadium
+2021_01_MIA_NE,2021,REG,1,2021-09-12,Sunday,16:25,MIA,17,NE,16,Home,-1,0,1,7,7,Brian Flores,Bill Belichick,Clete Blakeman,BOS00,Gillette Stadium
+2021_01_GB_NO,2021,REG,1,2021-09-12,Sunday,16:25,GB,3,NO,38,Neutral,35,0,0,7,7,Matt LaFleur,Sean Payton,Carl Cheffers,JAX00,TIAA Bank Stadium
+2021_01_DEN_NYG,2021,REG,1,2021-09-12,Sunday,16:25,DEN,27,NYG,13,Home,-14,0,0,7,7,Vic Fangio,Joe Judge,Ron Torbert,NYC01,MetLife Stadium
+2021_01_CHI_LA,2021,REG,1,2021-09-12,Sunday,20:20,CHI,14,LAR,34,Home,20,0,0,7,7,Matt Nagy,Sean McVay,Brad Allen,LAX01,SoFi Stadium
+2021_01_BAL_LV,2021,REG,1,2021-09-13,Monday,20:15,BAL,27,LV,33,Home,6,1,0,7,7,John Harbaugh,Jon Gruden,Shawn Smith,VEG00,Allegiant Stadium
+2021_02_NYG_WAS,2021,REG,2,2021-09-16,Thursday,20:20,NYG,29,WAS,30,Home,1,0,1,4,4,Joe Judge,Ron Rivera,Scott Novak,WAS00,FedExField
+2021_02_NO_CAR,2021,REG,2,2021-09-19,Sunday,13:00,NO,7,CAR,26,Home,19,0,1,7,7,Sean Payton,Matt Rhule,Ron Torbert,CAR00,Bank of America Stadium
+2021_02_CIN_CHI,2021,REG,2,2021-09-19,Sunday,13:00,CIN,17,CHI,20,Home,3,0,0,7,7,Zac Taylor,Matt Nagy,Land Clark,CHI98,Soldier Field
+2021_02_HOU_CLE,2021,REG,2,2021-09-19,Sunday,13:00,HOU,21,CLE,31,Home,10,0,0,7,7,David Culley,Kevin Stefanski,Brad Rogers,CLE00,FirstEnergy Stadium
+2021_02_LA_IND,2021,REG,2,2021-09-19,Sunday,13:00,LAR,27,IND,24,Home,-3,0,0,7,7,Sean McVay,Frank Reich,Shawn Smith,IND00,Lucas Oil Stadium
+2021_02_DEN_JAX,2021,REG,2,2021-09-19,Sunday,13:00,DEN,23,JAX,13,Home,-10,0,0,7,7,Vic Fangio,Urban Meyer,Clay Martin,JAX00,TIAA Bank Stadium
+2021_02_BUF_MIA,2021,REG,2,2021-09-19,Sunday,13:00,BUF,35,MIA,0,Home,-35,0,1,7,7,Sean McDermott,Brian Flores,Craig Wrolstad,MIA00,Hard Rock Stadium
+2021_02_NE_NYJ,2021,REG,2,2021-09-19,Sunday,13:00,NE,25,NYJ,6,Home,-19,0,1,7,7,Bill Belichick,Robert Saleh,Shawn Hochuli,NYC01,MetLife Stadium
+2021_02_SF_PHI,2021,REG,2,2021-09-19,Sunday,13:00,SF,17,PHI,11,Home,-6,0,0,7,7,Kyle Shanahan,Nick Sirianni,Brad Allen,PHI00,Lincoln Financial Field
+2021_02_LV_PIT,2021,REG,2,2021-09-19,Sunday,13:00,LV,26,PIT,17,Home,-9,0,0,6,7,Jon Gruden,Mike Tomlin,Jerome Boger,PIT00,Heinz Field
+2021_02_MIN_ARI,2021,REG,2,2021-09-19,Sunday,16:05,MIN,33,ARI,34,Home,1,0,0,7,7,Mike Zimmer,Kliff Kingsbury,Bill Vinovich,PHO00,State Farm Stadium
+2021_02_ATL_TB,2021,REG,2,2021-09-19,Sunday,16:05,ATL,25,TB,48,Home,23,0,1,7,10,Arthur Smith,Bruce Arians,Carl Cheffers,TAM00,Raymond James Stadium
+2021_02_DAL_LAC,2021,REG,2,2021-09-19,Sunday,16:25,DAL,20,LAC,17,Home,-3,0,0,10,7,Mike McCarthy,Brandon Staley,Tony Corrente,LAX01,SoFi Stadium
+2021_02_TEN_SEA,2021,REG,2,2021-09-19,Sunday,16:25,TEN,33,SEA,30,Home,-3,1,0,7,7,Mike Vrabel,Pete Carroll,John Hussey,SEA00,Lumen Field
+2021_02_KC_BAL,2021,REG,2,2021-09-19,Sunday,20:20,KC,35,BAL,36,Home,1,0,0,7,6,Andy Reid,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2021_02_DET_GB,2021,REG,2,2021-09-20,Monday,20:15,DET,17,GB,35,Home,18,0,1,8,8,Dan Campbell,Matt LaFleur,Adrian Hill,GNB00,Lambeau Field
+2021_03_CAR_HOU,2021,REG,3,2021-09-23,Thursday,20:20,CAR,24,HOU,9,Home,-15,0,0,4,4,Matt Rhule,David Culley,Alex Kemp,HOU00,NRG Stadium
+2021_03_WAS_BUF,2021,REG,3,2021-09-26,Sunday,13:00,WAS,21,BUF,43,Home,22,0,0,10,7,Ron Rivera,Sean McDermott,Tony Corrente,BUF00,New Era Field
+2021_03_CHI_CLE,2021,REG,3,2021-09-26,Sunday,13:00,CHI,6,CLE,26,Home,20,0,0,7,7,Matt Nagy,Kevin Stefanski,Ron Torbert,CLE00,FirstEnergy Stadium
+2021_03_BAL_DET,2021,REG,3,2021-09-26,Sunday,13:00,BAL,19,DET,17,Home,-2,0,0,7,6,John Harbaugh,Dan Campbell,Scott Novak,DET00,Ford Field
+2021_03_ARI_JAX,2021,REG,3,2021-09-26,Sunday,13:00,ARI,31,JAX,19,Home,-12,0,0,7,7,Kliff Kingsbury,Urban Meyer,Shawn Smith,JAX00,TIAA Bank Stadium
+2021_03_LAC_KC,2021,REG,3,2021-09-26,Sunday,13:00,LAC,30,KC,24,Home,-6,0,1,7,7,Brandon Staley,Andy Reid,Shawn Hochuli,KAN00,GEHA Field at Arrowhead Stadium
+2021_03_NO_NE,2021,REG,3,2021-09-26,Sunday,13:00,NO,28,NE,13,Home,-15,0,0,7,7,Sean Payton,Bill Belichick,John Hussey,BOS00,Gillette Stadium
+2021_03_ATL_NYG,2021,REG,3,2021-09-26,Sunday,13:00,ATL,17,NYG,14,Home,-3,0,0,7,10,Arthur Smith,Joe Judge,Adrian Hill,NYC01,MetLife Stadium
+2021_03_CIN_PIT,2021,REG,3,2021-09-26,Sunday,13:00,CIN,24,PIT,10,Home,-14,0,1,7,7,Zac Taylor,Mike Tomlin,Clete Blakeman,PIT00,Heinz Field
+2021_03_IND_TEN,2021,REG,3,2021-09-26,Sunday,13:00,IND,16,TEN,25,Home,9,0,1,7,7,Frank Reich,Mike Vrabel,Bill Vinovich,NAS00,Nissan Stadium
+2021_03_NYJ_DEN,2021,REG,3,2021-09-26,Sunday,16:05,NYJ,0,DEN,26,Home,26,0,0,7,7,Robert Saleh,Vic Fangio,Land Clark,DEN00,Empower Field at Mile High
+2021_03_MIA_LV,2021,REG,3,2021-09-26,Sunday,16:05,MIA,28,LV,31,Home,3,1,0,7,7,Brian Flores,Jon Gruden,Carl Cheffers,VEG00,Allegiant Stadium
+2021_03_TB_LA,2021,REG,3,2021-09-26,Sunday,16:25,TB,24,LAR,34,Home,10,0,0,7,7,Bruce Arians,Sean McVay,Craig Wrolstad,LAX01,SoFi Stadium
+2021_03_SEA_MIN,2021,REG,3,2021-09-26,Sunday,16:25,SEA,17,MIN,30,Home,13,0,0,7,7,Pete Carroll,Mike Zimmer,Clay Martin,MIN01,U.S. Bank Stadium
+2021_03_GB_SF,2021,REG,3,2021-09-26,Sunday,20:20,GB,30,SF,28,Home,-2,0,0,6,7,Matt LaFleur,Kyle Shanahan,Jerome Boger,SFO01,Levi's Stadium
+2021_03_PHI_DAL,2021,REG,3,2021-09-27,Monday,20:15,PHI,21,DAL,41,Home,20,0,1,8,8,Nick Sirianni,Mike McCarthy,Brad Rogers,DAL00,AT&T Stadium
+2021_04_JAX_CIN,2021,REG,4,2021-09-30,Thursday,20:20,JAX,21,CIN,24,Home,3,0,0,4,4,Urban Meyer,Zac Taylor,Brad Allen,CIN00,Paul Brown Stadium
+2021_04_WAS_ATL,2021,REG,4,2021-10-03,Sunday,13:00,WAS,34,ATL,30,Home,-4,0,0,7,7,Ron Rivera,Arthur Smith,Clay Martin,ATL97,Mercedes-Benz Stadium
+2021_04_HOU_BUF,2021,REG,4,2021-10-03,Sunday,13:00,HOU,0,BUF,40,Home,40,0,0,10,7,David Culley,Sean McDermott,Ron Torbert,BUF00,New Era Field
+2021_04_DET_CHI,2021,REG,4,2021-10-03,Sunday,13:00,DET,14,CHI,24,Home,10,0,1,7,7,Dan Campbell,Matt Nagy,Shawn Smith,CHI98,Soldier Field
+2021_04_CAR_DAL,2021,REG,4,2021-10-03,Sunday,13:00,CAR,28,DAL,36,Home,8,0,0,10,6,Matt Rhule,Mike McCarthy,Jerome Boger,DAL00,AT&T Stadium
+2021_04_IND_MIA,2021,REG,4,2021-10-03,Sunday,13:00,IND,27,MIA,17,Home,-10,0,0,7,7,Frank Reich,Brian Flores,Alex Kemp,MIA00,Hard Rock Stadium
+2021_04_CLE_MIN,2021,REG,4,2021-10-03,Sunday,13:00,CLE,14,MIN,7,Home,-7,0,0,7,7,Kevin Stefanski,Mike Zimmer,Tony Corrente,MIN01,U.S. Bank Stadium
+2021_04_NYG_NO,2021,REG,4,2021-10-03,Sunday,13:00,NYG,27,NO,21,Home,-6,1,0,7,7,Joe Judge,Sean Payton,Brad Rogers,NOR00,Mercedes-Benz Superdome
+2021_04_TEN_NYJ,2021,REG,4,2021-10-03,Sunday,13:00,TEN,24,NYJ,27,Home,3,1,0,7,7,Mike Vrabel,Robert Saleh,Adrian Hill,NYC01,MetLife Stadium
+2021_04_KC_PHI,2021,REG,4,2021-10-03,Sunday,13:00,KC,42,PHI,30,Home,-12,0,0,7,6,Andy Reid,Nick Sirianni,Land Clark,PHI00,Lincoln Financial Field
+2021_04_ARI_LA,2021,REG,4,2021-10-03,Sunday,16:05,ARI,37,LAR,20,Home,-17,0,1,7,7,Kliff Kingsbury,Sean McVay,Shawn Hochuli,LAX01,SoFi Stadium
+2021_04_SEA_SF,2021,REG,4,2021-10-03,Sunday,16:05,SEA,28,SF,21,Home,-7,0,1,7,7,Pete Carroll,Kyle Shanahan,Carl Cheffers,SFO01,Levi's Stadium
+2021_04_BAL_DEN,2021,REG,4,2021-10-03,Sunday,16:25,BAL,23,DEN,7,Home,-16,0,0,7,7,John Harbaugh,Vic Fangio,Craig Wrolstad,DEN00,Empower Field at Mile High
+2021_04_PIT_GB,2021,REG,4,2021-10-03,Sunday,16:25,PIT,17,GB,27,Home,10,0,0,7,7,Mike Tomlin,Matt LaFleur,Scott Novak,GNB00,Lambeau Field
+2021_04_TB_NE,2021,REG,4,2021-10-03,Sunday,20:20,TB,19,NE,17,Home,-2,0,0,7,7,Bruce Arians,Bill Belichick,Bill Vinovich,BOS00,Gillette Stadium
+2021_04_LV_LAC,2021,REG,4,2021-10-04,Monday,20:15,LV,14,LAC,28,Home,14,0,1,8,8,Jon Gruden,Brandon Staley,John Hussey,LAX01,SoFi Stadium
+2021_05_LA_SEA,2021,REG,5,2021-10-07,Thursday,20:20,LAR,26,SEA,17,Home,-9,0,1,4,4,Sean McVay,Pete Carroll,Ron Torbert,SEA00,Lumen Field
+2021_05_NYJ_ATL,2021,REG,5,2021-10-10,Sunday,09:30,NYJ,20,ATL,27,Neutral,7,0,0,7,7,Robert Saleh,Arthur Smith,Tony Corrente,LON02,Tottenham Stadium
+2021_05_PHI_CAR,2021,REG,5,2021-10-10,Sunday,13:00,PHI,21,CAR,18,Home,-3,0,0,7,7,Nick Sirianni,Matt Rhule,Shawn Hochuli,CAR00,Bank of America Stadium
+2021_05_GB_CIN,2021,REG,5,2021-10-10,Sunday,13:00,GB,25,CIN,22,Home,-3,1,0,7,10,Matt LaFleur,Zac Taylor,Bill Vinovich,CIN00,Paul Brown Stadium
+2021_05_NE_HOU,2021,REG,5,2021-10-10,Sunday,13:00,NE,25,HOU,22,Home,-3,0,0,7,7,Bill Belichick,David Culley,Scott Novak,HOU00,NRG Stadium
+2021_05_TEN_JAX,2021,REG,5,2021-10-10,Sunday,13:00,TEN,37,JAX,19,Home,-18,0,1,7,10,Mike Vrabel,Urban Meyer,Alex Kemp,JAX00,TIAA Bank Stadium
+2021_05_DET_MIN,2021,REG,5,2021-10-10,Sunday,13:00,DET,17,MIN,19,Home,2,0,1,7,7,Dan Campbell,Mike Zimmer,Clete Blakeman,MIN01,U.S. Bank Stadium
+2021_05_DEN_PIT,2021,REG,5,2021-10-10,Sunday,13:00,DEN,19,PIT,27,Home,8,0,0,7,7,Vic Fangio,Mike Tomlin,Brad Rogers,PIT00,Heinz Field
+2021_05_MIA_TB,2021,REG,5,2021-10-10,Sunday,13:00,MIA,17,TB,45,Home,28,0,0,7,7,Brian Flores,Bruce Arians,Jerome Boger,TAM00,Raymond James Stadium
+2021_05_NO_WAS,2021,REG,5,2021-10-10,Sunday,13:00,NO,33,WAS,22,Home,-11,0,0,7,7,Sean Payton,Ron Rivera,Shawn Smith,WAS00,FedExField
+2021_05_CLE_LAC,2021,REG,5,2021-10-10,Sunday,16:05,CLE,42,LAC,47,Home,5,0,0,7,6,Kevin Stefanski,Brandon Staley,Brad Allen,LAX01,SoFi Stadium
+2021_05_CHI_LV,2021,REG,5,2021-10-10,Sunday,16:05,CHI,20,LV,9,Home,-11,0,0,7,6,Matt Nagy,Jon Gruden,Craig Wrolstad,VEG00,Allegiant Stadium
+2021_05_SF_ARI,2021,REG,5,2021-10-10,Sunday,16:25,SF,10,ARI,17,Home,7,0,1,7,7,Kyle Shanahan,Kliff Kingsbury,Clay Martin,PHO00,State Farm Stadium
+2021_05_NYG_DAL,2021,REG,5,2021-10-10,Sunday,16:25,NYG,20,DAL,44,Home,24,0,1,7,7,Joe Judge,Mike McCarthy,John Hussey,DAL00,AT&T Stadium
+2021_05_BUF_KC,2021,REG,5,2021-10-10,Sunday,20:20,BUF,38,KC,20,Home,-18,0,0,7,7,Sean McDermott,Andy Reid,Carl Cheffers,KAN00,GEHA Field at Arrowhead Stadium
+2021_05_IND_BAL,2021,REG,5,2021-10-11,Monday,20:15,IND,25,BAL,31,Home,6,1,0,8,8,Frank Reich,John Harbaugh,Land Clark,BAL00,M&T Bank Stadium
+2021_06_TB_PHI,2021,REG,6,2021-10-14,Thursday,20:20,TB,28,PHI,22,Home,-6,0,0,4,4,Bruce Arians,Nick Sirianni,Clay Martin,PHI00,Lincoln Financial Field
+2021_06_MIA_JAX,2021,REG,6,2021-10-17,Sunday,09:30,MIA,20,JAX,23,Neutral,3,0,0,7,7,Brian Flores,Urban Meyer,John Hussey,LON02,Tottenham Stadium
+2021_06_LAC_BAL,2021,REG,6,2021-10-17,Sunday,13:00,LAC,6,BAL,34,Home,28,0,0,7,6,Brandon Staley,John Harbaugh,Bill Vinovich,BAL00,M&T Bank Stadium
+2021_06_MIN_CAR,2021,REG,6,2021-10-17,Sunday,13:00,MIN,34,CAR,28,Home,-6,1,0,7,7,Mike Zimmer,Matt Rhule,Craig Wrolstad,CAR00,Bank of America Stadium
+2021_06_GB_CHI,2021,REG,6,2021-10-17,Sunday,13:00,GB,24,CHI,14,Home,-10,0,1,7,7,Matt LaFleur,Matt Nagy,Brad Rogers,CHI98,Soldier Field
+2021_06_CIN_DET,2021,REG,6,2021-10-17,Sunday,13:00,CIN,34,DET,11,Home,-23,0,0,7,7,Zac Taylor,Dan Campbell,Shawn Hochuli,DET00,Ford Field
+2021_06_HOU_IND,2021,REG,6,2021-10-17,Sunday,13:00,HOU,3,IND,31,Home,28,0,1,7,6,David Culley,Frank Reich,Jerome Boger,IND00,Lucas Oil Stadium
+2021_06_LA_NYG,2021,REG,6,2021-10-17,Sunday,13:00,LAR,38,NYG,11,Home,-27,0,0,10,7,Sean McVay,Joe Judge,Alex Kemp,NYC01,MetLife Stadium
+2021_06_KC_WAS,2021,REG,6,2021-10-17,Sunday,13:00,KC,31,WAS,13,Home,-18,0,0,7,7,Andy Reid,Ron Rivera,Adrian Hill,WAS00,FedExField
+2021_06_ARI_CLE,2021,REG,6,2021-10-17,Sunday,16:05,ARI,37,CLE,14,Home,-23,0,0,7,7,Kliff Kingsbury,Kevin Stefanski,Carl Cheffers,CLE00,FirstEnergy Stadium
+2021_06_LV_DEN,2021,REG,6,2021-10-17,Sunday,16:25,LV,34,DEN,24,Home,-10,0,1,7,7,Rich Bisaccia,Vic Fangio,Ron Torbert,DEN00,Empower Field at Mile High
+2021_06_DAL_NE,2021,REG,6,2021-10-17,Sunday,16:25,DAL,35,NE,29,Home,-6,1,0,7,7,Mike McCarthy,Bill Belichick,Brad Allen,BOS00,Gillette Stadium
+2021_06_SEA_PIT,2021,REG,6,2021-10-17,Sunday,20:20,SEA,20,PIT,23,Home,3,1,0,10,7,Pete Carroll,Mike Tomlin,Shawn Smith,PIT00,Heinz Field
+2021_06_BUF_TEN,2021,REG,6,2021-10-18,Monday,20:15,BUF,31,TEN,34,Home,3,0,0,8,8,Sean McDermott,Mike Vrabel,Clete Blakeman,NAS00,Nissan Stadium
+2021_07_DEN_CLE,2021,REG,7,2021-10-21,Thursday,20:20,DEN,14,CLE,17,Home,3,0,0,4,4,Vic Fangio,Kevin Stefanski,Adrian Hill,CLE00,FirstEnergy Stadium
+2021_07_CIN_BAL,2021,REG,7,2021-10-24,Sunday,13:00,CIN,41,BAL,17,Home,-24,0,1,7,7,Zac Taylor,John Harbaugh,Tony Corrente,BAL00,M&T Bank Stadium
+2021_07_WAS_GB,2021,REG,7,2021-10-24,Sunday,13:00,WAS,10,GB,24,Home,14,0,0,7,7,Ron Rivera,Matt LaFleur,Ron Torbert,GNB00,Lambeau Field
+2021_07_ATL_MIA,2021,REG,7,2021-10-24,Sunday,13:00,ATL,30,MIA,28,Home,-2,0,0,14,7,Arthur Smith,Brian Flores,Scott Novak,MIA00,Hard Rock Stadium
+2021_07_NYJ_NE,2021,REG,7,2021-10-24,Sunday,13:00,NYJ,13,NE,54,Home,41,0,1,14,7,Robert Saleh,Bill Belichick,Brad Rogers,BOS00,Gillette Stadium
+2021_07_CAR_NYG,2021,REG,7,2021-10-24,Sunday,13:00,CAR,3,NYG,25,Home,22,0,0,7,7,Matt Rhule,Joe Judge,Carl Cheffers,NYC01,MetLife Stadium
+2021_07_KC_TEN,2021,REG,7,2021-10-24,Sunday,13:00,KC,3,TEN,27,Home,24,0,0,7,6,Andy Reid,Mike Vrabel,Brad Allen,NAS00,Nissan Stadium
+2021_07_DET_LA,2021,REG,7,2021-10-24,Sunday,16:05,DET,19,LAR,28,Home,9,0,0,7,7,Dan Campbell,Sean McVay,Bill Vinovich,LAX01,SoFi Stadium
+2021_07_PHI_LV,2021,REG,7,2021-10-24,Sunday,16:05,PHI,22,LV,33,Home,11,0,0,10,7,Nick Sirianni,Rich Bisaccia,Clete Blakeman,VEG00,Allegiant Stadium
+2021_07_HOU_ARI,2021,REG,7,2021-10-24,Sunday,16:25,HOU,5,ARI,31,Home,26,0,0,7,7,David Culley,Kliff Kingsbury,Land Clark,PHO00,State Farm Stadium
+2021_07_CHI_TB,2021,REG,7,2021-10-24,Sunday,16:25,CHI,3,TB,38,Home,35,0,0,7,10,Matt Nagy,Bruce Arians,Alex Kemp,TAM00,Raymond James Stadium
+2021_07_IND_SF,2021,REG,7,2021-10-24,Sunday,20:20,IND,30,SF,18,Home,-12,0,0,7,14,Frank Reich,Kyle Shanahan,Craig Wrolstad,SFO01,Levi's Stadium
+2021_07_NO_SEA,2021,REG,7,2021-10-25,Monday,20:15,NO,13,SEA,10,Home,-3,0,0,15,8,Sean Payton,Pete Carroll,Shawn Hochuli,SEA00,Lumen Field
+2021_08_GB_ARI,2021,REG,8,2021-10-28,Thursday,20:20,GB,24,ARI,21,Home,-3,0,0,4,4,Matt LaFleur,Kliff Kingsbury,Alex Kemp,PHO00,State Farm Stadium
+2021_08_CAR_ATL,2021,REG,8,2021-10-31,Sunday,13:00,CAR,19,ATL,13,Home,-6,0,1,7,7,Matt Rhule,Arthur Smith,Brad Allen,ATL97,Mercedes-Benz Stadium
+2021_08_MIA_BUF,2021,REG,8,2021-10-31,Sunday,13:00,MIA,11,BUF,26,Home,15,0,1,7,13,Brian Flores,Sean McDermott,Shawn Smith,BUF00,New Era Field
+2021_08_SF_CHI,2021,REG,8,2021-10-31,Sunday,13:00,SF,33,CHI,22,Home,-11,0,0,7,7,Kyle Shanahan,Matt Nagy,Land Clark,CHI98,Soldier Field
+2021_08_PIT_CLE,2021,REG,8,2021-10-31,Sunday,13:00,PIT,15,CLE,10,Home,-5,0,1,14,10,Mike Tomlin,Kevin Stefanski,Shawn Hochuli,CLE00,FirstEnergy Stadium
+2021_08_PHI_DET,2021,REG,8,2021-10-31,Sunday,13:00,PHI,44,DET,6,Home,-38,0,0,7,7,Nick Sirianni,Dan Campbell,Tony Corrente,DET00,Ford Field
+2021_08_LA_HOU,2021,REG,8,2021-10-31,Sunday,13:00,LAR,38,HOU,22,Home,-16,0,0,7,7,Sean McVay,David Culley,Clay Martin,HOU00,NRG Stadium
+2021_08_TEN_IND,2021,REG,8,2021-10-31,Sunday,13:00,TEN,34,IND,31,Home,-3,1,1,7,7,Mike Vrabel,Frank Reich,Carl Cheffers,IND00,Lucas Oil Stadium
+2021_08_CIN_NYJ,2021,REG,8,2021-10-31,Sunday,13:00,CIN,31,NYJ,34,Home,3,0,0,7,7,Zac Taylor,Robert Saleh,Craig Wrolstad,NYC01,MetLife Stadium
+2021_08_NE_LAC,2021,REG,8,2021-10-31,Sunday,16:05,NE,27,LAC,24,Home,-3,0,0,7,14,Bill Belichick,Brandon Staley,Ron Torbert,LAX01,SoFi Stadium
+2021_08_JAX_SEA,2021,REG,8,2021-10-31,Sunday,16:05,JAX,7,SEA,31,Home,24,0,0,14,6,Urban Meyer,Pete Carroll,Adrian Hill,SEA00,Lumen Field
+2021_08_WAS_DEN,2021,REG,8,2021-10-31,Sunday,16:25,WAS,10,DEN,17,Home,7,0,0,7,10,Ron Rivera,Vic Fangio,John Hussey,DEN00,Empower Field at Mile High
+2021_08_TB_NO,2021,REG,8,2021-10-31,Sunday,16:25,TB,27,NO,36,Home,9,0,1,7,6,Bruce Arians,Sean Payton,Clete Blakeman,NOR00,Mercedes-Benz Superdome
+2021_08_DAL_MIN,2021,REG,8,2021-10-31,Sunday,20:20,DAL,20,MIN,16,Home,-4,0,0,14,14,Mike McCarthy,Mike Zimmer,Scott Novak,MIN01,U.S. Bank Stadium
+2021_08_NYG_KC,2021,REG,8,2021-11-01,Monday,20:15,NYG,17,KC,20,Home,3,0,0,8,8,Joe Judge,Andy Reid,Jerome Boger,KAN00,GEHA Field at Arrowhead Stadium
+2021_09_NYJ_IND,2021,REG,9,2021-11-04,Thursday,20:20,NYJ,30,IND,45,Home,15,0,0,4,4,Robert Saleh,Frank Reich,John Hussey,IND00,Lucas Oil Stadium
+2021_09_MIN_BAL,2021,REG,9,2021-11-07,Sunday,13:00,MIN,31,BAL,34,Home,3,1,0,7,14,Mike Zimmer,John Harbaugh,Carl Cheffers,BAL00,M&T Bank Stadium
+2021_09_NE_CAR,2021,REG,9,2021-11-07,Sunday,13:00,NE,24,CAR,6,Home,-18,0,0,7,7,Bill Belichick,Matt Rhule,Clete Blakeman,CAR00,Bank of America Stadium
+2021_09_CLE_CIN,2021,REG,9,2021-11-07,Sunday,13:00,CLE,41,CIN,16,Home,-25,0,1,7,7,Kevin Stefanski,Zac Taylor,Scott Novak,CIN00,Paul Brown Stadium
+2021_09_DEN_DAL,2021,REG,9,2021-11-07,Sunday,13:00,DEN,30,DAL,16,Home,-14,0,0,7,7,Vic Fangio,Mike McCarthy,Bill Vinovich,DAL00,AT&T Stadium
+2021_09_BUF_JAX,2021,REG,9,2021-11-07,Sunday,13:00,BUF,6,JAX,9,Home,3,0,0,7,7,Sean McDermott,Urban Meyer,Land Clark,JAX00,TIAA Bank Stadium
+2021_09_HOU_MIA,2021,REG,9,2021-11-07,Sunday,13:00,HOU,9,MIA,17,Home,8,0,0,7,7,David Culley,Brian Flores,Adrian Hill,MIA00,Hard Rock Stadium
+2021_09_ATL_NO,2021,REG,9,2021-11-07,Sunday,13:00,ATL,27,NO,25,Home,-2,0,1,7,7,Arthur Smith,Sean Payton,Alex Kemp,NOR00,Mercedes-Benz Superdome
+2021_09_LV_NYG,2021,REG,9,2021-11-07,Sunday,13:00,LV,16,NYG,23,Home,7,0,0,14,6,Rich Bisaccia,Joe Judge,Clay Martin,NYC01,MetLife Stadium
+2021_09_LAC_PHI,2021,REG,9,2021-11-07,Sunday,16:05,LAC,27,PHI,24,Home,-3,0,0,7,7,Brandon Staley,Nick Sirianni,Jerome Boger,PHI00,Lincoln Financial Field
+2021_09_GB_KC,2021,REG,9,2021-11-07,Sunday,16:25,GB,7,KC,13,Home,6,0,0,10,6,Matt LaFleur,Andy Reid,Shawn Smith,KAN00,GEHA Field at Arrowhead Stadium
+2021_09_ARI_SF,2021,REG,9,2021-11-07,Sunday,16:25,ARI,31,SF,17,Home,-14,0,1,10,7,Kliff Kingsbury,Kyle Shanahan,Brad Allen,SFO01,Levi's Stadium
+2021_09_TEN_LA,2021,REG,9,2021-11-07,Sunday,20:20,TEN,28,LAR,16,Home,-12,0,0,7,7,Mike Vrabel,Sean McVay,Brad Rogers,LAX01,SoFi Stadium
+2021_09_CHI_PIT,2021,REG,9,2021-11-08,Monday,20:15,CHI,27,PIT,29,Home,2,0,0,8,8,Matt Nagy,Mike Tomlin,Tony Corrente,PIT00,Heinz Field
+2021_10_BAL_MIA,2021,REG,10,2021-11-11,Thursday,20:20,BAL,10,MIA,22,Home,12,0,0,4,4,John Harbaugh,Brian Flores,Ron Torbert,MIA00,Hard Rock Stadium
+2021_10_ATL_DAL,2021,REG,10,2021-11-14,Sunday,13:00,ATL,3,DAL,43,Home,40,0,0,7,7,Arthur Smith,Mike McCarthy,Craig Wrolstad,DAL00,AT&T Stadium
+2021_10_JAX_IND,2021,REG,10,2021-11-14,Sunday,13:00,JAX,17,IND,23,Home,6,0,1,7,10,Urban Meyer,Frank Reich,Tony Corrente,IND00,Lucas Oil Stadium
+2021_10_CLE_NE,2021,REG,10,2021-11-14,Sunday,13:00,CLE,7,NE,45,Home,38,0,0,7,7,Kevin Stefanski,Bill Belichick,John Hussey,BOS00,Gillette Stadium
+2021_10_BUF_NYJ,2021,REG,10,2021-11-14,Sunday,13:00,BUF,45,NYJ,17,Home,-28,0,1,7,10,Sean McDermott,Robert Saleh,Scott Novak,NYC01,MetLife Stadium
+2021_10_DET_PIT,2021,REG,10,2021-11-14,Sunday,13:00,DET,16,PIT,16,Home,0,1,0,14,6,Dan Campbell,Mike Tomlin,Land Clark,PIT00,Heinz Field
+2021_10_NO_TEN,2021,REG,10,2021-11-14,Sunday,13:00,NO,21,TEN,23,Home,2,0,0,7,7,Sean Payton,Mike Vrabel,Jerome Boger,NAS00,Nissan Stadium
+2021_10_TB_WAS,2021,REG,10,2021-11-14,Sunday,13:00,TB,19,WAS,29,Home,10,0,0,14,14,Bruce Arians,Ron Rivera,Brad Rogers,WAS00,FedExField
+2021_10_CAR_ARI,2021,REG,10,2021-11-14,Sunday,16:05,CAR,34,ARI,10,Home,-24,0,0,7,7,Matt Rhule,Kliff Kingsbury,Adrian Hill,PHO00,State Farm Stadium
+2021_10_MIN_LAC,2021,REG,10,2021-11-14,Sunday,16:05,MIN,27,LAC,20,Home,-7,0,0,7,7,Mike Zimmer,Brandon Staley,Clay Martin,LAX01,SoFi Stadium
+2021_10_PHI_DEN,2021,REG,10,2021-11-14,Sunday,16:25,PHI,30,DEN,13,Home,-17,0,0,7,7,Nick Sirianni,Vic Fangio,Shawn Hochuli,DEN00,Empower Field at Mile High
+2021_10_SEA_GB,2021,REG,10,2021-11-14,Sunday,16:25,SEA,0,GB,17,Home,17,0,0,14,7,Pete Carroll,Matt LaFleur,Brad Allen,GNB00,Lambeau Field
+2021_10_KC_LV,2021,REG,10,2021-11-14,Sunday,20:20,KC,41,LV,14,Home,-27,0,1,7,7,Andy Reid,Rich Bisaccia,Bill Vinovich,VEG00,Allegiant Stadium
+2021_10_LA_SF,2021,REG,10,2021-11-15,Monday,20:15,LAR,10,SF,31,Home,21,0,1,8,8,Sean McVay,Kyle Shanahan,Shawn Smith,SFO01,Levi's Stadium
+2021_11_NE_ATL,2021,REG,11,2021-11-18,Thursday,20:20,NE,25,ATL,0,Home,-25,0,0,4,4,Bill Belichick,Arthur Smith,Land Clark,ATL97,Mercedes-Benz Stadium
+2021_11_IND_BUF,2021,REG,11,2021-11-21,Sunday,13:00,IND,41,BUF,15,Home,-26,0,0,7,7,Frank Reich,Sean McDermott,Brad Rogers,BUF00,New Era Field
+2021_11_WAS_CAR,2021,REG,11,2021-11-21,Sunday,13:00,WAS,27,CAR,21,Home,-6,0,0,7,7,Ron Rivera,Matt Rhule,Bill Vinovich,CAR00,Bank of America Stadium
+2021_11_BAL_CHI,2021,REG,11,2021-11-21,Sunday,13:00,BAL,16,CHI,13,Home,-3,0,0,10,13,John Harbaugh,Matt Nagy,Shawn Smith,CHI98,Soldier Field
+2021_11_DET_CLE,2021,REG,11,2021-11-21,Sunday,13:00,DET,10,CLE,13,Home,3,0,0,7,7,Dan Campbell,Kevin Stefanski,Clay Martin,CLE00,FirstEnergy Stadium
+2021_11_SF_JAX,2021,REG,11,2021-11-21,Sunday,13:00,SF,30,JAX,10,Home,-20,0,0,6,7,Kyle Shanahan,Urban Meyer,Ron Torbert,JAX00,TIAA Bank Stadium
+2021_11_GB_MIN,2021,REG,11,2021-11-21,Sunday,13:00,GB,31,MIN,34,Home,3,0,1,7,7,Matt LaFleur,Mike Zimmer,Shawn Hochuli,MIN01,U.S. Bank Stadium
+2021_11_MIA_NYJ,2021,REG,11,2021-11-21,Sunday,13:00,MIA,24,NYJ,17,Home,-7,0,1,10,7,Brian Flores,Robert Saleh,Alex Kemp,NYC01,MetLife Stadium
+2021_11_NO_PHI,2021,REG,11,2021-11-21,Sunday,13:00,NO,29,PHI,40,Home,11,0,0,7,7,Sean Payton,Nick Sirianni,Scott Novak,PHI00,Lincoln Financial Field
+2021_11_HOU_TEN,2021,REG,11,2021-11-21,Sunday,13:00,HOU,22,TEN,13,Home,-9,0,1,14,7,David Culley,Mike Vrabel,Tony Corrente,NAS00,Nissan Stadium
+2021_11_CIN_LV,2021,REG,11,2021-11-21,Sunday,16:05,CIN,32,LV,13,Home,-19,0,0,14,7,Zac Taylor,Rich Bisaccia,Jerome Boger,VEG00,Allegiant Stadium
+2021_11_DAL_KC,2021,REG,11,2021-11-21,Sunday,16:25,DAL,9,KC,19,Home,10,0,0,7,7,Mike McCarthy,Andy Reid,John Hussey,KAN00,GEHA Field at Arrowhead Stadium
+2021_11_ARI_SEA,2021,REG,11,2021-11-21,Sunday,16:25,ARI,23,SEA,13,Home,-10,0,1,7,7,Kliff Kingsbury,Pete Carroll,Clete Blakeman,SEA00,Lumen Field
+2021_11_PIT_LAC,2021,REG,11,2021-11-21,Sunday,20:20,PIT,37,LAC,41,Home,4,0,0,7,7,Mike Tomlin,Brandon Staley,Carl Cheffers,LAX01,SoFi Stadium
+2021_11_NYG_TB,2021,REG,11,2021-11-22,Monday,20:15,NYG,10,TB,30,Home,20,0,0,15,8,Joe Judge,Bruce Arians,Craig Wrolstad,TAM00,Raymond James Stadium
+2021_12_CHI_DET,2021,REG,12,2021-11-25,Thursday,12:30,CHI,16,DET,14,Home,-2,0,1,4,4,Matt Nagy,Dan Campbell,Adrian Hill,DET00,Ford Field
+2021_12_LV_DAL,2021,REG,12,2021-11-25,Thursday,16:30,LV,36,DAL,33,Home,-3,0,0,4,4,Rich Bisaccia,Mike McCarthy,Shawn Hochuli,DAL00,AT&T Stadium
+2021_12_BUF_NO,2021,REG,12,2021-11-25,Thursday,20:20,BUF,31,NO,6,Home,-25,0,0,4,4,Sean McDermott,Sean Payton,Brad Allen,NOR00,Mercedes-Benz Superdome
+2021_12_PIT_CIN,2021,REG,12,2021-11-28,Sunday,13:00,PIT,10,CIN,41,Home,31,0,1,7,7,Mike Tomlin,Zac Taylor,Bill Vinovich,CIN00,Paul Brown Stadium
+2021_12_NYJ_HOU,2021,REG,12,2021-11-28,Sunday,13:00,NYJ,21,HOU,14,Home,-7,0,0,7,7,Robert Saleh,David Culley,Clete Blakeman,HOU00,NRG Stadium
+2021_12_TB_IND,2021,REG,12,2021-11-28,Sunday,13:00,TB,38,IND,31,Home,-7,0,0,6,7,Bruce Arians,Frank Reich,Shawn Smith,IND00,Lucas Oil Stadium
+2021_12_ATL_JAX,2021,REG,12,2021-11-28,Sunday,13:00,ATL,21,JAX,14,Home,-7,0,0,10,7,Arthur Smith,Urban Meyer,Carl Cheffers,JAX00,TIAA Bank Stadium
+2021_12_CAR_MIA,2021,REG,12,2021-11-28,Sunday,13:00,CAR,10,MIA,33,Home,23,0,0,7,7,Matt Rhule,Brian Flores,John Hussey,MIA00,Hard Rock Stadium
+2021_12_TEN_NE,2021,REG,12,2021-11-28,Sunday,13:00,TEN,13,NE,36,Home,23,0,0,7,10,Mike Vrabel,Bill Belichick,Alex Kemp,BOS00,Gillette Stadium
+2021_12_PHI_NYG,2021,REG,12,2021-11-28,Sunday,13:00,PHI,7,NYG,13,Home,6,0,1,7,6,Nick Sirianni,Joe Judge,Ron Torbert,NYC01,MetLife Stadium
+2021_12_LAC_DEN,2021,REG,12,2021-11-28,Sunday,16:05,LAC,13,DEN,28,Home,15,0,1,7,14,Brandon Staley,Vic Fangio,Land Clark,DEN00,Empower Field at Mile High
+2021_12_LA_GB,2021,REG,12,2021-11-28,Sunday,16:25,LAR,28,GB,36,Home,8,0,0,13,7,Sean McVay,Matt LaFleur,Craig Wrolstad,GNB00,Lambeau Field
+2021_12_MIN_SF,2021,REG,12,2021-11-28,Sunday,16:25,MIN,26,SF,34,Home,8,0,0,7,7,Mike Zimmer,Kyle Shanahan,Brad Rogers,SFO01,Levi's Stadium
+2021_12_CLE_BAL,2021,REG,12,2021-11-28,Sunday,20:20,CLE,10,BAL,16,Home,6,0,1,7,7,Kevin Stefanski,John Harbaugh,Jerome Boger,BAL00,M&T Bank Stadium
+2021_12_SEA_WAS,2021,REG,12,2021-11-29,Monday,20:15,SEA,15,WAS,17,Home,2,0,0,8,8,Pete Carroll,Ron Rivera,Clay Martin,WAS00,FedExField
+2021_13_DAL_NO,2021,REG,13,2021-12-02,Thursday,20:20,DAL,27,NO,17,Home,-10,0,0,7,7,Mike McCarthy,Sean Payton,Brad Rogers,NOR00,Mercedes-Benz Superdome
+2021_13_TB_ATL,2021,REG,13,2021-12-05,Sunday,13:00,TB,30,ATL,17,Home,-13,0,1,7,7,Bruce Arians,Arthur Smith,Tony Corrente,ATL97,Mercedes-Benz Stadium
+2021_13_ARI_CHI,2021,REG,13,2021-12-05,Sunday,13:00,ARI,33,CHI,22,Home,-11,0,0,14,10,Kliff Kingsbury,Matt Nagy,Jerome Boger,CHI98,Soldier Field
+2021_13_LAC_CIN,2021,REG,13,2021-12-05,Sunday,13:00,LAC,41,CIN,22,Home,-19,0,0,7,7,Brandon Staley,Zac Taylor,Shawn Hochuli,CIN00,Paul Brown Stadium
+2021_13_MIN_DET,2021,REG,13,2021-12-05,Sunday,13:00,MIN,27,DET,29,Home,2,0,1,7,10,Mike Zimmer,Dan Campbell,Craig Wrolstad,DET00,Ford Field
+2021_13_IND_HOU,2021,REG,13,2021-12-05,Sunday,13:00,IND,31,HOU,0,Home,-31,0,1,7,7,Frank Reich,David Culley,Ron Torbert,HOU00,NRG Stadium
+2021_13_NYG_MIA,2021,REG,13,2021-12-05,Sunday,13:00,NYG,9,MIA,20,Home,11,0,0,7,7,Joe Judge,Brian Flores,Brad Allen,MIA00,Hard Rock Stadium
+2021_13_PHI_NYJ,2021,REG,13,2021-12-05,Sunday,13:00,PHI,33,NYJ,18,Home,-15,0,0,7,7,Nick Sirianni,Robert Saleh,Clay Martin,NYC01,MetLife Stadium
+2021_13_JAX_LA,2021,REG,13,2021-12-05,Sunday,16:05,JAX,7,LAR,37,Home,30,0,0,7,7,Urban Meyer,Sean McVay,Clete Blakeman,LAX01,SoFi Stadium
+2021_13_WAS_LV,2021,REG,13,2021-12-05,Sunday,16:05,WAS,17,LV,15,Home,-2,0,0,6,10,Ron Rivera,Rich Bisaccia,Adrian Hill,VEG00,Allegiant Stadium
+2021_13_BAL_PIT,2021,REG,13,2021-12-05,Sunday,16:25,BAL,19,PIT,20,Home,1,0,1,7,7,John Harbaugh,Mike Tomlin,Scott Novak,PIT00,Heinz Field
+2021_13_SF_SEA,2021,REG,13,2021-12-05,Sunday,16:25,SF,23,SEA,30,Home,7,0,1,7,6,Kyle Shanahan,Pete Carroll,Alex Kemp,SEA00,Lumen Field
+2021_13_DEN_KC,2021,REG,13,2021-12-05,Sunday,20:20,DEN,9,KC,22,Home,13,0,1,7,14,Vic Fangio,Andy Reid,Carl Cheffers,KAN00,GEHA Field at Arrowhead Stadium
+2021_13_NE_BUF,2021,REG,13,2021-12-06,Monday,20:15,NE,14,BUF,10,Home,-4,0,1,8,11,Bill Belichick,Sean McDermott,Bill Vinovich,BUF00,New Era Field
+2021_14_PIT_MIN,2021,REG,14,2021-12-09,Thursday,20:20,PIT,28,MIN,36,Home,8,0,0,4,4,Mike Tomlin,Mike Zimmer,Clete Blakeman,MIN01,U.S. Bank Stadium
+2021_14_ATL_CAR,2021,REG,14,2021-12-12,Sunday,13:00,ATL,29,CAR,21,Home,-8,0,1,7,14,Arthur Smith,Matt Rhule,Shawn Smith,CAR00,Bank of America Stadium
+2021_14_BAL_CLE,2021,REG,14,2021-12-12,Sunday,13:00,BAL,22,CLE,24,Home,2,0,1,7,14,John Harbaugh,Kevin Stefanski,Brad Rogers,CLE00,FirstEnergy Stadium
+2021_14_SEA_HOU,2021,REG,14,2021-12-12,Sunday,13:00,SEA,33,HOU,13,Home,-20,0,0,7,7,Pete Carroll,David Culley,Adrian Hill,HOU00,NRG Stadium
+2021_14_LV_KC,2021,REG,14,2021-12-12,Sunday,13:00,LV,9,KC,48,Home,39,0,1,7,7,Rich Bisaccia,Andy Reid,Brad Allen,KAN00,GEHA Field at Arrowhead Stadium
+2021_14_NO_NYJ,2021,REG,14,2021-12-12,Sunday,13:00,NO,30,NYJ,9,Home,-21,0,0,10,7,Sean Payton,Robert Saleh,Land Clark,NYC01,MetLife Stadium
+2021_14_JAX_TEN,2021,REG,14,2021-12-12,Sunday,13:00,JAX,0,TEN,20,Home,20,0,1,7,14,Urban Meyer,Mike Vrabel,Bill Vinovich,NAS00,Nissan Stadium
+2021_14_DAL_WAS,2021,REG,14,2021-12-12,Sunday,13:00,DAL,27,WAS,20,Home,-7,0,1,10,7,Mike McCarthy,Ron Rivera,Alex Kemp,WAS00,FedExField
+2021_14_DET_DEN,2021,REG,14,2021-12-12,Sunday,16:05,DET,10,DEN,38,Home,28,0,0,7,7,Dan Campbell,Vic Fangio,John Hussey,DEN00,Empower Field at Mile High
+2021_14_NYG_LAC,2021,REG,14,2021-12-12,Sunday,16:05,NYG,21,LAC,37,Home,16,0,0,7,7,Joe Judge,Brandon Staley,Tony Corrente,LAX01,SoFi Stadium
+2021_14_SF_CIN,2021,REG,14,2021-12-12,Sunday,16:25,SF,26,CIN,23,Home,-3,1,0,7,7,Kyle Shanahan,Zac Taylor,Craig Wrolstad,CIN00,Paul Brown Stadium
+2021_14_BUF_TB,2021,REG,14,2021-12-12,Sunday,16:25,BUF,27,TB,33,Home,6,1,0,6,7,Sean McDermott,Bruce Arians,Scott Novak,TAM00,Raymond James Stadium
+2021_14_CHI_GB,2021,REG,14,2021-12-12,Sunday,20:20,CHI,30,GB,45,Home,15,0,1,7,14,Matt Nagy,Matt LaFleur,Ron Torbert,GNB00,Lambeau Field
+2021_14_LA_ARI,2021,REG,14,2021-12-13,Monday,20:15,LAR,30,ARI,23,Home,-7,0,1,8,8,Sean McVay,Kliff Kingsbury,Carl Cheffers,PHO00,State Farm Stadium
+2021_15_KC_LAC,2021,REG,15,2021-12-16,Thursday,20:20,KC,34,LAC,28,Home,-6,1,1,4,4,Andy Reid,Brandon Staley,Shawn Smith,LAX01,SoFi Stadium
+2021_15_NE_IND,2021,REG,15,2021-12-18,Saturday,20:20,NE,17,IND,27,Home,10,0,0,13,14,Bill Belichick,Frank Reich,,IND00,Lucas Oil Stadium
+2021_15_CAR_BUF,2021,REG,15,2021-12-19,Sunday,13:00,CAR,14,BUF,31,Home,17,0,0,7,7,Matt Rhule,Sean McDermott,Clete Blakeman,BUF00,New Era Field
+2021_15_ARI_DET,2021,REG,15,2021-12-19,Sunday,13:00,ARI,12,DET,30,Home,18,0,0,6,7,Kliff Kingsbury,Dan Campbell,Land Clark,DET00,Ford Field
+2021_15_HOU_JAX,2021,REG,15,2021-12-19,Sunday,13:00,HOU,30,JAX,16,Home,-14,0,1,7,7,David Culley,Darrell Bevell,Alex Kemp,JAX00,TIAA Bank Stadium
+2021_15_NYJ_MIA,2021,REG,15,2021-12-19,Sunday,13:00,NYJ,24,MIA,31,Home,7,0,1,7,14,Robert Saleh,Brian Flores,Ron Torbert,MIA00,Hard Rock Stadium
+2021_15_DAL_NYG,2021,REG,15,2021-12-19,Sunday,13:00,DAL,21,NYG,6,Home,-15,0,1,7,7,Mike McCarthy,Joe Judge,Jerome Boger,NYC01,MetLife Stadium
+2021_15_TEN_PIT,2021,REG,15,2021-12-19,Sunday,13:00,TEN,13,PIT,19,Home,6,0,0,7,10,Mike Vrabel,Mike Tomlin,Brad Rogers,PIT00,Heinz Field
+2021_15_CIN_DEN,2021,REG,15,2021-12-19,Sunday,16:05,CIN,15,DEN,10,Home,-5,0,0,7,7,Zac Taylor,Vic Fangio,Adrian Hill,DEN00,Empower Field at Mile High
+2021_15_ATL_SF,2021,REG,15,2021-12-19,Sunday,16:05,ATL,13,SF,31,Home,18,0,0,7,7,Arthur Smith,Kyle Shanahan,Clay Martin,SFO01,Levi's Stadium
+2021_15_GB_BAL,2021,REG,15,2021-12-19,Sunday,16:25,GB,31,BAL,30,Home,-1,0,0,7,7,Matt LaFleur,John Harbaugh,Brad Allen,BAL00,M&T Bank Stadium
+2021_15_NO_TB,2021,REG,15,2021-12-19,Sunday,20:20,NO,9,TB,0,Home,-9,0,1,7,7,Sean Payton,Bruce Arians,John Hussey,TAM00,Raymond James Stadium
+2021_15_LV_CLE,2021,REG,15,2021-12-20,Monday,17:00,LV,16,CLE,14,Home,-2,0,0,7,7,Rich Bisaccia,Kevin Stefanski,Craig Wrolstad,CLE00,FirstEnergy Stadium
+2021_15_MIN_CHI,2021,REG,15,2021-12-20,Monday,20:15,MIN,17,CHI,9,Home,-8,0,1,11,8,Mike Zimmer,Matt Nagy,Scott Novak,CHI98,Soldier Field
+2021_15_SEA_LA,2021,REG,15,2021-12-21,Tuesday,19:00,SEA,10,LAR,20,Home,10,0,1,7,6,Pete Carroll,Sean McVay,Shawn Hochuli,LAX01,SoFi Stadium
+2021_15_WAS_PHI,2021,REG,15,2021-12-21,Tuesday,19:00,WAS,17,PHI,27,Home,10,0,1,7,14,Ron Rivera,Nick Sirianni,Tony Corrente,PHI00,Lincoln Financial Field
+2021_16_SF_TEN,2021,REG,16,2021-12-23,Thursday,20:20,SF,17,TEN,20,Home,3,0,0,4,4,Kyle Shanahan,Mike Vrabel,Shawn Hochuli,NAS00,Nissan Stadium
+2021_16_CLE_GB,2021,REG,16,2021-12-25,Saturday,16:30,CLE,22,GB,24,Home,2,0,0,6,6,Kevin Stefanski,Matt LaFleur,Alex Kemp,GNB00,Lambeau Field
+2021_16_IND_ARI,2021,REG,16,2021-12-25,Saturday,20:15,IND,22,ARI,16,Home,-6,0,0,6,6,Frank Reich,Kliff Kingsbury,Craig Wrolstad,PHO00,State Farm Stadium
+2021_16_DET_ATL,2021,REG,16,2021-12-26,Sunday,13:00,DET,16,ATL,20,Home,4,0,0,7,7,Dan Campbell,Arthur Smith,Ron Torbert,ATL97,Mercedes-Benz Stadium
+2021_16_TB_CAR,2021,REG,16,2021-12-26,Sunday,13:00,TB,32,CAR,6,Home,-26,0,1,7,7,Bruce Arians,Matt Rhule,Brad Allen,CAR00,Bank of America Stadium
+2021_16_BAL_CIN,2021,REG,16,2021-12-26,Sunday,13:00,BAL,21,CIN,41,Home,20,0,1,7,7,John Harbaugh,Zac Taylor,Clete Blakeman,CIN00,Paul Brown Stadium
+2021_16_LAC_HOU,2021,REG,16,2021-12-26,Sunday,13:00,LAC,29,HOU,41,Home,12,0,0,10,7,Brandon Staley,David Culley,Clay Martin,HOU00,NRG Stadium
+2021_16_LA_MIN,2021,REG,16,2021-12-26,Sunday,13:00,LAR,30,MIN,23,Home,-7,0,0,7,6,Sean McVay,Mike Zimmer,John Hussey,MIN01,U.S. Bank Stadium
+2021_16_BUF_NE,2021,REG,16,2021-12-26,Sunday,13:00,BUF,33,NE,21,Home,-12,0,1,7,7,Sean McDermott,Bill Belichick,Shawn Smith,BOS00,Gillette Stadium
+2021_16_JAX_NYJ,2021,REG,16,2021-12-26,Sunday,13:00,JAX,21,NYJ,26,Home,5,0,0,7,7,Darrell Bevell,Robert Saleh,Tony Corrente,NYC01,MetLife Stadium
+2021_16_NYG_PHI,2021,REG,16,2021-12-26,Sunday,13:00,NYG,10,PHI,34,Home,24,0,1,7,7,Joe Judge,Nick Sirianni,Land Clark,PHI00,Lincoln Financial Field
+2021_16_CHI_SEA,2021,REG,16,2021-12-26,Sunday,16:05,CHI,25,SEA,24,Home,-1,0,0,6,7,Matt Nagy,Pete Carroll,Carl Cheffers,SEA00,Lumen Field
+2021_16_PIT_KC,2021,REG,16,2021-12-26,Sunday,16:25,PIT,10,KC,36,Home,26,0,0,7,10,Mike Tomlin,Andy Reid,Jerome Boger,KAN00,GEHA Field at Arrowhead Stadium
+2021_16_DEN_LV,2021,REG,16,2021-12-26,Sunday,16:25,DEN,13,LV,17,Home,4,0,1,7,7,Vic Fangio,Rich Bisaccia,Scott Novak,VEG00,Allegiant Stadium
+2021_16_WAS_DAL,2021,REG,16,2021-12-26,Sunday,20:20,WAS,14,DAL,56,Home,42,0,1,7,7,Ron Rivera,Mike McCarthy,Bill Vinovich,DAL00,AT&T Stadium
+2021_16_MIA_NO,2021,REG,16,2021-12-27,Monday,20:15,MIA,20,NO,3,Home,-17,0,0,8,8,Brian Flores,Sean Payton,Adrian Hill,NOR00,Mercedes-Benz Superdome
+2021_17_LA_BAL,2021,REG,17,2022-01-02,Sunday,13:00,LAR,20,BAL,19,Home,-1,0,0,7,7,Sean McVay,John Harbaugh,Bill Vinovich,BAL00,M&T Bank Stadium
+2021_17_ATL_BUF,2021,REG,17,2022-01-02,Sunday,13:00,ATL,15,BUF,29,Home,14,0,0,7,7,Arthur Smith,Sean McDermott,Land Clark,BUF00,New Era Field
+2021_17_NYG_CHI,2021,REG,17,2022-01-02,Sunday,13:00,NYG,3,CHI,29,Home,26,0,0,7,7,Joe Judge,Matt Nagy,Shawn Hochuli,CHI98,Soldier Field
+2021_17_KC_CIN,2021,REG,17,2022-01-02,Sunday,13:00,KC,31,CIN,34,Home,3,0,0,7,7,Andy Reid,Zac Taylor,John Hussey,CIN00,Paul Brown Stadium
+2021_17_LV_IND,2021,REG,17,2022-01-02,Sunday,13:00,LV,23,IND,20,Home,-3,0,0,7,8,Rich Bisaccia,Frank Reich,Brad Rogers,IND00,Lucas Oil Stadium
+2021_17_JAX_NE,2021,REG,17,2022-01-02,Sunday,13:00,JAX,10,NE,50,Home,40,0,0,7,7,Darrell Bevell,Bill Belichick,Adrian Hill,BOS00,Gillette Stadium
+2021_17_TB_NYJ,2021,REG,17,2022-01-02,Sunday,13:00,TB,28,NYJ,24,Home,-4,0,0,7,7,Bruce Arians,Robert Saleh,Alex Kemp,NYC01,MetLife Stadium
+2021_17_MIA_TEN,2021,REG,17,2022-01-02,Sunday,13:00,MIA,3,TEN,34,Home,31,0,0,6,10,Brian Flores,Mike Vrabel,Shawn Smith,NAS00,Nissan Stadium
+2021_17_PHI_WAS,2021,REG,17,2022-01-02,Sunday,13:00,PHI,20,WAS,16,Home,-4,0,1,7,7,Nick Sirianni,Ron Rivera,Clete Blakeman,WAS00,FedExField
+2021_17_DEN_LAC,2021,REG,17,2022-01-02,Sunday,16:05,DEN,13,LAC,34,Home,21,0,1,7,7,Vic Fangio,Brandon Staley,Craig Wrolstad,LAX01,SoFi Stadium
+2021_17_HOU_SF,2021,REG,17,2022-01-02,Sunday,16:05,HOU,7,SF,23,Home,16,0,0,7,10,David Culley,Kyle Shanahan,Carl Cheffers,SFO01,Levi's Stadium
+2021_17_ARI_DAL,2021,REG,17,2022-01-02,Sunday,16:25,ARI,25,DAL,22,Home,-3,0,0,8,7,Kliff Kingsbury,Mike McCarthy,Scott Novak,DAL00,AT&T Stadium
+2021_17_CAR_NO,2021,REG,17,2022-01-02,Sunday,16:25,CAR,10,NO,18,Home,8,0,1,7,6,Matt Rhule,Sean Payton,Jerome Boger,NOR00,Mercedes-Benz Superdome
+2021_17_DET_SEA,2021,REG,17,2022-01-02,Sunday,16:25,DET,29,SEA,51,Home,22,0,0,7,7,Dan Campbell,Pete Carroll,Tony Corrente,SEA00,Lumen Field
+2021_17_MIN_GB,2021,REG,17,2022-01-02,Sunday,20:20,MIN,10,GB,37,Home,27,0,1,7,8,Mike Zimmer,Matt LaFleur,Clay Martin,GNB00,Lambeau Field
+2021_17_CLE_PIT,2021,REG,17,2022-01-03,Monday,20:15,CLE,14,PIT,26,Home,12,0,1,9,8,Kevin Stefanski,Mike Tomlin,Brad Allen,PIT00,Heinz Field
+2021_18_KC_DEN,2021,REG,18,2022-01-08,Saturday,16:30,KC,28,DEN,24,Home,-4,0,1,7,7,Andy Reid,Vic Fangio,Brad Rogers,DEN00,Empower Field at Mile High
+2021_18_DAL_PHI,2021,REG,18,2022-01-08,Saturday,20:15,DAL,51,PHI,26,Home,-25,0,1,7,7,Mike McCarthy,Nick Sirianni,Ron Torbert,PHI00,Lincoln Financial Field
+2021_18_PIT_BAL,2021,REG,18,2022-01-09,Sunday,13:00,PIT,16,BAL,13,Home,-3,1,1,6,7,Mike Tomlin,John Harbaugh,Shawn Hochuli,BAL00,M&T Bank Stadium
+2021_18_CIN_CLE,2021,REG,18,2022-01-09,Sunday,13:00,CIN,16,CLE,21,Home,5,0,1,7,6,Zac Taylor,Kevin Stefanski,Bill Vinovich,CLE00,FirstEnergy Stadium
+2021_18_GB_DET,2021,REG,18,2022-01-09,Sunday,13:00,GB,30,DET,37,Home,7,0,1,7,7,Matt LaFleur,Dan Campbell,Scott Novak,DET00,Ford Field
+2021_18_TEN_HOU,2021,REG,18,2022-01-09,Sunday,13:00,TEN,28,HOU,25,Home,-3,0,1,7,7,Mike Vrabel,David Culley,Land Clark,HOU00,NRG Stadium
+2021_18_IND_JAX,2021,REG,18,2022-01-09,Sunday,13:00,IND,11,JAX,26,Home,15,0,1,7,7,Frank Reich,Darrell Bevell,Clay Martin,JAX00,TIAA Bank Stadium
+2021_18_CHI_MIN,2021,REG,18,2022-01-09,Sunday,13:00,CHI,17,MIN,31,Home,14,0,1,7,7,Matt Nagy,Mike Zimmer,Brad Allen,MIN01,U.S. Bank Stadium
+2021_18_WAS_NYG,2021,REG,18,2022-01-09,Sunday,13:00,WAS,22,NYG,7,Home,-15,0,1,7,7,Ron Rivera,Joe Judge,Adrian Hill,NYC01,MetLife Stadium
+2021_18_SEA_ARI,2021,REG,18,2022-01-09,Sunday,16:25,SEA,38,ARI,30,Home,-8,0,1,7,7,Pete Carroll,Kliff Kingsbury,Shawn Smith,PHO00,State Farm Stadium
+2021_18_NO_ATL,2021,REG,18,2022-01-09,Sunday,16:25,NO,30,ATL,20,Home,-10,0,1,7,7,Sean Payton,Arthur Smith,Craig Wrolstad,ATL97,Mercedes-Benz Stadium
+2021_18_NYJ_BUF,2021,REG,18,2022-01-09,Sunday,16:25,NYJ,10,BUF,27,Home,17,0,1,7,7,Robert Saleh,Sean McDermott,John Hussey,BUF00,New Era Field
+2021_18_SF_LA,2021,REG,18,2022-01-09,Sunday,16:25,SF,27,LAR,24,Home,-3,1,1,7,7,Kyle Shanahan,Sean McVay,Jerome Boger,LAX01,SoFi Stadium
+2021_18_NE_MIA,2021,REG,18,2022-01-09,Sunday,16:25,NE,24,MIA,33,Home,9,0,1,7,7,Bill Belichick,Brian Flores,Alex Kemp,MIA00,Hard Rock Stadium
+2021_18_CAR_TB,2021,REG,18,2022-01-09,Sunday,16:25,CAR,17,TB,41,Home,24,0,1,7,7,Matt Rhule,Bruce Arians,Tony Corrente,TAM00,Raymond James Stadium
+2021_18_LAC_LV,2021,REG,18,2022-01-09,Sunday,20:20,LAC,32,LV,35,Home,3,1,1,7,7,Brandon Staley,Rich Bisaccia,Clete Blakeman,VEG00,Allegiant Stadium

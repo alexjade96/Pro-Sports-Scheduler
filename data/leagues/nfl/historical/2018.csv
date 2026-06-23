@@ -1,0 +1,257 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2018_01_ATL_PHI,2018,REG,1,2018-09-06,Thursday,20:20,ATL,12,PHI,18,Home,6,0,0,7,7,Dan Quinn,Doug Pederson,John Hussey,PHI00,Lincoln Financial Field
+2018_01_BUF_BAL,2018,REG,1,2018-09-09,Sunday,13:00,BUF,3,BAL,47,Home,44,0,0,7,7,Sean McDermott,John Harbaugh,Shawn Hochuli,BAL00,M&T Bank Stadium
+2018_01_PIT_CLE,2018,REG,1,2018-09-09,Sunday,13:00,PIT,21,CLE,21,Home,0,1,1,7,7,Mike Tomlin,Hue Jackson,Shawn Smith,CLE00,FirstEnergy Stadium
+2018_01_CIN_IND,2018,REG,1,2018-09-09,Sunday,13:00,CIN,34,IND,23,Home,-11,0,0,7,7,Marvin Lewis,Frank Reich,Peter Morelli,IND00,Lucas Oil Stadium
+2018_01_TEN_MIA,2018,REG,1,2018-09-09,Sunday,13:00,TEN,20,MIA,27,Home,7,0,0,7,7,Mike Vrabel,Adam Gase,Jerome Boger,MIA00,Hard Rock Stadium
+2018_01_SF_MIN,2018,REG,1,2018-09-09,Sunday,13:00,SF,16,MIN,24,Home,8,0,0,7,7,Kyle Shanahan,Mike Zimmer,Clay Martin,MIN01,U.S. Bank Stadium
+2018_01_HOU_NE,2018,REG,1,2018-09-09,Sunday,13:00,HOU,20,NE,27,Home,7,0,0,7,7,Bill O'Brien,Bill Belichick,Tony Corrente,BOS00,Gillette Stadium
+2018_01_TB_NO,2018,REG,1,2018-09-09,Sunday,13:00,TB,48,NO,40,Home,-8,0,1,7,7,Dirk Koetter,Sean Payton,John Parry,NOR00,Mercedes-Benz Superdome
+2018_01_JAX_NYG,2018,REG,1,2018-09-09,Sunday,13:00,JAX,20,NYG,15,Home,-5,0,0,7,7,Doug Marrone,Pat Shurmur,Craig Wrolstad,NYC01,MetLife Stadium
+2018_01_KC_LAC,2018,REG,1,2018-09-09,Sunday,16:05,KC,38,LAC,28,Home,-10,0,1,7,7,Andy Reid,Anthony Lynn,Clete Blakeman,LAX97,StubHub Center
+2018_01_WAS_ARI,2018,REG,1,2018-09-09,Sunday,16:25,WAS,24,ARI,6,Home,-18,0,0,7,7,Jay Gruden,Steve Wilks,Walt Coleman,PHO00,State Farm Stadium
+2018_01_DAL_CAR,2018,REG,1,2018-09-09,Sunday,16:25,DAL,8,CAR,16,Home,8,0,0,7,7,Jason Garrett,Ron Rivera,Walt Anderson,CAR00,Bank of America Stadium
+2018_01_SEA_DEN,2018,REG,1,2018-09-09,Sunday,16:25,SEA,24,DEN,27,Home,3,0,0,7,7,Pete Carroll,Vance Joseph,Brad Allen,DEN00,Sports Authority Field at Mile High
+2018_01_CHI_GB,2018,REG,1,2018-09-09,Sunday,20:20,CHI,23,GB,24,Home,1,0,1,7,7,Matt Nagy,Mike McCarthy,Carl Cheffers,GNB00,Lambeau Field
+2018_01_NYJ_DET,2018,REG,1,2018-09-10,Monday,19:10,NYJ,48,DET,17,Home,-31,0,0,7,7,Todd Bowles,Matt Patricia,Bill Vinovich,DET00,Ford Field
+2018_01_LA_OAK,2018,REG,1,2018-09-10,Monday,22:20,LAR,33,OAK,13,Home,-20,0,0,7,7,Sean McVay,Jon Gruden,Ron Torbert,OAK00,Oakland-Alameda County Coliseum
+2018_02_BAL_CIN,2018,REG,2,2018-09-13,Thursday,20:20,BAL,23,CIN,34,Home,11,0,1,4,4,John Harbaugh,Marvin Lewis,Walt Anderson,CIN00,Paul Brown Stadium
+2018_02_CAR_ATL,2018,REG,2,2018-09-16,Sunday,13:00,CAR,24,ATL,31,Home,7,0,1,7,10,Ron Rivera,Dan Quinn,Bill Vinovich,ATL97,Mercedes-Benz Stadium
+2018_02_LAC_BUF,2018,REG,2,2018-09-16,Sunday,13:00,LAC,31,BUF,20,Home,-11,0,0,7,7,Anthony Lynn,Sean McDermott,Clay Martin,BUF00,New Era Field
+2018_02_MIN_GB,2018,REG,2,2018-09-16,Sunday,13:00,MIN,29,GB,29,Home,0,1,1,7,7,Mike Zimmer,Mike McCarthy,Tony Corrente,GNB00,Lambeau Field
+2018_02_CLE_NO,2018,REG,2,2018-09-16,Sunday,13:00,CLE,18,NO,21,Home,3,0,0,7,7,Hue Jackson,Sean Payton,Ron Torbert,NOR00,Mercedes-Benz Superdome
+2018_02_MIA_NYJ,2018,REG,2,2018-09-16,Sunday,13:00,MIA,20,NYJ,12,Home,-8,0,1,7,6,Adam Gase,Todd Bowles,Brad Allen,NYC01,MetLife Stadium
+2018_02_KC_PIT,2018,REG,2,2018-09-16,Sunday,13:00,KC,42,PIT,37,Home,-5,0,0,7,7,Andy Reid,Mike Tomlin,Jerome Boger,PIT00,Heinz Field
+2018_02_PHI_TB,2018,REG,2,2018-09-16,Sunday,13:00,PHI,21,TB,27,Home,6,0,0,10,7,Doug Pederson,Dirk Koetter,Alex Kemp,TAM00,Raymond James Stadium
+2018_02_HOU_TEN,2018,REG,2,2018-09-16,Sunday,13:00,HOU,17,TEN,20,Home,3,0,1,7,7,Bill O'Brien,Mike Vrabel,Peter Morelli,NAS00,Nissan Stadium
+2018_02_IND_WAS,2018,REG,2,2018-09-16,Sunday,13:00,IND,21,WAS,9,Home,-12,0,0,7,7,Frank Reich,Jay Gruden,Clete Blakeman,WAS00,FedExField
+2018_02_ARI_LA,2018,REG,2,2018-09-16,Sunday,16:05,ARI,0,LAR,34,Home,34,0,1,7,6,Steve Wilks,Sean McVay,Craig Wrolstad,LAX99,Los Angeles Memorial Coliseum
+2018_02_DET_SF,2018,REG,2,2018-09-16,Sunday,16:05,DET,27,SF,30,Home,3,0,0,6,7,Matt Patricia,Kyle Shanahan,Shawn Hochuli,SFO01,Levi's Stadium
+2018_02_OAK_DEN,2018,REG,2,2018-09-16,Sunday,16:25,OAK,19,DEN,20,Home,1,0,1,6,7,Jon Gruden,Vance Joseph,John Hussey,DEN00,Sports Authority Field at Mile High
+2018_02_NE_JAX,2018,REG,2,2018-09-16,Sunday,16:25,NE,20,JAX,31,Home,11,0,0,7,7,Bill Belichick,Doug Marrone,Carl Cheffers,JAX00,TIAA Bank Stadium
+2018_02_NYG_DAL,2018,REG,2,2018-09-16,Sunday,20:20,NYG,13,DAL,20,Home,7,0,1,7,7,Pat Shurmur,Jason Garrett,John Parry,DAL00,AT&T Stadium
+2018_02_SEA_CHI,2018,REG,2,2018-09-17,Monday,20:15,SEA,17,CHI,24,Home,7,0,0,8,8,Pete Carroll,Matt Nagy,Walt Coleman,CHI98,Soldier Field
+2018_03_NYJ_CLE,2018,REG,3,2018-09-20,Thursday,20:20,NYJ,17,CLE,21,Home,4,0,0,4,4,Todd Bowles,Hue Jackson,Jerome Boger,CLE00,FirstEnergy Stadium
+2018_03_NO_ATL,2018,REG,3,2018-09-23,Sunday,13:00,NO,43,ATL,37,Home,-6,1,1,7,7,Sean Payton,Dan Quinn,Walt Anderson,ATL97,Mercedes-Benz Stadium
+2018_03_DEN_BAL,2018,REG,3,2018-09-23,Sunday,13:00,DEN,14,BAL,27,Home,13,0,0,7,10,Vance Joseph,John Harbaugh,Ron Torbert,BAL00,M&T Bank Stadium
+2018_03_CIN_CAR,2018,REG,3,2018-09-23,Sunday,13:00,CIN,21,CAR,31,Home,10,0,0,10,7,Marvin Lewis,Ron Rivera,John Parry,CAR00,Bank of America Stadium
+2018_03_NYG_HOU,2018,REG,3,2018-09-23,Sunday,13:00,NYG,27,HOU,22,Home,-5,0,0,7,7,Pat Shurmur,Bill O'Brien,Walt Coleman,HOU00,NRG Stadium
+2018_03_TEN_JAX,2018,REG,3,2018-09-23,Sunday,13:00,TEN,9,JAX,6,Home,-3,0,1,7,7,Mike Vrabel,Doug Marrone,Shawn Smith,JAX00,TIAA Bank Stadium
+2018_03_SF_KC,2018,REG,3,2018-09-23,Sunday,13:00,SF,27,KC,38,Home,11,0,0,7,7,Kyle Shanahan,Andy Reid,Tony Corrente,KAN00,Arrowhead Stadium
+2018_03_OAK_MIA,2018,REG,3,2018-09-23,Sunday,13:00,OAK,20,MIA,28,Home,8,0,0,7,7,Jon Gruden,Adam Gase,Shawn Hochuli,MIA00,Hard Rock Stadium
+2018_03_BUF_MIN,2018,REG,3,2018-09-23,Sunday,13:00,BUF,27,MIN,6,Home,-21,0,0,7,7,Sean McDermott,Mike Zimmer,Alex Kemp,MIN01,U.S. Bank Stadium
+2018_03_IND_PHI,2018,REG,3,2018-09-23,Sunday,13:00,IND,16,PHI,20,Home,4,0,0,7,7,Frank Reich,Doug Pederson,Clay Martin,PHI00,Lincoln Financial Field
+2018_03_GB_WAS,2018,REG,3,2018-09-23,Sunday,13:00,GB,17,WAS,31,Home,14,0,0,7,7,Mike McCarthy,Jay Gruden,Craig Wrolstad,WAS00,FedExField
+2018_03_LAC_LA,2018,REG,3,2018-09-23,Sunday,16:05,LAC,23,LAR,35,Home,12,0,0,7,7,Anthony Lynn,Sean McVay,John Hussey,LAX99,Los Angeles Memorial Coliseum
+2018_03_CHI_ARI,2018,REG,3,2018-09-23,Sunday,16:25,CHI,16,ARI,14,Home,-2,0,0,6,7,Matt Nagy,Steve Wilks,Bill Vinovich,PHO00,State Farm Stadium
+2018_03_DAL_SEA,2018,REG,3,2018-09-23,Sunday,16:25,DAL,13,SEA,24,Home,11,0,0,7,6,Jason Garrett,Pete Carroll,Carl Cheffers,SEA00,CenturyLink Field
+2018_03_NE_DET,2018,REG,3,2018-09-23,Sunday,20:20,NE,10,DET,26,Home,16,0,0,7,7,Bill Belichick,Matt Patricia,Clete Blakeman,DET00,Ford Field
+2018_03_PIT_TB,2018,REG,3,2018-09-24,Monday,20:15,PIT,30,TB,27,Home,-3,0,0,8,8,Mike Tomlin,Dirk Koetter,Peter Morelli,TAM00,Raymond James Stadium
+2018_04_MIN_LA,2018,REG,4,2018-09-27,Thursday,20:20,MIN,31,LAR,38,Home,7,0,0,4,4,Mike Zimmer,Sean McVay,Brad Allen,LAX99,Los Angeles Memorial Coliseum
+2018_04_CIN_ATL,2018,REG,4,2018-09-30,Sunday,13:00,CIN,37,ATL,36,Home,-1,0,0,7,7,Marvin Lewis,Dan Quinn,Shawn Smith,ATL97,Mercedes-Benz Stadium
+2018_04_TB_CHI,2018,REG,4,2018-09-30,Sunday,13:00,TB,10,CHI,48,Home,38,0,0,6,7,Dirk Koetter,Matt Nagy,Jerome Boger,CHI98,Soldier Field
+2018_04_DET_DAL,2018,REG,4,2018-09-30,Sunday,13:00,DET,24,DAL,26,Home,2,0,0,7,7,Matt Patricia,Jason Garrett,Walt Coleman,DAL00,AT&T Stadium
+2018_04_BUF_GB,2018,REG,4,2018-09-30,Sunday,13:00,BUF,0,GB,22,Home,22,0,0,7,7,Sean McDermott,Mike McCarthy,Bill Vinovich,GNB00,Lambeau Field
+2018_04_HOU_IND,2018,REG,4,2018-09-30,Sunday,13:00,HOU,37,IND,34,Home,-3,1,1,7,7,Bill O'Brien,Frank Reich,Carl Cheffers,IND00,Lucas Oil Stadium
+2018_04_NYJ_JAX,2018,REG,4,2018-09-30,Sunday,13:00,NYJ,12,JAX,31,Home,19,0,0,10,7,Todd Bowles,Doug Marrone,Clay Martin,JAX00,TIAA Bank Stadium
+2018_04_MIA_NE,2018,REG,4,2018-09-30,Sunday,13:00,MIA,7,NE,38,Home,31,0,1,7,7,Adam Gase,Bill Belichick,Alex Kemp,BOS00,Gillette Stadium
+2018_04_PHI_TEN,2018,REG,4,2018-09-30,Sunday,13:00,PHI,23,TEN,26,Home,3,1,0,7,7,Doug Pederson,Mike Vrabel,Shawn Hochuli,NAS00,Nissan Stadium
+2018_04_SEA_ARI,2018,REG,4,2018-09-30,Sunday,16:05,SEA,20,ARI,17,Home,-3,0,1,7,7,Pete Carroll,Steve Wilks,John Hussey,PHO00,State Farm Stadium
+2018_04_CLE_OAK,2018,REG,4,2018-09-30,Sunday,16:05,CLE,42,OAK,45,Home,3,1,0,10,7,Hue Jackson,Jon Gruden,Walt Anderson,OAK00,Oakland-Alameda County Coliseum
+2018_04_SF_LAC,2018,REG,4,2018-09-30,Sunday,16:25,SF,27,LAC,29,Home,2,0,0,7,7,Kyle Shanahan,Anthony Lynn,Ron Torbert,LAX97,StubHub Center
+2018_04_NO_NYG,2018,REG,4,2018-09-30,Sunday,16:25,NO,33,NYG,18,Home,-15,0,0,7,7,Sean Payton,Pat Shurmur,Peter Morelli,NYC01,MetLife Stadium
+2018_04_BAL_PIT,2018,REG,4,2018-09-30,Sunday,20:20,BAL,26,PIT,14,Home,-12,0,1,7,6,John Harbaugh,Mike Tomlin,Tony Corrente,PIT00,Heinz Field
+2018_04_KC_DEN,2018,REG,4,2018-10-01,Monday,20:15,KC,27,DEN,23,Home,-4,0,1,8,8,Andy Reid,Vance Joseph,Craig Wrolstad,DEN00,Sports Authority Field at Mile High
+2018_05_IND_NE,2018,REG,5,2018-10-04,Thursday,20:20,IND,24,NE,38,Home,14,0,0,4,4,Frank Reich,Bill Belichick,Shawn Hochuli,BOS00,Gillette Stadium
+2018_05_TEN_BUF,2018,REG,5,2018-10-07,Sunday,13:00,TEN,12,BUF,13,Home,1,0,0,7,7,Mike Vrabel,Sean McDermott,Tony Corrente,BUF00,New Era Field
+2018_05_NYG_CAR,2018,REG,5,2018-10-07,Sunday,13:00,NYG,31,CAR,33,Home,2,0,0,7,14,Pat Shurmur,Ron Rivera,Jerome Boger,CAR00,Bank of America Stadium
+2018_05_MIA_CIN,2018,REG,5,2018-10-07,Sunday,13:00,MIA,17,CIN,27,Home,10,0,0,7,7,Adam Gase,Marvin Lewis,Craig Wrolstad,CIN00,Paul Brown Stadium
+2018_05_BAL_CLE,2018,REG,5,2018-10-07,Sunday,13:00,BAL,9,CLE,12,Home,3,1,1,7,7,John Harbaugh,Hue Jackson,Clay Martin,CLE00,FirstEnergy Stadium
+2018_05_GB_DET,2018,REG,5,2018-10-07,Sunday,13:00,GB,23,DET,31,Home,8,0,1,7,7,Mike McCarthy,Matt Patricia,John Hussey,DET00,Ford Field
+2018_05_JAX_KC,2018,REG,5,2018-10-07,Sunday,13:00,JAX,14,KC,30,Home,16,0,0,7,6,Doug Marrone,Andy Reid,Brad Allen,KAN00,Arrowhead Stadium
+2018_05_DEN_NYJ,2018,REG,5,2018-10-07,Sunday,13:00,DEN,16,NYJ,34,Home,18,0,0,6,7,Vance Joseph,Todd Bowles,Peter Morelli,NYC01,MetLife Stadium
+2018_05_ATL_PIT,2018,REG,5,2018-10-07,Sunday,13:00,ATL,17,PIT,41,Home,24,0,0,7,7,Dan Quinn,Mike Tomlin,John Parry,PIT00,Heinz Field
+2018_05_OAK_LAC,2018,REG,5,2018-10-07,Sunday,16:05,OAK,10,LAC,26,Home,16,0,1,7,7,Jon Gruden,Anthony Lynn,Alex Kemp,LAX97,StubHub Center
+2018_05_MIN_PHI,2018,REG,5,2018-10-07,Sunday,16:25,MIN,23,PHI,21,Home,-2,0,0,10,7,Mike Zimmer,Doug Pederson,Walt Coleman,PHI00,Lincoln Financial Field
+2018_05_LA_SEA,2018,REG,5,2018-10-07,Sunday,16:25,LAR,33,SEA,31,Home,-2,0,1,10,7,Sean McVay,Pete Carroll,Clete Blakeman,SEA00,CenturyLink Field
+2018_05_ARI_SF,2018,REG,5,2018-10-07,Sunday,16:25,ARI,28,SF,18,Home,-10,0,1,7,7,Steve Wilks,Kyle Shanahan,Shawn Smith,SFO01,Levi's Stadium
+2018_05_DAL_HOU,2018,REG,5,2018-10-07,Sunday,20:20,DAL,16,HOU,19,Home,3,1,0,7,7,Jason Garrett,Bill O'Brien,Bill Vinovich,HOU00,NRG Stadium
+2018_05_WAS_NO,2018,REG,5,2018-10-08,Monday,20:15,WAS,19,NO,43,Home,24,0,0,15,8,Jay Gruden,Sean Payton,Carl Cheffers,NOR00,Mercedes-Benz Superdome
+2018_06_PHI_NYG,2018,REG,6,2018-10-11,Thursday,20:20,PHI,34,NYG,13,Home,-21,0,1,4,4,Doug Pederson,Pat Shurmur,Ron Torbert,NYC01,MetLife Stadium
+2018_06_TB_ATL,2018,REG,6,2018-10-14,Sunday,13:00,TB,29,ATL,34,Home,5,0,1,14,7,Dirk Koetter,Dan Quinn,Walt Coleman,ATL97,Mercedes-Benz Stadium
+2018_06_PIT_CIN,2018,REG,6,2018-10-14,Sunday,13:00,PIT,28,CIN,21,Home,-7,0,1,7,7,Mike Tomlin,Marvin Lewis,Clete Blakeman,CIN00,Paul Brown Stadium
+2018_06_LAC_CLE,2018,REG,6,2018-10-14,Sunday,13:00,LAC,38,CLE,14,Home,-24,0,0,7,7,Anthony Lynn,Hue Jackson,Brad Allen,CLE00,FirstEnergy Stadium
+2018_06_BUF_HOU,2018,REG,6,2018-10-14,Sunday,13:00,BUF,13,HOU,20,Home,7,0,0,7,7,Sean McDermott,Bill O'Brien,Craig Wrolstad,HOU00,NRG Stadium
+2018_06_CHI_MIA,2018,REG,6,2018-10-14,Sunday,13:00,CHI,28,MIA,31,Home,3,1,0,14,7,Matt Nagy,Adam Gase,Walt Anderson,MIA00,Hard Rock Stadium
+2018_06_ARI_MIN,2018,REG,6,2018-10-14,Sunday,13:00,ARI,17,MIN,27,Home,10,0,0,7,7,Steve Wilks,Mike Zimmer,Jerome Boger,MIN01,U.S. Bank Stadium
+2018_06_IND_NYJ,2018,REG,6,2018-10-14,Sunday,13:00,IND,34,NYJ,42,Home,8,0,0,10,7,Frank Reich,Todd Bowles,Alex Kemp,NYC01,MetLife Stadium
+2018_06_SEA_OAK,2018,REG,6,2018-10-14,Sunday,13:00,SEA,27,OAK,3,Neutral,-24,0,0,7,7,Pete Carroll,Jon Gruden,Peter Morelli,LON00,Wembley Stadium
+2018_06_CAR_WAS,2018,REG,6,2018-10-14,Sunday,13:00,CAR,17,WAS,23,Home,6,0,0,7,6,Ron Rivera,Jay Gruden,Clay Martin,WAS00,FedExField
+2018_06_LA_DEN,2018,REG,6,2018-10-14,Sunday,16:05,LAR,23,DEN,20,Home,-3,0,0,7,7,Sean McVay,Vance Joseph,Shawn Smith,DEN00,Sports Authority Field at Mile High
+2018_06_JAX_DAL,2018,REG,6,2018-10-14,Sunday,16:25,JAX,7,DAL,40,Home,33,0,0,7,7,Doug Marrone,Jason Garrett,Tony Corrente,DAL00,AT&T Stadium
+2018_06_BAL_TEN,2018,REG,6,2018-10-14,Sunday,16:25,BAL,21,TEN,0,Home,-21,0,0,7,7,John Harbaugh,Mike Vrabel,Carl Cheffers,NAS00,Nissan Stadium
+2018_06_KC_NE,2018,REG,6,2018-10-14,Sunday,20:20,KC,40,NE,43,Home,3,0,0,7,10,Andy Reid,Bill Belichick,John Hussey,BOS00,Gillette Stadium
+2018_06_SF_GB,2018,REG,6,2018-10-15,Monday,20:15,SF,30,GB,33,Home,3,0,0,8,8,Kyle Shanahan,Mike McCarthy,John Parry,GNB00,Lambeau Field
+2018_07_DEN_ARI,2018,REG,7,2018-10-18,Thursday,20:20,DEN,45,ARI,10,Home,-35,0,0,4,4,Vance Joseph,Steve Wilks,Alex Kemp,PHO00,State Farm Stadium
+2018_07_NE_CHI,2018,REG,7,2018-10-21,Sunday,13:00,NE,38,CHI,31,Home,-7,0,0,7,7,Bill Belichick,Matt Nagy,Clay Martin,CHI98,Soldier Field
+2018_07_BUF_IND,2018,REG,7,2018-10-21,Sunday,13:00,BUF,5,IND,37,Home,32,0,0,7,7,Sean McDermott,Frank Reich,Brad Allen,IND00,Lucas Oil Stadium
+2018_07_HOU_JAX,2018,REG,7,2018-10-21,Sunday,13:00,HOU,20,JAX,7,Home,-13,0,1,7,7,Bill O'Brien,Doug Marrone,Ron Torbert,JAX00,TIAA Bank Stadium
+2018_07_DET_MIA,2018,REG,7,2018-10-21,Sunday,13:00,DET,32,MIA,21,Home,-11,0,0,14,7,Matt Patricia,Adam Gase,Jerome Boger,MIA00,Hard Rock Stadium
+2018_07_MIN_NYJ,2018,REG,7,2018-10-21,Sunday,13:00,MIN,37,NYJ,17,Home,-20,0,0,7,7,Mike Zimmer,Todd Bowles,Shawn Smith,NYC01,MetLife Stadium
+2018_07_CAR_PHI,2018,REG,7,2018-10-21,Sunday,13:00,CAR,21,PHI,17,Home,-4,0,0,7,10,Ron Rivera,Doug Pederson,Clete Blakeman,PHI00,Lincoln Financial Field
+2018_07_CLE_TB,2018,REG,7,2018-10-21,Sunday,13:00,CLE,23,TB,26,Home,3,1,0,7,7,Hue Jackson,Dirk Koetter,Shawn Hochuli,TAM00,Raymond James Stadium
+2018_07_NO_BAL,2018,REG,7,2018-10-21,Sunday,16:05,NO,24,BAL,23,Home,-1,0,0,13,7,Sean Payton,John Harbaugh,John Parry,BAL00,M&T Bank Stadium
+2018_07_LA_SF,2018,REG,7,2018-10-21,Sunday,16:25,LAR,39,SF,10,Home,-29,0,1,7,6,Sean McVay,Kyle Shanahan,Walt Anderson,SFO01,Levi's Stadium
+2018_07_DAL_WAS,2018,REG,7,2018-10-21,Sunday,16:25,DAL,17,WAS,20,Home,3,0,1,7,7,Jason Garrett,Jay Gruden,John Hussey,WAS00,FedExField
+2018_07_CIN_KC,2018,REG,7,2018-10-21,Sunday,20:20,CIN,10,KC,45,Home,35,0,0,7,7,Marvin Lewis,Andy Reid,Bill Vinovich,KAN00,Arrowhead Stadium
+2018_07_TEN_LAC,2018,REG,7,2018-10-21,Sunday,21:30,TEN,19,LAC,20,Neutral,1,0,0,7,7,Mike Vrabel,Anthony Lynn,Walt Coleman,LON00,Wembley Stadium
+2018_07_NYG_ATL,2018,REG,7,2018-10-22,Monday,20:15,NYG,20,ATL,23,Home,3,0,0,11,8,Pat Shurmur,Dan Quinn,Tony Corrente,ATL97,Mercedes-Benz Stadium
+2018_08_MIA_HOU,2018,REG,8,2018-10-25,Thursday,20:20,MIA,23,HOU,42,Home,19,0,0,4,4,Adam Gase,Bill O'Brien,Shawn Smith,HOU00,NRG Stadium
+2018_08_BAL_CAR,2018,REG,8,2018-10-28,Sunday,13:00,BAL,21,CAR,36,Home,15,0,0,7,7,John Harbaugh,Ron Rivera,Peter Morelli,CAR00,Bank of America Stadium
+2018_08_NYJ_CHI,2018,REG,8,2018-10-28,Sunday,13:00,NYJ,10,CHI,24,Home,14,0,0,7,7,Todd Bowles,Matt Nagy,Clete Blakeman,CHI98,Soldier Field
+2018_08_TB_CIN,2018,REG,8,2018-10-28,Sunday,13:00,TB,34,CIN,37,Home,3,0,0,7,7,Dirk Koetter,Marvin Lewis,Alex Kemp,CIN00,Paul Brown Stadium
+2018_08_SEA_DET,2018,REG,8,2018-10-28,Sunday,13:00,SEA,28,DET,14,Home,-14,0,0,14,7,Pete Carroll,Matt Patricia,Walt Anderson,DET00,Ford Field
+2018_08_DEN_KC,2018,REG,8,2018-10-28,Sunday,13:00,DEN,23,KC,30,Home,7,0,1,10,7,Vance Joseph,Andy Reid,Shawn Hochuli,KAN00,Arrowhead Stadium
+2018_08_WAS_NYG,2018,REG,8,2018-10-28,Sunday,13:00,WAS,20,NYG,13,Home,-7,0,1,7,6,Jay Gruden,Pat Shurmur,Bill Vinovich,NYC01,MetLife Stadium
+2018_08_CLE_PIT,2018,REG,8,2018-10-28,Sunday,13:00,CLE,18,PIT,33,Home,15,0,1,7,14,Hue Jackson,Mike Tomlin,Carl Cheffers,PIT00,Heinz Field
+2018_08_IND_OAK,2018,REG,8,2018-10-28,Sunday,16:05,IND,42,OAK,28,Home,-14,0,0,7,14,Frank Reich,Jon Gruden,John Parry,OAK00,Oakland-Alameda County Coliseum
+2018_08_SF_ARI,2018,REG,8,2018-10-28,Sunday,16:25,SF,15,ARI,18,Home,3,0,1,7,10,Kyle Shanahan,Steve Wilks,Brad Allen,PHO00,State Farm Stadium
+2018_08_GB_LA,2018,REG,8,2018-10-28,Sunday,16:25,GB,27,LAR,29,Home,2,0,0,13,7,Mike McCarthy,Sean McVay,Ron Torbert,LAX99,Los Angeles Memorial Coliseum
+2018_08_NO_MIN,2018,REG,8,2018-10-28,Sunday,20:20,NO,30,MIN,20,Home,-10,0,0,7,7,Sean Payton,Mike Zimmer,Craig Wrolstad,MIN01,U.S. Bank Stadium
+2018_08_PHI_JAX,2018,REG,8,2018-10-28,Sunday,21:30,PHI,24,JAX,18,Neutral,-6,0,0,7,7,Doug Pederson,Doug Marrone,John Hussey,LON00,Wembley Stadium
+2018_08_NE_BUF,2018,REG,8,2018-10-29,Monday,20:15,NE,25,BUF,6,Home,-19,0,1,8,8,Bill Belichick,Sean McDermott,Jerome Boger,BUF00,New Era Field
+2018_09_OAK_SF,2018,REG,9,2018-11-01,Thursday,20:20,OAK,3,SF,34,Home,31,0,0,4,4,Jon Gruden,Kyle Shanahan,Carl Cheffers,SFO01,Levi's Stadium
+2018_09_PIT_BAL,2018,REG,9,2018-11-04,Sunday,13:00,PIT,23,BAL,16,Home,-7,0,1,7,7,Mike Tomlin,John Harbaugh,Craig Wrolstad,BAL00,M&T Bank Stadium
+2018_09_CHI_BUF,2018,REG,9,2018-11-04,Sunday,13:00,CHI,41,BUF,9,Home,-32,0,0,7,6,Matt Nagy,Sean McDermott,Shawn Smith,BUF00,New Era Field
+2018_09_TB_CAR,2018,REG,9,2018-11-04,Sunday,13:00,TB,28,CAR,42,Home,14,0,1,7,7,Dirk Koetter,Ron Rivera,Tony Corrente,CAR00,Bank of America Stadium
+2018_09_KC_CLE,2018,REG,9,2018-11-04,Sunday,13:00,KC,37,CLE,21,Home,-16,0,0,7,7,Andy Reid,Gregg Williams,Ron Torbert,CLE00,FirstEnergy Stadium
+2018_09_NYJ_MIA,2018,REG,9,2018-11-04,Sunday,13:00,NYJ,6,MIA,13,Home,7,0,1,7,10,Todd Bowles,Adam Gase,Walt Coleman,MIA00,Hard Rock Stadium
+2018_09_DET_MIN,2018,REG,9,2018-11-04,Sunday,13:00,DET,9,MIN,24,Home,15,0,1,7,7,Matt Patricia,Mike Zimmer,Peter Morelli,MIN01,U.S. Bank Stadium
+2018_09_ATL_WAS,2018,REG,9,2018-11-04,Sunday,13:00,ATL,38,WAS,14,Home,-24,0,0,13,7,Dan Quinn,Jay Gruden,Walt Anderson,WAS00,FedExField
+2018_09_HOU_DEN,2018,REG,9,2018-11-04,Sunday,16:05,HOU,19,DEN,17,Home,-2,0,0,10,7,Bill O'Brien,Vance Joseph,Clay Martin,DEN00,Sports Authority Field at Mile High
+2018_09_LAC_SEA,2018,REG,9,2018-11-04,Sunday,16:05,LAC,25,SEA,17,Home,-8,0,0,14,7,Anthony Lynn,Pete Carroll,Shawn Hochuli,SEA00,CenturyLink Field
+2018_09_LA_NO,2018,REG,9,2018-11-04,Sunday,16:25,LAR,35,NO,45,Home,10,0,0,7,7,Sean McVay,Sean Payton,Bill Vinovich,NOR00,Mercedes-Benz Superdome
+2018_09_GB_NE,2018,REG,9,2018-11-04,Sunday,20:20,GB,17,NE,31,Home,14,0,0,7,6,Mike McCarthy,Bill Belichick,Brad Allen,BOS00,Gillette Stadium
+2018_09_TEN_DAL,2018,REG,9,2018-11-05,Monday,20:15,TEN,28,DAL,14,Home,-14,0,0,15,15,Mike Vrabel,Jason Garrett,Clete Blakeman,DAL00,AT&T Stadium
+2018_10_CAR_PIT,2018,REG,10,2018-11-08,Thursday,20:20,CAR,21,PIT,52,Home,31,0,0,4,4,Ron Rivera,Mike Tomlin,Walt Coleman,PIT00,Heinz Field
+2018_10_DET_CHI,2018,REG,10,2018-11-11,Sunday,13:00,DET,22,CHI,34,Home,12,0,1,7,7,Matt Patricia,Matt Nagy,Alex Kemp,CHI98,Soldier Field
+2018_10_NO_CIN,2018,REG,10,2018-11-11,Sunday,13:00,NO,51,CIN,14,Home,-37,0,0,7,14,Sean Payton,Marvin Lewis,Tony Corrente,CIN00,Paul Brown Stadium
+2018_10_ATL_CLE,2018,REG,10,2018-11-11,Sunday,13:00,ATL,16,CLE,28,Home,12,0,0,7,7,Dan Quinn,Gregg Williams,Peter Morelli,CLE00,FirstEnergy Stadium
+2018_10_JAX_IND,2018,REG,10,2018-11-11,Sunday,13:00,JAX,26,IND,29,Home,3,0,1,14,14,Doug Marrone,Frank Reich,Jerome Boger,IND00,Lucas Oil Stadium
+2018_10_ARI_KC,2018,REG,10,2018-11-11,Sunday,13:00,ARI,14,KC,26,Home,12,0,0,14,7,Steve Wilks,Andy Reid,Carl Cheffers,KAN00,Arrowhead Stadium
+2018_10_BUF_NYJ,2018,REG,10,2018-11-11,Sunday,13:00,BUF,41,NYJ,10,Home,-31,0,1,7,7,Sean McDermott,Todd Bowles,Ron Torbert,NYC01,MetLife Stadium
+2018_10_WAS_TB,2018,REG,10,2018-11-11,Sunday,13:00,WAS,16,TB,3,Home,-13,0,0,7,7,Jay Gruden,Dirk Koetter,Brad Allen,TAM00,Raymond James Stadium
+2018_10_NE_TEN,2018,REG,10,2018-11-11,Sunday,13:00,NE,10,TEN,34,Home,24,0,0,7,6,Bill Belichick,Mike Vrabel,Bill Vinovich,NAS00,Nissan Stadium
+2018_10_LAC_OAK,2018,REG,10,2018-11-11,Sunday,16:05,LAC,20,OAK,6,Home,-14,0,1,7,10,Anthony Lynn,Jon Gruden,Craig Wrolstad,OAK00,Oakland-Alameda County Coliseum
+2018_10_MIA_GB,2018,REG,10,2018-11-11,Sunday,16:25,MIA,12,GB,31,Home,19,0,0,7,7,Adam Gase,Mike McCarthy,Clay Martin,GNB00,Lambeau Field
+2018_10_SEA_LA,2018,REG,10,2018-11-11,Sunday,16:25,SEA,31,LAR,36,Home,5,0,1,7,7,Pete Carroll,Sean McVay,John Hussey,LAX99,Los Angeles Memorial Coliseum
+2018_10_DAL_PHI,2018,REG,10,2018-11-11,Sunday,20:20,DAL,27,PHI,20,Home,-7,0,1,6,14,Jason Garrett,Doug Pederson,John Parry,PHI00,Lincoln Financial Field
+2018_10_NYG_SF,2018,REG,10,2018-11-12,Monday,20:15,NYG,27,SF,23,Home,-4,0,0,15,11,Pat Shurmur,Kyle Shanahan,Shawn Hochuli,SFO01,Levi's Stadium
+2018_11_GB_SEA,2018,REG,11,2018-11-15,Thursday,20:20,GB,24,SEA,27,Home,3,0,0,4,4,Mike McCarthy,Pete Carroll,Tony Corrente,SEA00,CenturyLink Field
+2018_11_DAL_ATL,2018,REG,11,2018-11-18,Sunday,13:00,DAL,22,ATL,19,Home,-3,0,0,7,7,Jason Garrett,Dan Quinn,Craig Wrolstad,ATL97,Mercedes-Benz Stadium
+2018_11_CIN_BAL,2018,REG,11,2018-11-18,Sunday,13:00,CIN,21,BAL,24,Home,3,0,1,7,14,Marvin Lewis,John Harbaugh,Walt Coleman,BAL00,M&T Bank Stadium
+2018_11_CAR_DET,2018,REG,11,2018-11-18,Sunday,13:00,CAR,19,DET,20,Home,1,0,0,10,7,Ron Rivera,Matt Patricia,Clay Martin,DET00,Ford Field
+2018_11_TEN_IND,2018,REG,11,2018-11-18,Sunday,13:00,TEN,10,IND,38,Home,28,0,1,7,7,Mike Vrabel,Frank Reich,John Hussey,IND00,Lucas Oil Stadium
+2018_11_PIT_JAX,2018,REG,11,2018-11-18,Sunday,13:00,PIT,20,JAX,16,Home,-4,0,0,10,7,Mike Tomlin,Doug Marrone,Walt Anderson,JAX00,TIAA Bank Stadium
+2018_11_TB_NYG,2018,REG,11,2018-11-18,Sunday,13:00,TB,35,NYG,38,Home,3,0,0,7,6,Dirk Koetter,Pat Shurmur,Shawn Smith,NYC01,MetLife Stadium
+2018_11_HOU_WAS,2018,REG,11,2018-11-18,Sunday,13:00,HOU,23,WAS,21,Home,-2,0,0,14,7,Bill O'Brien,Jay Gruden,Alex Kemp,WAS00,FedExField
+2018_11_OAK_ARI,2018,REG,11,2018-11-18,Sunday,16:05,OAK,23,ARI,21,Home,-2,0,0,7,7,Jon Gruden,Steve Wilks,Jerome Boger,PHO00,State Farm Stadium
+2018_11_DEN_LAC,2018,REG,11,2018-11-18,Sunday,16:05,DEN,23,LAC,22,Home,-1,0,1,14,7,Vance Joseph,Anthony Lynn,Peter Morelli,LAX97,StubHub Center
+2018_11_PHI_NO,2018,REG,11,2018-11-18,Sunday,16:25,PHI,7,NO,48,Home,41,0,0,7,7,Doug Pederson,Sean Payton,Carl Cheffers,NOR00,Mercedes-Benz Superdome
+2018_11_MIN_CHI,2018,REG,11,2018-11-18,Sunday,20:20,MIN,20,CHI,25,Home,5,0,1,14,7,Mike Zimmer,Matt Nagy,John Perry,CHI98,Soldier Field
+2018_11_KC_LA,2018,REG,11,2018-11-19,Monday,20:15,KC,51,LAR,54,Home,3,0,0,8,8,Andy Reid,Sean McVay,Clete Blakeman,LAX99,Los Angeles Memorial Coliseum
+2018_12_CHI_DET,2018,REG,12,2018-11-22,Thursday,12:30,CHI,23,DET,16,Home,-7,0,1,4,4,Matt Nagy,Matt Patricia,Brad Allen,DET00,Ford Field
+2018_12_WAS_DAL,2018,REG,12,2018-11-22,Thursday,16:30,WAS,23,DAL,31,Home,8,0,1,4,4,Jay Gruden,Jason Garrett,Ron Torbert,DAL00,AT&T Stadium
+2018_12_ATL_NO,2018,REG,12,2018-11-22,Thursday,20:20,ATL,17,NO,31,Home,14,0,1,4,4,Dan Quinn,Sean Payton,John Hussey,NOR00,Mercedes-Benz Superdome
+2018_12_OAK_BAL,2018,REG,12,2018-11-25,Sunday,13:00,OAK,17,BAL,34,Home,17,0,0,7,7,Jon Gruden,John Harbaugh,Clay Martin,BAL00,M&T Bank Stadium
+2018_12_JAX_BUF,2018,REG,12,2018-11-25,Sunday,13:00,JAX,21,BUF,24,Home,3,0,0,7,14,Doug Marrone,Sean McDermott,Walt Coleman,BUF00,New Era Field
+2018_12_SEA_CAR,2018,REG,12,2018-11-25,Sunday,13:00,SEA,30,CAR,27,Home,-3,0,0,10,7,Pete Carroll,Ron Rivera,Shawn Smith,CAR00,Bank of America Stadium
+2018_12_CLE_CIN,2018,REG,12,2018-11-25,Sunday,13:00,CLE,35,CIN,20,Home,-15,0,1,14,7,Gregg Williams,Marvin Lewis,Jerome Boger,CIN00,Paul Brown Stadium
+2018_12_NE_NYJ,2018,REG,12,2018-11-25,Sunday,13:00,NE,27,NYJ,13,Home,-14,0,1,14,14,Bill Belichick,Todd Bowles,Shawn Hochuli,NYC01,MetLife Stadium
+2018_12_NYG_PHI,2018,REG,12,2018-11-25,Sunday,13:00,NYG,22,PHI,25,Home,3,0,1,7,7,Pat Shurmur,Doug Pederson,Walt Anderson,PHI00,Lincoln Financial Field
+2018_12_SF_TB,2018,REG,12,2018-11-25,Sunday,13:00,SF,9,TB,27,Home,18,0,0,13,7,Kyle Shanahan,Dirk Koetter,John Parry,TAM00,Raymond James Stadium
+2018_12_ARI_LAC,2018,REG,12,2018-11-25,Sunday,16:05,ARI,10,LAC,45,Home,35,0,0,7,7,Steve Wilks,Anthony Lynn,Alex Kemp,LAX97,StubHub Center
+2018_12_PIT_DEN,2018,REG,12,2018-11-25,Sunday,16:25,PIT,17,DEN,24,Home,7,0,0,7,7,Mike Tomlin,Vance Joseph,Tony Corrente,DEN00,Sports Authority Field at Mile High
+2018_12_MIA_IND,2018,REG,12,2018-11-25,Sunday,16:25,MIA,24,IND,27,Home,3,0,0,14,7,Adam Gase,Frank Reich,Clete Blakeman,IND00,Lucas Oil Stadium
+2018_12_GB_MIN,2018,REG,12,2018-11-25,Sunday,20:20,GB,17,MIN,24,Home,7,0,1,10,7,Mike McCarthy,Mike Zimmer,Bill Vinovich,MIN01,U.S. Bank Stadium
+2018_12_TEN_HOU,2018,REG,12,2018-11-26,Monday,20:15,TEN,17,HOU,34,Home,17,0,1,8,8,Mike Vrabel,Bill O'Brien,Craig Wrolstad,HOU00,NRG Stadium
+2018_13_NO_DAL,2018,REG,13,2018-11-29,Thursday,20:20,NO,10,DAL,13,Home,3,0,0,7,7,Sean Payton,Jason Garrett,Walt Anderson,DAL00,AT&T Stadium
+2018_13_BAL_ATL,2018,REG,13,2018-12-02,Sunday,13:00,BAL,26,ATL,16,Home,-10,0,0,7,10,John Harbaugh,Dan Quinn,Brad Allen,ATL97,Mercedes-Benz Stadium
+2018_13_DEN_CIN,2018,REG,13,2018-12-02,Sunday,13:00,DEN,24,CIN,10,Home,-14,0,0,7,7,Vance Joseph,Marvin Lewis,Ron Torbert,CIN00,Paul Brown Stadium
+2018_13_LA_DET,2018,REG,13,2018-12-02,Sunday,13:00,LAR,30,DET,16,Home,-14,0,0,13,10,Sean McVay,Matt Patricia,John Parry,DET00,Ford Field
+2018_13_ARI_GB,2018,REG,13,2018-12-02,Sunday,13:00,ARI,20,GB,17,Home,-3,0,0,7,7,Steve Wilks,Mike McCarthy,Peter Morelli,GNB00,Lambeau Field
+2018_13_CLE_HOU,2018,REG,13,2018-12-02,Sunday,13:00,CLE,13,HOU,29,Home,16,0,0,7,6,Gregg Williams,Bill O'Brien,Walt Coleman,HOU00,NRG Stadium
+2018_13_IND_JAX,2018,REG,13,2018-12-02,Sunday,13:00,IND,0,JAX,6,Home,6,0,1,7,7,Frank Reich,Doug Marrone,Alex Kemp,JAX00,TIAA Bank Stadium
+2018_13_BUF_MIA,2018,REG,13,2018-12-02,Sunday,13:00,BUF,17,MIA,21,Home,4,0,1,7,7,Sean McDermott,Adam Gase,Shawn Hochuli,MIA00,Hard Rock Stadium
+2018_13_CHI_NYG,2018,REG,13,2018-12-02,Sunday,13:00,CHI,27,NYG,30,Home,3,1,0,10,7,Matt Nagy,Pat Shurmur,Clay Martin,NYC01,MetLife Stadium
+2018_13_CAR_TB,2018,REG,13,2018-12-02,Sunday,13:00,CAR,17,TB,24,Home,7,0,1,7,7,Ron Rivera,Dirk Koetter,Carl Cheffers,TAM00,Raymond James Stadium
+2018_13_KC_OAK,2018,REG,13,2018-12-02,Sunday,16:05,KC,40,OAK,33,Home,-7,0,1,13,7,Andy Reid,Jon Gruden,Shawn Smith,OAK00,Oakland-Alameda County Coliseum
+2018_13_NYJ_TEN,2018,REG,13,2018-12-02,Sunday,16:05,NYJ,22,TEN,26,Home,4,0,0,7,6,Todd Bowles,Mike Vrabel,Jerome Boger,NAS00,Nissan Stadium
+2018_13_MIN_NE,2018,REG,13,2018-12-02,Sunday,16:25,MIN,10,NE,24,Home,14,0,0,7,7,Mike Zimmer,Bill Belichick,Craig Wrolstad,BOS00,Gillette Stadium
+2018_13_SF_SEA,2018,REG,13,2018-12-02,Sunday,16:25,SF,16,SEA,43,Home,27,0,1,7,7,Kyle Shanahan,Pete Carroll,Clete Blakeman,SEA00,CenturyLink Field
+2018_13_LAC_PIT,2018,REG,13,2018-12-02,Sunday,20:20,LAC,33,PIT,30,Home,-3,0,0,7,7,Anthony Lynn,Mike Tomlin,Bill Vinovich,PIT00,Heinz Field
+2018_13_WAS_PHI,2018,REG,13,2018-12-03,Monday,20:15,WAS,13,PHI,28,Home,15,0,1,11,8,Jay Gruden,Doug Pederson,Tony Corrente,PHI00,Lincoln Financial Field
+2018_14_JAX_TEN,2018,REG,14,2018-12-06,Thursday,20:20,JAX,9,TEN,30,Home,21,0,1,4,4,Doug Marrone,Mike Vrabel,John Parry,NAS00,Nissan Stadium
+2018_14_NYJ_BUF,2018,REG,14,2018-12-09,Sunday,13:00,NYJ,27,BUF,23,Home,-4,0,1,7,7,Todd Bowles,Sean McDermott,Alex Kemp,BUF00,New Era Field
+2018_14_CAR_CLE,2018,REG,14,2018-12-09,Sunday,13:00,CAR,20,CLE,26,Home,6,0,0,7,7,Ron Rivera,Gregg Williams,Walt Anderson,CLE00,FirstEnergy Stadium
+2018_14_ATL_GB,2018,REG,14,2018-12-09,Sunday,13:00,ATL,20,GB,34,Home,14,0,0,7,7,Dan Quinn,Joe Philbin,Walt Coleman,GNB00,Lambeau Field
+2018_14_IND_HOU,2018,REG,14,2018-12-09,Sunday,13:00,IND,24,HOU,21,Home,-3,0,1,7,7,Frank Reich,Bill O'Brien,Bill Vinovich,HOU00,NRG Stadium
+2018_14_BAL_KC,2018,REG,14,2018-12-09,Sunday,13:00,BAL,24,KC,27,Home,3,1,0,7,7,John Harbaugh,Andy Reid,Tony Corrente,KAN00,Arrowhead Stadium
+2018_14_NE_MIA,2018,REG,14,2018-12-09,Sunday,13:00,NE,33,MIA,34,Home,1,0,1,7,7,Bill Belichick,Adam Gase,Peter Morelli,MIA00,Hard Rock Stadium
+2018_14_NO_TB,2018,REG,14,2018-12-09,Sunday,13:00,NO,28,TB,14,Home,-14,0,1,10,7,Sean Payton,Dirk Koetter,Jerome Boger,TAM00,Raymond James Stadium
+2018_14_NYG_WAS,2018,REG,14,2018-12-09,Sunday,13:00,NYG,40,WAS,16,Home,-24,0,1,7,6,Pat Shurmur,Jay Gruden,Carl Cheffers,WAS00,FedExField
+2018_14_CIN_LAC,2018,REG,14,2018-12-09,Sunday,16:05,CIN,21,LAC,26,Home,5,0,0,7,7,Marvin Lewis,Anthony Lynn,John Hussey,LAX97,StubHub Center
+2018_14_DEN_SF,2018,REG,14,2018-12-09,Sunday,16:05,DEN,14,SF,20,Home,6,0,0,7,7,Vance Joseph,Kyle Shanahan,Shawn Smith,SFO01,Levi's Stadium
+2018_14_DET_ARI,2018,REG,14,2018-12-09,Sunday,16:25,DET,17,ARI,3,Home,-14,0,0,7,7,Matt Patricia,Steve Wilks,Shawn Hochuli,PHO00,State Farm Stadium
+2018_14_PHI_DAL,2018,REG,14,2018-12-09,Sunday,16:25,PHI,23,DAL,29,Home,6,1,1,6,10,Doug Pederson,Jason Garrett,Clete Blakeman,DAL00,AT&T Stadium
+2018_14_PIT_OAK,2018,REG,14,2018-12-09,Sunday,16:25,PIT,21,OAK,24,Home,3,0,0,7,7,Mike Tomlin,Jon Gruden,Ron Torbert,OAK00,Oakland-Alameda County Coliseum
+2018_14_LA_CHI,2018,REG,14,2018-12-09,Sunday,20:20,LAR,6,CHI,15,Home,9,0,0,7,7,Sean McVay,Matt Nagy,Craig Wrolstad,CHI98,Soldier Field
+2018_14_MIN_SEA,2018,REG,14,2018-12-10,Monday,20:15,MIN,7,SEA,21,Home,14,0,0,8,8,Mike Zimmer,Pete Carroll,Brad Allen,SEA00,CenturyLink Field
+2018_15_LAC_KC,2018,REG,15,2018-12-13,Thursday,20:20,LAC,29,KC,28,Home,-1,0,1,4,4,Anthony Lynn,Andy Reid,Walt Anderson,KAN00,Arrowhead Stadium
+2018_15_HOU_NYJ,2018,REG,15,2018-12-15,Saturday,16:30,HOU,29,NYJ,22,Home,-7,0,0,6,6,Bill O'Brien,Todd Bowles,Brad Allen,NYC01,MetLife Stadium
+2018_15_CLE_DEN,2018,REG,15,2018-12-15,Saturday,20:20,CLE,17,DEN,16,Home,-1,0,0,6,6,Gregg Williams,Vance Joseph,Clay Martin,DEN00,Sports Authority Field at Mile High
+2018_15_ARI_ATL,2018,REG,15,2018-12-16,Sunday,13:00,ARI,14,ATL,40,Home,26,0,0,7,7,Steve Wilks,Dan Quinn,Shawn Smith,ATL97,Mercedes-Benz Stadium
+2018_15_TB_BAL,2018,REG,15,2018-12-16,Sunday,13:00,TB,12,BAL,20,Home,8,0,0,7,7,Dirk Koetter,John Harbaugh,Ron Torbert,BAL00,M&T Bank Stadium
+2018_15_DET_BUF,2018,REG,15,2018-12-16,Sunday,13:00,DET,13,BUF,14,Home,1,0,0,7,7,Matt Patricia,Sean McDermott,Jerome Boger,BUF00,New Era Field
+2018_15_GB_CHI,2018,REG,15,2018-12-16,Sunday,13:00,GB,17,CHI,24,Home,7,0,1,7,7,Joe Philbin,Matt Nagy,John Hussey,CHI98,Soldier Field
+2018_15_OAK_CIN,2018,REG,15,2018-12-16,Sunday,13:00,OAK,16,CIN,30,Home,14,0,0,7,7,Jon Gruden,Marvin Lewis,Alex Kemp,CIN00,Paul Brown Stadium
+2018_15_DAL_IND,2018,REG,15,2018-12-16,Sunday,13:00,DAL,0,IND,23,Home,23,0,0,7,7,Jason Garrett,Frank Reich,Carl Cheffers,IND00,Lucas Oil Stadium
+2018_15_WAS_JAX,2018,REG,15,2018-12-16,Sunday,13:00,WAS,16,JAX,13,Home,-3,0,0,7,10,Jay Gruden,Doug Marrone,Clete Blakeman,JAX00,TIAA Bank Stadium
+2018_15_MIA_MIN,2018,REG,15,2018-12-16,Sunday,13:00,MIA,17,MIN,41,Home,24,0,0,7,6,Adam Gase,Mike Zimmer,Walt Coleman,MIN01,U.S. Bank Stadium
+2018_15_TEN_NYG,2018,REG,15,2018-12-16,Sunday,13:00,TEN,17,NYG,0,Home,-17,0,0,10,7,Mike Vrabel,Pat Shurmur,Shawn Hochuli,NYC01,MetLife Stadium
+2018_15_SEA_SF,2018,REG,15,2018-12-16,Sunday,16:05,SEA,23,SF,26,Home,3,1,1,6,7,Pete Carroll,Kyle Shanahan,Peter Morelli,SFO01,Levi's Stadium
+2018_15_NE_PIT,2018,REG,15,2018-12-16,Sunday,16:25,NE,10,PIT,17,Home,7,0,0,7,7,Bill Belichick,Mike Tomlin,John Parry,PIT00,Heinz Field
+2018_15_PHI_LA,2018,REG,15,2018-12-16,Sunday,20:20,PHI,30,LAR,23,Home,-7,0,0,7,7,Doug Pederson,Sean McVay,Bill Vinovich,LAX99,Los Angeles Memorial Coliseum
+2018_15_NO_CAR,2018,REG,15,2018-12-17,Monday,20:15,NO,12,CAR,9,Home,-3,0,1,8,8,Sean Payton,Ron Rivera,Tony Corrente,CAR00,Bank of America Stadium
+2018_16_WAS_TEN,2018,REG,16,2018-12-22,Saturday,16:30,WAS,16,TEN,25,Home,9,0,0,6,6,Jay Gruden,Mike Vrabel,John Hussey,NAS00,Nissan Stadium
+2018_16_BAL_LAC,2018,REG,16,2018-12-22,Saturday,20:20,BAL,22,LAC,10,Home,-12,0,0,6,9,John Harbaugh,Anthony Lynn,Clete Blakeman,LAX97,StubHub Center
+2018_16_ATL_CAR,2018,REG,16,2018-12-23,Sunday,13:00,ATL,24,CAR,10,Home,-14,0,1,7,6,Dan Quinn,Ron Rivera,Peter Morelli,CAR00,Bank of America Stadium
+2018_16_CIN_CLE,2018,REG,16,2018-12-23,Sunday,13:00,CIN,18,CLE,26,Home,8,0,1,7,8,Marvin Lewis,Gregg Williams,Tony Corrente,CLE00,FirstEnergy Stadium
+2018_16_TB_DAL,2018,REG,16,2018-12-23,Sunday,13:00,TB,20,DAL,27,Home,7,0,0,7,7,Dirk Koetter,Jason Garrett,Shawn Hochuli,DAL00,AT&T Stadium
+2018_16_MIN_DET,2018,REG,16,2018-12-23,Sunday,13:00,MIN,27,DET,9,Home,-18,0,1,7,7,Mike Zimmer,Matt Patricia,Walt Anderson,DET00,Ford Field
+2018_16_NYG_IND,2018,REG,16,2018-12-23,Sunday,13:00,NYG,27,IND,28,Home,1,0,0,7,7,Pat Shurmur,Frank Reich,Brad Allen,IND00,Lucas Oil Stadium
+2018_16_JAX_MIA,2018,REG,16,2018-12-23,Sunday,13:00,JAX,17,MIA,7,Home,-10,0,0,7,7,Doug Marrone,Adam Gase,Clay Martin,MIA00,Hard Rock Stadium
+2018_16_BUF_NE,2018,REG,16,2018-12-23,Sunday,13:00,BUF,12,NE,24,Home,12,0,1,7,7,Sean McDermott,Bill Belichick,Shawn Smith,BOS00,Gillette Stadium
+2018_16_GB_NYJ,2018,REG,16,2018-12-23,Sunday,13:00,GB,44,NYJ,38,Home,-6,1,0,7,8,Joe Philbin,Todd Bowles,Ron Torbert,NYC01,MetLife Stadium
+2018_16_HOU_PHI,2018,REG,16,2018-12-23,Sunday,13:00,HOU,30,PHI,32,Home,2,0,0,8,7,Bill O'Brien,Doug Pederson,John Parry,PHI00,Lincoln Financial Field
+2018_16_LA_ARI,2018,REG,16,2018-12-23,Sunday,16:05,LAR,31,ARI,9,Home,-22,0,1,7,7,Sean McVay,Steve Wilks,Walt Coleman,PHO00,State Farm Stadium
+2018_16_CHI_SF,2018,REG,16,2018-12-23,Sunday,16:05,CHI,14,SF,9,Home,-5,0,0,7,7,Matt Nagy,Kyle Shanahan,Alex Kemp,SFO01,Levi's Stadium
+2018_16_PIT_NO,2018,REG,16,2018-12-23,Sunday,16:25,PIT,28,NO,31,Home,3,0,0,7,6,Mike Tomlin,Sean Payton,Craig Wrolstad,NOR00,Mercedes-Benz Superdome
+2018_16_KC_SEA,2018,REG,16,2018-12-23,Sunday,20:20,KC,31,SEA,38,Home,7,0,0,10,7,Andy Reid,Pete Carroll,Bill Vinovich,SEA00,CenturyLink Field
+2018_16_DEN_OAK,2018,REG,16,2018-12-24,Monday,20:15,DEN,14,OAK,27,Home,13,0,1,9,8,Vance Joseph,Jon Gruden,Carl Cheffers,OAK00,Oakland-Alameda County Coliseum
+2018_17_MIA_BUF,2018,REG,17,2018-12-30,Sunday,13:00,MIA,17,BUF,42,Home,25,0,1,7,7,Adam Gase,Sean McDermott,John Hussey,BUF00,New Era Field
+2018_17_DET_GB,2018,REG,17,2018-12-30,Sunday,13:00,DET,31,GB,0,Home,-31,0,1,7,7,Matt Patricia,Joe Philbin,Alex Kemp,GNB00,Lambeau Field
+2018_17_JAX_HOU,2018,REG,17,2018-12-30,Sunday,13:00,JAX,3,HOU,20,Home,17,0,1,7,7,Doug Marrone,Bill O'Brien,Peter Morelli,HOU00,NRG Stadium
+2018_17_NYJ_NE,2018,REG,17,2018-12-30,Sunday,13:00,NYJ,3,NE,38,Home,35,0,1,7,7,Todd Bowles,Bill Belichick,Walt Coleman,BOS00,Gillette Stadium
+2018_17_CAR_NO,2018,REG,17,2018-12-30,Sunday,13:00,CAR,33,NO,14,Home,-19,0,1,7,7,Ron Rivera,Sean Payton,Bill Vinovich,NOR00,Mercedes-Benz Superdome
+2018_17_DAL_NYG,2018,REG,17,2018-12-30,Sunday,13:00,DAL,36,NYG,35,Home,-1,0,1,7,7,Jason Garrett,Pat Shurmur,Clay Martin,NYC01,MetLife Stadium
+2018_17_ATL_TB,2018,REG,17,2018-12-30,Sunday,13:00,ATL,34,TB,32,Home,-2,0,1,7,7,Dan Quinn,Dirk Koetter,Brad Allen,TAM00,Raymond James Stadium
+2018_17_CLE_BAL,2018,REG,17,2018-12-30,Sunday,16:25,CLE,24,BAL,26,Home,2,0,1,7,8,Gregg Williams,John Harbaugh,Shawn Smith,BAL00,M&T Bank Stadium
+2018_17_LAC_DEN,2018,REG,17,2018-12-30,Sunday,16:25,LAC,23,DEN,9,Home,-14,0,1,8,6,Anthony Lynn,Vance Joseph,John Parry,DEN00,Sports Authority Field at Mile High
+2018_17_OAK_KC,2018,REG,17,2018-12-30,Sunday,16:25,OAK,3,KC,35,Home,32,0,1,6,7,Jon Gruden,Andy Reid,Shawn Hochuli,KAN00,Arrowhead Stadium
+2018_17_SF_LA,2018,REG,17,2018-12-30,Sunday,16:25,SF,32,LAR,48,Home,16,0,1,7,7,Kyle Shanahan,Sean McVay,Jerome Boger,LAX99,Los Angeles Memorial Coliseum
+2018_17_CHI_MIN,2018,REG,17,2018-12-30,Sunday,16:25,CHI,24,MIN,10,Home,-14,0,1,7,7,Matt Nagy,Mike Zimmer,Clete Blakeman,MIN01,U.S. Bank Stadium
+2018_17_CIN_PIT,2018,REG,17,2018-12-30,Sunday,16:25,CIN,13,PIT,16,Home,3,0,1,7,7,Marvin Lewis,Mike Tomlin,Carl Cheffers,PIT00,Heinz Field
+2018_17_ARI_SEA,2018,REG,17,2018-12-30,Sunday,16:25,ARI,24,SEA,27,Home,3,0,1,7,7,Steve Wilks,Pete Carroll,Ron Torbert,SEA00,CenturyLink Field
+2018_17_PHI_WAS,2018,REG,17,2018-12-30,Sunday,16:25,PHI,24,WAS,0,Home,-24,0,1,7,8,Doug Pederson,Jay Gruden,Craig Wrolstad,WAS00,FedExField
+2018_17_IND_TEN,2018,REG,17,2018-12-30,Sunday,20:20,IND,33,TEN,17,Home,-16,0,1,7,8,Frank Reich,Mike Vrabel,Walt Anderson,NAS00,Nissan Stadium

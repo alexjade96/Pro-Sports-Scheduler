@@ -1,0 +1,273 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2024_01_BAL_KC,2024,REG,1,2024-09-05,Thursday,20:20,BAL,20,KC,27,Home,7,0,0,7,7,John Harbaugh,Andy Reid,Shawn Hochuli,KAN00,GEHA Field at Arrowhead Stadium
+2024_01_GB_PHI,2024,REG,1,2024-09-06,Friday,20:15,GB,29,PHI,34,Neutral,5,0,0,7,7,Matt LaFleur,Nick Sirianni,Ron Torbert,SAO00,Arena Corinthians
+2024_01_PIT_ATL,2024,REG,1,2024-09-08,Sunday,13:00,PIT,18,ATL,10,Home,-8,0,0,7,7,Mike Tomlin,Raheem Morris,Brad Rogers,ATL97,Mercedes-Benz Stadium
+2024_01_ARI_BUF,2024,REG,1,2024-09-08,Sunday,13:00,ARI,28,BUF,34,Home,6,0,0,7,7,Jonathan Gannon,Sean McDermott,Tra Blake,BUF00,New Era Field
+2024_01_TEN_CHI,2024,REG,1,2024-09-08,Sunday,13:00,TEN,17,CHI,24,Home,7,0,0,7,7,Brian Callahan,Matt Eberflus,Shawn Smith,CHI98,Soldier Field
+2024_01_NE_CIN,2024,REG,1,2024-09-08,Sunday,13:00,NE,16,CIN,10,Home,-6,0,0,7,7,Jerod Mayo,Zac Taylor,Land Clark,CIN00,Paycor Stadium
+2024_01_HOU_IND,2024,REG,1,2024-09-08,Sunday,13:00,HOU,29,IND,27,Home,-2,0,1,7,7,DeMeco Ryans,Shane Steichen,John Hussey,IND00,Lucas Oil Stadium
+2024_01_JAX_MIA,2024,REG,1,2024-09-08,Sunday,13:00,JAX,17,MIA,20,Home,3,0,0,7,7,Doug Pederson,Mike McDaniel,Craig Wrolstad,MIA00,Hard Rock Stadium
+2024_01_CAR_NO,2024,REG,1,2024-09-08,Sunday,13:00,CAR,10,NO,47,Home,37,0,1,7,7,Dave Canales,Dennis Allen,Alan Eck,NOR00,Mercedes-Benz Superdome
+2024_01_MIN_NYG,2024,REG,1,2024-09-08,Sunday,13:00,MIN,28,NYG,6,Home,-22,0,0,7,7,Kevin O'Connell,Brian Daboll,Alex Kemp,NYC01,MetLife Stadium
+2024_01_LV_LAC,2024,REG,1,2024-09-08,Sunday,16:05,LV,10,LAC,22,Home,12,0,1,7,7,Antonio Pierce,Jim Harbaugh,Scott Novak,LAX01,SoFi Stadium
+2024_01_DEN_SEA,2024,REG,1,2024-09-08,Sunday,16:05,DEN,20,SEA,26,Home,6,0,0,7,7,Sean Payton,Mike Macdonald,Brad Allen,SEA00,Lumen Field
+2024_01_DAL_CLE,2024,REG,1,2024-09-08,Sunday,16:25,DAL,33,CLE,17,Home,-16,0,0,7,7,Mike McCarthy,Kevin Stefanski,Clete Blakeman,CLE00,FirstEnergy Stadium
+2024_01_WAS_TB,2024,REG,1,2024-09-08,Sunday,16:25,WAS,20,TB,37,Home,17,0,0,7,7,Dan Quinn,Todd Bowles,Bill Vinovich,TAM00,Raymond James Stadium
+2024_01_LA_DET,2024,REG,1,2024-09-08,Sunday,20:20,LAR,20,DET,26,Home,6,1,0,7,7,Sean McVay,Dan Campbell,Adrian Hill,DET00,Ford Field
+2024_01_NYJ_SF,2024,REG,1,2024-09-09,Monday,20:15,NYJ,19,SF,32,Home,13,0,0,7,7,Robert Saleh,Kyle Shanahan,Carl Cheffers,SFO01,Levi's Stadium
+2024_02_BUF_MIA,2024,REG,2,2024-09-12,Thursday,20:15,BUF,31,MIA,10,Home,-21,0,1,4,4,Sean McDermott,Mike McDaniel,Bill Vinovich,MIA00,Hard Rock Stadium
+2024_02_LV_BAL,2024,REG,2,2024-09-15,Sunday,13:00,LV,26,BAL,23,Home,-3,0,0,7,10,Antonio Pierce,John Harbaugh,Tra Blake,BAL00,M&T Bank Stadium
+2024_02_LAC_CAR,2024,REG,2,2024-09-15,Sunday,13:00,LAC,26,CAR,3,Home,-23,0,0,7,7,Jim Harbaugh,Dave Canales,Brad Rogers,CAR00,Bank of America Stadium
+2024_02_NO_DAL,2024,REG,2,2024-09-15,Sunday,13:00,NO,44,DAL,19,Home,-25,0,0,7,7,Dennis Allen,Mike McCarthy,Adrian Hill,DAL00,AT&T Stadium
+2024_02_TB_DET,2024,REG,2,2024-09-15,Sunday,13:00,TB,20,DET,16,Home,-4,0,0,7,7,Todd Bowles,Dan Campbell,Clay Martin,DET00,Ford Field
+2024_02_IND_GB,2024,REG,2,2024-09-15,Sunday,13:00,IND,10,GB,16,Home,6,0,0,7,9,Shane Steichen,Matt LaFleur,Shawn Hochuli,GNB00,Lambeau Field
+2024_02_CLE_JAX,2024,REG,2,2024-09-15,Sunday,13:00,CLE,18,JAX,13,Home,-5,0,0,7,7,Kevin Stefanski,Doug Pederson,Adrian Hill,JAX00,TIAA Bank Stadium
+2024_02_SF_MIN,2024,REG,2,2024-09-15,Sunday,13:00,SF,17,MIN,23,Home,6,0,0,6,7,Kyle Shanahan,Kevin O'Connell,Brad Allen,MIN01,U.S. Bank Stadium
+2024_02_SEA_NE,2024,REG,2,2024-09-15,Sunday,13:00,SEA,23,NE,20,Home,-3,1,0,7,7,Mike Macdonald,Jerod Mayo,Carl Cheffers,BOS00,Gillette Stadium
+2024_02_NYJ_TEN,2024,REG,2,2024-09-15,Sunday,13:00,NYJ,24,TEN,17,Home,-7,0,0,6,7,Robert Saleh,Brian Callahan,Alan Eck,NAS00,Nissan Stadium
+2024_02_NYG_WAS,2024,REG,2,2024-09-15,Sunday,13:00,NYG,18,WAS,21,Home,3,0,1,7,7,Brian Daboll,Dan Quinn,Scott Novak,WAS00,FedExField
+2024_02_LA_ARI,2024,REG,2,2024-09-15,Sunday,16:05,LAR,10,ARI,41,Home,31,0,1,7,7,Sean McVay,Jonathan Gannon,John Hussey,PHO00,State Farm Stadium
+2024_02_PIT_DEN,2024,REG,2,2024-09-15,Sunday,16:25,PIT,13,DEN,6,Home,-7,0,0,7,7,Mike Tomlin,Sean Payton,Clete Blakeman,DEN00,Empower Field at Mile High
+2024_02_CIN_KC,2024,REG,2,2024-09-15,Sunday,16:25,CIN,25,KC,26,Home,1,0,0,7,10,Zac Taylor,Andy Reid,Alex Kemp,KAN00,GEHA Field at Arrowhead Stadium
+2024_02_CHI_HOU,2024,REG,2,2024-09-15,Sunday,20:20,CHI,13,HOU,19,Home,6,0,0,7,7,Matt Eberflus,DeMeco Ryans,Land Clark,HOU00,NRG Stadium
+2024_02_ATL_PHI,2024,REG,2,2024-09-16,Monday,20:15,ATL,22,PHI,21,Home,-1,0,0,8,10,Raheem Morris,Nick Sirianni,Craig Wrolstad,PHI00,Lincoln Financial Field
+2024_03_NE_NYJ,2024,REG,3,2024-09-19,Thursday,20:15,NE,3,NYJ,24,Home,21,0,1,4,4,Jerod Mayo,Robert Saleh,John Hussey,NYC01,MetLife Stadium
+2024_03_NYG_CLE,2024,REG,3,2024-09-22,Sunday,13:00,NYG,21,CLE,15,Home,-6,0,0,7,7,Brian Daboll,Kevin Stefanski,Craig Wrolstad,CLE00,FirstEnergy Stadium
+2024_03_CHI_IND,2024,REG,3,2024-09-22,Sunday,13:00,CHI,16,IND,21,Home,5,0,0,7,7,Matt Eberflus,Shane Steichen,Adrian Hill,IND00,Lucas Oil Stadium
+2024_03_HOU_MIN,2024,REG,3,2024-09-22,Sunday,13:00,HOU,7,MIN,34,Home,27,0,0,7,7,DeMeco Ryans,Kevin O'Connell,Shawn Hochuli,MIN01,U.S. Bank Stadium
+2024_03_PHI_NO,2024,REG,3,2024-09-22,Sunday,13:00,PHI,15,NO,12,Home,-3,0,0,6,7,Nick Sirianni,Dennis Allen,Scott Novak,NOR00,Mercedes-Benz Superdome
+2024_03_LAC_PIT,2024,REG,3,2024-09-22,Sunday,13:00,LAC,10,PIT,20,Home,10,0,0,7,7,Jim Harbaugh,Mike Tomlin,Alex Kemp,PIT00,Acrisure Stadium
+2024_03_DEN_TB,2024,REG,3,2024-09-22,Sunday,13:00,DEN,26,TB,7,Home,-19,0,0,7,7,Sean Payton,Todd Bowles,Alan Eck,TAM00,Raymond James Stadium
+2024_03_GB_TEN,2024,REG,3,2024-09-22,Sunday,13:00,GB,30,TEN,14,Home,-16,0,0,7,7,Matt LaFleur,Brian Callahan,Clay Martin,NAS00,Nissan Stadium
+2024_03_CAR_LV,2024,REG,3,2024-09-22,Sunday,16:05,CAR,36,LV,22,Home,-14,0,0,7,7,Dave Canales,Antonio Pierce,Bill Vinovich,VEG00,Allegiant Stadium
+2024_03_MIA_SEA,2024,REG,3,2024-09-22,Sunday,16:05,MIA,3,SEA,24,Home,21,0,0,10,7,Mike McDaniel,Mike Macdonald,Land Clark,SEA00,Lumen Field
+2024_03_DET_ARI,2024,REG,3,2024-09-22,Sunday,16:25,DET,20,ARI,13,Home,-7,0,0,7,7,Dan Campbell,Jonathan Gannon,Brad Rogers,PHO00,State Farm Stadium
+2024_03_BAL_DAL,2024,REG,3,2024-09-22,Sunday,16:25,BAL,28,DAL,25,Home,-3,0,0,7,7,John Harbaugh,Mike McCarthy,Ron Torbert,DAL00,AT&T Stadium
+2024_03_SF_LA,2024,REG,3,2024-09-22,Sunday,16:25,SF,24,LAR,27,Home,3,0,1,7,7,Kyle Shanahan,Sean McVay,Clete Blakeman,LAX01,SoFi Stadium
+2024_03_KC_ATL,2024,REG,3,2024-09-22,Sunday,20:20,KC,22,ATL,17,Home,-5,0,0,7,6,Andy Reid,Raheem Morris,Tra Blake,ATL97,Mercedes-Benz Stadium
+2024_03_JAX_BUF,2024,REG,3,2024-09-23,Monday,19:30,JAX,10,BUF,47,Home,37,0,0,8,11,Doug Pederson,Sean McDermott,Shawn Smith,BUF00,New Era Field
+2024_03_WAS_CIN,2024,REG,3,2024-09-23,Monday,20:15,WAS,38,CIN,33,Home,-5,0,0,8,8,Dan Quinn,Zac Taylor,Brad Allen,CIN00,Paycor Stadium
+2024_04_DAL_NYG,2024,REG,4,2024-09-26,Thursday,20:15,DAL,20,NYG,15,Home,-5,0,1,4,4,Mike McCarthy,Brian Daboll,Clay Martin,NYC01,MetLife Stadium
+2024_04_NO_ATL,2024,REG,4,2024-09-29,Sunday,13:00,NO,24,ATL,26,Home,2,0,1,7,7,Dennis Allen,Raheem Morris,John Hussey,ATL97,Mercedes-Benz Stadium
+2024_04_CIN_CAR,2024,REG,4,2024-09-29,Sunday,13:00,CIN,34,CAR,24,Home,-10,0,0,6,7,Zac Taylor,Dave Canales,Adrian Hill,CAR00,Bank of America Stadium
+2024_04_LA_CHI,2024,REG,4,2024-09-29,Sunday,13:00,LAR,18,CHI,24,Home,6,0,0,7,7,Sean McVay,Matt Eberflus,Brad Rogers,CHI98,Soldier Field
+2024_04_MIN_GB,2024,REG,4,2024-09-29,Sunday,13:00,MIN,31,GB,29,Home,-2,0,1,7,7,Kevin O'Connell,Matt LaFleur,Bill Vinovich,GNB00,Lambeau Field
+2024_04_JAX_HOU,2024,REG,4,2024-09-29,Sunday,13:00,JAX,20,HOU,24,Home,4,0,1,6,7,Doug Pederson,DeMeco Ryans,Tra Blake,HOU00,NRG Stadium
+2024_04_PIT_IND,2024,REG,4,2024-09-29,Sunday,13:00,PIT,24,IND,27,Home,3,0,0,7,7,Mike Tomlin,Shane Steichen,Land Clark,IND00,Lucas Oil Stadium
+2024_04_DEN_NYJ,2024,REG,4,2024-09-29,Sunday,13:00,DEN,10,NYJ,9,Home,-1,0,0,7,10,Sean Payton,Robert Saleh,Ron Torbert,NYC01,MetLife Stadium
+2024_04_PHI_TB,2024,REG,4,2024-09-29,Sunday,13:00,PHI,16,TB,33,Home,17,0,0,7,7,Nick Sirianni,Todd Bowles,Carl Cheffers,TAM00,Raymond James Stadium
+2024_04_WAS_ARI,2024,REG,4,2024-09-29,Sunday,16:05,WAS,42,ARI,14,Home,-28,0,0,6,7,Dan Quinn,Jonathan Gannon,Craig Wrolstad,PHO00,State Farm Stadium
+2024_04_NE_SF,2024,REG,4,2024-09-29,Sunday,16:05,NE,13,SF,30,Home,17,0,0,10,7,Jerod Mayo,Kyle Shanahan,Scott Novak,SFO01,Levi's Stadium
+2024_04_KC_LAC,2024,REG,4,2024-09-29,Sunday,16:25,KC,17,LAC,10,Home,-7,0,1,7,7,Andy Reid,Jim Harbaugh,Shawn Smith,LAX01,SoFi Stadium
+2024_04_CLE_LV,2024,REG,4,2024-09-29,Sunday,16:25,CLE,16,LV,20,Home,4,0,0,7,7,Kevin Stefanski,Antonio Pierce,Brad Allen,VEG00,Allegiant Stadium
+2024_04_BUF_BAL,2024,REG,4,2024-09-29,Sunday,20:20,BUF,10,BAL,35,Home,25,0,0,6,7,Sean McDermott,John Harbaugh,Alan Eck,BAL00,M&T Bank Stadium
+2024_04_TEN_MIA,2024,REG,4,2024-09-30,Monday,19:30,TEN,31,MIA,12,Home,-19,0,0,8,8,Brian Callahan,Mike McDaniel,Clete Blakeman,MIA00,Hard Rock Stadium
+2024_04_SEA_DET,2024,REG,4,2024-09-30,Monday,20:15,SEA,29,DET,42,Home,13,0,0,8,8,Mike Macdonald,Dan Campbell,Alex Kemp,DET00,Ford Field
+2024_05_TB_ATL,2024,REG,5,2024-10-03,Thursday,20:15,TB,30,ATL,36,Home,6,1,1,4,4,Todd Bowles,Raheem Morris,Ron Torbert,ATL97,Mercedes-Benz Stadium
+2024_05_NYJ_MIN,2024,REG,5,2024-10-06,Sunday,09:30,NYJ,17,MIN,23,Neutral,6,0,0,7,7,Robert Saleh,Kevin O'Connell,Scott Novak,LON02,Tottenham Stadium
+2024_05_CAR_CHI,2024,REG,5,2024-10-06,Sunday,13:00,CAR,10,CHI,36,Home,26,0,0,7,7,Dave Canales,Matt Eberflus,Tra Blake,CHI98,Soldier Field
+2024_05_BAL_CIN,2024,REG,5,2024-10-06,Sunday,13:00,BAL,41,CIN,38,Home,-3,1,1,7,7,John Harbaugh,Zac Taylor,Bill Vinovich,CIN00,Paycor Stadium
+2024_05_BUF_HOU,2024,REG,5,2024-10-06,Sunday,13:00,BUF,20,HOU,23,Home,3,0,0,7,7,Sean McDermott,DeMeco Ryans,Clay Martin,HOU00,NRG Stadium
+2024_05_IND_JAX,2024,REG,5,2024-10-06,Sunday,13:00,IND,34,JAX,37,Home,3,0,1,7,7,Shane Steichen,Doug Pederson,Carl Cheffers,JAX00,TIAA Bank Stadium
+2024_05_MIA_NE,2024,REG,5,2024-10-06,Sunday,13:00,MIA,15,NE,10,Home,-5,0,1,6,7,Mike McDaniel,Jerod Mayo,Adrian Hill,BOS00,Gillette Stadium
+2024_05_CLE_WAS,2024,REG,5,2024-10-06,Sunday,13:00,CLE,13,WAS,34,Home,21,0,0,7,7,Kevin Stefanski,Dan Quinn,Alan Eck,WAS00,FedExField
+2024_05_LV_DEN,2024,REG,5,2024-10-06,Sunday,16:05,LV,18,DEN,34,Home,16,0,1,7,7,Antonio Pierce,Sean Payton,Craig Wrolstad,DEN00,Empower Field at Mile High
+2024_05_ARI_SF,2024,REG,5,2024-10-06,Sunday,16:05,ARI,24,SF,23,Home,-1,0,1,7,7,Jonathan Gannon,Kyle Shanahan,Land Clark,SFO01,Levi's Stadium
+2024_05_GB_LA,2024,REG,5,2024-10-06,Sunday,16:25,GB,24,LAR,19,Home,-5,0,0,7,7,Matt LaFleur,Sean McVay,Brad Allen,LAX01,SoFi Stadium
+2024_05_NYG_SEA,2024,REG,5,2024-10-06,Sunday,16:25,NYG,29,SEA,20,Home,-9,0,0,10,6,Brian Daboll,Mike Macdonald,Shawn Smith,SEA00,Lumen Field
+2024_05_DAL_PIT,2024,REG,5,2024-10-06,Sunday,20:20,DAL,20,PIT,17,Home,-3,0,0,10,7,Mike McCarthy,Mike Tomlin,Shawn Hochuli,PIT00,Acrisure Stadium
+2024_05_NO_KC,2024,REG,5,2024-10-07,Monday,20:15,NO,13,KC,26,Home,13,0,0,8,8,Dennis Allen,Andy Reid,Brad Rogers,KAN00,GEHA Field at Arrowhead Stadium
+2024_06_SF_SEA,2024,REG,6,2024-10-10,Thursday,20:15,SF,36,SEA,24,Home,-12,0,1,4,4,Kyle Shanahan,Mike Macdonald,Craig Wrolstad,SEA00,Lumen Field
+2024_06_JAX_CHI,2024,REG,6,2024-10-13,Sunday,09:30,JAX,16,CHI,35,Neutral,19,0,0,7,7,Doug Pederson,Matt Eberflus,Brad Allen,LON02,Tottenham Stadium
+2024_06_WAS_BAL,2024,REG,6,2024-10-13,Sunday,13:00,WAS,23,BAL,30,Home,7,0,0,7,7,Dan Quinn,John Harbaugh,Land Clark,BAL00,M&T Bank Stadium
+2024_06_ARI_GB,2024,REG,6,2024-10-13,Sunday,13:00,ARI,13,GB,34,Home,21,0,0,7,7,Jonathan Gannon,Matt LaFleur,Alex Kemp,GNB00,Lambeau Field
+2024_06_HOU_NE,2024,REG,6,2024-10-13,Sunday,13:00,HOU,41,NE,21,Home,-20,0,0,7,7,DeMeco Ryans,Jerod Mayo,Ron Torbert,BOS00,Gillette Stadium
+2024_06_TB_NO,2024,REG,6,2024-10-13,Sunday,13:00,TB,51,NO,27,Home,-24,0,1,10,6,Todd Bowles,Dennis Allen,Clete Blakeman,NOR00,Mercedes-Benz Superdome
+2024_06_CLE_PHI,2024,REG,6,2024-10-13,Sunday,13:00,CLE,16,PHI,20,Home,4,0,0,7,14,Kevin Stefanski,Nick Sirianni,Shawn Hochuli,PHI00,Lincoln Financial Field
+2024_06_IND_TEN,2024,REG,6,2024-10-13,Sunday,13:00,IND,20,TEN,17,Home,-3,0,1,7,13,Shane Steichen,Brian Callahan,Brad Rogers,NAS00,Nissan Stadium
+2024_06_LAC_DEN,2024,REG,6,2024-10-13,Sunday,16:05,LAC,23,DEN,16,Home,-7,0,1,14,7,Jim Harbaugh,Sean Payton,Tra Blake,DEN00,Empower Field at Mile High
+2024_06_PIT_LV,2024,REG,6,2024-10-13,Sunday,16:05,PIT,32,LV,13,Home,-19,0,0,7,7,Mike Tomlin,Antonio Pierce,Alan Eck,VEG00,Allegiant Stadium
+2024_06_ATL_CAR,2024,REG,6,2024-10-13,Sunday,16:25,ATL,38,CAR,20,Home,-18,0,1,10,7,Raheem Morris,Dave Canales,Clay Martin,CAR00,Bank of America Stadium
+2024_06_DET_DAL,2024,REG,6,2024-10-13,Sunday,16:25,DET,47,DAL,9,Home,-38,0,0,13,7,Dan Campbell,Mike McCarthy,John Hussey,DAL00,AT&T Stadium
+2024_06_CIN_NYG,2024,REG,6,2024-10-13,Sunday,20:20,CIN,17,NYG,7,Home,-10,0,0,7,7,Zac Taylor,Brian Daboll,Carl Cheffers,NYC01,MetLife Stadium
+2024_06_BUF_NYJ,2024,REG,6,2024-10-14,Monday,20:15,BUF,23,NYJ,20,Home,-3,0,1,8,8,Sean McDermott,Robert Saleh,Adrian Hill,NYC01,MetLife Stadium
+2024_07_DEN_NO,2024,REG,7,2024-10-17,Thursday,20:15,DEN,33,NO,10,Home,-23,0,0,4,4,Sean Payton,Dennis Allen,Land Clark,NOR00,Mercedes-Benz Superdome
+2024_07_NE_JAX,2024,REG,7,2024-10-20,Sunday,09:30,NE,16,JAX,32,Neutral,16,0,0,7,7,Jerod Mayo,Doug Pederson,Brad Rogers,LON00,Wembley Stadium
+2024_07_SEA_ATL,2024,REG,7,2024-10-20,Sunday,13:00,SEA,34,ATL,14,Home,-20,0,0,10,7,Mike Macdonald,Raheem Morris,Bill Vinovich,ATL97,Mercedes-Benz Stadium
+2024_07_TEN_BUF,2024,REG,7,2024-10-20,Sunday,13:00,TEN,10,BUF,34,Home,24,0,0,7,6,Brian Callahan,Sean McDermott,John Hussey,BUF00,New Era Field
+2024_07_CIN_CLE,2024,REG,7,2024-10-20,Sunday,13:00,CIN,21,CLE,14,Home,-7,0,1,7,7,Zac Taylor,Kevin Stefanski,Ron Torbert,CLE00,FirstEnergy Stadium
+2024_07_HOU_GB,2024,REG,7,2024-10-20,Sunday,13:00,HOU,22,GB,24,Home,2,0,0,7,7,DeMeco Ryans,Matt LaFleur,Scott Novak,GNB00,Lambeau Field
+2024_07_MIA_IND,2024,REG,7,2024-10-20,Sunday,13:00,MIA,10,IND,16,Home,6,0,0,14,7,Mike McDaniel,Shane Steichen,Craig Wrolstad,IND00,Lucas Oil Stadium
+2024_07_DET_MIN,2024,REG,7,2024-10-20,Sunday,13:00,DET,31,MIN,29,Home,-2,0,1,7,14,Dan Campbell,Kevin O'Connell,Clay Martin,MIN01,U.S. Bank Stadium
+2024_07_PHI_NYG,2024,REG,7,2024-10-20,Sunday,13:00,PHI,28,NYG,3,Home,-25,0,1,7,7,Nick Sirianni,Brian Daboll,Tra Blake,NYC01,MetLife Stadium
+2024_07_LV_LA,2024,REG,7,2024-10-20,Sunday,16:05,LV,15,LAR,20,Home,5,0,0,7,14,Antonio Pierce,Sean McVay,Shawn Hochuli,LAX01,SoFi Stadium
+2024_07_CAR_WAS,2024,REG,7,2024-10-20,Sunday,16:05,CAR,7,WAS,40,Home,33,0,0,7,7,Dave Canales,Dan Quinn,Carl Cheffers,WAS00,FedExField
+2024_07_KC_SF,2024,REG,7,2024-10-20,Sunday,16:25,KC,28,SF,18,Home,-10,0,0,13,10,Andy Reid,Kyle Shanahan,Alan Eck,SFO01,Levi's Stadium
+2024_07_NYJ_PIT,2024,REG,7,2024-10-20,Sunday,20:20,NYJ,15,PIT,37,Home,22,0,0,6,7,Robert Saleh,Mike Tomlin,Shawn Smith,PIT00,Acrisure Stadium
+2024_07_BAL_TB,2024,REG,7,2024-10-21,Monday,20:15,BAL,41,TB,31,Home,-10,0,0,8,8,John Harbaugh,Todd Bowles,Alex Kemp,TAM00,Raymond James Stadium
+2024_07_LAC_ARI,2024,REG,7,2024-10-21,Monday,21:00,LAC,15,ARI,17,Home,2,0,0,8,8,Jim Harbaugh,Jonathan Gannon,Clete Blakeman,PHO00,State Farm Stadium
+2024_08_MIN_LA,2024,REG,8,2024-10-24,Thursday,20:15,MIN,20,LAR,30,Home,10,0,0,4,4,Kevin O'Connell,Sean McVay,Tra Blake,LAX01,SoFi Stadium
+2024_08_PHI_CIN,2024,REG,8,2024-10-27,Sunday,13:00,PHI,37,CIN,17,Home,-20,0,0,7,7,Nick Sirianni,Zac Taylor,John Hussey,CIN00,Paycor Stadium
+2024_08_BAL_CLE,2024,REG,8,2024-10-27,Sunday,13:00,BAL,24,CLE,29,Home,5,0,1,6,7,John Harbaugh,Kevin Stefanski,Shawn Smith,CLE00,FirstEnergy Stadium
+2024_08_TEN_DET,2024,REG,8,2024-10-27,Sunday,13:00,TEN,14,DET,52,Home,38,0,0,7,7,Brian Callahan,Dan Campbell,Carl Cheffers,DET00,Ford Field
+2024_08_IND_HOU,2024,REG,8,2024-10-27,Sunday,13:00,IND,20,HOU,23,Home,3,0,1,7,7,Shane Steichen,DeMeco Ryans,Brad Allen,HOU00,NRG Stadium
+2024_08_GB_JAX,2024,REG,8,2024-10-27,Sunday,13:00,GB,30,JAX,27,Home,-3,0,0,7,7,Matt LaFleur,Doug Pederson,Land Clark,JAX00,TIAA Bank Stadium
+2024_08_ARI_MIA,2024,REG,8,2024-10-27,Sunday,13:00,ARI,28,MIA,27,Home,-1,0,0,6,7,Jonathan Gannon,Mike McDaniel,Clay Martin,MIA00,Hard Rock Stadium
+2024_08_NYJ_NE,2024,REG,8,2024-10-27,Sunday,13:00,NYJ,22,NE,25,Home,3,0,1,7,7,Robert Saleh,Jerod Mayo,Craig Wrolstad,BOS00,Gillette Stadium
+2024_08_ATL_TB,2024,REG,8,2024-10-27,Sunday,13:00,ATL,31,TB,26,Home,-5,0,1,7,6,Raheem Morris,Todd Bowles,Shawn Hochuli,TAM00,Raymond James Stadium
+2024_08_NO_LAC,2024,REG,8,2024-10-27,Sunday,16:05,NO,8,LAC,26,Home,18,0,0,10,6,Dennis Allen,Jim Harbaugh,Alan Eck,LAX01,SoFi Stadium
+2024_08_BUF_SEA,2024,REG,8,2024-10-27,Sunday,16:05,BUF,31,SEA,10,Home,-21,0,0,7,7,Sean McDermott,Mike Macdonald,Ron Torbert,SEA00,Lumen Field
+2024_08_CAR_DEN,2024,REG,8,2024-10-27,Sunday,16:25,CAR,14,DEN,28,Home,14,0,0,7,10,Dave Canales,Sean Payton,Alex Kemp,DEN00,Empower Field at Mile High
+2024_08_KC_LV,2024,REG,8,2024-10-27,Sunday,16:25,KC,27,LV,20,Home,-7,0,1,7,7,Andy Reid,Antonio Pierce,Adrian Hill,VEG00,Allegiant Stadium
+2024_08_CHI_WAS,2024,REG,8,2024-10-27,Sunday,16:25,CHI,15,WAS,18,Home,3,0,0,14,7,Matt Eberflus,Dan Quinn,Clete Blakeman,WAS00,FedExField
+2024_08_DAL_SF,2024,REG,8,2024-10-27,Sunday,20:20,DAL,24,SF,30,Home,6,0,0,14,7,Mike McCarthy,Kyle Shanahan,Bill Vinovich,SFO01,Levi's Stadium
+2024_08_NYG_PIT,2024,REG,8,2024-10-28,Monday,20:15,NYG,18,PIT,26,Home,8,0,0,8,8,Brian Daboll,Mike Tomlin,Scott Novak,PIT00,Acrisure Stadium
+2024_09_HOU_NYJ,2024,REG,9,2024-10-31,Thursday,20:15,HOU,13,NYJ,21,Home,8,0,0,4,4,DeMeco Ryans,Robert Saleh,Shawn Hochuli,NYC01,MetLife Stadium
+2024_09_DAL_ATL,2024,REG,9,2024-11-03,Sunday,13:00,DAL,21,ATL,27,Home,6,0,0,7,7,Mike McCarthy,Raheem Morris,Scott Novak,ATL97,Mercedes-Benz Stadium
+2024_09_DEN_BAL,2024,REG,9,2024-11-03,Sunday,13:00,DEN,10,BAL,41,Home,31,0,0,7,7,Sean Payton,John Harbaugh,Adrian Hill,BAL00,M&T Bank Stadium
+2024_09_MIA_BUF,2024,REG,9,2024-11-03,Sunday,13:00,MIA,27,BUF,30,Home,3,0,1,7,7,Mike McDaniel,Sean McDermott,Tra Blake,BUF00,New Era Field
+2024_09_NO_CAR,2024,REG,9,2024-11-03,Sunday,13:00,NO,22,CAR,23,Home,1,0,1,7,7,Dennis Allen,Dave Canales,Ron Torbert,CAR00,Bank of America Stadium
+2024_09_LV_CIN,2024,REG,9,2024-11-03,Sunday,13:00,LV,24,CIN,41,Home,17,0,0,7,7,Antonio Pierce,Zac Taylor,Brad Rogers,CIN00,Paycor Stadium
+2024_09_LAC_CLE,2024,REG,9,2024-11-03,Sunday,13:00,LAC,27,CLE,10,Home,-17,0,0,7,7,Jim Harbaugh,Kevin Stefanski,Bill Vinovich,CLE00,FirstEnergy Stadium
+2024_09_WAS_NYG,2024,REG,9,2024-11-03,Sunday,13:00,WAS,27,NYG,22,Home,-5,0,1,7,6,Dan Quinn,Brian Daboll,Brad Allen,NYC01,MetLife Stadium
+2024_09_NE_TEN,2024,REG,9,2024-11-03,Sunday,13:00,NE,17,TEN,20,Home,3,1,0,7,7,Jerod Mayo,Brian Callahan,Alex Kemp,NAS00,Nissan Stadium
+2024_09_CHI_ARI,2024,REG,9,2024-11-03,Sunday,16:05,CHI,9,ARI,29,Home,20,0,0,7,7,Matt Eberflus,Jonathan Gannon,Carl Cheffers,PHO00,State Farm Stadium
+2024_09_JAX_PHI,2024,REG,9,2024-11-03,Sunday,16:05,JAX,23,PHI,28,Home,5,0,0,7,7,Doug Pederson,Nick Sirianni,Alan Eck,PHI00,Lincoln Financial Field
+2024_09_DET_GB,2024,REG,9,2024-11-03,Sunday,16:25,DET,24,GB,14,Home,-10,0,1,7,7,Dan Campbell,Matt LaFleur,Clete Blakeman,GNB00,Lambeau Field
+2024_09_LA_SEA,2024,REG,9,2024-11-03,Sunday,16:25,LAR,26,SEA,20,Home,-6,1,1,10,7,Sean McVay,Mike Macdonald,Clay Martin,SEA00,Lumen Field
+2024_09_IND_MIN,2024,REG,9,2024-11-03,Sunday,20:20,IND,13,MIN,21,Home,8,0,0,7,10,Shane Steichen,Kevin O'Connell,Shawn Smith,MIN01,U.S. Bank Stadium
+2024_09_TB_KC,2024,REG,9,2024-11-04,Monday,20:15,TB,24,KC,30,Home,6,1,0,8,8,Todd Bowles,Andy Reid,John Hussey,KAN00,GEHA Field at Arrowhead Stadium
+2024_10_CIN_BAL,2024,REG,10,2024-11-07,Thursday,20:15,CIN,34,BAL,35,Home,1,0,1,4,4,Zac Taylor,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2024_10_NYG_CAR,2024,REG,10,2024-11-10,Sunday,09:30,NYG,17,CAR,20,Neutral,3,1,0,7,7,Brian Daboll,Dave Canales,Shawn Hochuli,GER00,Allianz Arena
+2024_10_NE_CHI,2024,REG,10,2024-11-10,Sunday,13:00,NE,19,CHI,3,Home,-16,0,0,7,7,Jerod Mayo,Matt Eberflus,Land Clark,CHI98,Soldier Field
+2024_10_BUF_IND,2024,REG,10,2024-11-10,Sunday,13:00,BUF,30,IND,20,Home,-10,0,0,7,7,Sean McDermott,Shane Steichen,Scott Novak,IND00,Lucas Oil Stadium
+2024_10_MIN_JAX,2024,REG,10,2024-11-10,Sunday,13:00,MIN,12,JAX,7,Home,-5,0,0,7,7,Kevin O'Connell,Doug Pederson,Adrian Hill,JAX00,TIAA Bank Stadium
+2024_10_DEN_KC,2024,REG,10,2024-11-10,Sunday,13:00,DEN,14,KC,16,Home,2,0,1,7,6,Sean Payton,Andy Reid,Brad Allen,KAN00,GEHA Field at Arrowhead Stadium
+2024_10_ATL_NO,2024,REG,10,2024-11-10,Sunday,13:00,ATL,17,NO,20,Home,3,0,1,7,7,Raheem Morris,Dennis Allen,Carl Cheffers,NOR00,Mercedes-Benz Superdome
+2024_10_SF_TB,2024,REG,10,2024-11-10,Sunday,13:00,SF,23,TB,20,Home,-3,0,0,14,6,Kyle Shanahan,Todd Bowles,Shawn Smith,TAM00,Raymond James Stadium
+2024_10_PIT_WAS,2024,REG,10,2024-11-10,Sunday,13:00,PIT,28,WAS,27,Home,-1,0,0,13,7,Mike Tomlin,Dan Quinn,Brad Rogers,WAS00,FedExField
+2024_10_TEN_LAC,2024,REG,10,2024-11-10,Sunday,16:05,TEN,17,LAC,27,Home,10,0,0,7,7,Brian Callahan,Jim Harbaugh,Craig Wrolstad,LAX01,SoFi Stadium
+2024_10_NYJ_ARI,2024,REG,10,2024-11-10,Sunday,16:25,NYJ,6,ARI,31,Home,25,0,0,10,7,Robert Saleh,Jonathan Gannon,John Hussey,PHO00,State Farm Stadium
+2024_10_PHI_DAL,2024,REG,10,2024-11-10,Sunday,16:25,PHI,34,DAL,6,Home,-28,0,1,7,7,Nick Sirianni,Mike McCarthy,Alex Kemp,DAL00,AT&T Stadium
+2024_10_DET_HOU,2024,REG,10,2024-11-10,Sunday,20:20,DET,26,HOU,23,Home,-3,0,0,7,10,Dan Campbell,DeMeco Ryans,Bill Vinovich,HOU00,NRG Stadium
+2024_10_MIA_LA,2024,REG,10,2024-11-11,Monday,20:15,MIA,23,LAR,15,Home,-8,0,0,8,8,Mike McDaniel,Sean McVay,Ron Torbert,LAX01,SoFi Stadium
+2024_11_WAS_PHI,2024,REG,11,2024-11-14,Thursday,20:15,WAS,18,PHI,26,Home,8,0,1,4,4,Dan Quinn,Nick Sirianni,Adrian Hill,PHI00,Lincoln Financial Field
+2024_11_GB_CHI,2024,REG,11,2024-11-17,Sunday,13:00,GB,20,CHI,19,Home,-1,0,1,14,7,Matt LaFleur,Matt Eberflus,Bill Vinovich,CHI98,Soldier Field
+2024_11_JAX_DET,2024,REG,11,2024-11-17,Sunday,13:00,JAX,6,DET,52,Home,46,0,0,7,7,Doug Pederson,Dan Campbell,Scott Novak,DET00,Ford Field
+2024_11_LV_MIA,2024,REG,11,2024-11-17,Sunday,13:00,LV,19,MIA,34,Home,15,0,0,14,6,Antonio Pierce,Mike McDaniel,John Hussey,MIA00,Hard Rock Stadium
+2024_11_LA_NE,2024,REG,11,2024-11-17,Sunday,13:00,LAR,28,NE,22,Home,-6,0,0,6,7,Sean McVay,Jerod Mayo,Shawn Smith,BOS00,Gillette Stadium
+2024_11_CLE_NO,2024,REG,11,2024-11-17,Sunday,13:00,CLE,14,NO,35,Home,21,0,0,14,7,Kevin Stefanski,Dennis Allen,Alex Kemp,NOR00,Mercedes-Benz Superdome
+2024_11_IND_NYJ,2024,REG,11,2024-11-17,Sunday,13:00,IND,28,NYJ,27,Home,-1,0,0,7,7,Shane Steichen,Robert Saleh,Tra Blake,NYC01,MetLife Stadium
+2024_11_BAL_PIT,2024,REG,11,2024-11-17,Sunday,13:00,BAL,16,PIT,18,Home,2,0,1,10,7,John Harbaugh,Mike Tomlin,Clay Martin,PIT00,Acrisure Stadium
+2024_11_MIN_TEN,2024,REG,11,2024-11-17,Sunday,13:00,MIN,23,TEN,13,Home,-10,0,0,7,7,Kevin O'Connell,Brian Callahan,Clete Blakeman,NAS00,Nissan Stadium
+2024_11_ATL_DEN,2024,REG,11,2024-11-17,Sunday,16:05,ATL,6,DEN,38,Home,32,0,0,7,7,Raheem Morris,Sean Payton,Alan Eck,DEN00,Empower Field at Mile High
+2024_11_SEA_SF,2024,REG,11,2024-11-17,Sunday,16:05,SEA,20,SF,17,Home,-3,0,1,14,7,Mike Macdonald,Kyle Shanahan,Brad Rogers,SFO01,Levi's Stadium
+2024_11_KC_BUF,2024,REG,11,2024-11-17,Sunday,16:25,KC,21,BUF,30,Home,9,0,0,7,7,Andy Reid,Sean McDermott,Land Clark,BUF00,New Era Field
+2024_11_CIN_LAC,2024,REG,11,2024-11-17,Sunday,20:20,CIN,27,LAC,34,Home,7,0,0,10,7,Zac Taylor,Jim Harbaugh,Brad Allen,LAX01,SoFi Stadium
+2024_11_HOU_DAL,2024,REG,11,2024-11-18,Monday,20:15,HOU,34,DAL,10,Home,-24,0,0,8,8,DeMeco Ryans,Mike McCarthy,Craig Wrolstad,DAL00,AT&T Stadium
+2024_12_PIT_CLE,2024,REG,12,2024-11-21,Thursday,20:15,PIT,19,CLE,24,Home,5,0,1,4,4,Mike Tomlin,Kevin Stefanski,Brad Allen,CLE00,FirstEnergy Stadium
+2024_12_KC_CAR,2024,REG,12,2024-11-24,Sunday,13:00,KC,30,CAR,27,Home,-3,0,0,7,14,Andy Reid,Dave Canales,Shawn Smith,CAR00,Bank of America Stadium
+2024_12_MIN_CHI,2024,REG,12,2024-11-24,Sunday,13:00,MIN,30,CHI,27,Home,-3,1,1,7,7,Kevin O'Connell,Matt Eberflus,Clay Martin,CHI98,Soldier Field
+2024_12_TEN_HOU,2024,REG,12,2024-11-24,Sunday,13:00,TEN,32,HOU,27,Home,-5,0,1,7,6,Brian Callahan,DeMeco Ryans,Brad Rogers,HOU00,NRG Stadium
+2024_12_DET_IND,2024,REG,12,2024-11-24,Sunday,13:00,DET,24,IND,6,Home,-18,0,0,7,7,Dan Campbell,Shane Steichen,Shawn Hochuli,IND00,Lucas Oil Stadium
+2024_12_NE_MIA,2024,REG,12,2024-11-24,Sunday,13:00,NE,15,MIA,34,Home,19,0,1,7,7,Jerod Mayo,Mike McDaniel,Alan Eck,MIA00,Hard Rock Stadium
+2024_12_TB_NYG,2024,REG,12,2024-11-24,Sunday,13:00,TB,30,NYG,7,Home,-23,0,0,14,14,Todd Bowles,Brian Daboll,Adrian Hill,NYC01,MetLife Stadium
+2024_12_DAL_WAS,2024,REG,12,2024-11-24,Sunday,13:00,DAL,34,WAS,26,Home,-8,0,1,6,10,Mike McCarthy,Dan Quinn,Tra Blake,WAS00,FedExField
+2024_12_DEN_LV,2024,REG,12,2024-11-24,Sunday,16:05,DEN,29,LV,19,Home,-10,0,1,7,7,Sean Payton,Antonio Pierce,Ron Torbert,VEG00,Allegiant Stadium
+2024_12_SF_GB,2024,REG,12,2024-11-24,Sunday,16:25,SF,10,GB,38,Home,28,0,0,7,7,Kyle Shanahan,Matt LaFleur,Craig Wrolstad,GNB00,Lambeau Field
+2024_12_ARI_SEA,2024,REG,12,2024-11-24,Sunday,16:25,ARI,6,SEA,16,Home,10,0,1,14,7,Jonathan Gannon,Mike Macdonald,Scott Novak,SEA00,Lumen Field
+2024_12_PHI_LA,2024,REG,12,2024-11-24,Sunday,20:20,PHI,37,LAR,20,Home,-17,0,0,10,7,Nick Sirianni,Sean McVay,Land Clark,LAX01,SoFi Stadium
+2024_12_BAL_LAC,2024,REG,12,2024-11-25,Monday,20:15,BAL,30,LAC,23,Home,-7,0,0,8,8,John Harbaugh,Jim Harbaugh,Craig Wrolstad,LAX01,SoFi Stadium
+2024_13_CHI_DET,2024,REG,13,2024-11-28,Thursday,12:30,CHI,20,DET,23,Home,3,0,1,4,4,Matt Eberflus,Dan Campbell,Alan Eck,DET00,Ford Field
+2024_13_NYG_DAL,2024,REG,13,2024-11-28,Thursday,16:30,NYG,20,DAL,27,Home,7,0,1,4,4,Brian Daboll,Mike McCarthy,Brad Rogers,DAL00,AT&T Stadium
+2024_13_MIA_GB,2024,REG,13,2024-11-28,Thursday,20:20,MIA,17,GB,30,Home,13,0,0,4,4,Mike McDaniel,Matt LaFleur,Shawn Smith,GNB00,Lambeau Field
+2024_13_LV_KC,2024,REG,13,2024-11-29,Friday,15:00,LV,17,KC,19,Home,2,0,1,5,5,Antonio Pierce,Andy Reid,Clay Martin,KAN00,GEHA Field at Arrowhead Stadium
+2024_13_LAC_ATL,2024,REG,13,2024-12-01,Sunday,13:00,LAC,17,ATL,13,Home,-4,0,0,6,14,Jim Harbaugh,Raheem Morris,Clete Blakeman,ATL97,Mercedes-Benz Stadium
+2024_13_PIT_CIN,2024,REG,13,2024-12-01,Sunday,13:00,PIT,44,CIN,38,Home,-6,0,1,10,14,Mike Tomlin,Zac Taylor,Shawn Hochuli,CIN00,Paycor Stadium
+2024_13_HOU_JAX,2024,REG,13,2024-12-01,Sunday,13:00,HOU,23,JAX,20,Home,-3,0,1,7,14,DeMeco Ryans,Doug Pederson,Land Clark,JAX00,TIAA Bank Stadium
+2024_13_ARI_MIN,2024,REG,13,2024-12-01,Sunday,13:00,ARI,22,MIN,23,Home,1,0,0,7,7,Jonathan Gannon,Kevin O'Connell,Bill Vinovich,MIN01,U.S. Bank Stadium
+2024_13_IND_NE,2024,REG,13,2024-12-01,Sunday,13:00,IND,25,NE,24,Home,-1,0,0,7,7,Shane Steichen,Jerod Mayo,Adrian Hill,BOS00,Gillette Stadium
+2024_13_SEA_NYJ,2024,REG,13,2024-12-01,Sunday,13:00,SEA,26,NYJ,21,Home,-5,0,0,7,14,Mike Macdonald,Robert Saleh,Carl Cheffers,NYC01,MetLife Stadium
+2024_13_TEN_WAS,2024,REG,13,2024-12-01,Sunday,13:00,TEN,19,WAS,42,Home,23,0,0,7,7,Brian Callahan,Dan Quinn,Ron Torbert,WAS00,FedExField
+2024_13_TB_CAR,2024,REG,13,2024-12-01,Sunday,16:05,TB,26,CAR,23,Home,-3,1,1,7,7,Todd Bowles,Dave Canales,Tra Blake,CAR00,Bank of America Stadium
+2024_13_LA_NO,2024,REG,13,2024-12-01,Sunday,16:05,LAR,21,NO,14,Home,-7,0,0,7,14,Sean McVay,Dennis Allen,Brad Allen,NOR00,Mercedes-Benz Superdome
+2024_13_PHI_BAL,2024,REG,13,2024-12-01,Sunday,16:25,PHI,24,BAL,19,Home,-5,0,0,7,6,Nick Sirianni,John Harbaugh,Craig Wrolstad,BAL00,M&T Bank Stadium
+2024_13_SF_BUF,2024,REG,13,2024-12-01,Sunday,20:20,SF,10,BUF,35,Home,25,0,0,7,14,Kyle Shanahan,Sean McDermott,Alex Kemp,BUF00,New Era Field
+2024_13_CLE_DEN,2024,REG,13,2024-12-02,Monday,20:15,CLE,32,DEN,41,Home,9,0,0,11,8,Kevin Stefanski,Sean Payton,John Hussey,DEN00,Empower Field at Mile High
+2024_14_GB_DET,2024,REG,14,2024-12-05,Thursday,20:15,GB,31,DET,34,Home,3,0,1,7,7,Matt LaFleur,Dan Campbell,John Hussey,DET00,Ford Field
+2024_14_NYJ_MIA,2024,REG,14,2024-12-08,Sunday,13:00,NYJ,26,MIA,32,Home,6,1,1,7,10,Robert Saleh,Mike McDaniel,Shawn Hochuli,MIA00,Hard Rock Stadium
+2024_14_ATL_MIN,2024,REG,14,2024-12-08,Sunday,13:00,ATL,21,MIN,42,Home,21,0,0,7,7,Raheem Morris,Kevin O'Connell,Alex Kemp,MIN01,U.S. Bank Stadium
+2024_14_NO_NYG,2024,REG,14,2024-12-08,Sunday,13:00,NO,14,NYG,11,Home,-3,0,0,7,10,Dennis Allen,Brian Daboll,Clete Blakeman,NYC01,MetLife Stadium
+2024_14_CAR_PHI,2024,REG,14,2024-12-08,Sunday,13:00,CAR,16,PHI,22,Home,6,0,0,7,7,Dave Canales,Nick Sirianni,Carl Cheffers,PHI00,Lincoln Financial Field
+2024_14_CLE_PIT,2024,REG,14,2024-12-08,Sunday,13:00,CLE,14,PIT,27,Home,13,0,1,6,7,Kevin Stefanski,Mike Tomlin,Land Clark,PIT00,Acrisure Stadium
+2024_14_LV_TB,2024,REG,14,2024-12-08,Sunday,13:00,LV,13,TB,28,Home,15,0,0,9,7,Antonio Pierce,Todd Bowles,Alan Eck,TAM00,Raymond James Stadium
+2024_14_JAX_TEN,2024,REG,14,2024-12-08,Sunday,13:00,JAX,10,TEN,6,Home,-4,0,1,7,7,Doug Pederson,Brian Callahan,Tra Blake,NAS00,Nissan Stadium
+2024_14_SEA_ARI,2024,REG,14,2024-12-08,Sunday,16:05,SEA,30,ARI,18,Home,-12,0,1,7,7,Mike Macdonald,Jonathan Gannon,Clay Martin,PHO00,State Farm Stadium
+2024_14_BUF_LA,2024,REG,14,2024-12-08,Sunday,16:25,BUF,42,LAR,44,Home,2,0,0,7,7,Sean McDermott,Sean McVay,Craig Wrolstad,LAX01,SoFi Stadium
+2024_14_CHI_SF,2024,REG,14,2024-12-08,Sunday,16:25,CHI,13,SF,38,Home,25,0,0,10,7,Matt Eberflus,Kyle Shanahan,Ron Torbert,SFO01,Levi's Stadium
+2024_14_LAC_KC,2024,REG,14,2024-12-08,Sunday,20:20,LAC,17,KC,19,Home,2,0,1,7,9,Jim Harbaugh,Andy Reid,Bill Vinovich,KAN00,GEHA Field at Arrowhead Stadium
+2024_14_CIN_DAL,2024,REG,14,2024-12-09,Monday,20:15,CIN,27,DAL,20,Home,-7,0,0,8,11,Zac Taylor,Mike McCarthy,Scott Novak,DAL00,AT&T Stadium
+2024_15_LA_SF,2024,REG,15,2024-12-12,Thursday,20:15,LAR,12,SF,6,Home,-6,0,1,4,4,Sean McVay,Kyle Shanahan,Clay Martin,SFO01,Levi's Stadium
+2024_15_DAL_CAR,2024,REG,15,2024-12-15,Sunday,13:00,DAL,30,CAR,14,Home,-16,0,0,6,7,Mike McCarthy,Dave Canales,Bill Vinovich,CAR00,Bank of America Stadium
+2024_15_KC_CLE,2024,REG,15,2024-12-15,Sunday,13:00,KC,21,CLE,7,Home,-14,0,0,7,7,Andy Reid,Kevin Stefanski,Tra Blake,CLE00,FirstEnergy Stadium
+2024_15_MIA_HOU,2024,REG,15,2024-12-15,Sunday,13:00,MIA,12,HOU,20,Home,8,0,0,7,14,Mike McDaniel,DeMeco Ryans,Alex Kemp,HOU00,NRG Stadium
+2024_15_NYJ_JAX,2024,REG,15,2024-12-15,Sunday,13:00,NYJ,32,JAX,25,Home,-7,0,0,7,7,Robert Saleh,Doug Pederson,Brad Rogers,JAX00,TIAA Bank Stadium
+2024_15_WAS_NO,2024,REG,15,2024-12-15,Sunday,13:00,WAS,20,NO,19,Home,-1,0,0,14,7,Dan Quinn,Dennis Allen,Shawn Hochuli,NOR00,Mercedes-Benz Superdome
+2024_15_BAL_NYG,2024,REG,15,2024-12-15,Sunday,13:00,BAL,35,NYG,14,Home,-21,0,0,14,7,John Harbaugh,Brian Daboll,Brad Allen,NYC01,MetLife Stadium
+2024_15_CIN_TEN,2024,REG,15,2024-12-15,Sunday,13:00,CIN,37,TEN,27,Home,-10,0,0,6,7,Zac Taylor,Brian Callahan,Craig Wrolstad,NAS00,Nissan Stadium
+2024_15_NE_ARI,2024,REG,15,2024-12-15,Sunday,16:25,NE,17,ARI,30,Home,13,0,0,14,7,Jerod Mayo,Jonathan Gannon,Ron Torbert,PHO00,State Farm Stadium
+2024_15_IND_DEN,2024,REG,15,2024-12-15,Sunday,16:25,IND,13,DEN,31,Home,18,0,0,14,13,Shane Steichen,Sean Payton,Carl Cheffers,DEN00,Empower Field at Mile High
+2024_15_BUF_DET,2024,REG,15,2024-12-15,Sunday,16:25,BUF,48,DET,42,Home,-6,0,0,7,10,Sean McDermott,Dan Campbell,Adrian Hill,DET00,Ford Field
+2024_15_TB_LAC,2024,REG,15,2024-12-15,Sunday,16:25,TB,40,LAC,17,Home,-23,0,0,7,7,Todd Bowles,Jim Harbaugh,Scott Novak,LAX01,SoFi Stadium
+2024_15_PIT_PHI,2024,REG,15,2024-12-15,Sunday,16:25,PIT,13,PHI,27,Home,14,0,0,7,7,Mike Tomlin,Nick Sirianni,Alan Eck,PHI00,Lincoln Financial Field
+2024_15_GB_SEA,2024,REG,15,2024-12-15,Sunday,20:20,GB,30,SEA,13,Home,-17,0,0,10,7,Matt LaFleur,Mike Macdonald,Clete Blakeman,SEA00,Lumen Field
+2024_15_CHI_MIN,2024,REG,15,2024-12-16,Monday,20:00,CHI,12,MIN,30,Home,18,0,1,8,8,Matt Eberflus,Kevin O'Connell,John Hussey,MIN01,U.S. Bank Stadium
+2024_15_ATL_LV,2024,REG,15,2024-12-16,Monday,20:30,ATL,15,LV,9,Home,-6,0,0,8,8,Raheem Morris,Antonio Pierce,Shawn Smith,VEG00,Allegiant Stadium
+2024_16_DEN_LAC,2024,REG,16,2024-12-19,Thursday,20:15,DEN,27,LAC,34,Home,7,0,1,4,4,Sean Payton,Jim Harbaugh,Clay Martin,LAX01,SoFi Stadium
+2024_16_HOU_KC,2024,REG,16,2024-12-21,Saturday,13:00,HOU,19,KC,27,Home,8,0,0,6,6,DeMeco Ryans,Andy Reid,Carl Cheffers,KAN00,GEHA Field at Arrowhead Stadium
+2024_16_PIT_BAL,2024,REG,16,2024-12-21,Saturday,16:30,PIT,17,BAL,34,Home,17,0,1,6,6,Mike Tomlin,John Harbaugh,Bill Vinovich,BAL00,M&T Bank Stadium
+2024_16_NYG_ATL,2024,REG,16,2024-12-22,Sunday,13:00,NYG,7,ATL,34,Home,27,0,0,7,6,Brian Daboll,Raheem Morris,Tra Blake,ATL97,Mercedes-Benz Stadium
+2024_16_ARI_CAR,2024,REG,16,2024-12-22,Sunday,13:00,ARI,30,CAR,36,Home,6,1,0,7,7,Jonathan Gannon,Dave Canales,Adrian Hill,CAR00,Bank of America Stadium
+2024_16_DET_CHI,2024,REG,16,2024-12-22,Sunday,13:00,DET,34,CHI,17,Home,-17,0,1,7,6,Dan Campbell,Matt Eberflus,Clete Blakeman,CHI98,Soldier Field
+2024_16_CLE_CIN,2024,REG,16,2024-12-22,Sunday,13:00,CLE,6,CIN,24,Home,18,0,1,7,7,Kevin Stefanski,Zac Taylor,Brad Rogers,CIN00,Paycor Stadium
+2024_16_TEN_IND,2024,REG,16,2024-12-22,Sunday,13:00,TEN,30,IND,38,Home,8,0,1,7,7,Brian Callahan,Shane Steichen,John Hussey,IND00,Lucas Oil Stadium
+2024_16_LA_NYJ,2024,REG,16,2024-12-22,Sunday,13:00,LAR,19,NYJ,9,Home,-10,0,0,10,7,Sean McVay,Robert Saleh,Ron Torbert,NYC01,MetLife Stadium
+2024_16_PHI_WAS,2024,REG,16,2024-12-22,Sunday,13:00,PHI,33,WAS,36,Home,3,0,1,7,7,Nick Sirianni,Dan Quinn,Shawn Smith,WAS00,FedExField
+2024_16_MIN_SEA,2024,REG,16,2024-12-22,Sunday,16:05,MIN,27,SEA,24,Home,-3,0,0,6,7,Kevin O'Connell,Mike Macdonald,Craig Wrolstad,SEA00,Lumen Field
+2024_16_NE_BUF,2024,REG,16,2024-12-22,Sunday,16:25,NE,21,BUF,24,Home,3,0,1,7,7,Jerod Mayo,Sean McDermott,Brad Allen,BUF00,New Era Field
+2024_16_JAX_LV,2024,REG,16,2024-12-22,Sunday,16:25,JAX,14,LV,19,Home,5,0,0,7,6,Doug Pederson,Antonio Pierce,Shawn Hochuli,VEG00,Allegiant Stadium
+2024_16_SF_MIA,2024,REG,16,2024-12-22,Sunday,16:25,SF,17,MIA,29,Home,12,0,0,10,7,Kyle Shanahan,Mike McDaniel,Scott Novak,MIA00,Hard Rock Stadium
+2024_16_TB_DAL,2024,REG,16,2024-12-22,Sunday,20:20,TB,24,DAL,26,Home,2,0,0,7,7,Todd Bowles,Mike McCarthy,Land Clark,DAL00,AT&T Stadium
+2024_16_NO_GB,2024,REG,16,2024-12-23,Monday,20:15,NO,0,GB,34,Home,34,0,0,8,8,Dennis Allen,Matt LaFleur,Alex Kemp,GNB00,Lambeau Field
+2024_17_KC_PIT,2024,REG,17,2024-12-25,Wednesday,13:00,KC,29,PIT,10,Home,-19,0,0,4,4,Andy Reid,Mike Tomlin,Craig Wrolstad,PIT00,Acrisure Stadium
+2024_17_BAL_HOU,2024,REG,17,2024-12-25,Wednesday,16:30,BAL,31,HOU,2,Home,-29,0,0,4,4,John Harbaugh,DeMeco Ryans,Alan Eck,HOU00,NRG Stadium
+2024_17_SEA_CHI,2024,REG,17,2024-12-26,Thursday,20:15,SEA,6,CHI,3,Home,-3,0,0,4,4,Mike Macdonald,Matt Eberflus,Scott Novak,CHI98,Soldier Field
+2024_17_LAC_NE,2024,REG,17,2024-12-28,Saturday,13:00,LAC,40,NE,7,Home,-33,0,0,9,6,Jim Harbaugh,Jerod Mayo,John Hussey,BOS00,Gillette Stadium
+2024_17_DEN_CIN,2024,REG,17,2024-12-28,Saturday,16:30,DEN,24,CIN,30,Home,6,1,0,9,6,Sean Payton,Zac Taylor,Adrian Hill,CIN00,Paycor Stadium
+2024_17_ARI_LA,2024,REG,17,2024-12-28,Saturday,20:15,ARI,9,LAR,13,Home,4,0,1,6,6,Jonathan Gannon,Sean McVay,Brad Rogers,LAX01,SoFi Stadium
+2024_17_NYJ_BUF,2024,REG,17,2024-12-29,Sunday,13:00,NYJ,14,BUF,40,Home,26,0,1,7,7,Robert Saleh,Sean McDermott,Clete Blakeman,BUF00,New Era Field
+2024_17_TEN_JAX,2024,REG,17,2024-12-29,Sunday,13:00,TEN,13,JAX,20,Home,7,0,1,7,7,Brian Callahan,Doug Pederson,Shawn Smith,JAX00,TIAA Bank Stadium
+2024_17_LV_NO,2024,REG,17,2024-12-29,Sunday,13:00,LV,25,NO,10,Home,-15,0,0,7,6,Antonio Pierce,Dennis Allen,Land Clark,NOR00,Mercedes-Benz Superdome
+2024_17_IND_NYG,2024,REG,17,2024-12-29,Sunday,13:00,IND,33,NYG,45,Home,12,0,0,7,7,Shane Steichen,Brian Daboll,Bill Vinovich,NYC01,MetLife Stadium
+2024_17_DAL_PHI,2024,REG,17,2024-12-29,Sunday,13:00,DAL,7,PHI,41,Home,34,0,1,7,7,Mike McCarthy,Nick Sirianni,Brad Allen,PHI00,Lincoln Financial Field
+2024_17_CAR_TB,2024,REG,17,2024-12-29,Sunday,13:00,CAR,14,TB,48,Home,34,0,1,7,7,Dave Canales,Todd Bowles,Clay Martin,TAM00,Raymond James Stadium
+2024_17_MIA_CLE,2024,REG,17,2024-12-29,Sunday,16:05,MIA,20,CLE,3,Home,-17,0,0,7,7,Mike McDaniel,Kevin Stefanski,Ron Torbert,CLE00,FirstEnergy Stadium
+2024_17_GB_MIN,2024,REG,17,2024-12-29,Sunday,16:25,GB,25,MIN,27,Home,2,0,1,6,7,Matt LaFleur,Kevin O'Connell,Carl Cheffers,MIN01,U.S. Bank Stadium
+2024_17_ATL_WAS,2024,REG,17,2024-12-29,Sunday,20:20,ATL,24,WAS,30,Home,6,1,0,7,7,Raheem Morris,Dan Quinn,Alex Kemp,WAS00,FedExField
+2024_17_DET_SF,2024,REG,17,2024-12-30,Monday,20:15,DET,40,SF,34,Home,-6,0,0,8,8,Dan Campbell,Kyle Shanahan,Shawn Hochuli,SFO01,Levi's Stadium
+2024_18_CLE_BAL,2024,REG,18,2025-01-04,Saturday,16:30,CLE,10,BAL,35,Home,25,0,1,6,10,Kevin Stefanski,John Harbaugh,Scott Novak,BAL00,M&T Bank Stadium
+2024_18_CIN_PIT,2024,REG,18,2025-01-04,Saturday,20:00,CIN,19,PIT,17,Home,-2,0,1,7,10,Zac Taylor,Mike Tomlin,John Hussey,PIT00,Acrisure Stadium
+2024_18_CAR_ATL,2024,REG,18,2025-01-05,Sunday,13:00,CAR,44,ATL,38,Home,-6,1,1,7,7,Dave Canales,Raheem Morris,Land Clark,ATL97,Mercedes-Benz Stadium
+2024_18_WAS_DAL,2024,REG,18,2025-01-05,Sunday,13:00,WAS,23,DAL,19,Home,-4,0,1,7,7,Dan Quinn,Mike McCarthy,Clete Blakeman,DAL00,AT&T Stadium
+2024_18_CHI_GB,2024,REG,18,2025-01-05,Sunday,13:00,CHI,24,GB,22,Home,-2,0,1,10,7,Matt Eberflus,Matt LaFleur,Clay Martin,GNB00,Lambeau Field
+2024_18_JAX_IND,2024,REG,18,2025-01-05,Sunday,13:00,JAX,23,IND,26,Home,3,1,1,7,7,Doug Pederson,Shane Steichen,Alex Kemp,IND00,Lucas Oil Stadium
+2024_18_BUF_NE,2024,REG,18,2025-01-05,Sunday,13:00,BUF,16,NE,23,Home,7,0,1,7,8,Sean McDermott,Jerod Mayo,Alan Eck,BOS00,Gillette Stadium
+2024_18_NYG_PHI,2024,REG,18,2025-01-05,Sunday,13:00,NYG,13,PHI,20,Home,7,0,1,7,7,Brian Daboll,Nick Sirianni,Ron Torbert,PHI00,Lincoln Financial Field
+2024_18_NO_TB,2024,REG,18,2025-01-05,Sunday,13:00,NO,19,TB,27,Home,8,0,1,7,7,Dennis Allen,Todd Bowles,Adrian Hill,TAM00,Raymond James Stadium
+2024_18_HOU_TEN,2024,REG,18,2025-01-05,Sunday,13:00,HOU,23,TEN,14,Home,-9,0,1,11,7,DeMeco Ryans,Brian Callahan,Brad Allen,NAS00,Nissan Stadium
+2024_18_SF_ARI,2024,REG,18,2025-01-05,Sunday,16:25,SF,24,ARI,47,Home,23,0,1,6,8,Kyle Shanahan,Jonathan Gannon,Shawn Smith,PHO00,State Farm Stadium
+2024_18_KC_DEN,2024,REG,18,2025-01-05,Sunday,16:25,KC,0,DEN,38,Home,38,0,1,11,8,Andy Reid,Sean Payton,Shawn Hochuli,DEN00,Empower Field at Mile High
+2024_18_SEA_LA,2024,REG,18,2025-01-05,Sunday,16:25,SEA,30,LAR,25,Home,-5,0,1,10,8,Mike Macdonald,Sean McVay,Bill Vinovich,LAX01,SoFi Stadium
+2024_18_LAC_LV,2024,REG,18,2025-01-05,Sunday,16:25,LAC,34,LV,20,Home,-14,0,1,8,7,Jim Harbaugh,Antonio Pierce,Carl Cheffers,VEG00,Allegiant Stadium
+2024_18_MIA_NYJ,2024,REG,18,2025-01-05,Sunday,16:25,MIA,20,NYJ,32,Home,12,0,1,7,7,Mike McDaniel,Robert Saleh,Tra Blake,NYC01,MetLife Stadium
+2024_18_MIN_DET,2024,REG,18,2025-01-05,Sunday,20:20,MIN,9,DET,31,Home,22,0,1,7,6,Kevin O'Connell,Dan Campbell,Brad Rogers,DET00,Ford Field

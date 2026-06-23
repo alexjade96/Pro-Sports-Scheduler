@@ -1,0 +1,430 @@
+{% extends "base.html" %}
+{% block title %}Deep Analysis{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-0 fw-bold">Deep Analysis</h1>
+    <p class="text-muted mb-0 small">
+      {{ hist_count }} historical seasons (2015&ndash;2025) &nbsp;&middot;&nbsp;
+      Comparing <strong>{{ best_label }}</strong> against historical benchmarks
+    </p>
+  </div>
+  <div class="ms-auto d-flex gap-2">
+    <button id="btnExportAll" class="btn btn-sm btn-primary">&#8987; Generate Export PNGs</button>
+    <a href="/accuracy" class="btn btn-sm btn-outline-secondary">Accuracy &rarr;</a>
+  </div>
+</div>
+<div id="exportStatus" class="alert alert-info py-2 small d-none mb-3"></div>
+
+{% if not has_gen %}
+<div class="alert alert-warning">No generated schedule found. Run a solver first (<code>python -m solvers.cp_sat.main</code>).</div>
+{% else %}
+
+<!-- ══ Section 1: Multi-Season Historical Trends ════════════════════════════ -->
+<h5 class="fw-semibold mb-3">10-Season Historical Trends
+  <span class="text-muted fw-normal small">&#9651; = generated schedule</span>
+</h5>
+<div class="row g-3 mb-4">
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+        Mean Rest Days / Team
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2 dl-chart-btn" data-canvas="trendRest" data-filename="epl_trend_rest_days.png">&#8595; PNG</button>
+      </div>
+      <div class="card-body"><canvas id="trendRest" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+        Same-City Home Clashes (SC7, 4-day window)
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2 dl-chart-btn" data-canvas="trendCity" data-filename="epl_trend_city_clashes.png">&#8595; PNG</button>
+      </div>
+      <div class="card-body"><canvas id="trendCity" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+        Boxing Day Coverage (teams playing)
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2 dl-chart-btn" data-canvas="trendBD" data-filename="epl_trend_boxing_day.png">&#8595; PNG</button>
+      </div>
+      <div class="card-body"><canvas id="trendBD" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+        SC13 Five-Match H/A Pattern Violations
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2 dl-chart-btn" data-canvas="trendSC13" data-filename="epl_trend_sc13.png">&#8595; PNG</button>
+      </div>
+      <div class="card-body"><canvas id="trendSC13" height="200"></canvas></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ Section 2: Quality Radar ═════════════════════════════════════════════ -->
+<h5 class="fw-semibold mb-3">Schedule Quality Radar
+  <span class="text-muted fw-normal small">(100 = perfect on each dimension)</span>
+</h5>
+<div class="row g-3 mb-4">
+
+  <div class="col-lg-5">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
+        Quality Radar
+        <button class="btn btn-xs btn-outline-secondary py-0 px-2 dl-chart-btn" data-canvas="radarChart" data-filename="epl_quality_radar.png">&#8595; PNG</button>
+      </div>
+      <div class="card-body p-3">
+        <canvas id="radarChart" height="300"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card shadow-sm h-100">
+      <div class="card-header fw-semibold">Radar Dimension Definitions</div>
+      <div class="card-body p-0">
+        <table class="table table-sm table-hover mb-0">
+          <thead class="table-dark">
+            <tr><th>Dimension</th><th>Formula (&rarr; 100 = best)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Rest Quality</strong></td><td>min(mean_rest_days &times; 5, 100)</td></tr>
+            <tr><td><strong>City Separation</strong></td><td>100 &minus; SC7_clashes &times; 1.2</td></tr>
+            <tr><td><strong>Run Control</strong></td><td>100 &minus; teams_over_5_consecutive &times; 5</td></tr>
+            <tr><td><strong>Festive Coverage</strong></td><td>(Boxing Day + NYD teams) / 40 &times; 100</td></tr>
+            <tr><td><strong>SC13 Compliance</strong></td><td>100 &minus; five_match_violations &times; 0.3</td></tr>
+            <tr><td><strong>Derby Spacing</strong></td><td>100 &minus; derbies_under_56d &times; 12</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ Section 3: Fixture Density Heatmap ═══════════════════════════════════ -->
+<h5 class="fw-semibold mb-3">Fixture Density Heatmap
+  <span class="text-muted fw-normal small">(day &times; kickoff time; blue intensity = fixture count)</span>
+</h5>
+<div class="row g-3 mb-4">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header fw-semibold">Generated Schedule ({{ best_label }})</div>
+      <div class="card-body p-2" id="hmGenWrap"><p class="text-muted small p-2">Loading&hellip;</p></div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header fw-semibold">2024-25 Historical</div>
+      <div class="card-body p-2" id="hmHistWrap"><p class="text-muted small p-2">Loading&hellip;</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Section 4: Per-Team Compliance Scorecard ══════════════════════════════ -->
+<h5 class="fw-semibold mb-3">Per-Team Compliance Scorecard
+  <span class="text-muted fw-normal small">({{ best_label }} &mdash; green=OK, yellow=borderline, red=violation)</span>
+</h5>
+<div class="card shadow-sm mb-4">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover mb-0" id="teamTbl">
+        <thead class="table-dark">
+          <tr>
+            <th>Team</th>
+            <th class="text-end" title="Hard constraint: &ge;3">Min Rest (days)</th>
+            <th class="text-end" title="Soft SC1/SC2: &le;5 consecutive">Max Consec. Home</th>
+            <th class="text-end" title="Soft SC1/SC2: &le;5 consecutive">Max Consec. Away</th>
+            <th class="text-end" title="Soft SC5: &asymp;50% target">H1 Home %</th>
+            <th class="text-end" title="Soft SC5: &asymp;50% target">H2 Home %</th>
+          </tr>
+        </thead>
+        <tbody id="teamBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Section 5: Exported Analytics Samples ════════════════════════════════ -->
+<h5 class="fw-semibold mb-3">Exported Analytics Charts
+  <span class="text-muted fw-normal small">server-generated matplotlib PNGs</span>
+</h5>
+<div class="alert alert-secondary py-2 small mb-3">
+  Click <strong>Generate Export PNGs</strong> (top right) to produce high-resolution matplotlib exports.
+  Committed sample images are shown below; newly generated ones appear after export.
+</div>
+<div class="row g-3 mb-4" id="sampleGallery">
+  <div class="col-12 text-muted small" id="noSamples">No exported PNGs yet &mdash; click &ldquo;Generate Export PNGs&rdquo; to create them.</div>
+</div>
+
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if has_gen %}
+<script>
+// ── Server data ───────────────────────────────────────────────────────────────
+const trend     = {{ trend_json | safe }};
+const genTrend  = {{ gen_trend_json | safe }};
+const radarData = {{ radar_json | safe }};
+const hmGen     = {{ heatmap_gen_json | safe }};
+const hmHist    = {{ heatmap_hist_json | safe }};
+const scorecard = {{ team_scorecard_json | safe }};
+let   sampleFiles = {{ sample_files_json | safe }};
+
+// ── Colour palette ────────────────────────────────────────────────────────────
+const COLORS = [
+  { bg: 'rgba(13,110,253,0.85)',  bd: 'rgba(13,110,253,1)'  },
+  { bg: 'rgba(25,135,84,0.85)',   bd: 'rgba(25,135,84,1)'   },
+  { bg: 'rgba(255,193,7,0.85)',   bd: 'rgba(220,160,0,1)'   },
+  { bg: 'rgba(108,117,125,0.5)',  bd: 'rgba(108,117,125,1)' },
+];
+
+// ── Chart registry (for PNG download) ────────────────────────────────────────
+const _charts = {};
+
+// ── Trend chart factory ───────────────────────────────────────────────────────
+function makeTrendChart(canvasId, metricKey, yLabel, yMin) {
+  const allSeasons = [...trend.seasons, '2025/26'];
+  const histData   = [...trend[metricKey], null];
+
+  const datasets = [{
+    label: 'Historical',
+    data: histData,
+    borderColor: 'rgba(108,117,125,0.8)',
+    backgroundColor: 'rgba(108,117,125,0.08)',
+    borderWidth: 2,
+    borderDash: [5, 4],
+    pointRadius: 3,
+    fill: false,
+    tension: 0.3,
+  }];
+
+  genTrend.forEach((g, i) => {
+    const pts = Array(trend.seasons.length).fill(null).concat(g[metricKey] ?? null);
+    datasets.push({
+      label: g.label,
+      data: pts,
+      borderColor: COLORS[i].bd,
+      backgroundColor: COLORS[i].bg,
+      borderWidth: 0,
+      pointRadius: 9,
+      pointStyle: 'triangle',
+      showLine: false,
+    });
+  });
+
+  _charts[canvasId] = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { labels: allSeasons, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, maxRotation: 30 } },
+        y: {
+          beginAtZero: false,
+          ...(yMin !== undefined ? { min: yMin } : {}),
+          title: { display: true, text: yLabel, font: { size: 11 } },
+        },
+      },
+    },
+  });
+}
+
+makeTrendChart('trendRest',  'rest_mean',            'Days',       10);
+makeTrendChart('trendCity',  'city_weekend_clashes', 'Clashes',    0);
+makeTrendChart('trendBD',    'boxing_coverage',      'Teams',      0);
+makeTrendChart('trendSC13',  'sc13_violations',      'Violations', 0);
+
+// ── Radar chart ───────────────────────────────────────────────────────────────
+(function() {
+  const RADAR_LABELS = [
+    'Rest Quality', 'City Separation', 'Run Control',
+    'Festive Coverage', 'SC13 Compliance', 'Derby Spacing'
+  ];
+  const radarFills   = ['rgba(13,110,253,0.25)', 'rgba(25,135,84,0.25)', 'rgba(255,193,7,0.25)', 'rgba(108,117,125,0.15)'];
+  const radarBorders = ['rgba(13,110,253,1)',     'rgba(25,135,84,1)',    'rgba(255,193,7,1)',    'rgba(108,117,125,1)'];
+
+  const datasets = radarData.map(d => ({
+    label:           d.label,
+    data:            d.data,
+    backgroundColor: radarFills[d.ci ?? 0],
+    borderColor:     radarBorders[d.ci ?? 0],
+    borderWidth: 2,
+    pointRadius: 3,
+  }));
+
+  _charts['radarChart'] = new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: { labels: RADAR_LABELS, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+      scales: {
+        r: {
+          beginAtZero: true, max: 100,
+          ticks: { stepSize: 20, font: { size: 10 } },
+          pointLabels: { font: { size: 11 } },
+        },
+      },
+    },
+  });
+})();
+
+// ── Chart PNG download buttons ────────────────────────────────────────────────
+document.querySelectorAll('.dl-chart-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const chart = _charts[btn.dataset.canvas];
+    if (!chart) return;
+    const a = document.createElement('a');
+    a.download = btn.dataset.filename;
+    a.href = chart.toBase64Image('image/png', 1);
+    a.click();
+  });
+});
+
+// ── Heatmap renderer ──────────────────────────────────────────────────────────
+function renderHeatmap(containerId, data) {
+  if (!data || !data.days || !data.kickoffs) {
+    document.getElementById(containerId).innerHTML = '<p class="text-muted small p-2">No data available.</p>';
+    return;
+  }
+  const { days, kickoffs, matrix } = data;
+  let maxVal = 1;
+  matrix.forEach(row => row.forEach(v => { if (v > maxVal) maxVal = v; }));
+
+  let html = '<table class="table table-bordered table-sm heatmap-tbl mb-0 text-center">';
+  html += '<thead class="table-dark"><tr><th class="text-start" style="min-width:64px">Kickoff</th>';
+  days.forEach(d => { html += `<th>${d}</th>`; });
+  html += '</tr></thead><tbody>';
+  kickoffs.forEach((ko, ki) => {
+    html += `<tr><td class="fw-semibold text-start small">${ko}</td>`;
+    days.forEach((_, di) => {
+      const v     = matrix[di][ki];
+      const alpha = v / maxVal;
+      const bg    = `rgba(13,110,253,${(alpha * 0.82).toFixed(2)})`;
+      const col   = alpha > 0.48 ? '#fff' : '#212529';
+      html += `<td style="background:${bg};color:${col}">${v || ''}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById(containerId).innerHTML = html;
+}
+
+renderHeatmap('hmGenWrap',  hmGen);
+renderHeatmap('hmHistWrap', hmHist);
+
+// ── Per-team scorecard ────────────────────────────────────────────────────────
+(function() {
+  const tbody = document.getElementById('teamBody');
+  scorecard.forEach(t => {
+    const restOk  = t.min_rest >= 3;
+    const homeOk  = t.max_consec_home <= 5;
+    const awayOk  = t.max_consec_away <= 5;
+    const h1Ok    = Math.abs(t.h1_home_pct - 50) <= 10;
+    const h2Ok    = Math.abs(t.h2_home_pct - 50) <= 10;
+
+    const cell = (val, ok, warn) => {
+      const cls = ok ? 'text-success fw-semibold' : (warn ? 'text-warning fw-semibold' : 'text-danger fw-semibold');
+      return `<td class="text-end ${cls}">${val}</td>`;
+    };
+
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td><strong>${t.id}</strong> <span class="text-muted small">${t.name}</span></td>
+        ${cell(t.min_rest,        restOk, t.min_rest === 3)}
+        ${cell(t.max_consec_home, homeOk, t.max_consec_home === 5)}
+        ${cell(t.max_consec_away, awayOk, t.max_consec_away === 5)}
+        ${cell(t.h1_home_pct + '%', h1Ok, Math.abs(t.h1_home_pct - 50) <= 15)}
+        ${cell(t.h2_home_pct + '%', h2Ok, Math.abs(t.h2_home_pct - 50) <= 15)}
+      </tr>
+    `);
+  });
+
+  $('#teamTbl').DataTable({
+    paging: false, searching: true, ordering: true, info: false,
+    language: { search: 'Filter teams:' },
+    order: [[1, 'asc']],
+  });
+})();
+
+// ── Samples gallery ───────────────────────────────────────────────────────────
+const LABEL_MAP = {
+  'analytics_trend_rest.png':    'Trend: Rest Days',
+  'analytics_trend_clashes.png': 'Trend: City Clashes',
+  'analytics_trend_boxing.png':  'Trend: Boxing Day',
+  'analytics_trend_sc13.png':    'Trend: SC13 Violations',
+  'analytics_radar.png':         'Quality Radar',
+  'analytics_heatmap.png':       'Fixture Density Heatmap',
+  'analytics_scorecard.png':     'Team Scorecard',
+  'analytics_overview.png':      'Overview (4-chart)',
+};
+
+function renderSamples(files) {
+  const gallery = document.getElementById('sampleGallery');
+  const noMsg   = document.getElementById('noSamples');
+  if (!files.length) { if (noMsg) noMsg.classList.remove('d-none'); return; }
+  if (noMsg) noMsg.classList.add('d-none');
+  gallery.innerHTML = files.map(f => `
+    <div class="col-lg-4 col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header fw-semibold small d-flex justify-content-between align-items-center">
+          ${LABEL_MAP[f] || f}
+          <a href="/analytics-img/${f}" download="${f}" class="btn btn-xs btn-outline-secondary py-0 px-2">&#8595;</a>
+        </div>
+        <div class="card-body p-1">
+          <a href="/analytics-img/${f}" target="_blank">
+            <img src="/analytics-img/${f}" class="img-fluid rounded" loading="lazy"
+                 style="max-height:240px;object-fit:contain;width:100%">
+          </a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderSamples(sampleFiles);
+
+// ── Server-side export button ─────────────────────────────────────────────────
+document.getElementById('btnExportAll').addEventListener('click', async () => {
+  const btn    = document.getElementById('btnExportAll');
+  const status = document.getElementById('exportStatus');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating…';
+  status.classList.remove('d-none', 'alert-success', 'alert-danger');
+  status.classList.add('alert-info');
+  status.textContent = 'Running matplotlib export (this may take 10–20 seconds)…';
+
+  try {
+    const resp = await fetch('/api/export-analytics', { method: 'POST' });
+    const data = await resp.json();
+    if (data.ok) {
+      sampleFiles = data.files;
+      renderSamples(sampleFiles);
+      status.classList.replace('alert-info', 'alert-success');
+      status.textContent = `✓ Generated ${data.files.length} PNGs. Scroll down to view.`;
+    } else {
+      status.classList.replace('alert-info', 'alert-danger');
+      status.textContent = 'Export failed: ' + data.error;
+    }
+  } catch (e) {
+    status.classList.replace('alert-info', 'alert-danger');
+    status.textContent = 'Network error: ' + e.message;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⇩ Generate Export PNGs';
+});
+</script>
+{% endif %}
+{% endblock %}
