@@ -1,17 +1,19 @@
 """
-Option B entry point — ILP / PuLP solver.
-Usage: python -m option_b_ilp.main
+ILP / PuLP solver entry point (EPL).
+Usage: python -m solvers.ilp.main
 """
 import csv
+from datetime import date
 from pathlib import Path
 
 from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
 from generators.leagues.epl.generate_epl import generate_fixtures
 from core.validator import validate, print_report
 from solvers.ilp.solver import solve
+from solvers.leagues.epl.ilp_constraint_set import EPLILPConstraintSet
 
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_csv(schedule, path: Path) -> None:
@@ -31,28 +33,29 @@ def export_csv(schedule, path: Path) -> None:
 
 
 def main():
-    from datetime import date as _date
-
     teams       = load_teams()
     calendar    = load_calendar()
     constraints = load_constraints()
     slots       = generate_slots(calendar)
     fixtures    = generate_fixtures(teams)
-    season_start = _date.fromisoformat(calendar["start_date"])
-    season_end   = _date.fromisoformat(calendar["end_date"])
+
+    season_start = date.fromisoformat(calendar["start_date"])
+    season_end   = date.fromisoformat(calendar["end_date"])
 
     print(f"Teams: {len(teams)} | Fixtures: {len(fixtures)} | Slots available: {len(slots)}")
+
+    constraint_set = EPLILPConstraintSet(
+        constraints, season_start, season_end,
+        final_day=calendar.get("final_day"),
+    )
 
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
-        constraint_config=constraints,
+        constraint_set=constraint_set,
         season=calendar["season"],
         time_limit_seconds=1800,
-        season_start=season_start,
-        season_end=season_end,
-        final_day=calendar.get("final_day"),
     )
 
     if schedule:

@@ -47,20 +47,19 @@ def export_csv(schedule, path: Path) -> None:
 def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
                season_start=None, season_end=None, final_day=None):
     from solvers.cp_sat.solver import solve
+    from solvers.leagues.epl.cp_sat_constraint_set import EPLCpSatConstraintSet
     print(f"\n{'='*60}")
     print(f"  SOLVER A: CP-SAT (OR-Tools)  [limit: {time_limit}s]")
     print(f"{'='*60}")
     t0 = time.perf_counter()
+    constraint_set = EPLCpSatConstraintSet(constraints, season_start, season_end, final_day)
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
-        constraint_config=constraints,
+        constraint_set=constraint_set,
         season=season,
         time_limit_seconds=time_limit,
-        season_start=season_start,
-        season_end=season_end,
-        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -73,20 +72,19 @@ def run_cp_sat(fixtures, slots, teams, constraints, season, time_limit,
 def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
             season_start=None, season_end=None, final_day=None):
     from solvers.ilp.solver import solve
+    from solvers.leagues.epl.ilp_constraint_set import EPLILPConstraintSet
     print(f"\n{'='*60}")
     print(f"  SOLVER B: ILP / PuLP+CBC      [limit: {time_limit}s]")
     print(f"{'='*60}")
     t0 = time.perf_counter()
+    constraint_set = EPLILPConstraintSet(constraints, season_start, season_end, final_day)
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
-        constraint_config=constraints,
+        constraint_set=constraint_set,
         season=season,
         time_limit_seconds=time_limit,
-        season_start=season_start,
-        season_end=season_end,
-        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     if schedule:
@@ -96,23 +94,26 @@ def run_ilp(fixtures, slots, teams, constraints, season, time_limit,
     return None, elapsed
 
 
-def run_metaheuristic(fixtures, slots, teams, season, time_limit, final_day=None):
+def run_metaheuristic(fixtures, slots, teams, constraints, season, time_limit,
+                      season_start=None, season_end=None, final_day=None):
     from solvers.metaheuristic.solver import solve
+    from solvers.leagues.epl.mh_constraint_set import EPLMHConstraintSet
     print(f"\n{'='*60}")
     print(f"  SOLVER C: Metaheuristic (SA)  [limit: {time_limit}s]")
     print(f"{'='*60}")
     t0 = time.perf_counter()
+    constraint_set = EPLMHConstraintSet(constraints, season_start, season_end, final_day)
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
+        constraint_set=constraint_set,
         season=season,
         initial_temp=5000.0,
         cooling_rate=0.9997,
         max_iterations=5_000_000,
         tabu_size=200,
         time_limit_seconds=time_limit,
-        final_day=final_day,
     )
     elapsed = round(time.perf_counter() - t0, 2)
     print(f"  Done in {elapsed}s — {len(schedule.fixtures)} fixtures scheduled")
@@ -162,7 +163,8 @@ def main():
             export_csv(sched, OUTPUT_DIR / "schedule_ilp.csv")
 
     if not args.skip_mh:
-        sched, elapsed = run_metaheuristic(fixtures, slots, teams, season, tl,
+        sched, elapsed = run_metaheuristic(fixtures, slots, teams, constraints, season, tl,
+                                           season_start=season_start, season_end=season_end,
                                            final_day=calendar.get("final_day"))
         results["Metaheuristic"] = (sched, elapsed)
         if sched:

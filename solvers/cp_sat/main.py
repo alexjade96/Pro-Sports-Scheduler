@@ -1,6 +1,6 @@
 """
-Option A entry point — CP-SAT solver.
-Usage: python -m option_a_cp_sat.main
+CP-SAT solver entry point (EPL).
+Usage: python -m solvers.cp_sat.main
 """
 import csv
 from datetime import date
@@ -10,6 +10,7 @@ from core.data_loader import load_teams, load_calendar, load_constraints, genera
 from generators.leagues.epl.generate_epl import generate_fixtures
 from core.validator import validate, print_report
 from solvers.cp_sat.solver import solve
+from solvers.leagues.epl.cp_sat_constraint_set import EPLCpSatConstraintSet
 
 
 OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
@@ -38,18 +39,23 @@ def main():
     slots       = generate_slots(calendar)
     fixtures    = generate_fixtures(teams)
 
+    season_start = date.fromisoformat(calendar["start_date"])
+    season_end   = date.fromisoformat(calendar["end_date"])
+
     print(f"Teams: {len(teams)} | Fixtures: {len(fixtures)} | Slots available: {len(slots)}")
+
+    constraint_set = EPLCpSatConstraintSet(
+        constraints, season_start, season_end,
+        final_day=calendar.get("final_day"),
+    )
 
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
-        constraint_config=constraints,
+        constraint_set=constraint_set,
         season=calendar["season"],
         time_limit_seconds=600,
-        season_start=date.fromisoformat(calendar["start_date"]),
-        season_end=date.fromisoformat(calendar["end_date"]),
-        final_day=calendar.get("final_day"),
     )
 
     if schedule:

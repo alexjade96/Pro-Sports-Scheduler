@@ -1,17 +1,19 @@
 """
-Option C entry point — Metaheuristic (Simulated Annealing + Tabu).
-Usage: python -m option_c_metaheuristic.main
+Metaheuristic (Simulated Annealing) solver entry point (EPL).
+Usage: python -m solvers.metaheuristic.main
 """
 import csv
+from datetime import date
 from pathlib import Path
 
 from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
 from generators.leagues.epl.generate_epl import generate_fixtures
 from core.validator import validate, print_report
 from solvers.metaheuristic.solver import solve
+from solvers.leagues.epl.mh_constraint_set import EPLMHConstraintSet
 
 
-OUTPUT_DIR = Path(__file__).parent.parent / "output"
+OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
 
 
 def export_csv(schedule, path: Path) -> None:
@@ -37,19 +39,27 @@ def main():
     slots       = generate_slots(calendar)
     fixtures    = generate_fixtures(teams)
 
+    season_start = date.fromisoformat(calendar["start_date"])
+    season_end   = date.fromisoformat(calendar["end_date"])
+
     print(f"Teams: {len(teams)} | Fixtures: {len(fixtures)} | Slots available: {len(slots)}")
+
+    constraint_set = EPLMHConstraintSet(
+        constraints, season_start, season_end,
+        final_day=calendar.get("final_day"),
+    )
 
     schedule = solve(
         fixtures=fixtures,
         slots=slots,
         teams=teams,
+        constraint_set=constraint_set,
         season=calendar["season"],
         initial_temp=5000.0,
         cooling_rate=0.9997,
         max_iterations=5_000_000,
         tabu_size=200,
         time_limit_seconds=600,
-        final_day=calendar.get("final_day"),
     )
 
     report = validate(schedule, teams)
