@@ -1,0 +1,81 @@
+{
+  "_notes": [
+    "2024 NFL regular-season final standings (wins/losses/ties).",
+    "Derived from nflverse games.csv — used by the fixture generator to produce",
+    "standings-based cross-division pairings (games 15-17 per team).",
+    "Division rank order: rank 1 = most wins, rank 4 = fewest. Tiebreakers",
+    "are simplified to win-count order; full NFL tiebreaker rules are not applied."
+  ],
+  "AFC North": {
+    "rank": ["BAL", "PIT", "CIN", "CLE"],
+    "records": {
+      "BAL": {"wins": 12, "losses": 5, "ties": 0},
+      "PIT": {"wins": 10, "losses": 7, "ties": 0},
+      "CIN": {"wins": 9,  "losses": 8, "ties": 0},
+      "CLE": {"wins": 3,  "losses": 14,"ties": 0}
+    }
+  },
+  "AFC East": {
+    "rank": ["BUF", "MIA", "NYJ", "NE"],
+    "records": {
+      "BUF": {"wins": 13, "losses": 4, "ties": 0},
+      "MIA": {"wins": 8,  "losses": 9, "ties": 0},
+      "NYJ": {"wins": 5,  "losses": 12,"ties": 0},
+      "NE":  {"wins": 4,  "losses": 13,"ties": 0}
+    }
+  },
+  "AFC South": {
+    "rank": ["HOU", "IND", "JAX", "TEN"],
+    "records": {
+      "HOU": {"wins": 10, "losses": 7, "ties": 0},
+      "IND": {"wins": 8,  "losses": 9, "ties": 0},
+      "JAX": {"wins": 4,  "losses": 13,"ties": 0},
+      "TEN": {"wins": 3,  "losses": 14,"ties": 0}
+    }
+  },
+  "AFC West": {
+    "rank": ["KC", "LAC", "DEN", "LV"],
+    "records": {
+      "KC":  {"wins": 15, "losses": 2, "ties": 0},
+      "LAC": {"wins": 11, "losses": 6, "ties": 0},
+      "DEN": {"wins": 10, "losses": 7, "ties": 0},
+      "LV":  {"wins": 4,  "losses": 13,"ties": 0}
+    }
+  },
+  "NFC North": {
+    "rank": ["DET", "MIN", "GB", "CHI"],
+    "records": {
+      "DET": {"wins": 15, "losses": 2, "ties": 0},
+      "MIN": {"wins": 14, "losses": 3, "ties": 0},
+      "GB":  {"wins": 11, "losses": 6, "ties": 0},
+      "CHI": {"wins": 5,  "losses": 12,"ties": 0}
+    }
+  },
+  "NFC East": {
+    "rank": ["PHI", "WAS", "DAL", "NYG"],
+    "records": {
+      "PHI": {"wins": 14, "losses": 3, "ties": 0},
+      "WAS": {"wins": 12, "losses": 5, "ties": 0},
+      "DAL": {"wins": 7,  "losses": 10,"ties": 0},
+      "NYG": {"wins": 3,  "losses": 14,"ties": 0}
+    }
+  },
+  "NFC South": {
+    "rank": ["TB", "ATL", "NO", "CAR"],
+    "records": {
+      "TB":  {"wins": 10, "losses": 7, "ties": 0},
+      "ATL": {"wins": 8,  "losses": 9, "ties": 0},
+      "NO":  {"wins": 5,  "losses": 12,"ties": 0},
+      "CAR": {"wins": 5,  "losses": 12,"ties": 0}
+    }
+  },
+  "NFC West": {
+    "rank": ["LAR", "SEA", "ARI", "SF"],
+    "records": {
+      "LAR": {"wins": 10, "losses": 7, "ties": 0},
+      "SEA": {"wins": 10, "losses": 7, "ties": 0},
+      "ARI": {"wins": 8,  "losses": 9, "ties": 0},
+      "SF":  {"wins": 6,  "losses": 11,"ties": 0}
+    }
+  }
+}

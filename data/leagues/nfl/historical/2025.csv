@@ -1,0 +1,273 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2025_01_DAL_PHI,2025,REG,1,2025-09-04,Thursday,20:20,DAL,20,PHI,24,Home,4,0,1,7,7,Brian Schottenheimer,Nick Sirianni,Shawn Smith,PHI00,Lincoln Financial Field
+2025_01_KC_LAC,2025,REG,1,2025-09-05,Friday,20:00,KC,21,LAC,27,Neutral,6,0,1,7,7,Andy Reid,Jim Harbaugh,Carl Cheffers,LAX01,SoFi Stadium
+2025_01_TB_ATL,2025,REG,1,2025-09-07,Sunday,13:00,TB,23,ATL,20,Home,-3,0,1,7,7,Todd Bowles,Raheem Morris,Land Clark,ATL97,Mercedes-Benz Stadium
+2025_01_CIN_CLE,2025,REG,1,2025-09-07,Sunday,13:00,CIN,17,CLE,16,Home,-1,0,1,7,7,Zac Taylor,Kevin Stefanski,Adrian Hill,CLE00,FirstEnergy Stadium
+2025_01_MIA_IND,2025,REG,1,2025-09-07,Sunday,13:00,MIA,8,IND,33,Home,25,0,0,7,7,Mike McDaniel,Shane Steichen,Brad Allen,IND00,Lucas Oil Stadium
+2025_01_CAR_JAX,2025,REG,1,2025-09-07,Sunday,13:00,CAR,10,JAX,26,Home,16,0,0,7,7,Dave Canales,Liam Coen,Alex Moore,JAX00,TIAA Bank Stadium
+2025_01_LV_NE,2025,REG,1,2025-09-07,Sunday,13:00,LV,20,NE,13,Home,-7,0,0,7,7,Pete Carroll,Mike Vrabel,Ron Torbert,BOS00,Gillette Stadium
+2025_01_ARI_NO,2025,REG,1,2025-09-07,Sunday,13:00,ARI,20,NO,13,Home,-7,0,0,7,7,Jonathan Gannon,Kellen Moore,Scott Novak,NOR00,Mercedes-Benz Superdome
+2025_01_PIT_NYJ,2025,REG,1,2025-09-07,Sunday,13:00,PIT,34,NYJ,32,Home,-2,0,0,7,7,Mike Tomlin,Aaron Glenn,Bill Vinovich,NYC01,MetLife Stadium
+2025_01_NYG_WAS,2025,REG,1,2025-09-07,Sunday,13:00,NYG,6,WAS,21,Home,15,0,1,7,7,Brian Daboll,Dan Quinn,Clay Martin,WAS00,FedExField
+2025_01_TEN_DEN,2025,REG,1,2025-09-07,Sunday,16:05,TEN,12,DEN,20,Home,8,0,0,7,7,Brian Callahan,Sean Payton,Alex Kemp,DEN00,Empower Field at Mile High
+2025_01_SF_SEA,2025,REG,1,2025-09-07,Sunday,16:05,SF,17,SEA,13,Home,-4,0,1,7,7,Kyle Shanahan,Mike Macdonald,Shawn Hochuli,SEA00,Lumen Field
+2025_01_DET_GB,2025,REG,1,2025-09-07,Sunday,16:25,DET,13,GB,27,Home,14,0,1,7,7,Dan Campbell,Matt LaFleur,Clete Blakeman,GNB00,Lambeau Field
+2025_01_HOU_LA,2025,REG,1,2025-09-07,Sunday,16:25,HOU,9,LAR,14,Home,5,0,0,7,7,DeMeco Ryans,Sean McVay,Craig Wrolstad,LAX01,SoFi Stadium
+2025_01_BAL_BUF,2025,REG,1,2025-09-07,Sunday,20:20,BAL,40,BUF,41,Home,1,0,0,7,7,John Harbaugh,Sean McDermott,John Hussey,BUF00,New Era Field
+2025_01_MIN_CHI,2025,REG,1,2025-09-08,Monday,20:15,MIN,27,CHI,24,Home,-3,0,1,7,7,Kevin O'Connell,Ben Johnson,Alan Eck,CHI98,Soldier Field
+2025_02_WAS_GB,2025,REG,2,2025-09-11,Thursday,20:15,WAS,18,GB,27,Home,9,0,0,4,4,Dan Quinn,Matt LaFleur,Brad Rogers,GNB00,Lambeau Field
+2025_02_CLE_BAL,2025,REG,2,2025-09-14,Sunday,13:00,CLE,17,BAL,41,Home,24,0,1,7,7,Kevin Stefanski,John Harbaugh,Brad Allen,BAL00,M&T Bank Stadium
+2025_02_JAX_CIN,2025,REG,2,2025-09-14,Sunday,13:00,JAX,27,CIN,31,Home,4,0,0,7,7,Liam Coen,Zac Taylor,Alan Eck,CIN00,Paycor Stadium
+2025_02_NYG_DAL,2025,REG,2,2025-09-14,Sunday,13:00,NYG,37,DAL,40,Home,3,1,1,7,10,Brian Daboll,Brian Schottenheimer,Bill Vinovich,DAL00,AT&T Stadium
+2025_02_CHI_DET,2025,REG,2,2025-09-14,Sunday,13:00,CHI,21,DET,52,Home,31,0,1,6,7,Ben Johnson,Dan Campbell,Land Clark,DET00,Ford Field
+2025_02_NE_MIA,2025,REG,2,2025-09-14,Sunday,13:00,NE,33,MIA,27,Home,-6,0,1,7,7,Mike Vrabel,Mike McDaniel,Alex Moore,MIA00,Hard Rock Stadium
+2025_02_SF_NO,2025,REG,2,2025-09-14,Sunday,13:00,SF,26,NO,21,Home,-5,0,0,7,7,Kyle Shanahan,Kellen Moore,Shawn Smith,NOR00,Mercedes-Benz Superdome
+2025_02_BUF_NYJ,2025,REG,2,2025-09-14,Sunday,13:00,BUF,30,NYJ,10,Home,-20,0,1,7,7,Sean McDermott,Aaron Glenn,Clete Blakeman,NYC01,MetLife Stadium
+2025_02_SEA_PIT,2025,REG,2,2025-09-14,Sunday,13:00,SEA,31,PIT,17,Home,-14,0,0,7,7,Mike Macdonald,Mike Tomlin,Scott Novak,PIT00,Acrisure Stadium
+2025_02_LA_TEN,2025,REG,2,2025-09-14,Sunday,13:00,LAR,33,TEN,19,Home,-14,0,0,7,7,Sean McVay,Brian Callahan,John Hussey,NAS00,Nissan Stadium
+2025_02_CAR_ARI,2025,REG,2,2025-09-14,Sunday,16:05,CAR,22,ARI,27,Home,5,0,0,7,7,Dave Canales,Jonathan Gannon,Ron Torbert,PHO00,State Farm Stadium
+2025_02_DEN_IND,2025,REG,2,2025-09-14,Sunday,16:05,DEN,28,IND,29,Home,1,0,0,7,7,Sean Payton,Shane Steichen,Craig Wrolstad,IND00,Lucas Oil Stadium
+2025_02_PHI_KC,2025,REG,2,2025-09-14,Sunday,16:25,PHI,20,KC,17,Home,-3,0,0,10,9,Nick Sirianni,Andy Reid,Alex Kemp,KAN00,GEHA Field at Arrowhead Stadium
+2025_02_ATL_MIN,2025,REG,2,2025-09-14,Sunday,20:20,ATL,22,MIN,6,Home,-16,0,0,7,6,Raheem Morris,Kevin O'Connell,Adrian Hill,MIN01,U.S. Bank Stadium
+2025_02_TB_HOU,2025,REG,2,2025-09-15,Monday,19:00,TB,20,HOU,19,Home,-1,0,0,8,8,Todd Bowles,DeMeco Ryans,Shawn Hochuli,HOU00,NRG Stadium
+2025_02_LAC_LV,2025,REG,2,2025-09-15,Monday,22:00,LAC,20,LV,9,Home,-11,0,1,10,8,Jim Harbaugh,Pete Carroll,Clay Martin,VEG00,Allegiant Stadium
+2025_03_MIA_BUF,2025,REG,3,2025-09-18,Thursday,20:15,MIA,21,BUF,31,Home,10,0,1,4,4,Mike McDaniel,Sean McDermott,Alan Eck,BUF00,New Era Field
+2025_03_ATL_CAR,2025,REG,3,2025-09-21,Sunday,13:00,ATL,0,CAR,30,Home,30,0,1,7,7,Raheem Morris,Dave Canales,Craig Wrolstad,CAR00,Bank of America Stadium
+2025_03_GB_CLE,2025,REG,3,2025-09-21,Sunday,13:00,GB,10,CLE,13,Home,3,0,0,10,7,Matt LaFleur,Kevin Stefanski,Carl Cheffers,CLE00,FirstEnergy Stadium
+2025_03_HOU_JAX,2025,REG,3,2025-09-21,Sunday,13:00,HOU,10,JAX,17,Home,7,0,1,6,7,DeMeco Ryans,Liam Coen,Alex Kemp,JAX00,TIAA Bank Stadium
+2025_03_CIN_MIN,2025,REG,3,2025-09-21,Sunday,13:00,CIN,10,MIN,48,Home,38,0,0,7,7,Zac Taylor,Kevin O'Connell,Ron Torbert,MIN01,U.S. Bank Stadium
+2025_03_PIT_NE,2025,REG,3,2025-09-21,Sunday,13:00,PIT,21,NE,14,Home,-7,0,0,7,7,Mike Tomlin,Mike Vrabel,Clete Blakeman,BOS00,Gillette Stadium
+2025_03_LA_PHI,2025,REG,3,2025-09-21,Sunday,13:00,LAR,26,PHI,33,Home,7,0,0,7,7,Sean McVay,Nick Sirianni,Brad Rogers,PHI00,Lincoln Financial Field
+2025_03_NYJ_TB,2025,REG,3,2025-09-21,Sunday,13:00,NYJ,27,TB,29,Home,2,0,0,7,6,Aaron Glenn,Todd Bowles,Adrian Hill,TAM00,Raymond James Stadium
+2025_03_IND_TEN,2025,REG,3,2025-09-21,Sunday,13:00,IND,41,TEN,20,Home,-21,0,1,7,7,Shane Steichen,Brian Callahan,Scott Novak,NAS00,Nissan Stadium
+2025_03_LV_WAS,2025,REG,3,2025-09-21,Sunday,13:00,LV,24,WAS,41,Home,17,0,0,6,10,Pete Carroll,Dan Quinn,Shawn Hochuli,WAS00,FedExField
+2025_03_DEN_LAC,2025,REG,3,2025-09-21,Sunday,16:05,DEN,20,LAC,23,Home,3,0,1,7,6,Sean Payton,Jim Harbaugh,Shawn Smith,LAX01,SoFi Stadium
+2025_03_NO_SEA,2025,REG,3,2025-09-21,Sunday,16:05,NO,13,SEA,44,Home,31,0,0,7,7,Kellen Moore,Mike Macdonald,Alex Moore,SEA00,Lumen Field
+2025_03_DAL_CHI,2025,REG,3,2025-09-21,Sunday,16:25,DAL,14,CHI,31,Home,17,0,0,7,7,Brian Schottenheimer,Ben Johnson,Clay Martin,CHI98,Soldier Field
+2025_03_ARI_SF,2025,REG,3,2025-09-21,Sunday,16:25,ARI,15,SF,16,Home,1,0,1,7,7,Jonathan Gannon,Kyle Shanahan,John Hussey,SFO01,Levi's Stadium
+2025_03_KC_NYG,2025,REG,3,2025-09-21,Sunday,20:20,KC,22,NYG,9,Home,-13,0,0,7,7,Andy Reid,Brian Daboll,Land Clark,NYC01,MetLife Stadium
+2025_03_DET_BAL,2025,REG,3,2025-09-22,Monday,20:15,DET,38,BAL,30,Home,-8,0,0,8,8,Dan Campbell,John Harbaugh,Bill Vinovich,BAL00,M&T Bank Stadium
+2025_04_SEA_ARI,2025,REG,4,2025-09-25,Thursday,20:15,SEA,23,ARI,20,Home,-3,0,1,4,4,Mike Macdonald,Jonathan Gannon,Alex Kemp,PHO00,State Farm Stadium
+2025_04_MIN_PIT,2025,REG,4,2025-09-28,Sunday,09:30,MIN,21,PIT,24,Neutral,3,0,0,7,7,Kevin O'Connell,Mike Tomlin,Brad Allen,PIT00,Acrisure Stadium
+2025_04_WAS_ATL,2025,REG,4,2025-09-28,Sunday,13:00,WAS,27,ATL,34,Home,7,0,0,7,7,Dan Quinn,Raheem Morris,Scott Novak,ATL97,Mercedes-Benz Stadium
+2025_04_NO_BUF,2025,REG,4,2025-09-28,Sunday,13:00,NO,19,BUF,31,Home,12,0,0,7,10,Kellen Moore,Sean McDermott,Land Clark,BUF00,New Era Field
+2025_04_CLE_DET,2025,REG,4,2025-09-28,Sunday,13:00,CLE,10,DET,34,Home,24,0,0,7,6,Kevin Stefanski,Dan Campbell,Shawn Smith,DET00,Ford Field
+2025_04_TEN_HOU,2025,REG,4,2025-09-28,Sunday,13:00,TEN,0,HOU,26,Home,26,0,1,7,7,Brian Callahan,DeMeco Ryans,Brad Rogers,HOU00,NRG Stadium
+2025_04_CAR_NE,2025,REG,4,2025-09-28,Sunday,13:00,CAR,13,NE,42,Home,29,0,0,7,7,Dave Canales,Mike Vrabel,Bill Vinovich,BOS00,Gillette Stadium
+2025_04_LAC_NYG,2025,REG,4,2025-09-28,Sunday,13:00,LAC,18,NYG,21,Home,3,0,0,7,7,Jim Harbaugh,Brian Daboll,Shawn Hochuli,NYC01,MetLife Stadium
+2025_04_PHI_TB,2025,REG,4,2025-09-28,Sunday,13:00,PHI,31,TB,25,Home,-6,0,0,7,7,Nick Sirianni,Todd Bowles,Alan Eck,TAM00,Raymond James Stadium
+2025_04_IND_LA,2025,REG,4,2025-09-28,Sunday,16:05,IND,20,LAR,27,Home,7,0,0,7,7,Shane Steichen,Sean McVay,Carl Cheffers,LAX01,SoFi Stadium
+2025_04_JAX_SF,2025,REG,4,2025-09-28,Sunday,16:05,JAX,26,SF,21,Home,-5,0,0,7,7,Liam Coen,Kyle Shanahan,Clete Blakeman,SFO01,Levi's Stadium
+2025_04_BAL_KC,2025,REG,4,2025-09-28,Sunday,16:25,BAL,20,KC,37,Home,17,0,0,6,7,John Harbaugh,Andy Reid,Clay Martin,KAN00,GEHA Field at Arrowhead Stadium
+2025_04_CHI_LV,2025,REG,4,2025-09-28,Sunday,16:25,CHI,25,LV,24,Home,-1,0,0,7,7,Ben Johnson,Pete Carroll,Adrian Hill,VEG00,Allegiant Stadium
+2025_04_GB_DAL,2025,REG,4,2025-09-28,Sunday,20:20,GB,40,DAL,40,Home,0,1,0,7,7,Matt LaFleur,Brian Schottenheimer,Ron Torbert,DAL00,AT&T Stadium
+2025_04_NYJ_MIA,2025,REG,4,2025-09-29,Monday,19:15,NYJ,21,MIA,27,Home,6,0,1,8,11,Aaron Glenn,Mike McDaniel,Craig Wrolstad,MIA00,Hard Rock Stadium
+2025_04_CIN_DEN,2025,REG,4,2025-09-29,Monday,20:15,CIN,3,DEN,28,Home,25,0,0,8,8,Zac Taylor,Sean Payton,Alex Moore,DEN00,Empower Field at Mile High
+2025_05_SF_LA,2025,REG,5,2025-10-02,Thursday,20:15,SF,26,LAR,23,Home,-3,1,1,4,4,Kyle Shanahan,Sean McVay,Bill Vinovich,LAX01,SoFi Stadium
+2025_05_MIN_CLE,2025,REG,5,2025-10-05,Sunday,09:30,MIN,21,CLE,17,Neutral,-4,0,0,7,7,Kevin O'Connell,Kevin Stefanski,Scott Novak,CLE00,FirstEnergy Stadium
+2025_05_HOU_BAL,2025,REG,5,2025-10-05,Sunday,13:00,HOU,44,BAL,10,Home,-34,0,0,7,7,DeMeco Ryans,John Harbaugh,Land Clark,BAL00,M&T Bank Stadium
+2025_05_MIA_CAR,2025,REG,5,2025-10-05,Sunday,13:00,MIA,24,CAR,27,Home,3,0,0,6,7,Mike McDaniel,Dave Canales,Clay Martin,CAR00,Bank of America Stadium
+2025_05_LV_IND,2025,REG,5,2025-10-05,Sunday,13:00,LV,6,IND,40,Home,34,0,0,7,7,Pete Carroll,Shane Steichen,Alex Kemp,IND00,Lucas Oil Stadium
+2025_05_NYG_NO,2025,REG,5,2025-10-05,Sunday,13:00,NYG,14,NO,26,Home,12,0,0,7,7,Brian Daboll,Kellen Moore,Alan Eck,NOR00,Mercedes-Benz Superdome
+2025_05_DAL_NYJ,2025,REG,5,2025-10-05,Sunday,13:00,DAL,37,NYJ,22,Home,-15,0,0,7,6,Brian Schottenheimer,Aaron Glenn,Alex Moore,NYC01,MetLife Stadium
+2025_05_DEN_PHI,2025,REG,5,2025-10-05,Sunday,13:00,DEN,21,PHI,17,Home,-4,0,0,6,7,Sean Payton,Nick Sirianni,Adrian Hill,PHI00,Lincoln Financial Field
+2025_05_TEN_ARI,2025,REG,5,2025-10-05,Sunday,16:05,TEN,22,ARI,21,Home,-1,0,0,7,10,Brian Callahan,Jonathan Gannon,Shawn Smith,PHO00,State Farm Stadium
+2025_05_TB_SEA,2025,REG,5,2025-10-05,Sunday,16:05,TB,38,SEA,35,Home,-3,0,0,7,10,Todd Bowles,Mike Macdonald,Craig Wrolstad,SEA00,Lumen Field
+2025_05_DET_CIN,2025,REG,5,2025-10-05,Sunday,16:25,DET,37,CIN,24,Home,-13,0,0,7,6,Dan Campbell,Zac Taylor,Carl Cheffers,CIN00,Paycor Stadium
+2025_05_WAS_LAC,2025,REG,5,2025-10-05,Sunday,16:25,WAS,27,LAC,10,Home,-17,0,0,7,7,Dan Quinn,Jim Harbaugh,John Hussey,LAX01,SoFi Stadium
+2025_05_NE_BUF,2025,REG,5,2025-10-05,Sunday,20:20,NE,23,BUF,20,Home,-3,0,1,7,7,Mike Vrabel,Sean McDermott,Shawn Hochuli,BUF00,New Era Field
+2025_05_KC_JAX,2025,REG,5,2025-10-06,Monday,20:15,KC,28,JAX,31,Home,3,0,0,8,8,Andy Reid,Liam Coen,Brad Rogers,JAX00,TIAA Bank Stadium
+2025_06_PHI_NYG,2025,REG,6,2025-10-09,Thursday,20:15,PHI,17,NYG,34,Home,17,0,1,4,4,Nick Sirianni,Brian Daboll,Clete Blakeman,NYC01,MetLife Stadium
+2025_06_DEN_NYJ,2025,REG,6,2025-10-12,Sunday,09:30,DEN,13,NYJ,11,Neutral,-2,0,0,7,7,Sean Payton,Aaron Glenn,Land Clark,NYC01,MetLife Stadium
+2025_06_LA_BAL,2025,REG,6,2025-10-12,Sunday,13:00,LAR,17,BAL,3,Home,-14,0,0,10,7,Sean McVay,John Harbaugh,Alex Kemp,BAL00,M&T Bank Stadium
+2025_06_DAL_CAR,2025,REG,6,2025-10-12,Sunday,13:00,DAL,27,CAR,30,Home,3,0,0,7,7,Brian Schottenheimer,Dave Canales,John Hussey,CAR00,Bank of America Stadium
+2025_06_ARI_IND,2025,REG,6,2025-10-12,Sunday,13:00,ARI,27,IND,31,Home,4,0,0,7,7,Jonathan Gannon,Shane Steichen,Shawn Hochuli,IND00,Lucas Oil Stadium
+2025_06_SEA_JAX,2025,REG,6,2025-10-12,Sunday,13:00,SEA,20,JAX,12,Home,-8,0,0,7,6,Mike Macdonald,Liam Coen,Clay Martin,JAX00,TIAA Bank Stadium
+2025_06_LAC_MIA,2025,REG,6,2025-10-12,Sunday,13:00,LAC,29,MIA,27,Home,-2,0,0,7,7,Jim Harbaugh,Mike McDaniel,Bill Vinovich,MIA00,Hard Rock Stadium
+2025_06_NE_NO,2025,REG,6,2025-10-12,Sunday,13:00,NE,25,NO,19,Home,-6,0,0,7,7,Mike Vrabel,Kellen Moore,Adrian Hill,NOR00,Mercedes-Benz Superdome
+2025_06_CLE_PIT,2025,REG,6,2025-10-12,Sunday,13:00,CLE,9,PIT,23,Home,14,0,1,7,14,Kevin Stefanski,Mike Tomlin,Ron Torbert,PIT00,Acrisure Stadium
+2025_06_TEN_LV,2025,REG,6,2025-10-12,Sunday,16:05,TEN,10,LV,20,Home,10,0,0,7,7,Brian Callahan,Pete Carroll,Carl Cheffers,VEG00,Allegiant Stadium
+2025_06_CIN_GB,2025,REG,6,2025-10-12,Sunday,16:25,CIN,18,GB,27,Home,9,0,0,7,14,Zac Taylor,Matt LaFleur,Brad Allen,GNB00,Lambeau Field
+2025_06_SF_TB,2025,REG,6,2025-10-12,Sunday,16:25,SF,19,TB,30,Home,11,0,0,10,7,Kyle Shanahan,Todd Bowles,Brad Rogers,TAM00,Raymond James Stadium
+2025_06_DET_KC,2025,REG,6,2025-10-12,Sunday,20:20,DET,17,KC,30,Home,13,0,0,7,6,Dan Campbell,Andy Reid,Craig Wrolstad,KAN00,GEHA Field at Arrowhead Stadium
+2025_06_BUF_ATL,2025,REG,6,2025-10-13,Monday,19:15,BUF,14,ATL,24,Home,10,0,0,8,15,Sean McDermott,Raheem Morris,Shawn Smith,ATL97,Mercedes-Benz Stadium
+2025_06_CHI_WAS,2025,REG,6,2025-10-13,Monday,20:15,CHI,25,WAS,24,Home,-1,0,0,15,8,Ben Johnson,Dan Quinn,Alex Moore,WAS00,FedExField
+2025_07_PIT_CIN,2025,REG,7,2025-10-16,Thursday,20:15,PIT,31,CIN,33,Home,2,0,1,4,4,Mike Tomlin,Zac Taylor,Clay Martin,CIN00,Paycor Stadium
+2025_07_LA_JAX,2025,REG,7,2025-10-19,Sunday,09:30,LAR,35,JAX,7,Neutral,-28,0,0,7,7,Sean McVay,Liam Coen,Adrian Hill,JAX00,TIAA Bank Stadium
+2025_07_NO_CHI,2025,REG,7,2025-10-19,Sunday,13:00,NO,14,CHI,26,Home,12,0,0,7,6,Kellen Moore,Ben Johnson,Scott Novak,CHI98,Soldier Field
+2025_07_MIA_CLE,2025,REG,7,2025-10-19,Sunday,13:00,MIA,6,CLE,31,Home,25,0,0,7,7,Mike McDaniel,Kevin Stefanski,Shawn Hochuli,CLE00,FirstEnergy Stadium
+2025_07_LV_KC,2025,REG,7,2025-10-19,Sunday,13:00,LV,0,KC,31,Home,31,0,1,7,7,Pete Carroll,Andy Reid,Clete Blakeman,KAN00,GEHA Field at Arrowhead Stadium
+2025_07_PHI_MIN,2025,REG,7,2025-10-19,Sunday,13:00,PHI,28,MIN,22,Home,-6,0,0,10,14,Nick Sirianni,Kevin O'Connell,Bill Vinovich,MIN01,U.S. Bank Stadium
+2025_07_CAR_NYJ,2025,REG,7,2025-10-19,Sunday,13:00,CAR,13,NYJ,6,Home,-7,0,0,7,7,Dave Canales,Aaron Glenn,Brad Rogers,NYC01,MetLife Stadium
+2025_07_NE_TEN,2025,REG,7,2025-10-19,Sunday,13:00,NE,31,TEN,13,Home,-18,0,0,7,7,Mike Vrabel,Brian Callahan,Craig Wrolstad,NAS00,Nissan Stadium
+2025_07_NYG_DEN,2025,REG,7,2025-10-19,Sunday,16:05,NYG,32,DEN,33,Home,1,0,0,10,7,Brian Daboll,Sean Payton,Brad Allen,DEN00,Empower Field at Mile High
+2025_07_IND_LAC,2025,REG,7,2025-10-19,Sunday,16:05,IND,38,LAC,24,Home,-14,0,0,7,7,Shane Steichen,Jim Harbaugh,Alan Eck,LAX01,SoFi Stadium
+2025_07_GB_ARI,2025,REG,7,2025-10-19,Sunday,16:25,GB,27,ARI,23,Home,-4,0,0,7,7,Matt LaFleur,Jonathan Gannon,Alex Moore,PHO00,State Farm Stadium
+2025_07_WAS_DAL,2025,REG,7,2025-10-19,Sunday,16:25,WAS,22,DAL,44,Home,22,0,1,6,7,Dan Quinn,Brian Schottenheimer,Alex Kemp,DAL00,AT&T Stadium
+2025_07_ATL_SF,2025,REG,7,2025-10-19,Sunday,20:20,ATL,10,SF,20,Home,10,0,0,6,7,Raheem Morris,Kyle Shanahan,Ron Torbert,SFO01,Levi's Stadium
+2025_07_TB_DET,2025,REG,7,2025-10-20,Monday,19:00,TB,9,DET,24,Home,15,0,0,8,8,Todd Bowles,Dan Campbell,John Hussey,DET00,Ford Field
+2025_07_HOU_SEA,2025,REG,7,2025-10-20,Monday,22:00,HOU,19,SEA,27,Home,8,0,0,15,8,DeMeco Ryans,Mike Macdonald,Carl Cheffers,SEA00,Lumen Field
+2025_08_MIN_LAC,2025,REG,8,2025-10-23,Thursday,20:15,MIN,10,LAC,37,Home,27,0,0,4,4,Kevin O'Connell,Jim Harbaugh,Clete Blakeman,LAX01,SoFi Stadium
+2025_08_MIA_ATL,2025,REG,8,2025-10-26,Sunday,13:00,MIA,34,ATL,10,Home,-24,0,0,7,7,Mike McDaniel,Raheem Morris,John Hussey,ATL97,Mercedes-Benz Stadium
+2025_08_CHI_BAL,2025,REG,8,2025-10-26,Sunday,13:00,CHI,16,BAL,30,Home,14,0,0,7,14,Ben Johnson,John Harbaugh,Shawn Smith,BAL00,M&T Bank Stadium
+2025_08_BUF_CAR,2025,REG,8,2025-10-26,Sunday,13:00,BUF,40,CAR,9,Home,-31,0,0,13,7,Sean McDermott,Dave Canales,Craig Wrolstad,CAR00,Bank of America Stadium
+2025_08_NYJ_CIN,2025,REG,8,2025-10-26,Sunday,13:00,NYJ,39,CIN,38,Home,-1,0,0,7,10,Aaron Glenn,Zac Taylor,Scott Novak,CIN00,Paycor Stadium
+2025_08_SF_HOU,2025,REG,8,2025-10-26,Sunday,13:00,SF,15,HOU,26,Home,11,0,0,7,6,Kyle Shanahan,DeMeco Ryans,Alan Eck,HOU00,NRG Stadium
+2025_08_CLE_NE,2025,REG,8,2025-10-26,Sunday,13:00,CLE,13,NE,32,Home,19,0,0,7,7,Kevin Stefanski,Mike Vrabel,Alex Moore,BOS00,Gillette Stadium
+2025_08_NYG_PHI,2025,REG,8,2025-10-26,Sunday,13:00,NYG,20,PHI,38,Home,18,0,1,7,7,Brian Daboll,Nick Sirianni,Brad Rogers,PHI00,Lincoln Financial Field
+2025_08_TB_NO,2025,REG,8,2025-10-26,Sunday,16:05,TB,23,NO,3,Home,-20,0,1,6,7,Todd Bowles,Kellen Moore,Ron Torbert,NOR00,Mercedes-Benz Superdome
+2025_08_DAL_DEN,2025,REG,8,2025-10-26,Sunday,16:25,DAL,24,DEN,44,Home,20,0,0,7,7,Brian Schottenheimer,Sean Payton,Carl Cheffers,DEN00,Empower Field at Mile High
+2025_08_TEN_IND,2025,REG,8,2025-10-26,Sunday,16:25,TEN,14,IND,38,Home,24,0,1,7,7,Brian Callahan,Shane Steichen,Land Clark,IND00,Lucas Oil Stadium
+2025_08_GB_PIT,2025,REG,8,2025-10-26,Sunday,20:20,GB,35,PIT,25,Home,-10,0,0,7,10,Matt LaFleur,Mike Tomlin,Shawn Hochuli,PIT00,Acrisure Stadium
+2025_08_WAS_KC,2025,REG,8,2025-10-27,Monday,20:15,WAS,7,KC,28,Home,21,0,0,8,8,Dan Quinn,Andy Reid,Brad Allen,KAN00,GEHA Field at Arrowhead Stadium
+2025_09_BAL_MIA,2025,REG,9,2025-10-30,Thursday,20:15,BAL,28,MIA,6,Home,-22,0,0,4,4,John Harbaugh,Mike McDaniel,Scott Novak,MIA00,Hard Rock Stadium
+2025_09_CHI_CIN,2025,REG,9,2025-11-02,Sunday,13:00,CHI,47,CIN,42,Home,-5,0,0,7,7,Ben Johnson,Zac Taylor,Clete Blakeman,CIN00,Paycor Stadium
+2025_09_MIN_DET,2025,REG,9,2025-11-02,Sunday,13:00,MIN,27,DET,24,Home,-3,0,1,10,13,Kevin O'Connell,Dan Campbell,Clay Martin,DET00,Ford Field
+2025_09_CAR_GB,2025,REG,9,2025-11-02,Sunday,13:00,CAR,16,GB,13,Home,-3,0,0,7,7,Dave Canales,Matt LaFleur,Land Clark,GNB00,Lambeau Field
+2025_09_DEN_HOU,2025,REG,9,2025-11-02,Sunday,13:00,DEN,18,HOU,15,Home,-3,0,0,7,7,Sean Payton,DeMeco Ryans,Ron Torbert,HOU00,NRG Stadium
+2025_09_ATL_NE,2025,REG,9,2025-11-02,Sunday,13:00,ATL,23,NE,24,Home,1,0,0,7,7,Raheem Morris,Mike Vrabel,Brad Allen,BOS00,Gillette Stadium
+2025_09_SF_NYG,2025,REG,9,2025-11-02,Sunday,13:00,SF,34,NYG,24,Home,-10,0,0,7,7,Kyle Shanahan,Brian Daboll,John Hussey,NYC01,MetLife Stadium
+2025_09_IND_PIT,2025,REG,9,2025-11-02,Sunday,13:00,IND,20,PIT,27,Home,7,0,0,7,7,Shane Steichen,Mike Tomlin,Craig Wrolstad,PIT00,Acrisure Stadium
+2025_09_LAC_TEN,2025,REG,9,2025-11-02,Sunday,13:00,LAC,27,TEN,20,Home,-7,0,0,10,7,Jim Harbaugh,Brian Callahan,Alex Kemp,NAS00,Nissan Stadium
+2025_09_NO_LA,2025,REG,9,2025-11-02,Sunday,16:05,NO,10,LAR,34,Home,24,0,0,7,14,Kellen Moore,Sean McVay,Shawn Smith,LAX01,SoFi Stadium
+2025_09_JAX_LV,2025,REG,9,2025-11-02,Sunday,16:05,JAX,30,LV,29,Home,-1,1,0,14,14,Liam Coen,Pete Carroll,Alan Eck,VEG00,Allegiant Stadium
+2025_09_KC_BUF,2025,REG,9,2025-11-02,Sunday,16:25,KC,21,BUF,28,Home,7,0,0,6,7,Andy Reid,Sean McDermott,Carl Cheffers,BUF00,New Era Field
+2025_09_SEA_WAS,2025,REG,9,2025-11-02,Sunday,20:20,SEA,38,WAS,14,Home,-24,0,0,13,6,Mike Macdonald,Dan Quinn,Bill Vinovich,WAS00,FedExField
+2025_09_ARI_DAL,2025,REG,9,2025-11-03,Monday,20:15,ARI,27,DAL,17,Home,-10,0,0,15,8,Jonathan Gannon,Brian Schottenheimer,Adrian Hill,DAL00,AT&T Stadium
+2025_10_LV_DEN,2025,REG,10,2025-11-06,Thursday,20:15,LV,7,DEN,10,Home,3,0,1,4,4,Pete Carroll,Sean Payton,Bill Vinovich,DEN00,Empower Field at Mile High
+2025_10_ATL_IND,2025,REG,10,2025-11-09,Sunday,09:30,ATL,25,IND,31,Neutral,6,1,0,7,7,Raheem Morris,Shane Steichen,Clete Blakeman,IND00,Lucas Oil Stadium
+2025_10_NO_CAR,2025,REG,10,2025-11-09,Sunday,13:00,NO,17,CAR,7,Home,-10,0,1,7,7,Kellen Moore,Dave Canales,Brad Allen,CAR00,Bank of America Stadium
+2025_10_NYG_CHI,2025,REG,10,2025-11-09,Sunday,13:00,NYG,20,CHI,24,Home,4,0,0,7,7,Brian Daboll,Ben Johnson,Adrian Hill,CHI98,Soldier Field
+2025_10_JAX_HOU,2025,REG,10,2025-11-09,Sunday,13:00,JAX,29,HOU,36,Home,7,0,1,7,7,Liam Coen,DeMeco Ryans,Alex Moore,HOU00,NRG Stadium
+2025_10_BUF_MIA,2025,REG,10,2025-11-09,Sunday,13:00,BUF,13,MIA,30,Home,17,0,1,7,10,Sean McDermott,Mike McDaniel,Ron Torbert,MIA00,Hard Rock Stadium
+2025_10_BAL_MIN,2025,REG,10,2025-11-09,Sunday,13:00,BAL,27,MIN,19,Home,-8,0,0,10,7,John Harbaugh,Kevin O'Connell,Shawn Hochuli,MIN01,U.S. Bank Stadium
+2025_10_CLE_NYJ,2025,REG,10,2025-11-09,Sunday,13:00,CLE,20,NYJ,27,Home,7,0,0,14,14,Kevin Stefanski,Aaron Glenn,Shawn Smith,NYC01,MetLife Stadium
+2025_10_NE_TB,2025,REG,10,2025-11-09,Sunday,13:00,NE,28,TB,23,Home,-5,0,0,7,14,Mike Vrabel,Todd Bowles,Alex Kemp,TAM00,Raymond James Stadium
+2025_10_ARI_SEA,2025,REG,10,2025-11-09,Sunday,16:05,ARI,22,SEA,44,Home,22,0,1,6,7,Jonathan Gannon,Mike Macdonald,Alan Eck,SEA00,Lumen Field
+2025_10_LA_SF,2025,REG,10,2025-11-09,Sunday,16:25,LAR,42,SF,26,Home,-16,0,1,7,7,Sean McVay,Kyle Shanahan,Land Clark,SFO01,Levi's Stadium
+2025_10_DET_WAS,2025,REG,10,2025-11-09,Sunday,16:25,DET,44,WAS,22,Home,-22,0,0,7,7,Dan Campbell,Dan Quinn,Scott Novak,WAS00,FedExField
+2025_10_PIT_LAC,2025,REG,10,2025-11-09,Sunday,20:20,PIT,10,LAC,25,Home,15,0,0,7,7,Mike Tomlin,Jim Harbaugh,Brad Rogers,LAX01,SoFi Stadium
+2025_10_PHI_GB,2025,REG,10,2025-11-10,Monday,20:15,PHI,10,GB,7,Home,-3,0,0,15,8,Nick Sirianni,Matt LaFleur,Clay Martin,GNB00,Lambeau Field
+2025_11_NYJ_NE,2025,REG,11,2025-11-13,Thursday,20:15,NYJ,14,NE,27,Home,13,0,1,4,4,Aaron Glenn,Mike Vrabel,Alan Eck,BOS00,Gillette Stadium
+2025_11_WAS_MIA,2025,REG,11,2025-11-16,Sunday,09:30,WAS,13,MIA,16,Neutral,3,1,0,7,7,Dan Quinn,Mike McDaniel,Shawn Smith,MIA00,Hard Rock Stadium
+2025_11_CAR_ATL,2025,REG,11,2025-11-16,Sunday,13:00,CAR,30,ATL,27,Home,-3,1,1,7,7,Dave Canales,Raheem Morris,Clay Martin,ATL97,Mercedes-Benz Stadium
+2025_11_TB_BUF,2025,REG,11,2025-11-16,Sunday,13:00,TB,32,BUF,44,Home,12,0,0,7,7,Todd Bowles,Sean McDermott,Alex Moore,BUF00,New Era Field
+2025_11_LAC_JAX,2025,REG,11,2025-11-16,Sunday,13:00,LAC,6,JAX,35,Home,29,0,0,7,7,Jim Harbaugh,Liam Coen,Craig Wrolstad,JAX00,TIAA Bank Stadium
+2025_11_CHI_MIN,2025,REG,11,2025-11-16,Sunday,13:00,CHI,19,MIN,17,Home,-2,0,1,7,7,Ben Johnson,Kevin O'Connell,Brad Rogers,MIN01,U.S. Bank Stadium
+2025_11_GB_NYG,2025,REG,11,2025-11-16,Sunday,13:00,GB,27,NYG,20,Home,-7,0,0,6,7,Matt LaFleur,Brian Daboll,Scott Novak,NYC01,MetLife Stadium
+2025_11_CIN_PIT,2025,REG,11,2025-11-16,Sunday,13:00,CIN,12,PIT,34,Home,22,0,1,14,7,Zac Taylor,Mike Tomlin,Bill Vinovich,PIT00,Acrisure Stadium
+2025_11_HOU_TEN,2025,REG,11,2025-11-16,Sunday,13:00,HOU,16,TEN,13,Home,-3,0,1,7,14,DeMeco Ryans,Brian Callahan,Shawn Hochuli,NAS00,Nissan Stadium
+2025_11_SF_ARI,2025,REG,11,2025-11-16,Sunday,16:05,SF,41,ARI,22,Home,-19,0,1,7,7,Kyle Shanahan,Jonathan Gannon,Carl Cheffers,PHO00,State Farm Stadium
+2025_11_SEA_LA,2025,REG,11,2025-11-16,Sunday,16:05,SEA,19,LAR,21,Home,2,0,1,7,7,Mike Macdonald,Sean McVay,John Hussey,LAX01,SoFi Stadium
+2025_11_BAL_CLE,2025,REG,11,2025-11-16,Sunday,16:25,BAL,23,CLE,16,Home,-7,0,1,7,7,John Harbaugh,Kevin Stefanski,Land Clark,CLE00,FirstEnergy Stadium
+2025_11_KC_DEN,2025,REG,11,2025-11-16,Sunday,16:25,KC,19,DEN,22,Home,3,0,1,14,10,Andy Reid,Sean Payton,Adrian Hill,DEN00,Empower Field at Mile High
+2025_11_DET_PHI,2025,REG,11,2025-11-16,Sunday,20:20,DET,9,PHI,16,Home,7,0,0,7,6,Dan Campbell,Nick Sirianni,Alex Kemp,PHI00,Lincoln Financial Field
+2025_11_DAL_LV,2025,REG,11,2025-11-17,Monday,20:15,DAL,33,LV,16,Home,-17,0,0,14,11,Brian Schottenheimer,Pete Carroll,Brad Allen,VEG00,Allegiant Stadium
+2025_12_BUF_HOU,2025,REG,12,2025-11-20,Thursday,20:15,BUF,19,HOU,23,Home,4,0,0,4,4,Sean McDermott,DeMeco Ryans,Adrian Hill,HOU00,NRG Stadium
+2025_12_NYJ_BAL,2025,REG,12,2025-11-23,Sunday,13:00,NYJ,10,BAL,23,Home,13,0,0,10,7,Aaron Glenn,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2025_12_PIT_CHI,2025,REG,12,2025-11-23,Sunday,13:00,PIT,28,CHI,31,Home,3,0,0,7,7,Mike Tomlin,Ben Johnson,John Hussey,CHI98,Soldier Field
+2025_12_NE_CIN,2025,REG,12,2025-11-23,Sunday,13:00,NE,26,CIN,20,Home,-6,0,0,10,7,Mike Vrabel,Zac Taylor,Land Clark,CIN00,Paycor Stadium
+2025_12_NYG_DET,2025,REG,12,2025-11-23,Sunday,13:00,NYG,27,DET,34,Home,7,1,0,7,7,Brian Daboll,Dan Campbell,Craig Wrolstad,DET00,Ford Field
+2025_12_MIN_GB,2025,REG,12,2025-11-23,Sunday,13:00,MIN,6,GB,23,Home,17,0,1,7,7,Kevin O'Connell,Matt LaFleur,Carl Cheffers,GNB00,Lambeau Field
+2025_12_IND_KC,2025,REG,12,2025-11-23,Sunday,13:00,IND,20,KC,23,Home,3,1,0,14,7,Shane Steichen,Andy Reid,Alex Moore,KAN00,GEHA Field at Arrowhead Stadium
+2025_12_SEA_TEN,2025,REG,12,2025-11-23,Sunday,13:00,SEA,30,TEN,24,Home,-6,0,0,7,7,Mike Macdonald,Brian Callahan,Ron Torbert,NAS00,Nissan Stadium
+2025_12_JAX_ARI,2025,REG,12,2025-11-23,Sunday,16:05,JAX,27,ARI,24,Home,-3,1,0,7,7,Liam Coen,Jonathan Gannon,Scott Novak,PHO00,State Farm Stadium
+2025_12_CLE_LV,2025,REG,12,2025-11-23,Sunday,16:05,CLE,24,LV,10,Home,-14,0,0,7,6,Kevin Stefanski,Pete Carroll,Shawn Hochuli,VEG00,Allegiant Stadium
+2025_12_PHI_DAL,2025,REG,12,2025-11-23,Sunday,16:25,PHI,21,DAL,24,Home,3,0,1,7,6,Nick Sirianni,Brian Schottenheimer,Bill Vinovich,DAL00,AT&T Stadium
+2025_12_ATL_NO,2025,REG,12,2025-11-23,Sunday,16:25,ATL,24,NO,10,Home,-14,0,1,7,14,Raheem Morris,Kellen Moore,Brad Rogers,NOR00,Mercedes-Benz Superdome
+2025_12_TB_LA,2025,REG,12,2025-11-23,Sunday,20:20,TB,7,LAR,34,Home,27,0,0,7,7,Todd Bowles,Sean McVay,Clay Martin,LAX01,SoFi Stadium
+2025_12_CAR_SF,2025,REG,12,2025-11-24,Monday,20:15,CAR,9,SF,20,Home,11,0,0,8,8,Dave Canales,Kyle Shanahan,Alex Kemp,SFO01,Levi's Stadium
+2025_13_GB_DET,2025,REG,13,2025-11-27,Thursday,13:00,GB,31,DET,24,Home,-7,0,1,4,4,Matt LaFleur,Dan Campbell,Ron Torbert,DET00,Ford Field
+2025_13_KC_DAL,2025,REG,13,2025-11-27,Thursday,16:30,KC,28,DAL,31,Home,3,0,0,4,4,Andy Reid,Brian Schottenheimer,John Hussey,DAL00,AT&T Stadium
+2025_13_CIN_BAL,2025,REG,13,2025-11-27,Thursday,20:20,CIN,32,BAL,14,Home,-18,0,1,4,4,Zac Taylor,John Harbaugh,Craig Wrolstad,BAL00,M&T Bank Stadium
+2025_13_CHI_PHI,2025,REG,13,2025-11-28,Friday,15:00,CHI,24,PHI,15,Home,-9,0,0,5,5,Ben Johnson,Nick Sirianni,Carl Cheffers,PHI00,Lincoln Financial Field
+2025_13_LA_CAR,2025,REG,13,2025-11-30,Sunday,13:00,LAR,28,CAR,31,Home,3,0,0,7,6,Sean McVay,Dave Canales,Scott Novak,CAR00,Bank of America Stadium
+2025_13_SF_CLE,2025,REG,13,2025-11-30,Sunday,13:00,SF,26,CLE,8,Home,-18,0,0,6,7,Kyle Shanahan,Kevin Stefanski,Brad Allen,CLE00,FirstEnergy Stadium
+2025_13_HOU_IND,2025,REG,13,2025-11-30,Sunday,13:00,HOU,20,IND,16,Home,-4,0,1,10,7,DeMeco Ryans,Shane Steichen,Clay Martin,IND00,Lucas Oil Stadium
+2025_13_NO_MIA,2025,REG,13,2025-11-30,Sunday,13:00,NO,17,MIA,21,Home,4,0,0,7,14,Kellen Moore,Mike McDaniel,Alan Eck,MIA00,Hard Rock Stadium
+2025_13_ATL_NYJ,2025,REG,13,2025-11-30,Sunday,13:00,ATL,24,NYJ,27,Home,3,0,0,7,7,Raheem Morris,Aaron Glenn,Shawn Hochuli,NYC01,MetLife Stadium
+2025_13_ARI_TB,2025,REG,13,2025-11-30,Sunday,13:00,ARI,17,TB,20,Home,3,0,0,7,7,Jonathan Gannon,Todd Bowles,Bill Vinovich,TAM00,Raymond James Stadium
+2025_13_JAX_TEN,2025,REG,13,2025-11-30,Sunday,13:00,JAX,25,TEN,3,Home,-22,0,1,7,7,Liam Coen,Brian Callahan,Brad Rogers,NAS00,Nissan Stadium
+2025_13_MIN_SEA,2025,REG,13,2025-11-30,Sunday,16:05,MIN,0,SEA,26,Home,26,0,0,7,7,Kevin O'Connell,Mike Macdonald,Clete Blakeman,SEA00,Lumen Field
+2025_13_LV_LAC,2025,REG,13,2025-11-30,Sunday,16:25,LV,14,LAC,31,Home,17,0,1,7,14,Pete Carroll,Jim Harbaugh,Alex Moore,LAX01,SoFi Stadium
+2025_13_BUF_PIT,2025,REG,13,2025-11-30,Sunday,16:25,BUF,26,PIT,7,Home,-19,0,0,10,7,Sean McDermott,Mike Tomlin,Alex Kemp,PIT00,Acrisure Stadium
+2025_13_DEN_WAS,2025,REG,13,2025-11-30,Sunday,20:20,DEN,27,WAS,26,Home,-1,1,0,14,14,Sean Payton,Dan Quinn,Land Clark,WAS00,FedExField
+2025_13_NYG_NE,2025,REG,13,2025-12-01,Monday,20:15,NYG,15,NE,33,Home,18,0,0,8,8,Brian Daboll,Mike Vrabel,Alex Kemp,BOS00,Gillette Stadium
+2025_14_DAL_DET,2025,REG,14,2025-12-04,Thursday,20:15,DAL,30,DET,44,Home,14,0,0,7,7,Brian Schottenheimer,Dan Campbell,Shawn Hochuli,DET00,Ford Field
+2025_14_SEA_ATL,2025,REG,14,2025-12-07,Sunday,13:00,SEA,37,ATL,9,Home,-28,0,0,7,7,Mike Macdonald,Raheem Morris,Alex Kemp,ATL97,Mercedes-Benz Stadium
+2025_14_PIT_BAL,2025,REG,14,2025-12-07,Sunday,13:00,PIT,27,BAL,22,Home,-5,0,1,7,10,Mike Tomlin,John Harbaugh,Alex Moore,BAL00,M&T Bank Stadium
+2025_14_CIN_BUF,2025,REG,14,2025-12-07,Sunday,13:00,CIN,34,BUF,39,Home,5,0,0,10,7,Zac Taylor,Sean McDermott,Brad Rogers,BUF00,New Era Field
+2025_14_TEN_CLE,2025,REG,14,2025-12-07,Sunday,13:00,TEN,31,CLE,29,Home,-2,0,0,7,7,Brian Callahan,Kevin Stefanski,Carl Cheffers,CLE00,FirstEnergy Stadium
+2025_14_IND_JAX,2025,REG,14,2025-12-07,Sunday,13:00,IND,19,JAX,36,Home,17,0,1,7,7,Shane Steichen,Liam Coen,John Hussey,JAX00,TIAA Bank Stadium
+2025_14_WAS_MIN,2025,REG,14,2025-12-07,Sunday,13:00,WAS,0,MIN,31,Home,31,0,0,7,7,Dan Quinn,Kevin O'Connell,Brad Allen,MIN01,U.S. Bank Stadium
+2025_14_MIA_NYJ,2025,REG,14,2025-12-07,Sunday,13:00,MIA,34,NYJ,10,Home,-24,0,1,7,7,Mike McDaniel,Aaron Glenn,Bill Vinovich,NYC01,MetLife Stadium
+2025_14_NO_TB,2025,REG,14,2025-12-07,Sunday,13:00,NO,24,TB,20,Home,-4,0,1,7,7,Kellen Moore,Todd Bowles,Clete Blakeman,TAM00,Raymond James Stadium
+2025_14_DEN_LV,2025,REG,14,2025-12-07,Sunday,16:05,DEN,24,LV,17,Home,-7,0,1,7,7,Sean Payton,Pete Carroll,Shawn Smith,VEG00,Allegiant Stadium
+2025_14_LA_ARI,2025,REG,14,2025-12-07,Sunday,16:25,LAR,45,ARI,17,Home,-28,0,1,7,7,Sean McVay,Jonathan Gannon,Ron Torbert,PHO00,State Farm Stadium
+2025_14_CHI_GB,2025,REG,14,2025-12-07,Sunday,16:25,CHI,21,GB,28,Home,7,0,1,9,10,Ben Johnson,Matt LaFleur,Craig Wrolstad,GNB00,Lambeau Field
+2025_14_HOU_KC,2025,REG,14,2025-12-07,Sunday,20:20,HOU,20,KC,10,Home,-10,0,0,7,10,DeMeco Ryans,Andy Reid,Alan Eck,KAN00,GEHA Field at Arrowhead Stadium
+2025_14_PHI_LAC,2025,REG,14,2025-12-08,Monday,20:15,PHI,19,LAC,22,Home,3,1,0,10,8,Nick Sirianni,Jim Harbaugh,Scott Novak,LAX01,SoFi Stadium
+2025_15_ATL_TB,2025,REG,15,2025-12-11,Thursday,20:15,ATL,29,TB,28,Home,-1,0,1,4,4,Raheem Morris,Todd Bowles,Carl Cheffers,TAM00,Raymond James Stadium
+2025_15_CLE_CHI,2025,REG,15,2025-12-14,Sunday,13:00,CLE,3,CHI,31,Home,28,0,0,7,7,Kevin Stefanski,Ben Johnson,Ron Torbert,CHI98,Soldier Field
+2025_15_BAL_CIN,2025,REG,15,2025-12-14,Sunday,13:00,BAL,24,CIN,0,Home,-24,0,1,7,7,John Harbaugh,Zac Taylor,Brad Allen,CIN00,Paycor Stadium
+2025_15_ARI_HOU,2025,REG,15,2025-12-14,Sunday,13:00,ARI,20,HOU,40,Home,20,0,0,7,7,Jonathan Gannon,DeMeco Ryans,Clete Blakeman,HOU00,NRG Stadium
+2025_15_NYJ_JAX,2025,REG,15,2025-12-14,Sunday,13:00,NYJ,20,JAX,48,Home,28,0,0,7,7,Aaron Glenn,Liam Coen,Shawn Smith,JAX00,TIAA Bank Stadium
+2025_15_LAC_KC,2025,REG,15,2025-12-14,Sunday,13:00,LAC,16,KC,13,Home,-3,0,1,6,7,Jim Harbaugh,Andy Reid,Shawn Hochuli,KAN00,GEHA Field at Arrowhead Stadium
+2025_15_BUF_NE,2025,REG,15,2025-12-14,Sunday,13:00,BUF,35,NE,31,Home,-4,0,1,7,13,Sean McDermott,Mike Vrabel,John Hussey,BOS00,Gillette Stadium
+2025_15_WAS_NYG,2025,REG,15,2025-12-14,Sunday,13:00,WAS,29,NYG,21,Home,-8,0,1,7,13,Dan Quinn,Brian Daboll,Bill Vinovich,NYC01,MetLife Stadium
+2025_15_LV_PHI,2025,REG,15,2025-12-14,Sunday,13:00,LV,0,PHI,31,Home,31,0,0,7,6,Pete Carroll,Nick Sirianni,Clay Martin,PHI00,Lincoln Financial Field
+2025_15_GB_DEN,2025,REG,15,2025-12-14,Sunday,16:25,GB,26,DEN,34,Home,8,0,0,7,7,Matt LaFleur,Sean Payton,Brad Rogers,DEN00,Empower Field at Mile High
+2025_15_DET_LA,2025,REG,15,2025-12-14,Sunday,16:25,DET,34,LAR,41,Home,7,0,0,10,7,Dan Campbell,Sean McVay,Alan Eck,LAX01,SoFi Stadium
+2025_15_CAR_NO,2025,REG,15,2025-12-14,Sunday,16:25,CAR,17,NO,20,Home,3,0,1,14,7,Dave Canales,Kellen Moore,Alex Moore,NOR00,Mercedes-Benz Superdome
+2025_15_IND_SEA,2025,REG,15,2025-12-14,Sunday,16:25,IND,16,SEA,18,Home,2,0,0,7,7,Shane Steichen,Mike Macdonald,Adrian Hill,SEA00,Lumen Field
+2025_15_TEN_SF,2025,REG,15,2025-12-14,Sunday,16:25,TEN,24,SF,37,Home,13,0,0,7,14,Brian Callahan,Kyle Shanahan,Craig Wrolstad,SFO01,Levi's Stadium
+2025_15_MIN_DAL,2025,REG,15,2025-12-14,Sunday,20:20,MIN,34,DAL,26,Home,-8,0,0,7,10,Kevin O'Connell,Brian Schottenheimer,Scott Novak,DAL00,AT&T Stadium
+2025_15_MIA_PIT,2025,REG,15,2025-12-15,Monday,20:15,MIA,15,PIT,28,Home,13,0,0,8,8,Mike McDaniel,Mike Tomlin,Land Clark,PIT00,Acrisure Stadium
+2025_16_LA_SEA,2025,REG,16,2025-12-18,Thursday,20:15,LAR,37,SEA,38,Home,1,1,1,4,4,Sean McVay,Mike Macdonald,Brad Allen,SEA00,Lumen Field
+2025_16_PHI_WAS,2025,REG,16,2025-12-20,Saturday,17:00,PHI,29,WAS,18,Home,-11,0,1,6,6,Nick Sirianni,Dan Quinn,Craig Wrolstad,WAS00,FedExField
+2025_16_GB_CHI,2025,REG,16,2025-12-20,Saturday,20:20,GB,16,CHI,22,Home,6,1,1,6,6,Matt LaFleur,Ben Johnson,Alex Kemp,CHI98,Soldier Field
+2025_16_TB_CAR,2025,REG,16,2025-12-21,Sunday,13:00,TB,20,CAR,23,Home,3,0,1,10,7,Todd Bowles,Dave Canales,Shawn Smith,CAR00,Bank of America Stadium
+2025_16_BUF_CLE,2025,REG,16,2025-12-21,Sunday,13:00,BUF,23,CLE,20,Home,-3,0,0,7,7,Sean McDermott,Kevin Stefanski,Bill Vinovich,CLE00,FirstEnergy Stadium
+2025_16_LAC_DAL,2025,REG,16,2025-12-21,Sunday,13:00,LAC,34,DAL,17,Home,-17,0,0,7,7,Jim Harbaugh,Brian Schottenheimer,Alan Eck,DAL00,AT&T Stadium
+2025_16_CIN_MIA,2025,REG,16,2025-12-21,Sunday,13:00,CIN,45,MIA,21,Home,-24,0,0,7,6,Zac Taylor,Mike McDaniel,John Hussey,MIA00,Hard Rock Stadium
+2025_16_NYJ_NO,2025,REG,16,2025-12-21,Sunday,13:00,NYJ,6,NO,29,Home,23,0,0,7,7,Aaron Glenn,Kellen Moore,Clay Martin,NOR00,Mercedes-Benz Superdome
+2025_16_MIN_NYG,2025,REG,16,2025-12-21,Sunday,13:00,MIN,16,NYG,13,Home,-3,0,0,7,7,Kevin O'Connell,Brian Daboll,Alex Moore,NYC01,MetLife Stadium
+2025_16_KC_TEN,2025,REG,16,2025-12-21,Sunday,13:00,KC,9,TEN,26,Home,17,0,0,7,7,Andy Reid,Brian Callahan,Clete Blakeman,NAS00,Nissan Stadium
+2025_16_ATL_ARI,2025,REG,16,2025-12-21,Sunday,16:05,ATL,26,ARI,19,Home,-7,0,0,10,7,Raheem Morris,Jonathan Gannon,Land Clark,PHO00,State Farm Stadium
+2025_16_JAX_DEN,2025,REG,16,2025-12-21,Sunday,16:05,JAX,34,DEN,20,Home,-14,0,0,7,7,Liam Coen,Sean Payton,Shawn Hochuli,DEN00,Empower Field at Mile High
+2025_16_PIT_DET,2025,REG,16,2025-12-21,Sunday,16:25,PIT,29,DET,24,Home,-5,0,0,6,7,Mike Tomlin,Dan Campbell,Carl Cheffers,DET00,Ford Field
+2025_16_LV_HOU,2025,REG,16,2025-12-21,Sunday,16:25,LV,21,HOU,23,Home,2,0,0,7,7,Pete Carroll,DeMeco Ryans,Scott Novak,HOU00,NRG Stadium
+2025_16_NE_BAL,2025,REG,16,2025-12-21,Sunday,20:20,NE,28,BAL,24,Home,-4,0,0,7,7,Mike Vrabel,John Harbaugh,Brad Rogers,BAL00,M&T Bank Stadium
+2025_16_SF_IND,2025,REG,16,2025-12-22,Monday,20:15,SF,48,IND,27,Home,-21,0,0,8,8,Kyle Shanahan,Shane Steichen,Ron Torbert,IND00,Lucas Oil Stadium
+2025_17_DAL_WAS,2025,REG,17,2025-12-25,Thursday,13:00,DAL,30,WAS,23,Home,-7,0,1,4,5,Brian Schottenheimer,Dan Quinn,Brad Rogers,WAS00,FedExField
+2025_17_DET_MIN,2025,REG,17,2025-12-25,Thursday,16:30,DET,10,MIN,23,Home,13,0,1,4,4,Dan Campbell,Kevin O'Connell,Shawn Smith,MIN01,U.S. Bank Stadium
+2025_17_DEN_KC,2025,REG,17,2025-12-25,Thursday,20:15,DEN,20,KC,13,Home,-7,0,1,4,4,Sean Payton,Andy Reid,Bill Vinovich,KAN00,GEHA Field at Arrowhead Stadium
+2025_17_HOU_LAC,2025,REG,17,2025-12-27,Saturday,16:30,HOU,20,LAC,16,Home,-4,0,0,6,6,DeMeco Ryans,Jim Harbaugh,Craig Wrolstad,LAX01,SoFi Stadium
+2025_17_BAL_GB,2025,REG,17,2025-12-27,Saturday,20:00,BAL,41,GB,24,Home,-17,0,0,6,7,John Harbaugh,Matt LaFleur,Alan Eck,GNB00,Lambeau Field
+2025_17_SEA_CAR,2025,REG,17,2025-12-28,Sunday,13:00,SEA,27,CAR,10,Home,-17,0,0,10,7,Mike Macdonald,Dave Canales,Carl Cheffers,CAR00,Bank of America Stadium
+2025_17_ARI_CIN,2025,REG,17,2025-12-28,Sunday,13:00,ARI,14,CIN,37,Home,23,0,0,7,7,Jonathan Gannon,Zac Taylor,Clay Martin,CIN00,Paycor Stadium
+2025_17_PIT_CLE,2025,REG,17,2025-12-28,Sunday,13:00,PIT,6,CLE,13,Home,7,0,1,7,7,Mike Tomlin,Kevin Stefanski,John Hussey,CLE00,FirstEnergy Stadium
+2025_17_JAX_IND,2025,REG,17,2025-12-28,Sunday,13:00,JAX,23,IND,17,Home,-6,0,1,7,6,Liam Coen,Shane Steichen,Brad Allen,IND00,Lucas Oil Stadium
+2025_17_TB_MIA,2025,REG,17,2025-12-28,Sunday,13:00,TB,17,MIA,20,Home,3,0,0,7,7,Todd Bowles,Mike McDaniel,Scott Novak,MIA00,Hard Rock Stadium
+2025_17_NE_NYJ,2025,REG,17,2025-12-28,Sunday,13:00,NE,42,NYJ,10,Home,-32,0,1,7,7,Mike Vrabel,Aaron Glenn,Alex Kemp,NYC01,MetLife Stadium
+2025_17_NO_TEN,2025,REG,17,2025-12-28,Sunday,13:00,NO,34,TEN,26,Home,-8,0,0,7,7,Kellen Moore,Brian Callahan,Adrian Hill,NAS00,Nissan Stadium
+2025_17_NYG_LV,2025,REG,17,2025-12-28,Sunday,16:05,NYG,34,LV,10,Home,-24,0,0,7,7,Brian Daboll,Pete Carroll,Land Clark,VEG00,Allegiant Stadium
+2025_17_PHI_BUF,2025,REG,17,2025-12-28,Sunday,16:25,PHI,13,BUF,12,Home,-1,0,0,8,7,Nick Sirianni,Sean McDermott,Ron Torbert,BUF00,New Era Field
+2025_17_CHI_SF,2025,REG,17,2025-12-28,Sunday,20:20,CHI,38,SF,42,Home,4,0,0,8,6,Ben Johnson,Kyle Shanahan,Alex Moore,SFO01,Levi's Stadium
+2025_17_LA_ATL,2025,REG,17,2025-12-29,Monday,20:15,LAR,24,ATL,27,Home,3,0,0,11,8,Sean McVay,Raheem Morris,Clete Blakeman,ATL97,Mercedes-Benz Stadium
+2025_18_CAR_TB,2025,REG,18,2026-01-03,Saturday,16:30,CAR,14,TB,16,Home,2,0,1,6,6,Dave Canales,Todd Bowles,Brad Allen,TAM00,Raymond James Stadium
+2025_18_SEA_SF,2025,REG,18,2026-01-03,Saturday,20:00,SEA,13,SF,3,Home,-10,0,1,6,6,Mike Macdonald,Kyle Shanahan,Bill Vinovich,SFO01,Levi's Stadium
+2025_18_NO_ATL,2025,REG,18,2026-01-04,Sunday,13:00,NO,17,ATL,19,Home,2,0,1,7,6,Kellen Moore,Raheem Morris,Ron Torbert,ATL97,Mercedes-Benz Stadium
+2025_18_CLE_CIN,2025,REG,18,2026-01-04,Sunday,13:00,CLE,20,CIN,18,Home,-2,0,1,7,7,Kevin Stefanski,Zac Taylor,Alex Kemp,CIN00,Paycor Stadium
+2025_18_IND_HOU,2025,REG,18,2026-01-04,Sunday,13:00,IND,30,HOU,38,Home,8,0,1,7,8,Shane Steichen,DeMeco Ryans,Land Clark,HOU00,NRG Stadium
+2025_18_TEN_JAX,2025,REG,18,2026-01-04,Sunday,13:00,TEN,7,JAX,41,Home,34,0,1,7,7,Brian Callahan,Liam Coen,Scott Novak,JAX00,TIAA Bank Stadium
+2025_18_GB_MIN,2025,REG,18,2026-01-04,Sunday,13:00,GB,3,MIN,16,Home,13,0,1,8,10,Matt LaFleur,Kevin O'Connell,John Hussey,MIN01,U.S. Bank Stadium
+2025_18_DAL_NYG,2025,REG,18,2026-01-04,Sunday,13:00,DAL,17,NYG,34,Home,17,0,1,10,7,Brian Schottenheimer,Brian Daboll,Adrian Hill,NYC01,MetLife Stadium
+2025_18_NYJ_BUF,2025,REG,18,2026-01-04,Sunday,16:25,NYJ,8,BUF,35,Home,27,0,1,7,7,Aaron Glenn,Sean McDermott,Alan Eck,BUF00,New Era Field
+2025_18_DET_CHI,2025,REG,18,2026-01-04,Sunday,16:25,DET,19,CHI,16,Home,-3,0,1,10,7,Dan Campbell,Ben Johnson,Brad Rogers,CHI98,Soldier Field
+2025_18_LAC_DEN,2025,REG,18,2026-01-04,Sunday,16:25,LAC,3,DEN,19,Home,16,0,1,8,10,Jim Harbaugh,Sean Payton,Clete Blakeman,DEN00,Empower Field at Mile High
+2025_18_ARI_LA,2025,REG,18,2026-01-04,Sunday,16:25,ARI,20,LAR,37,Home,17,0,1,7,6,Jonathan Gannon,Sean McVay,Carl Cheffers,LAX01,SoFi Stadium
+2025_18_KC_LV,2025,REG,18,2026-01-04,Sunday,16:25,KC,12,LV,14,Home,2,0,1,10,7,Andy Reid,Pete Carroll,Craig Wrolstad,VEG00,Allegiant Stadium
+2025_18_MIA_NE,2025,REG,18,2026-01-04,Sunday,16:25,MIA,10,NE,38,Home,28,0,1,7,7,Mike McDaniel,Mike Vrabel,Clay Martin,BOS00,Gillette Stadium
+2025_18_WAS_PHI,2025,REG,18,2026-01-04,Sunday,16:25,WAS,24,PHI,17,Home,-7,0,1,10,7,Dan Quinn,Nick Sirianni,Shawn Hochuli,PHI00,Lincoln Financial Field
+2025_18_BAL_PIT,2025,REG,18,2026-01-04,Sunday,20:20,BAL,24,PIT,26,Home,2,0,1,8,7,John Harbaugh,Mike Tomlin,Shawn Smith,PIT00,Acrisure Stadium

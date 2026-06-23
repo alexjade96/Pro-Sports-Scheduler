@@ -1,0 +1,272 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2022_01_BUF_LA,2022,REG,1,2022-09-08,Thursday,20:20,BUF,31,LAR,10,Home,-21,0,0,7,7,Sean McDermott,Sean McVay,Carl Cheffers,LAX01,SoFi Stadium
+2022_01_NO_ATL,2022,REG,1,2022-09-11,Sunday,13:00,NO,27,ATL,26,Home,-1,0,1,7,7,Dennis Allen,Arthur Smith,Alex Kemp,ATL97,Mercedes-Benz Stadium
+2022_01_CLE_CAR,2022,REG,1,2022-09-11,Sunday,13:00,CLE,26,CAR,24,Home,-2,0,0,7,7,Kevin Stefanski,Matt Rhule,Brad Rogers,CAR00,Bank of America Stadium
+2022_01_SF_CHI,2022,REG,1,2022-09-11,Sunday,13:00,SF,10,CHI,19,Home,9,0,0,7,7,Kyle Shanahan,Matt Eberflus,Clay Martin,CHI98,Soldier Field
+2022_01_PIT_CIN,2022,REG,1,2022-09-11,Sunday,13:00,PIT,23,CIN,20,Home,-3,1,1,7,7,Mike Tomlin,Zac Taylor,Shawn Hochuli,CIN00,Paycor Stadium
+2022_01_PHI_DET,2022,REG,1,2022-09-11,Sunday,13:00,PHI,38,DET,35,Home,-3,0,0,7,7,Nick Sirianni,Dan Campbell,Brad Allen,DET00,Ford Field
+2022_01_IND_HOU,2022,REG,1,2022-09-11,Sunday,13:00,IND,20,HOU,20,Home,0,1,1,7,7,Frank Reich,Lovie Smith,Land Clark,HOU00,NRG Stadium
+2022_01_NE_MIA,2022,REG,1,2022-09-11,Sunday,13:00,NE,7,MIA,20,Home,13,0,1,7,7,Bill Belichick,Mike McDaniel,John Hussey,MIA00,Hard Rock Stadium
+2022_01_BAL_NYJ,2022,REG,1,2022-09-11,Sunday,13:00,BAL,24,NYJ,9,Home,-15,0,0,7,7,John Harbaugh,Robert Saleh,Craig Wrolstad,NYC01,MetLife Stadium
+2022_01_JAX_WAS,2022,REG,1,2022-09-11,Sunday,13:00,JAX,22,WAS,28,Home,6,0,0,7,7,Doug Pederson,Ron Rivera,Tra Blake,WAS00,FedExField
+2022_01_KC_ARI,2022,REG,1,2022-09-11,Sunday,16:25,KC,44,ARI,21,Home,-23,0,0,7,7,Andy Reid,Kliff Kingsbury,Scott Novak,PHO00,State Farm Stadium
+2022_01_LV_LAC,2022,REG,1,2022-09-11,Sunday,16:25,LV,19,LAC,24,Home,5,0,1,7,7,Josh McDaniels,Brandon Staley,Shawn Smith,LAX01,SoFi Stadium
+2022_01_GB_MIN,2022,REG,1,2022-09-11,Sunday,16:25,GB,7,MIN,23,Home,16,0,1,7,7,Matt LaFleur,Kevin O'Connell,Bill Vinovich,MIN01,U.S. Bank Stadium
+2022_01_NYG_TEN,2022,REG,1,2022-09-11,Sunday,16:25,NYG,21,TEN,20,Home,-1,0,0,7,7,Brian Daboll,Mike Vrabel,Jerome Boger,NAS00,Nissan Stadium
+2022_01_TB_DAL,2022,REG,1,2022-09-11,Sunday,20:20,TB,19,DAL,3,Home,-16,0,0,7,7,Todd Bowles,Mike McCarthy,Ron Torbert,DAL00,AT&T Stadium
+2022_01_DEN_SEA,2022,REG,1,2022-09-12,Monday,20:15,DEN,16,SEA,17,Home,1,0,0,7,7,Nathaniel Hackett,Pete Carroll,Clete Blakeman,SEA00,Lumen Field
+2022_02_LAC_KC,2022,REG,2,2022-09-15,Thursday,20:15,LAC,24,KC,27,Home,3,0,1,4,4,Brandon Staley,Andy Reid,John Hussey,KAN00,GEHA Field at Arrowhead Stadium
+2022_02_MIA_BAL,2022,REG,2,2022-09-18,Sunday,13:00,MIA,42,BAL,38,Home,-4,0,0,7,7,Mike McDaniel,John Harbaugh,Adrian Hill,BAL00,M&T Bank Stadium
+2022_02_NYJ_CLE,2022,REG,2,2022-09-18,Sunday,13:00,NYJ,31,CLE,30,Home,-1,0,0,7,7,Robert Saleh,Kevin Stefanski,Tra Blake,CLE00,FirstEnergy Stadium
+2022_02_WAS_DET,2022,REG,2,2022-09-18,Sunday,13:00,WAS,27,DET,36,Home,9,0,0,7,7,Ron Rivera,Dan Campbell,Bill Vinovich,DET00,Ford Field
+2022_02_IND_JAX,2022,REG,2,2022-09-18,Sunday,13:00,IND,0,JAX,24,Home,24,0,1,7,7,Frank Reich,Doug Pederson,Alex Kemp,JAX00,TIAA Bank Stadium
+2022_02_TB_NO,2022,REG,2,2022-09-18,Sunday,13:00,TB,20,NO,10,Home,-10,0,1,7,7,Todd Bowles,Dennis Allen,Shawn Hochuli,NOR00,Mercedes-Benz Superdome
+2022_02_CAR_NYG,2022,REG,2,2022-09-18,Sunday,13:00,CAR,16,NYG,19,Home,3,0,0,7,7,Matt Rhule,Brian Daboll,Ron Torbert,NYC01,MetLife Stadium
+2022_02_NE_PIT,2022,REG,2,2022-09-18,Sunday,13:00,NE,17,PIT,14,Home,-3,0,0,7,7,Bill Belichick,Mike Tomlin,Land Clark,PIT00,Acrisure Stadium
+2022_02_ATL_LA,2022,REG,2,2022-09-18,Sunday,16:05,ATL,27,LAR,31,Home,4,0,0,7,10,Arthur Smith,Sean McVay,Clay Martin,LAX01,SoFi Stadium
+2022_02_SEA_SF,2022,REG,2,2022-09-18,Sunday,16:05,SEA,7,SF,27,Home,20,0,1,6,7,Pete Carroll,Kyle Shanahan,Brad Rogers,SFO01,Levi's Stadium
+2022_02_CIN_DAL,2022,REG,2,2022-09-18,Sunday,16:25,CIN,17,DAL,20,Home,3,0,0,7,7,Zac Taylor,Mike McCarthy,Brad Allen,DAL00,AT&T Stadium
+2022_02_HOU_DEN,2022,REG,2,2022-09-18,Sunday,16:25,HOU,9,DEN,16,Home,7,0,0,7,6,Lovie Smith,Nathaniel Hackett,Carl Cheffers,DEN00,Empower Field at Mile High
+2022_02_ARI_LV,2022,REG,2,2022-09-18,Sunday,16:25,ARI,29,LV,23,Home,-6,1,0,7,7,Kliff Kingsbury,Josh McDaniels,Clete Blakeman,VEG00,Allegiant Stadium
+2022_02_CHI_GB,2022,REG,2,2022-09-18,Sunday,20:20,CHI,10,GB,27,Home,17,0,1,7,7,Matt Eberflus,Matt LaFleur,Craig Wrolstad,GNB00,Lambeau Field
+2022_02_TEN_BUF,2022,REG,2,2022-09-19,Monday,19:15,TEN,7,BUF,41,Home,34,0,0,8,11,Mike Vrabel,Sean McDermott,Shawn Smith,BUF00,New Era Field
+2022_02_MIN_PHI,2022,REG,2,2022-09-19,Monday,20:30,MIN,7,PHI,24,Home,17,0,0,8,8,Kevin O'Connell,Nick Sirianni,Scott Novak,PHI00,Lincoln Financial Field
+2022_03_PIT_CLE,2022,REG,3,2022-09-22,Thursday,20:15,PIT,17,CLE,29,Home,12,0,1,4,4,Mike Tomlin,Kevin Stefanski,Clay Martin,CLE00,FirstEnergy Stadium
+2022_03_NO_CAR,2022,REG,3,2022-09-25,Sunday,13:00,NO,14,CAR,22,Home,8,0,1,7,7,Dennis Allen,Matt Rhule,Carl Cheffers,CAR00,Bank of America Stadium
+2022_03_HOU_CHI,2022,REG,3,2022-09-25,Sunday,13:00,HOU,20,CHI,23,Home,3,0,0,7,7,Lovie Smith,Matt Eberflus,Clete Blakeman,CHI98,Soldier Field
+2022_03_KC_IND,2022,REG,3,2022-09-25,Sunday,13:00,KC,17,IND,20,Home,3,0,0,10,7,Andy Reid,Frank Reich,Shawn Smith,IND00,Lucas Oil Stadium
+2022_03_BUF_MIA,2022,REG,3,2022-09-25,Sunday,13:00,BUF,19,MIA,21,Home,2,0,1,6,7,Sean McDermott,Mike McDaniel,Alex Kemp,MIA00,Hard Rock Stadium
+2022_03_DET_MIN,2022,REG,3,2022-09-25,Sunday,13:00,DET,24,MIN,28,Home,4,0,1,7,6,Dan Campbell,Kevin O'Connell,John Hussey,MIN01,U.S. Bank Stadium
+2022_03_BAL_NE,2022,REG,3,2022-09-25,Sunday,13:00,BAL,37,NE,26,Home,-11,0,0,7,7,John Harbaugh,Bill Belichick,Bill Vinovich,BOS00,Gillette Stadium
+2022_03_CIN_NYJ,2022,REG,3,2022-09-25,Sunday,13:00,CIN,27,NYJ,12,Home,-15,0,0,7,7,Zac Taylor,Robert Saleh,Jerome Boger,NYC01,MetLife Stadium
+2022_03_LV_TEN,2022,REG,3,2022-09-25,Sunday,13:00,LV,22,TEN,24,Home,2,0,0,7,6,Josh McDaniels,Mike Vrabel,Brad Rogers,NAS00,Nissan Stadium
+2022_03_PHI_WAS,2022,REG,3,2022-09-25,Sunday,13:00,PHI,24,WAS,8,Home,-16,0,1,6,7,Nick Sirianni,Ron Rivera,Ron Torbert,WAS00,FedExField
+2022_03_JAX_LAC,2022,REG,3,2022-09-25,Sunday,16:05,JAX,38,LAC,10,Home,-28,0,0,7,10,Doug Pederson,Brandon Staley,Craig Wrolstad,LAX01,SoFi Stadium
+2022_03_LA_ARI,2022,REG,3,2022-09-25,Sunday,16:25,LAR,20,ARI,12,Home,-8,0,1,7,7,Sean McVay,Kliff Kingsbury,Adrian Hill,PHO00,State Farm Stadium
+2022_03_ATL_SEA,2022,REG,3,2022-09-25,Sunday,16:25,ATL,27,SEA,23,Home,-4,0,0,7,7,Arthur Smith,Pete Carroll,Tra Blake,SEA00,Lumen Field
+2022_03_GB_TB,2022,REG,3,2022-09-25,Sunday,16:25,GB,14,TB,12,Home,-2,0,0,7,7,Matt LaFleur,Todd Bowles,Scott Novak,TAM00,Raymond James Stadium
+2022_03_SF_DEN,2022,REG,3,2022-09-25,Sunday,20:20,SF,10,DEN,11,Home,1,0,0,7,7,Kyle Shanahan,Nathaniel Hackett,Shawn Hochuli,DEN00,Empower Field at Mile High
+2022_03_DAL_NYG,2022,REG,3,2022-09-26,Monday,20:15,DAL,23,NYG,16,Home,-7,0,1,8,8,Mike McCarthy,Brian Daboll,Land Clark,NYC01,MetLife Stadium
+2022_04_MIA_CIN,2022,REG,4,2022-09-29,Thursday,20:15,MIA,15,CIN,27,Home,12,0,0,4,4,Mike McDaniel,Zac Taylor,Tra Blake,CIN00,Paycor Stadium
+2022_04_MIN_NO,2022,REG,4,2022-10-02,Sunday,09:30,MIN,28,NO,25,Neutral,-3,0,0,7,7,Kevin O'Connell,Dennis Allen,Clete Blakeman,LON02,Tottenham Stadium
+2022_04_CLE_ATL,2022,REG,4,2022-10-02,Sunday,13:00,CLE,20,ATL,23,Home,3,0,0,10,7,Kevin Stefanski,Arthur Smith,Craig Wrolstad,ATL97,Mercedes-Benz Stadium
+2022_04_BUF_BAL,2022,REG,4,2022-10-02,Sunday,13:00,BUF,23,BAL,20,Home,-3,0,0,7,7,Sean McDermott,John Harbaugh,Jerome Boger,BAL00,M&T Bank Stadium
+2022_04_WAS_DAL,2022,REG,4,2022-10-02,Sunday,13:00,WAS,10,DAL,25,Home,15,0,1,7,6,Ron Rivera,Mike McCarthy,Shawn Smith,DAL00,AT&T Stadium
+2022_04_SEA_DET,2022,REG,4,2022-10-02,Sunday,13:00,SEA,48,DET,45,Home,-3,0,0,7,7,Pete Carroll,Dan Campbell,Clay Martin,DET00,Ford Field
+2022_04_LAC_HOU,2022,REG,4,2022-10-02,Sunday,13:00,LAC,34,HOU,24,Home,-10,0,0,7,7,Brandon Staley,Lovie Smith,Alex Kemp,HOU00,NRG Stadium
+2022_04_TEN_IND,2022,REG,4,2022-10-02,Sunday,13:00,TEN,24,IND,17,Home,-7,0,1,7,7,Mike Vrabel,Frank Reich,Scott Novak,IND00,Lucas Oil Stadium
+2022_04_CHI_NYG,2022,REG,4,2022-10-02,Sunday,13:00,CHI,12,NYG,20,Home,8,0,0,7,6,Matt Eberflus,Brian Daboll,Carl Cheffers,NYC01,MetLife Stadium
+2022_04_JAX_PHI,2022,REG,4,2022-10-02,Sunday,13:00,JAX,21,PHI,29,Home,8,0,0,7,7,Doug Pederson,Nick Sirianni,Shawn Hochuli,PHI00,Lincoln Financial Field
+2022_04_NYJ_PIT,2022,REG,4,2022-10-02,Sunday,13:00,NYJ,24,PIT,20,Home,-4,0,0,7,10,Robert Saleh,Mike Tomlin,Brad Rogers,PIT00,Acrisure Stadium
+2022_04_ARI_CAR,2022,REG,4,2022-10-02,Sunday,16:05,ARI,26,CAR,16,Home,-10,0,0,7,7,Kliff Kingsbury,Matt Rhule,John Hussey,CAR00,Bank of America Stadium
+2022_04_NE_GB,2022,REG,4,2022-10-02,Sunday,16:25,NE,24,GB,27,Home,3,1,0,7,7,Bill Belichick,Matt LaFleur,Adrian Hill,GNB00,Lambeau Field
+2022_04_DEN_LV,2022,REG,4,2022-10-02,Sunday,16:25,DEN,23,LV,32,Home,9,0,1,7,7,Nathaniel Hackett,Josh McDaniels,Land Clark,VEG00,Allegiant Stadium
+2022_04_KC_TB,2022,REG,4,2022-10-02,Sunday,20:20,KC,41,TB,31,Home,-10,0,0,7,7,Andy Reid,Todd Bowles,Bill Vinovich,TAM00,Raymond James Stadium
+2022_04_LA_SF,2022,REG,4,2022-10-03,Monday,20:15,LAR,9,SF,24,Home,15,0,1,8,8,Sean McVay,Kyle Shanahan,Brad Allen,SFO01,Levi's Stadium
+2022_05_IND_DEN,2022,REG,5,2022-10-06,Thursday,20:15,IND,12,DEN,9,Home,-3,1,0,4,4,Frank Reich,Nathaniel Hackett,Brad Rogers,DEN00,Empower Field at Mile High
+2022_05_NYG_GB,2022,REG,5,2022-10-09,Sunday,09:30,NYG,27,GB,22,Neutral,-5,0,0,7,7,Brian Daboll,Matt LaFleur,Alex Kemp,LON02,Tottenham Stadium
+2022_05_PIT_BUF,2022,REG,5,2022-10-09,Sunday,13:00,PIT,3,BUF,38,Home,35,0,0,7,7,Mike Tomlin,Sean McDermott,John Hussey,BUF00,New Era Field
+2022_05_LAC_CLE,2022,REG,5,2022-10-09,Sunday,13:00,LAC,30,CLE,28,Home,-2,0,0,7,7,Brandon Staley,Kevin Stefanski,Adrian Hill,CLE00,FirstEnergy Stadium
+2022_05_HOU_JAX,2022,REG,5,2022-10-09,Sunday,13:00,HOU,13,JAX,6,Home,-7,0,1,7,7,Lovie Smith,Doug Pederson,Ron Torbert,JAX00,TIAA Bank Stadium
+2022_05_CHI_MIN,2022,REG,5,2022-10-09,Sunday,13:00,CHI,22,MIN,29,Home,7,0,1,7,7,Matt Eberflus,Kevin O'Connell,Shawn Hochuli,MIN01,U.S. Bank Stadium
+2022_05_DET_NE,2022,REG,5,2022-10-09,Sunday,13:00,DET,0,NE,29,Home,29,0,0,7,7,Dan Campbell,Bill Belichick,Craig Wrolstad,BOS00,Gillette Stadium
+2022_05_SEA_NO,2022,REG,5,2022-10-09,Sunday,13:00,SEA,32,NO,39,Home,7,0,0,7,7,Pete Carroll,Dennis Allen,Brad Allen,NOR00,Mercedes-Benz Superdome
+2022_05_MIA_NYJ,2022,REG,5,2022-10-09,Sunday,13:00,MIA,17,NYJ,40,Home,23,0,1,10,7,Mike McDaniel,Robert Saleh,Clay Martin,NYC01,MetLife Stadium
+2022_05_ATL_TB,2022,REG,5,2022-10-09,Sunday,13:00,ATL,15,TB,21,Home,6,0,1,7,7,Arthur Smith,Todd Bowles,Jerome Boger,TAM00,Raymond James Stadium
+2022_05_TEN_WAS,2022,REG,5,2022-10-09,Sunday,13:00,TEN,21,WAS,17,Home,-4,0,0,7,7,Mike Vrabel,Ron Rivera,Land Clark,WAS00,FedExField
+2022_05_SF_CAR,2022,REG,5,2022-10-09,Sunday,16:05,SF,37,CAR,15,Home,-22,0,0,6,7,Kyle Shanahan,Matt Rhule,Shawn Smith,CAR00,Bank of America Stadium
+2022_05_PHI_ARI,2022,REG,5,2022-10-09,Sunday,16:25,PHI,20,ARI,17,Home,-3,0,0,7,7,Nick Sirianni,Kliff Kingsbury,Tra Blake,PHO00,State Farm Stadium
+2022_05_DAL_LA,2022,REG,5,2022-10-09,Sunday,16:25,DAL,22,LAR,10,Home,-12,0,0,7,6,Mike McCarthy,Sean McVay,Bill Vinovich,LAX01,SoFi Stadium
+2022_05_CIN_BAL,2022,REG,5,2022-10-09,Sunday,20:20,CIN,17,BAL,19,Home,2,0,1,10,7,Zac Taylor,John Harbaugh,Scott Novak,BAL00,M&T Bank Stadium
+2022_05_LV_KC,2022,REG,5,2022-10-10,Monday,20:15,LV,29,KC,30,Home,1,0,1,8,8,Josh McDaniels,Andy Reid,Carl Cheffers,KAN00,GEHA Field at Arrowhead Stadium
+2022_06_WAS_CHI,2022,REG,6,2022-10-13,Thursday,20:15,WAS,12,CHI,7,Home,-5,0,0,4,4,Ron Rivera,Matt Eberflus,Adrian Hill,CHI98,Soldier Field
+2022_06_SF_ATL,2022,REG,6,2022-10-16,Sunday,13:00,SF,14,ATL,28,Home,14,0,0,7,7,Kyle Shanahan,Arthur Smith,Carl Cheffers,ATL97,Mercedes-Benz Stadium
+2022_06_NE_CLE,2022,REG,6,2022-10-16,Sunday,13:00,NE,38,CLE,15,Home,-23,0,0,7,7,Bill Belichick,Kevin Stefanski,Scott Novak,CLE00,FirstEnergy Stadium
+2022_06_NYJ_GB,2022,REG,6,2022-10-16,Sunday,13:00,NYJ,27,GB,10,Home,-17,0,0,7,7,Robert Saleh,Matt LaFleur,Clete Blakeman,GNB00,Lambeau Field
+2022_06_JAX_IND,2022,REG,6,2022-10-16,Sunday,13:00,JAX,27,IND,34,Home,7,0,1,7,10,Doug Pederson,Frank Reich,Jerome Boger,IND00,Lucas Oil Stadium
+2022_06_MIN_MIA,2022,REG,6,2022-10-16,Sunday,13:00,MIN,24,MIA,16,Home,-8,0,0,7,7,Kevin O'Connell,Mike McDaniel,Brad Rogers,MIA00,Hard Rock Stadium
+2022_06_CIN_NO,2022,REG,6,2022-10-16,Sunday,13:00,CIN,30,NO,26,Home,-4,0,0,7,7,Zac Taylor,Dennis Allen,Land Clark,NOR00,Mercedes-Benz Superdome
+2022_06_BAL_NYG,2022,REG,6,2022-10-16,Sunday,13:00,BAL,20,NYG,24,Home,4,0,0,7,7,John Harbaugh,Brian Daboll,Clay Martin,NYC01,MetLife Stadium
+2022_06_TB_PIT,2022,REG,6,2022-10-16,Sunday,13:00,TB,18,PIT,20,Home,2,0,0,7,7,Todd Bowles,Mike Tomlin,Shawn Smith,PIT00,Acrisure Stadium
+2022_06_CAR_LA,2022,REG,6,2022-10-16,Sunday,16:05,CAR,10,LAR,24,Home,14,0,0,7,7,Steve Wilks,Sean McVay,Tra Blake,LAX01,SoFi Stadium
+2022_06_ARI_SEA,2022,REG,6,2022-10-16,Sunday,16:05,ARI,9,SEA,19,Home,10,0,1,7,7,Kliff Kingsbury,Pete Carroll,Shawn Hochuli,SEA00,Lumen Field
+2022_06_BUF_KC,2022,REG,6,2022-10-16,Sunday,16:25,BUF,24,KC,20,Home,-4,0,0,7,6,Sean McDermott,Andy Reid,Brad Allen,KAN00,GEHA Field at Arrowhead Stadium
+2022_06_DAL_PHI,2022,REG,6,2022-10-16,Sunday,20:20,DAL,17,PHI,26,Home,9,0,1,7,7,Mike McCarthy,Nick Sirianni,John Hussey,PHI00,Lincoln Financial Field
+2022_06_DEN_LAC,2022,REG,6,2022-10-17,Monday,20:15,DEN,16,LAC,19,Home,3,1,1,11,8,Nathaniel Hackett,Brandon Staley,Ron Torbert,LAX01,SoFi Stadium
+2022_07_NO_ARI,2022,REG,7,2022-10-20,Thursday,20:15,NO,34,ARI,42,Home,8,0,0,4,4,Dennis Allen,Kliff Kingsbury,Jerome Boger,PHO00,State Farm Stadium
+2022_07_CLE_BAL,2022,REG,7,2022-10-23,Sunday,13:00,CLE,20,BAL,23,Home,3,0,1,7,7,Kevin Stefanski,John Harbaugh,Shawn Smith,BAL00,M&T Bank Stadium
+2022_07_TB_CAR,2022,REG,7,2022-10-23,Sunday,13:00,TB,3,CAR,21,Home,18,0,1,7,7,Todd Bowles,Steve Wilks,Craig Wrolstad,CAR00,Bank of America Stadium
+2022_07_ATL_CIN,2022,REG,7,2022-10-23,Sunday,13:00,ATL,17,CIN,35,Home,18,0,0,7,7,Arthur Smith,Zac Taylor,Clete Blakeman,CIN00,Paycor Stadium
+2022_07_DET_DAL,2022,REG,7,2022-10-23,Sunday,13:00,DET,6,DAL,24,Home,18,0,0,14,7,Dan Campbell,Mike McCarthy,Adrian Hill,DAL00,AT&T Stadium
+2022_07_NYG_JAX,2022,REG,7,2022-10-23,Sunday,13:00,NYG,23,JAX,17,Home,-6,0,0,7,7,Brian Daboll,Doug Pederson,Tra Blake,JAX00,TIAA Bank Stadium
+2022_07_IND_TEN,2022,REG,7,2022-10-23,Sunday,13:00,IND,10,TEN,19,Home,9,0,1,7,14,Frank Reich,Mike Vrabel,Ron Torbert,NAS00,Nissan Stadium
+2022_07_GB_WAS,2022,REG,7,2022-10-23,Sunday,13:00,GB,21,WAS,23,Home,2,0,0,7,10,Matt LaFleur,Ron Rivera,Clay Martin,WAS00,FedExField
+2022_07_NYJ_DEN,2022,REG,7,2022-10-23,Sunday,16:05,NYJ,16,DEN,9,Home,-7,0,0,7,6,Robert Saleh,Nathaniel Hackett,Bill Vinovich,DEN00,Empower Field at Mile High
+2022_07_HOU_LV,2022,REG,7,2022-10-23,Sunday,16:05,HOU,20,LV,38,Home,18,0,0,14,13,Lovie Smith,Josh McDaniels,John Hussey,VEG00,Allegiant Stadium
+2022_07_SEA_LAC,2022,REG,7,2022-10-23,Sunday,16:25,SEA,37,LAC,23,Home,-14,0,0,7,6,Pete Carroll,Brandon Staley,Land Clark,LAX01,SoFi Stadium
+2022_07_KC_SF,2022,REG,7,2022-10-23,Sunday,16:25,KC,44,SF,23,Home,-21,0,0,7,7,Andy Reid,Kyle Shanahan,Alex Kemp,SFO01,Levi's Stadium
+2022_07_PIT_MIA,2022,REG,7,2022-10-23,Sunday,20:20,PIT,10,MIA,16,Home,6,0,0,7,7,Mike Tomlin,Mike McDaniel,Scott Novak,MIA00,Hard Rock Stadium
+2022_07_CHI_NE,2022,REG,7,2022-10-24,Monday,20:15,CHI,33,NE,14,Home,-19,0,0,11,8,Matt Eberflus,Bill Belichick,Brad Allen,BOS00,Gillette Stadium
+2022_08_BAL_TB,2022,REG,8,2022-10-27,Thursday,20:15,BAL,27,TB,22,Home,-5,0,0,4,4,John Harbaugh,Todd Bowles,Carl Cheffers,TAM00,Raymond James Stadium
+2022_08_DEN_JAX,2022,REG,8,2022-10-30,Sunday,09:30,DEN,21,JAX,17,Neutral,-4,0,0,7,7,Nathaniel Hackett,Doug Pederson,Adrian Hill,LON00,Wembley Stadium
+2022_08_CAR_ATL,2022,REG,8,2022-10-30,Sunday,13:00,CAR,34,ATL,37,Home,3,1,1,7,7,Steve Wilks,Arthur Smith,Shawn Hochuli,ATL97,Mercedes-Benz Stadium
+2022_08_CHI_DAL,2022,REG,8,2022-10-30,Sunday,13:00,CHI,29,DAL,49,Home,20,0,0,6,7,Matt Eberflus,Mike McCarthy,Brad Rogers,DAL00,AT&T Stadium
+2022_08_MIA_DET,2022,REG,8,2022-10-30,Sunday,13:00,MIA,31,DET,27,Home,-4,0,0,7,7,Mike McDaniel,Dan Campbell,Alex Kemp,DET00,Ford Field
+2022_08_ARI_MIN,2022,REG,8,2022-10-30,Sunday,13:00,ARI,26,MIN,34,Home,8,0,0,10,14,Kliff Kingsbury,Kevin O'Connell,Brad Allen,MIN01,U.S. Bank Stadium
+2022_08_LV_NO,2022,REG,8,2022-10-30,Sunday,13:00,LV,0,NO,24,Home,24,0,0,7,10,Josh McDaniels,Dennis Allen,Scott Novak,NOR00,Mercedes-Benz Superdome
+2022_08_NE_NYJ,2022,REG,8,2022-10-30,Sunday,13:00,NE,22,NYJ,17,Home,-5,0,1,6,7,Bill Belichick,Robert Saleh,Shawn Smith,NYC01,MetLife Stadium
+2022_08_PIT_PHI,2022,REG,8,2022-10-30,Sunday,13:00,PIT,13,PHI,35,Home,22,0,0,7,14,Mike Tomlin,Nick Sirianni,Clete Blakeman,PHI00,Lincoln Financial Field
+2022_08_TEN_HOU,2022,REG,8,2022-10-30,Sunday,16:05,TEN,17,HOU,10,Home,-7,0,1,7,7,Mike Vrabel,Lovie Smith,Clay Martin,HOU00,NRG Stadium
+2022_08_WAS_IND,2022,REG,8,2022-10-30,Sunday,16:25,WAS,17,IND,16,Home,-1,0,0,7,7,Ron Rivera,Frank Reich,Craig Wrolstad,IND00,Lucas Oil Stadium
+2022_08_SF_LA,2022,REG,8,2022-10-30,Sunday,16:25,SF,31,LAR,14,Home,-17,0,1,7,14,Kyle Shanahan,Sean McVay,John Hussey,LAX01,SoFi Stadium
+2022_08_NYG_SEA,2022,REG,8,2022-10-30,Sunday,16:25,NYG,13,SEA,27,Home,14,0,0,7,7,Brian Daboll,Pete Carroll,Jerome Boger,SEA00,Lumen Field
+2022_08_GB_BUF,2022,REG,8,2022-10-30,Sunday,20:20,GB,17,BUF,27,Home,10,0,0,7,14,Matt LaFleur,Sean McDermott,Ron Torbert,BUF00,New Era Field
+2022_08_CIN_CLE,2022,REG,8,2022-10-31,Monday,20:15,CIN,13,CLE,32,Home,19,0,1,8,8,Zac Taylor,Kevin Stefanski,Bill Vinovich,CLE00,FirstEnergy Stadium
+2022_09_PHI_HOU,2022,REG,9,2022-11-03,Thursday,20:15,PHI,29,HOU,17,Home,-12,0,0,4,4,Nick Sirianni,Lovie Smith,Craig Wrolstad,HOU00,NRG Stadium
+2022_09_LAC_ATL,2022,REG,9,2022-11-06,Sunday,13:00,LAC,20,ATL,17,Home,-3,0,0,14,7,Brandon Staley,Arthur Smith,John Hussey,ATL97,Mercedes-Benz Stadium
+2022_09_MIA_CHI,2022,REG,9,2022-11-06,Sunday,13:00,MIA,35,CHI,32,Home,-3,0,0,7,7,Mike McDaniel,Matt Eberflus,Ron Torbert,CHI98,Soldier Field
+2022_09_CAR_CIN,2022,REG,9,2022-11-06,Sunday,13:00,CAR,21,CIN,42,Home,21,0,0,7,6,Steve Wilks,Zac Taylor,Alex Kemp,CIN00,Paycor Stadium
+2022_09_GB_DET,2022,REG,9,2022-11-06,Sunday,13:00,GB,9,DET,15,Home,6,0,1,7,7,Matt LaFleur,Dan Campbell,Tra Blake,DET00,Ford Field
+2022_09_LV_JAX,2022,REG,9,2022-11-06,Sunday,13:00,LV,20,JAX,27,Home,7,0,0,7,7,Josh McDaniels,Doug Pederson,Bill Vinovich,JAX00,TIAA Bank Stadium
+2022_09_IND_NE,2022,REG,9,2022-11-06,Sunday,13:00,IND,3,NE,26,Home,23,0,0,7,7,Frank Reich,Bill Belichick,Clay Martin,BOS00,Gillette Stadium
+2022_09_BUF_NYJ,2022,REG,9,2022-11-06,Sunday,13:00,BUF,17,NYJ,20,Home,3,0,1,7,7,Sean McDermott,Robert Saleh,Land Clark,NYC01,MetLife Stadium
+2022_09_MIN_WAS,2022,REG,9,2022-11-06,Sunday,13:00,MIN,20,WAS,17,Home,-3,0,0,7,7,Kevin O'Connell,Ron Rivera,Jerome Boger,WAS00,FedExField
+2022_09_SEA_ARI,2022,REG,9,2022-11-06,Sunday,16:05,SEA,31,ARI,21,Home,-10,0,1,7,7,Pete Carroll,Kliff Kingsbury,Carl Cheffers,PHO00,State Farm Stadium
+2022_09_LA_TB,2022,REG,9,2022-11-06,Sunday,16:25,LAR,13,TB,16,Home,3,0,0,7,10,Sean McVay,Todd Bowles,Shawn Hochuli,TAM00,Raymond James Stadium
+2022_09_TEN_KC,2022,REG,9,2022-11-06,Sunday,20:20,TEN,17,KC,20,Home,3,1,0,7,14,Mike Vrabel,Andy Reid,Clete Blakeman,KAN00,GEHA Field at Arrowhead Stadium
+2022_09_BAL_NO,2022,REG,9,2022-11-07,Monday,20:15,BAL,27,NO,13,Home,-14,0,0,11,8,John Harbaugh,Dennis Allen,Brad Rogers,NOR00,Mercedes-Benz Superdome
+2022_10_ATL_CAR,2022,REG,10,2022-11-10,Thursday,20:15,ATL,15,CAR,25,Home,10,0,1,4,4,Arthur Smith,Steve Wilks,Adrian Hill,CAR00,Bank of America Stadium
+2022_10_SEA_TB,2022,REG,10,2022-11-13,Sunday,09:30,SEA,16,TB,21,Neutral,5,0,0,7,7,Pete Carroll,Todd Bowles,John Hussey,GER00,Allianz Arena
+2022_10_MIN_BUF,2022,REG,10,2022-11-13,Sunday,13:00,MIN,33,BUF,30,Home,-3,1,0,7,7,Kevin O'Connell,Sean McDermott,Craig Wrolstad,BUF00,New Era Field
+2022_10_DET_CHI,2022,REG,10,2022-11-13,Sunday,13:00,DET,31,CHI,30,Home,-1,0,1,7,7,Dan Campbell,Matt Eberflus,Land Clark,CHI98,Soldier Field
+2022_10_JAX_KC,2022,REG,10,2022-11-13,Sunday,13:00,JAX,17,KC,27,Home,10,0,0,7,7,Doug Pederson,Andy Reid,Brad Rogers,KAN00,GEHA Field at Arrowhead Stadium
+2022_10_CLE_MIA,2022,REG,10,2022-11-13,Sunday,13:00,CLE,17,MIA,39,Home,22,0,0,13,7,Kevin Stefanski,Mike McDaniel,Shawn Hochuli,MIA00,Hard Rock Stadium
+2022_10_HOU_NYG,2022,REG,10,2022-11-13,Sunday,13:00,HOU,16,NYG,24,Home,8,0,0,10,14,Lovie Smith,Brian Daboll,Bill Vinovich,NYC01,MetLife Stadium
+2022_10_NO_PIT,2022,REG,10,2022-11-13,Sunday,13:00,NO,10,PIT,20,Home,10,0,0,6,14,Dennis Allen,Mike Tomlin,Carl Cheffers,PIT00,Acrisure Stadium
+2022_10_DEN_TEN,2022,REG,10,2022-11-13,Sunday,13:00,DEN,10,TEN,17,Home,7,0,0,14,7,Nathaniel Hackett,Mike Vrabel,Scott Novak,NAS00,Nissan Stadium
+2022_10_IND_LV,2022,REG,10,2022-11-13,Sunday,16:05,IND,25,LV,20,Home,-5,0,0,7,7,Jeff Saturday,Josh McDaniels,Tra Blake,VEG00,Allegiant Stadium
+2022_10_DAL_GB,2022,REG,10,2022-11-13,Sunday,16:25,DAL,28,GB,31,Home,3,1,0,14,7,Mike McCarthy,Matt LaFleur,Brad Allen,GNB00,Lambeau Field
+2022_10_ARI_LA,2022,REG,10,2022-11-13,Sunday,16:25,ARI,27,LAR,17,Home,-10,0,1,7,7,Kliff Kingsbury,Sean McVay,Clete Blakeman,LAX01,SoFi Stadium
+2022_10_LAC_SF,2022,REG,10,2022-11-13,Sunday,20:20,LAC,16,SF,22,Home,6,0,0,7,14,Brandon Staley,Kyle Shanahan,Shawn Smith,SFO01,Levi's Stadium
+2022_10_WAS_PHI,2022,REG,10,2022-11-14,Monday,20:15,WAS,32,PHI,21,Home,-11,0,1,8,11,Ron Rivera,Nick Sirianni,Alex Kemp,PHI00,Lincoln Financial Field
+2022_11_TEN_GB,2022,REG,11,2022-11-17,Thursday,20:15,TEN,27,GB,17,Home,-10,0,0,4,4,Mike Vrabel,Matt LaFleur,Bill Vinovich,GNB00,Lambeau Field
+2022_11_CHI_ATL,2022,REG,11,2022-11-20,Sunday,13:00,CHI,24,ATL,27,Home,3,0,0,7,10,Matt Eberflus,Arthur Smith,Tra Blake,ATL97,Mercedes-Benz Stadium
+2022_11_CAR_BAL,2022,REG,11,2022-11-20,Sunday,13:00,CAR,3,BAL,13,Home,10,0,0,10,13,Steve Wilks,John Harbaugh,Jerome Boger,BAL00,M&T Bank Stadium
+2022_11_CLE_BUF,2022,REG,11,2022-11-20,Sunday,13:00,CLE,23,BUF,31,Neutral,8,0,0,7,7,Kevin Stefanski,Sean McDermott,Adrian Hill,DET00,Ford Field
+2022_11_WAS_HOU,2022,REG,11,2022-11-20,Sunday,13:00,WAS,23,HOU,10,Home,-13,0,0,6,7,Ron Rivera,Lovie Smith,Scott Novak,HOU00,NRG Stadium
+2022_11_PHI_IND,2022,REG,11,2022-11-20,Sunday,13:00,PHI,17,IND,16,Home,-1,0,0,6,7,Nick Sirianni,Jeff Saturday,Land Clark,IND00,Lucas Oil Stadium
+2022_11_NYJ_NE,2022,REG,11,2022-11-20,Sunday,13:00,NYJ,3,NE,10,Home,7,0,1,14,14,Robert Saleh,Bill Belichick,Carl Cheffers,BOS00,Gillette Stadium
+2022_11_LA_NO,2022,REG,11,2022-11-20,Sunday,13:00,LAR,20,NO,27,Home,7,0,0,7,7,Sean McVay,Dennis Allen,Ron Torbert,NOR00,Mercedes-Benz Superdome
+2022_11_DET_NYG,2022,REG,11,2022-11-20,Sunday,13:00,DET,31,NYG,18,Home,-13,0,0,7,7,Dan Campbell,Brian Daboll,Brad Rogers,NYC01,MetLife Stadium
+2022_11_LV_DEN,2022,REG,11,2022-11-20,Sunday,16:05,LV,22,DEN,16,Home,-6,1,1,7,7,Josh McDaniels,Nathaniel Hackett,Shawn Smith,DEN00,Empower Field at Mile High
+2022_11_DAL_MIN,2022,REG,11,2022-11-20,Sunday,16:25,DAL,40,MIN,3,Home,-37,0,0,7,7,Mike McCarthy,Kevin O'Connell,Clay Martin,MIN01,U.S. Bank Stadium
+2022_11_CIN_PIT,2022,REG,11,2022-11-20,Sunday,16:25,CIN,37,PIT,30,Home,-7,0,1,14,7,Zac Taylor,Mike Tomlin,Brad Allen,PIT00,Acrisure Stadium
+2022_11_KC_LAC,2022,REG,11,2022-11-20,Sunday,20:20,KC,30,LAC,27,Home,-3,0,1,7,7,Andy Reid,Brandon Staley,Shawn Hochuli,LAX01,SoFi Stadium
+2022_11_SF_ARI,2022,REG,11,2022-11-21,Monday,20:15,SF,38,ARI,10,Neutral,-28,0,1,8,8,Kyle Shanahan,Kliff Kingsbury,Craig Wrolstad,MEX00,Azteca Stadium
+2022_12_BUF_DET,2022,REG,12,2022-11-24,Thursday,12:30,BUF,28,DET,25,Home,-3,0,0,4,4,Sean McDermott,Dan Campbell,Clete Blakeman,DET00,Ford Field
+2022_12_NYG_DAL,2022,REG,12,2022-11-24,Thursday,16:30,NYG,20,DAL,28,Home,8,0,1,4,4,Brian Daboll,Mike McCarthy,Scott Novak,DAL00,AT&T Stadium
+2022_12_NE_MIN,2022,REG,12,2022-11-24,Thursday,20:20,NE,26,MIN,33,Home,7,0,0,4,4,Bill Belichick,Kevin O'Connell,Alex Kemp,MIN01,U.S. Bank Stadium
+2022_12_DEN_CAR,2022,REG,12,2022-11-27,Sunday,13:00,DEN,10,CAR,23,Home,13,0,0,7,7,Nathaniel Hackett,Steve Wilks,Clay Martin,CAR00,Bank of America Stadium
+2022_12_TB_CLE,2022,REG,12,2022-11-27,Sunday,13:00,TB,17,CLE,23,Home,6,1,0,14,7,Todd Bowles,Kevin Stefanski,Tra Blake,CLE00,FirstEnergy Stadium
+2022_12_BAL_JAX,2022,REG,12,2022-11-27,Sunday,13:00,BAL,27,JAX,28,Home,1,0,0,7,14,John Harbaugh,Doug Pederson,Land Clark,JAX00,TIAA Bank Stadium
+2022_12_HOU_MIA,2022,REG,12,2022-11-27,Sunday,13:00,HOU,15,MIA,30,Home,15,0,0,7,14,Lovie Smith,Mike McDaniel,Jerome Boger,MIA00,Hard Rock Stadium
+2022_12_CHI_NYJ,2022,REG,12,2022-11-27,Sunday,13:00,CHI,10,NYJ,31,Home,21,0,0,7,7,Matt Eberflus,Robert Saleh,John Hussey,NYC01,MetLife Stadium
+2022_12_CIN_TEN,2022,REG,12,2022-11-27,Sunday,13:00,CIN,20,TEN,16,Home,-4,0,0,7,10,Zac Taylor,Mike Vrabel,Carl Cheffers,NAS00,Nissan Stadium
+2022_12_ATL_WAS,2022,REG,12,2022-11-27,Sunday,13:00,ATL,13,WAS,19,Home,6,0,0,7,7,Arthur Smith,Ron Rivera,Brad Rogers,WAS00,FedExField
+2022_12_LAC_ARI,2022,REG,12,2022-11-27,Sunday,16:05,LAC,25,ARI,24,Home,-1,0,0,7,6,Brandon Staley,Kliff Kingsbury,Ron Torbert,PHO00,State Farm Stadium
+2022_12_LV_SEA,2022,REG,12,2022-11-27,Sunday,16:05,LV,40,SEA,34,Home,-6,1,0,7,14,Josh McDaniels,Pete Carroll,Brad Allen,SEA00,Lumen Field
+2022_12_LA_KC,2022,REG,12,2022-11-27,Sunday,16:25,LAR,10,KC,26,Home,16,0,0,7,7,Sean McVay,Andy Reid,Adrian Hill,KAN00,GEHA Field at Arrowhead Stadium
+2022_12_NO_SF,2022,REG,12,2022-11-27,Sunday,16:25,NO,0,SF,13,Home,13,0,0,7,6,Dennis Allen,Kyle Shanahan,Shawn Hochuli,SFO01,Levi's Stadium
+2022_12_GB_PHI,2022,REG,12,2022-11-27,Sunday,20:20,GB,33,PHI,40,Home,7,0,0,10,7,Matt LaFleur,Nick Sirianni,Shawn Smith,PHI00,Lincoln Financial Field
+2022_12_PIT_IND,2022,REG,12,2022-11-28,Monday,20:15,PIT,24,IND,17,Home,-7,0,0,8,8,Mike Tomlin,Jeff Saturday,Bill Vinovich,IND00,Lucas Oil Stadium
+2022_13_BUF_NE,2022,REG,13,2022-12-01,Thursday,20:15,BUF,24,NE,10,Home,-14,0,1,7,7,Sean McDermott,Bill Belichick,Shawn Hochuli,BOS00,Gillette Stadium
+2022_13_PIT_ATL,2022,REG,13,2022-12-04,Sunday,13:00,PIT,19,ATL,16,Home,-3,0,0,6,7,Mike Tomlin,Arthur Smith,Ron Torbert,ATL97,Mercedes-Benz Stadium
+2022_13_DEN_BAL,2022,REG,13,2022-12-04,Sunday,13:00,DEN,9,BAL,10,Home,1,0,0,7,7,Nathaniel Hackett,John Harbaugh,Alex Kemp,BAL00,M&T Bank Stadium
+2022_13_GB_CHI,2022,REG,13,2022-12-04,Sunday,13:00,GB,28,CHI,19,Home,-9,0,1,7,7,Matt LaFleur,Matt Eberflus,Scott Novak,CHI98,Soldier Field
+2022_13_JAX_DET,2022,REG,13,2022-12-04,Sunday,13:00,JAX,14,DET,40,Home,26,0,0,7,10,Doug Pederson,Dan Campbell,Jerome Boger,DET00,Ford Field
+2022_13_CLE_HOU,2022,REG,13,2022-12-04,Sunday,13:00,CLE,27,HOU,14,Home,-13,0,0,7,7,Kevin Stefanski,Lovie Smith,Land Clark,HOU00,NRG Stadium
+2022_13_NYJ_MIN,2022,REG,13,2022-12-04,Sunday,13:00,NYJ,22,MIN,27,Home,5,0,0,7,10,Robert Saleh,Kevin O'Connell,Clete Blakeman,MIN01,U.S. Bank Stadium
+2022_13_WAS_NYG,2022,REG,13,2022-12-04,Sunday,13:00,WAS,20,NYG,20,Home,0,1,1,7,10,Ron Rivera,Brian Daboll,Brad Allen,NYC01,MetLife Stadium
+2022_13_TEN_PHI,2022,REG,13,2022-12-04,Sunday,13:00,TEN,10,PHI,35,Home,25,0,0,7,7,Mike Vrabel,Nick Sirianni,Adrian Hill,PHI00,Lincoln Financial Field
+2022_13_SEA_LA,2022,REG,13,2022-12-04,Sunday,16:05,SEA,27,LAR,23,Home,-4,0,1,7,7,Pete Carroll,Sean McVay,Shawn Smith,LAX01,SoFi Stadium
+2022_13_MIA_SF,2022,REG,13,2022-12-04,Sunday,16:05,MIA,17,SF,33,Home,16,0,0,7,7,Mike McDaniel,Kyle Shanahan,Tra Blake,SFO01,Levi's Stadium
+2022_13_KC_CIN,2022,REG,13,2022-12-04,Sunday,16:25,KC,24,CIN,27,Home,3,0,0,7,7,Andy Reid,Zac Taylor,John Hussey,CIN00,Paycor Stadium
+2022_13_LAC_LV,2022,REG,13,2022-12-04,Sunday,16:25,LAC,20,LV,27,Home,7,0,1,7,7,Brandon Staley,Josh McDaniels,Craig Wrolstad,VEG00,Allegiant Stadium
+2022_13_IND_DAL,2022,REG,13,2022-12-04,Sunday,20:20,IND,19,DAL,54,Home,35,0,0,6,10,Jeff Saturday,Mike McCarthy,Carl Cheffers,DAL00,AT&T Stadium
+2022_13_NO_TB,2022,REG,13,2022-12-05,Monday,20:15,NO,16,TB,17,Home,1,0,1,8,8,Dennis Allen,Todd Bowles,Clay Martin,TAM00,Raymond James Stadium
+2022_14_LV_LA,2022,REG,14,2022-12-08,Thursday,20:15,LV,16,LAR,17,Home,1,0,0,4,4,Josh McDaniels,Sean McVay,Brad Rogers,LAX01,SoFi Stadium
+2022_14_NYJ_BUF,2022,REG,14,2022-12-11,Sunday,13:00,NYJ,12,BUF,20,Home,8,0,1,7,10,Robert Saleh,Sean McDermott,Alex Kemp,BUF00,New Era Field
+2022_14_CLE_CIN,2022,REG,14,2022-12-11,Sunday,13:00,CLE,10,CIN,23,Home,13,0,1,7,7,Kevin Stefanski,Zac Taylor,Jerome Boger,CIN00,Paycor Stadium
+2022_14_HOU_DAL,2022,REG,14,2022-12-11,Sunday,13:00,HOU,23,DAL,27,Home,4,0,0,7,7,Lovie Smith,Mike McCarthy,John Hussey,DAL00,AT&T Stadium
+2022_14_MIN_DET,2022,REG,14,2022-12-11,Sunday,13:00,MIN,23,DET,34,Home,11,0,1,7,7,Kevin O'Connell,Dan Campbell,Ron Torbert,DET00,Ford Field
+2022_14_PHI_NYG,2022,REG,14,2022-12-11,Sunday,13:00,PHI,48,NYG,22,Home,-26,0,1,7,7,Nick Sirianni,Brian Daboll,Clete Blakeman,NYC01,MetLife Stadium
+2022_14_BAL_PIT,2022,REG,14,2022-12-11,Sunday,13:00,BAL,16,PIT,14,Home,-2,0,1,7,7,John Harbaugh,Mike Tomlin,Adrian Hill,PIT00,Acrisure Stadium
+2022_14_JAX_TEN,2022,REG,14,2022-12-11,Sunday,13:00,JAX,36,TEN,22,Home,-14,0,1,7,7,Doug Pederson,Mike Vrabel,Clay Martin,NAS00,Nissan Stadium
+2022_14_KC_DEN,2022,REG,14,2022-12-11,Sunday,16:05,KC,34,DEN,28,Home,-6,0,1,7,7,Andy Reid,Nathaniel Hackett,Craig Wrolstad,DEN00,Empower Field at Mile High
+2022_14_CAR_SEA,2022,REG,14,2022-12-11,Sunday,16:25,CAR,30,SEA,24,Home,-6,0,0,14,7,Steve Wilks,Pete Carroll,Bill Vinovich,SEA00,Lumen Field
+2022_14_TB_SF,2022,REG,14,2022-12-11,Sunday,16:25,TB,7,SF,35,Home,28,0,0,6,7,Todd Bowles,Kyle Shanahan,Brad Allen,SFO01,Levi's Stadium
+2022_14_MIA_LAC,2022,REG,14,2022-12-11,Sunday,20:20,MIA,17,LAC,23,Home,6,0,0,7,7,Mike McDaniel,Brandon Staley,Scott Novak,LAX01,SoFi Stadium
+2022_14_NE_ARI,2022,REG,14,2022-12-12,Monday,20:15,NE,27,ARI,13,Home,-14,0,0,11,15,Bill Belichick,Kliff Kingsbury,Shawn Smith,PHO00,State Farm Stadium
+2022_15_SF_SEA,2022,REG,15,2022-12-15,Thursday,20:15,SF,21,SEA,13,Home,-8,0,1,4,4,Kyle Shanahan,Pete Carroll,Alex Kemp,SEA00,Lumen Field
+2022_15_IND_MIN,2022,REG,15,2022-12-17,Saturday,13:00,IND,36,MIN,39,Home,3,1,0,13,6,Jeff Saturday,Kevin O'Connell,Tra Blake,MIN01,U.S. Bank Stadium
+2022_15_BAL_CLE,2022,REG,15,2022-12-17,Saturday,16:30,BAL,3,CLE,13,Home,10,0,1,6,6,John Harbaugh,Kevin Stefanski,Brad Allen,CLE00,FirstEnergy Stadium
+2022_15_MIA_BUF,2022,REG,15,2022-12-17,Saturday,20:15,MIA,29,BUF,32,Home,3,0,1,6,6,Mike McDaniel,Sean McDermott,Bill Vinovich,BUF00,New Era Field
+2022_15_PIT_CAR,2022,REG,15,2022-12-18,Sunday,13:00,PIT,24,CAR,16,Home,-8,0,0,7,7,Mike Tomlin,Steve Wilks,Scott Novak,CAR00,Bank of America Stadium
+2022_15_PHI_CHI,2022,REG,15,2022-12-18,Sunday,13:00,PHI,25,CHI,20,Home,-5,0,0,7,14,Nick Sirianni,Matt Eberflus,Brad Rogers,CHI98,Soldier Field
+2022_15_KC_HOU,2022,REG,15,2022-12-18,Sunday,13:00,KC,30,HOU,24,Home,-6,1,0,7,7,Andy Reid,Lovie Smith,Carl Cheffers,HOU00,NRG Stadium
+2022_15_DAL_JAX,2022,REG,15,2022-12-18,Sunday,13:00,DAL,34,JAX,40,Home,6,1,0,7,7,Mike McCarthy,Doug Pederson,Shawn Smith,JAX00,TIAA Bank Stadium
+2022_15_ATL_NO,2022,REG,15,2022-12-18,Sunday,13:00,ATL,18,NO,21,Home,3,0,1,14,13,Arthur Smith,Dennis Allen,Clete Blakeman,NOR00,Mercedes-Benz Superdome
+2022_15_DET_NYJ,2022,REG,15,2022-12-18,Sunday,13:00,DET,20,NYJ,17,Home,-3,0,0,7,7,Dan Campbell,Robert Saleh,Craig Wrolstad,NYC01,MetLife Stadium
+2022_15_ARI_DEN,2022,REG,15,2022-12-18,Sunday,16:05,ARI,15,DEN,24,Home,9,0,0,6,7,Kliff Kingsbury,Nathaniel Hackett,Jerome Boger,DEN00,Empower Field at Mile High
+2022_15_NE_LV,2022,REG,15,2022-12-18,Sunday,16:05,NE,24,LV,30,Home,6,0,0,6,10,Bill Belichick,Josh McDaniels,Ron Torbert,VEG00,Allegiant Stadium
+2022_15_TEN_LAC,2022,REG,15,2022-12-18,Sunday,16:25,TEN,14,LAC,17,Home,3,0,0,7,7,Mike Vrabel,Brandon Staley,Land Clark,LAX01,SoFi Stadium
+2022_15_CIN_TB,2022,REG,15,2022-12-18,Sunday,16:25,CIN,34,TB,23,Home,-11,0,0,7,7,Zac Taylor,Todd Bowles,Adrian Hill,TAM00,Raymond James Stadium
+2022_15_NYG_WAS,2022,REG,15,2022-12-18,Sunday,20:20,NYG,20,WAS,12,Home,-8,0,1,7,14,Brian Daboll,Ron Rivera,John Hussey,WAS00,FedExField
+2022_15_LA_GB,2022,REG,15,2022-12-19,Monday,20:15,LAR,12,GB,24,Home,12,0,0,11,15,Sean McVay,Matt LaFleur,Shawn Hochuli,GNB00,Lambeau Field
+2022_16_JAX_NYJ,2022,REG,16,2022-12-22,Thursday,20:15,JAX,19,NYJ,3,Home,-16,0,0,4,4,Doug Pederson,Robert Saleh,Brad Allen,NYC01,MetLife Stadium
+2022_16_ATL_BAL,2022,REG,16,2022-12-24,Saturday,13:00,ATL,9,BAL,17,Home,8,0,0,6,7,Arthur Smith,John Harbaugh,Bill Vinovich,BAL00,M&T Bank Stadium
+2022_16_DET_CAR,2022,REG,16,2022-12-24,Saturday,13:00,DET,23,CAR,37,Home,14,0,0,6,6,Dan Campbell,Steve Wilks,Shawn Hochuli,CAR00,Bank of America Stadium
+2022_16_BUF_CHI,2022,REG,16,2022-12-24,Saturday,13:00,BUF,35,CHI,13,Home,-22,0,0,7,6,Sean McDermott,Matt Eberflus,Carl Cheffers,CHI98,Soldier Field
+2022_16_NO_CLE,2022,REG,16,2022-12-24,Saturday,13:00,NO,17,CLE,10,Home,-7,0,0,6,7,Dennis Allen,Kevin Stefanski,Brad Rogers,CLE00,FirstEnergy Stadium
+2022_16_SEA_KC,2022,REG,16,2022-12-24,Saturday,13:00,SEA,10,KC,24,Home,14,0,0,9,6,Pete Carroll,Andy Reid,Clete Blakeman,KAN00,GEHA Field at Arrowhead Stadium
+2022_16_NYG_MIN,2022,REG,16,2022-12-24,Saturday,13:00,NYG,24,MIN,27,Home,3,0,0,6,7,Brian Daboll,Kevin O'Connell,Adrian Hill,MIN01,U.S. Bank Stadium
+2022_16_CIN_NE,2022,REG,16,2022-12-24,Saturday,13:00,CIN,22,NE,18,Home,-4,0,0,6,6,Zac Taylor,Bill Belichick,Craig Wrolstad,BOS00,Gillette Stadium
+2022_16_HOU_TEN,2022,REG,16,2022-12-24,Saturday,14:00,HOU,19,TEN,14,Home,-5,0,1,6,6,Lovie Smith,Mike Vrabel,Shawn Smith,NAS00,Nissan Stadium
+2022_16_WAS_SF,2022,REG,16,2022-12-24,Saturday,16:05,WAS,20,SF,37,Home,17,0,0,6,9,Ron Rivera,Kyle Shanahan,Jerome Boger,SFO01,Levi's Stadium
+2022_16_PHI_DAL,2022,REG,16,2022-12-24,Saturday,16:25,PHI,34,DAL,40,Home,6,0,1,6,6,Nick Sirianni,Mike McCarthy,Alex Kemp,DAL00,AT&T Stadium
+2022_16_LV_PIT,2022,REG,16,2022-12-24,Saturday,20:15,LV,10,PIT,13,Home,3,0,0,6,6,Josh McDaniels,Mike Tomlin,Tra Blake,PIT00,Acrisure Stadium
+2022_16_GB_MIA,2022,REG,16,2022-12-25,Sunday,13:00,GB,26,MIA,20,Home,-6,0,0,6,8,Matt LaFleur,Mike McDaniel,Land Clark,MIA00,Hard Rock Stadium
+2022_16_DEN_LA,2022,REG,16,2022-12-25,Sunday,16:30,DEN,14,LAR,51,Home,37,0,0,7,6,Nathaniel Hackett,Sean McVay,Ron Torbert,LAX01,SoFi Stadium
+2022_16_TB_ARI,2022,REG,16,2022-12-25,Sunday,20:20,TB,19,ARI,16,Home,-3,1,0,7,7,Todd Bowles,Kliff Kingsbury,John Hussey,PHO00,State Farm Stadium
+2022_16_LAC_IND,2022,REG,16,2022-12-26,Monday,20:15,LAC,20,IND,3,Home,-17,0,0,8,9,Brandon Staley,Jeff Saturday,Clay Martin,IND00,Lucas Oil Stadium
+2022_17_DAL_TEN,2022,REG,17,2022-12-29,Thursday,20:15,DAL,27,TEN,13,Home,-14,0,0,5,5,Mike McCarthy,Mike Vrabel,Shawn Hochuli,NAS00,Nissan Stadium
+2022_17_ARI_ATL,2022,REG,17,2023-01-01,Sunday,13:00,ARI,19,ATL,20,Home,1,0,0,7,8,Kliff Kingsbury,Arthur Smith,Alex Kemp,ATL97,Mercedes-Benz Stadium
+2022_17_CHI_DET,2022,REG,17,2023-01-01,Sunday,13:00,CHI,10,DET,41,Home,31,0,1,8,8,Matt Eberflus,Dan Campbell,Adrian Hill,DET00,Ford Field
+2022_17_JAX_HOU,2022,REG,17,2023-01-01,Sunday,13:00,JAX,31,HOU,3,Home,-28,0,1,10,8,Doug Pederson,Lovie Smith,Scott Novak,HOU00,NRG Stadium
+2022_17_DEN_KC,2022,REG,17,2023-01-01,Sunday,13:00,DEN,24,KC,27,Home,3,0,1,7,8,Jay Rosburg,Andy Reid,Tra Blake,KAN00,GEHA Field at Arrowhead Stadium
+2022_17_MIA_NE,2022,REG,17,2023-01-01,Sunday,13:00,MIA,21,NE,23,Home,2,0,1,7,8,Mike McDaniel,Bill Belichick,Brad Allen,BOS00,Gillette Stadium
+2022_17_IND_NYG,2022,REG,17,2023-01-01,Sunday,13:00,IND,10,NYG,38,Home,28,0,0,6,8,Jeff Saturday,Brian Daboll,Craig Wrolstad,NYC01,MetLife Stadium
+2022_17_NO_PHI,2022,REG,17,2023-01-01,Sunday,13:00,NO,20,PHI,10,Home,-10,0,0,8,8,Dennis Allen,Nick Sirianni,Jerome Boger,PHI00,Lincoln Financial Field
+2022_17_CAR_TB,2022,REG,17,2023-01-01,Sunday,13:00,CAR,24,TB,30,Home,6,0,1,8,7,Steve Wilks,Todd Bowles,Brad Rogers,TAM00,Raymond James Stadium
+2022_17_CLE_WAS,2022,REG,17,2023-01-01,Sunday,13:00,CLE,24,WAS,10,Home,-14,0,0,8,8,Kevin Stefanski,Ron Rivera,Bill Vinovich,WAS00,FedExField
+2022_17_SF_LV,2022,REG,17,2023-01-01,Sunday,16:05,SF,37,LV,34,Home,-3,1,0,8,8,Kyle Shanahan,Josh McDaniels,Clay Martin,VEG00,Allegiant Stadium
+2022_17_NYJ_SEA,2022,REG,17,2023-01-01,Sunday,16:05,NYJ,6,SEA,23,Home,17,0,0,10,8,Robert Saleh,Pete Carroll,Ron Torbert,SEA00,Lumen Field
+2022_17_MIN_GB,2022,REG,17,2023-01-01,Sunday,16:25,MIN,17,GB,41,Home,24,0,1,8,7,Kevin O'Connell,Matt LaFleur,Carl Cheffers,GNB00,Lambeau Field
+2022_17_LA_LAC,2022,REG,17,2023-01-01,Sunday,16:25,LAR,10,LAC,31,Home,21,0,0,7,6,Sean McVay,Brandon Staley,Clete Blakeman,LAX01,SoFi Stadium
+2022_17_PIT_BAL,2022,REG,17,2023-01-01,Sunday,20:20,PIT,16,BAL,13,Home,-3,0,1,8,8,Mike Tomlin,John Harbaugh,Land Clark,BAL00,M&T Bank Stadium
+2022_18_KC_LV,2022,REG,18,2023-01-07,Saturday,16:30,KC,31,LV,13,Home,-18,0,1,6,6,Andy Reid,Josh McDaniels,Scott Novak,VEG00,Allegiant Stadium
+2022_18_TEN_JAX,2022,REG,18,2023-01-07,Saturday,20:15,TEN,16,JAX,20,Home,4,0,1,9,6,Mike Vrabel,Doug Pederson,Bill Vinovich,JAX00,TIAA Bank Stadium
+2022_18_TB_ATL,2022,REG,18,2023-01-08,Sunday,13:00,TB,17,ATL,30,Home,13,0,1,7,7,Todd Bowles,Arthur Smith,Land Clark,ATL97,Mercedes-Benz Stadium
+2022_18_NE_BUF,2022,REG,18,2023-01-08,Sunday,13:00,NE,23,BUF,35,Home,12,0,1,7,6,Bill Belichick,Sean McDermott,Clay Martin,BUF00,New Era Field
+2022_18_MIN_CHI,2022,REG,18,2023-01-08,Sunday,13:00,MIN,29,CHI,13,Home,-16,0,1,7,7,Kevin O'Connell,Matt Eberflus,Brad Allen,CHI98,Soldier Field
+2022_18_BAL_CIN,2022,REG,18,2023-01-08,Sunday,13:00,BAL,16,CIN,27,Home,11,0,1,7,6,John Harbaugh,Zac Taylor,Ron Torbert,CIN00,Paycor Stadium
+2022_18_HOU_IND,2022,REG,18,2023-01-08,Sunday,13:00,HOU,32,IND,31,Home,-1,0,1,7,7,Lovie Smith,Jeff Saturday,Jerome Boger,IND00,Lucas Oil Stadium
+2022_18_NYJ_MIA,2022,REG,18,2023-01-08,Sunday,13:00,NYJ,6,MIA,11,Home,5,0,1,7,7,Robert Saleh,Mike McDaniel,John Hussey,MIA00,Hard Rock Stadium
+2022_18_CAR_NO,2022,REG,18,2023-01-08,Sunday,13:00,CAR,10,NO,7,Home,-3,0,1,7,7,Steve Wilks,Dennis Allen,Alex Kemp,NOR00,Mercedes-Benz Superdome
+2022_18_CLE_PIT,2022,REG,18,2023-01-08,Sunday,13:00,CLE,14,PIT,28,Home,14,0,1,7,7,Kevin Stefanski,Mike Tomlin,Clete Blakeman,PIT00,Acrisure Stadium
+2022_18_LAC_DEN,2022,REG,18,2023-01-08,Sunday,16:25,LAC,28,DEN,31,Home,3,0,1,7,7,Brandon Staley,Jay Rosburg,Shawn Hochuli,DEN00,Empower Field at Mile High
+2022_18_NYG_PHI,2022,REG,18,2023-01-08,Sunday,16:25,NYG,16,PHI,22,Home,6,0,1,7,7,Brian Daboll,Nick Sirianni,Carl Cheffers,PHI00,Lincoln Financial Field
+2022_18_LA_SEA,2022,REG,18,2023-01-08,Sunday,16:25,LAR,16,SEA,19,Home,3,1,1,7,7,Sean McVay,Pete Carroll,Craig Wrolstad,SEA00,Lumen Field
+2022_18_ARI_SF,2022,REG,18,2023-01-08,Sunday,16:25,ARI,13,SF,38,Home,25,0,1,7,7,Kliff Kingsbury,Kyle Shanahan,Adrian Hill,SFO01,Levi's Stadium
+2022_18_DAL_WAS,2022,REG,18,2023-01-08,Sunday,16:25,DAL,6,WAS,26,Home,20,0,1,10,7,Mike McCarthy,Ron Rivera,Tra Blake,WAS00,FedExField
+2022_18_DET_GB,2022,REG,18,2023-01-08,Sunday,20:20,DET,20,GB,16,Home,-4,0,1,7,7,Dan Campbell,Matt LaFleur,Brad Rogers,GNB00,Lambeau Field

@@ -1,0 +1,273 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2023_01_DET_KC,2023,REG,1,2023-09-07,Thursday,20:20,DET,21,KC,20,Home,-1,0,0,7,7,Dan Campbell,Andy Reid,John Hussey,KAN00,GEHA Field at Arrowhead Stadium
+2023_01_CAR_ATL,2023,REG,1,2023-09-10,Sunday,13:00,CAR,10,ATL,24,Home,14,0,1,7,7,Frank Reich,Arthur Smith,Brad Rogers,ATL97,Mercedes-Benz Stadium
+2023_01_HOU_BAL,2023,REG,1,2023-09-10,Sunday,13:00,HOU,9,BAL,25,Home,16,0,0,7,7,DeMeco Ryans,John Harbaugh,Tra Blake,BAL00,M&T Bank Stadium
+2023_01_CIN_CLE,2023,REG,1,2023-09-10,Sunday,13:00,CIN,3,CLE,24,Home,21,0,1,7,7,Zac Taylor,Kevin Stefanski,Clete Blakeman,CLE00,FirstEnergy Stadium
+2023_01_JAX_IND,2023,REG,1,2023-09-10,Sunday,13:00,JAX,31,IND,21,Home,-10,0,1,7,7,Doug Pederson,Shane Steichen,Clay Martin,IND00,Lucas Oil Stadium
+2023_01_TB_MIN,2023,REG,1,2023-09-10,Sunday,13:00,TB,20,MIN,17,Home,-3,0,0,7,7,Todd Bowles,Kevin O'Connell,Scott Novak,MIN01,U.S. Bank Stadium
+2023_01_TEN_NO,2023,REG,1,2023-09-10,Sunday,13:00,TEN,15,NO,16,Home,1,0,0,7,7,Mike Vrabel,Dennis Allen,Ron Torbert,NOR00,Mercedes-Benz Superdome
+2023_01_SF_PIT,2023,REG,1,2023-09-10,Sunday,13:00,SF,30,PIT,7,Home,-23,0,0,7,7,Kyle Shanahan,Mike Tomlin,Alex Kemp,PIT00,Acrisure Stadium
+2023_01_ARI_WAS,2023,REG,1,2023-09-10,Sunday,13:00,ARI,16,WAS,20,Home,4,0,0,7,7,Jonathan Gannon,Ron Rivera,Alan Eck,WAS00,FedExField
+2023_01_GB_CHI,2023,REG,1,2023-09-10,Sunday,16:25,GB,38,CHI,20,Home,-18,0,1,7,7,Matt LaFleur,Matt Eberflus,Craig Wrolstad,CHI98,Soldier Field
+2023_01_LV_DEN,2023,REG,1,2023-09-10,Sunday,16:25,LV,17,DEN,16,Home,-1,0,1,7,7,Josh McDaniels,Sean Payton,Bill Vinovich,DEN00,Empower Field at Mile High
+2023_01_MIA_LAC,2023,REG,1,2023-09-10,Sunday,16:25,MIA,36,LAC,34,Home,-2,0,0,7,7,Mike McDaniel,Brandon Staley,Brad Allen,LAX01,SoFi Stadium
+2023_01_PHI_NE,2023,REG,1,2023-09-10,Sunday,16:25,PHI,25,NE,20,Home,-5,0,0,7,7,Nick Sirianni,Bill Belichick,Shawn Hochuli,BOS00,Gillette Stadium
+2023_01_LA_SEA,2023,REG,1,2023-09-10,Sunday,16:25,LAR,30,SEA,13,Home,-17,0,1,7,7,Sean McVay,Pete Carroll,Shawn Smith,SEA00,Lumen Field
+2023_01_DAL_NYG,2023,REG,1,2023-09-10,Sunday,20:20,DAL,40,NYG,0,Home,-40,0,1,7,7,Mike McCarthy,Brian Daboll,Adrian Hill,NYC01,MetLife Stadium
+2023_01_BUF_NYJ,2023,REG,1,2023-09-11,Monday,20:15,BUF,16,NYJ,22,Home,6,1,1,7,7,Sean McDermott,Robert Saleh,Carl Cheffers,NYC01,MetLife Stadium
+2023_02_MIN_PHI,2023,REG,2,2023-09-14,Thursday,20:15,MIN,28,PHI,34,Home,6,0,0,4,4,Kevin O'Connell,Nick Sirianni,Clay Martin,PHI00,Lincoln Financial Field
+2023_02_GB_ATL,2023,REG,2,2023-09-17,Sunday,13:00,GB,24,ATL,25,Home,1,0,0,7,7,Matt LaFleur,Arthur Smith,Tra Blake,ATL97,Mercedes-Benz Stadium
+2023_02_LV_BUF,2023,REG,2,2023-09-17,Sunday,13:00,LV,10,BUF,38,Home,28,0,0,7,6,Josh McDaniels,Sean McDermott,Craig Wrolstad,BUF00,New Era Field
+2023_02_BAL_CIN,2023,REG,2,2023-09-17,Sunday,13:00,BAL,27,CIN,24,Home,-3,0,1,7,7,John Harbaugh,Zac Taylor,Shawn Hochuli,CIN00,Paycor Stadium
+2023_02_SEA_DET,2023,REG,2,2023-09-17,Sunday,13:00,SEA,37,DET,31,Home,-6,1,0,7,10,Pete Carroll,Dan Campbell,Alex Kemp,DET00,Ford Field
+2023_02_IND_HOU,2023,REG,2,2023-09-17,Sunday,13:00,IND,31,HOU,20,Home,-11,0,1,7,7,Shane Steichen,DeMeco Ryans,Carl Cheffers,HOU00,NRG Stadium
+2023_02_KC_JAX,2023,REG,2,2023-09-17,Sunday,13:00,KC,17,JAX,9,Home,-8,0,0,10,7,Andy Reid,Doug Pederson,Adrian Hill,JAX00,TIAA Bank Stadium
+2023_02_CHI_TB,2023,REG,2,2023-09-17,Sunday,13:00,CHI,17,TB,27,Home,10,0,0,7,7,Matt Eberflus,Todd Bowles,Bill Vinovich,TAM00,Raymond James Stadium
+2023_02_LAC_TEN,2023,REG,2,2023-09-17,Sunday,13:00,LAC,24,TEN,27,Home,3,1,0,7,7,Brandon Staley,Mike Vrabel,Alan Eck,NAS00,Nissan Stadium
+2023_02_NYG_ARI,2023,REG,2,2023-09-17,Sunday,16:05,NYG,31,ARI,28,Home,-3,0,0,7,7,Brian Daboll,Jonathan Gannon,Land Clark,PHO00,State Farm Stadium
+2023_02_SF_LA,2023,REG,2,2023-09-17,Sunday,16:05,SF,30,LAR,23,Home,-7,0,1,7,7,Kyle Shanahan,Sean McVay,Brad Allen,LAX01,SoFi Stadium
+2023_02_NYJ_DAL,2023,REG,2,2023-09-17,Sunday,16:25,NYJ,10,DAL,30,Home,20,0,0,6,7,Robert Saleh,Mike McCarthy,Clete Blakeman,DAL00,AT&T Stadium
+2023_02_WAS_DEN,2023,REG,2,2023-09-17,Sunday,16:25,WAS,35,DEN,33,Home,-2,0,0,7,7,Ron Rivera,Sean Payton,Brad Rogers,DEN00,Empower Field at Mile High
+2023_02_MIA_NE,2023,REG,2,2023-09-17,Sunday,20:20,MIA,24,NE,17,Home,-7,0,1,7,7,Mike McDaniel,Bill Belichick,Shawn Smith,BOS00,Gillette Stadium
+2023_02_NO_CAR,2023,REG,2,2023-09-18,Monday,19:15,NO,20,CAR,17,Home,-3,0,1,8,8,Dennis Allen,Frank Reich,Scott Novak,CAR00,Bank of America Stadium
+2023_02_CLE_PIT,2023,REG,2,2023-09-18,Monday,20:15,CLE,22,PIT,26,Home,4,0,1,8,8,Kevin Stefanski,Mike Tomlin,Ron Torbert,PIT00,Acrisure Stadium
+2023_03_NYG_SF,2023,REG,3,2023-09-21,Thursday,20:15,NYG,12,SF,30,Home,18,0,0,4,4,Brian Daboll,Kyle Shanahan,Shawn Hochuli,SFO01,Levi's Stadium
+2023_03_IND_BAL,2023,REG,3,2023-09-24,Sunday,13:00,IND,22,BAL,19,Home,-3,1,0,7,7,Shane Steichen,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2023_03_TEN_CLE,2023,REG,3,2023-09-24,Sunday,13:00,TEN,3,CLE,27,Home,24,0,0,7,6,Mike Vrabel,Kevin Stefanski,Craig Wrolstad,CLE00,FirstEnergy Stadium
+2023_03_ATL_DET,2023,REG,3,2023-09-24,Sunday,13:00,ATL,6,DET,20,Home,14,0,0,7,7,Arthur Smith,Dan Campbell,Carl Cheffers,DET00,Ford Field
+2023_03_NO_GB,2023,REG,3,2023-09-24,Sunday,13:00,NO,17,GB,18,Home,1,0,0,6,7,Dennis Allen,Matt LaFleur,Brad Rogers,GNB00,Lambeau Field
+2023_03_HOU_JAX,2023,REG,3,2023-09-24,Sunday,13:00,HOU,37,JAX,17,Home,-20,0,1,7,7,DeMeco Ryans,Doug Pederson,Scott Novak,JAX00,TIAA Bank Stadium
+2023_03_DEN_MIA,2023,REG,3,2023-09-24,Sunday,13:00,DEN,20,MIA,70,Home,50,0,0,7,7,Sean Payton,Mike McDaniel,Clay Martin,MIA00,Hard Rock Stadium
+2023_03_LAC_MIN,2023,REG,3,2023-09-24,Sunday,13:00,LAC,28,MIN,24,Home,-4,0,0,7,10,Brandon Staley,Kevin O'Connell,Shawn Smith,MIN01,U.S. Bank Stadium
+2023_03_NE_NYJ,2023,REG,3,2023-09-24,Sunday,13:00,NE,15,NYJ,10,Home,-5,0,1,7,7,Bill Belichick,Robert Saleh,Bill Vinovich,NYC01,MetLife Stadium
+2023_03_BUF_WAS,2023,REG,3,2023-09-24,Sunday,13:00,BUF,37,WAS,3,Home,-34,0,0,7,7,Sean McDermott,Ron Rivera,Land Clark,WAS00,FedExField
+2023_03_CAR_SEA,2023,REG,3,2023-09-24,Sunday,16:05,CAR,27,SEA,37,Home,10,0,0,6,7,Frank Reich,Pete Carroll,Ron Torbert,SEA00,Lumen Field
+2023_03_DAL_ARI,2023,REG,3,2023-09-24,Sunday,16:25,DAL,16,ARI,28,Home,12,0,0,7,7,Mike McCarthy,Jonathan Gannon,Alex Kemp,PHO00,State Farm Stadium
+2023_03_CHI_KC,2023,REG,3,2023-09-24,Sunday,16:25,CHI,10,KC,41,Home,31,0,0,7,7,Matt Eberflus,Andy Reid,Alan Eck,KAN00,GEHA Field at Arrowhead Stadium
+2023_03_PIT_LV,2023,REG,3,2023-09-24,Sunday,20:20,PIT,23,LV,18,Home,-5,0,0,6,7,Mike Tomlin,Josh McDaniels,Tra Blake,VEG00,Allegiant Stadium
+2023_03_PHI_TB,2023,REG,3,2023-09-25,Monday,19:15,PHI,25,TB,11,Home,-14,0,0,11,8,Nick Sirianni,Todd Bowles,Adrian Hill,TAM00,Raymond James Stadium
+2023_03_LA_CIN,2023,REG,3,2023-09-25,Monday,20:15,LAR,16,CIN,19,Home,3,0,0,8,8,Sean McVay,Zac Taylor,John Hussey,CIN00,Paycor Stadium
+2023_04_DET_GB,2023,REG,4,2023-09-28,Thursday,20:15,DET,34,GB,20,Home,-14,0,1,4,4,Dan Campbell,Matt LaFleur,Alan Eck,GNB00,Lambeau Field
+2023_04_ATL_JAX,2023,REG,4,2023-10-01,Sunday,09:30,ATL,7,JAX,23,Neutral,16,0,0,7,7,Arthur Smith,Doug Pederson,Craig Wrolstad,LON00,Wembley Stadium
+2023_04_MIA_BUF,2023,REG,4,2023-10-01,Sunday,13:00,MIA,20,BUF,48,Home,28,0,1,7,7,Mike McDaniel,Sean McDermott,Adrian Hill,BUF00,New Era Field
+2023_04_MIN_CAR,2023,REG,4,2023-10-01,Sunday,13:00,MIN,21,CAR,13,Home,-8,0,0,7,7,Kevin O'Connell,Frank Reich,Tra Blake,CAR00,Bank of America Stadium
+2023_04_DEN_CHI,2023,REG,4,2023-10-01,Sunday,13:00,DEN,31,CHI,28,Home,-3,0,0,7,7,Sean Payton,Matt Eberflus,Carl Cheffers,CHI98,Soldier Field
+2023_04_BAL_CLE,2023,REG,4,2023-10-01,Sunday,13:00,BAL,28,CLE,3,Home,-25,0,1,7,7,John Harbaugh,Kevin Stefanski,Brad Allen,CLE00,FirstEnergy Stadium
+2023_04_PIT_HOU,2023,REG,4,2023-10-01,Sunday,13:00,PIT,6,HOU,30,Home,24,0,0,7,7,Mike Tomlin,DeMeco Ryans,Bill Vinovich,HOU00,NRG Stadium
+2023_04_LA_IND,2023,REG,4,2023-10-01,Sunday,13:00,LAR,29,IND,23,Home,-6,1,0,6,7,Sean McVay,Shane Steichen,Land Clark,IND00,Lucas Oil Stadium
+2023_04_TB_NO,2023,REG,4,2023-10-01,Sunday,13:00,TB,26,NO,9,Home,-17,0,1,6,7,Todd Bowles,Dennis Allen,Shawn Hochuli,NOR00,Mercedes-Benz Superdome
+2023_04_WAS_PHI,2023,REG,4,2023-10-01,Sunday,13:00,WAS,31,PHI,34,Home,3,1,1,7,6,Ron Rivera,Nick Sirianni,Ron Torbert,PHI00,Lincoln Financial Field
+2023_04_CIN_TEN,2023,REG,4,2023-10-01,Sunday,13:00,CIN,3,TEN,27,Home,24,0,0,6,7,Zac Taylor,Mike Vrabel,Shawn Smith,NAS00,Nissan Stadium
+2023_04_LV_LAC,2023,REG,4,2023-10-01,Sunday,16:05,LV,17,LAC,24,Home,7,0,1,7,7,Josh McDaniels,Brandon Staley,John Hussey,LAX01,SoFi Stadium
+2023_04_NE_DAL,2023,REG,4,2023-10-01,Sunday,16:25,NE,3,DAL,38,Home,35,0,0,7,7,Bill Belichick,Mike McCarthy,Scott Novak,DAL00,AT&T Stadium
+2023_04_ARI_SF,2023,REG,4,2023-10-01,Sunday,16:25,ARI,16,SF,35,Home,19,0,1,7,10,Jonathan Gannon,Kyle Shanahan,Clete Blakeman,SFO01,Levi's Stadium
+2023_04_KC_NYJ,2023,REG,4,2023-10-01,Sunday,20:20,KC,23,NYJ,20,Home,-3,0,0,7,7,Andy Reid,Robert Saleh,Alex Kemp,NYC01,MetLife Stadium
+2023_04_SEA_NYG,2023,REG,4,2023-10-02,Monday,20:15,SEA,24,NYG,3,Home,-21,0,0,8,11,Pete Carroll,Brian Daboll,Brad Rogers,NYC01,MetLife Stadium
+2023_05_CHI_WAS,2023,REG,5,2023-10-05,Thursday,20:15,CHI,40,WAS,20,Home,-20,0,0,4,4,Matt Eberflus,Ron Rivera,Scott Novak,WAS00,FedExField
+2023_05_JAX_BUF,2023,REG,5,2023-10-08,Sunday,09:30,JAX,25,BUF,20,Neutral,-5,0,0,7,7,Doug Pederson,Sean McDermott,Shawn Smith,LON02,Tottenham Stadium
+2023_05_HOU_ATL,2023,REG,5,2023-10-08,Sunday,13:00,HOU,19,ATL,21,Home,2,0,0,7,7,DeMeco Ryans,Arthur Smith,Shawn Hochuli,ATL97,Mercedes-Benz Stadium
+2023_05_CAR_DET,2023,REG,5,2023-10-08,Sunday,13:00,CAR,24,DET,42,Home,18,0,0,7,10,Frank Reich,Dan Campbell,Adrian Hill,DET00,Ford Field
+2023_05_TEN_IND,2023,REG,5,2023-10-08,Sunday,13:00,TEN,16,IND,23,Home,7,0,1,7,7,Mike Vrabel,Shane Steichen,Brad Rogers,IND00,Lucas Oil Stadium
+2023_05_NYG_MIA,2023,REG,5,2023-10-08,Sunday,13:00,NYG,16,MIA,31,Home,15,0,0,6,7,Brian Daboll,Mike McDaniel,Ron Torbert,MIA00,Hard Rock Stadium
+2023_05_NO_NE,2023,REG,5,2023-10-08,Sunday,13:00,NO,34,NE,0,Home,-34,0,0,7,7,Dennis Allen,Bill Belichick,Alex Kemp,BOS00,Gillette Stadium
+2023_05_BAL_PIT,2023,REG,5,2023-10-08,Sunday,13:00,BAL,10,PIT,17,Home,7,0,1,7,7,John Harbaugh,Mike Tomlin,Carl Cheffers,PIT00,Acrisure Stadium
+2023_05_CIN_ARI,2023,REG,5,2023-10-08,Sunday,16:05,CIN,34,ARI,20,Home,-14,0,0,7,7,Zac Taylor,Jonathan Gannon,Clay Martin,PHO00,State Farm Stadium
+2023_05_PHI_LA,2023,REG,5,2023-10-08,Sunday,16:05,PHI,23,LAR,14,Home,-9,0,0,7,7,Nick Sirianni,Sean McVay,Bill Vinovich,LAX01,SoFi Stadium
+2023_05_NYJ_DEN,2023,REG,5,2023-10-08,Sunday,16:25,NYJ,31,DEN,21,Home,-10,0,0,7,7,Robert Saleh,Sean Payton,John Hussey,DEN00,Empower Field at Mile High
+2023_05_KC_MIN,2023,REG,5,2023-10-08,Sunday,16:25,KC,27,MIN,20,Home,-7,0,0,7,7,Andy Reid,Kevin O'Connell,Land Clark,MIN01,U.S. Bank Stadium
+2023_05_DAL_SF,2023,REG,5,2023-10-08,Sunday,20:20,DAL,10,SF,42,Home,32,0,0,7,7,Mike McCarthy,Kyle Shanahan,Alan Eck,SFO01,Levi's Stadium
+2023_05_GB_LV,2023,REG,5,2023-10-09,Monday,20:15,GB,13,LV,17,Home,4,0,0,11,8,Matt LaFleur,Josh McDaniels,Alan Eck,VEG00,Allegiant Stadium
+2023_06_DEN_KC,2023,REG,6,2023-10-12,Thursday,20:15,DEN,8,KC,19,Home,11,0,1,4,4,Sean Payton,Andy Reid,Shawn Hochuli,KAN00,GEHA Field at Arrowhead Stadium
+2023_06_BAL_TEN,2023,REG,6,2023-10-15,Sunday,09:30,BAL,24,TEN,16,Neutral,-8,0,0,7,7,John Harbaugh,Mike Vrabel,Bill Vinovich,LON02,Tottenham Stadium
+2023_06_WAS_ATL,2023,REG,6,2023-10-15,Sunday,13:00,WAS,24,ATL,16,Home,-8,0,0,10,7,Ron Rivera,Arthur Smith,Clete Blakeman,ATL97,Mercedes-Benz Stadium
+2023_06_MIN_CHI,2023,REG,6,2023-10-15,Sunday,13:00,MIN,19,CHI,13,Home,-6,0,1,7,10,Kevin O'Connell,Matt Eberflus,Brad Allen,CHI98,Soldier Field
+2023_06_SEA_CIN,2023,REG,6,2023-10-15,Sunday,13:00,SEA,13,CIN,17,Home,4,0,0,13,7,Pete Carroll,Zac Taylor,Adrian Hill,CIN00,Paycor Stadium
+2023_06_SF_CLE,2023,REG,6,2023-10-15,Sunday,13:00,SF,17,CLE,19,Home,2,0,0,7,14,Kyle Shanahan,Kevin Stefanski,John Hussey,CLE00,FirstEnergy Stadium
+2023_06_NO_HOU,2023,REG,6,2023-10-15,Sunday,13:00,NO,13,HOU,20,Home,7,0,0,7,7,Dennis Allen,DeMeco Ryans,Alan Eck,HOU00,NRG Stadium
+2023_06_IND_JAX,2023,REG,6,2023-10-15,Sunday,13:00,IND,20,JAX,37,Home,17,0,1,7,7,Shane Steichen,Doug Pederson,Alex Kemp,JAX00,TIAA Bank Stadium
+2023_06_CAR_MIA,2023,REG,6,2023-10-15,Sunday,13:00,CAR,21,MIA,42,Home,21,0,0,7,7,Frank Reich,Mike McDaniel,Craig Wrolstad,MIA00,Hard Rock Stadium
+2023_06_NE_LV,2023,REG,6,2023-10-15,Sunday,16:05,NE,17,LV,21,Home,4,0,0,7,6,Bill Belichick,Josh McDaniels,Brad Rogers,VEG00,Allegiant Stadium
+2023_06_ARI_LA,2023,REG,6,2023-10-15,Sunday,16:25,ARI,9,LAR,26,Home,17,0,1,7,7,Jonathan Gannon,Sean McVay,Ron Torbert,LAX01,SoFi Stadium
+2023_06_PHI_NYJ,2023,REG,6,2023-10-15,Sunday,16:25,PHI,14,NYJ,20,Home,6,0,0,7,7,Nick Sirianni,Robert Saleh,Scott Novak,NYC01,MetLife Stadium
+2023_06_DET_TB,2023,REG,6,2023-10-15,Sunday,16:25,DET,20,TB,6,Home,-14,0,0,7,14,Dan Campbell,Todd Bowles,Clay Martin,TAM00,Raymond James Stadium
+2023_06_NYG_BUF,2023,REG,6,2023-10-15,Sunday,20:20,NYG,9,BUF,14,Home,5,0,0,7,7,Brian Daboll,Sean McDermott,Tra Blake,BUF00,New Era Field
+2023_06_DAL_LAC,2023,REG,6,2023-10-16,Monday,20:15,DAL,20,LAC,17,Home,-3,0,0,8,15,Mike McCarthy,Brandon Staley,Land Clark,LAX01,SoFi Stadium
+2023_07_JAX_NO,2023,REG,7,2023-10-19,Thursday,20:15,JAX,31,NO,24,Home,-7,0,0,4,4,Doug Pederson,Dennis Allen,Land Clark,NOR00,Mercedes-Benz Superdome
+2023_07_DET_BAL,2023,REG,7,2023-10-22,Sunday,13:00,DET,6,BAL,38,Home,32,0,0,7,7,Dan Campbell,John Harbaugh,Brad Rogers,BAL00,M&T Bank Stadium
+2023_07_LV_CHI,2023,REG,7,2023-10-22,Sunday,13:00,LV,12,CHI,30,Home,18,0,0,7,7,Josh McDaniels,Matt Eberflus,Clay Martin,CHI98,Soldier Field
+2023_07_CLE_IND,2023,REG,7,2023-10-22,Sunday,13:00,CLE,39,IND,38,Home,-1,0,0,7,7,Kevin Stefanski,Shane Steichen,Shawn Smith,IND00,Lucas Oil Stadium
+2023_07_BUF_NE,2023,REG,7,2023-10-22,Sunday,13:00,BUF,25,NE,29,Home,4,0,1,7,7,Sean McDermott,Bill Belichick,Clete Blakeman,BOS00,Gillette Stadium
+2023_07_WAS_NYG,2023,REG,7,2023-10-22,Sunday,13:00,WAS,7,NYG,14,Home,7,0,1,7,7,Ron Rivera,Brian Daboll,John Hussey,NYC01,MetLife Stadium
+2023_07_ATL_TB,2023,REG,7,2023-10-22,Sunday,13:00,ATL,16,TB,13,Home,-3,0,1,7,7,Arthur Smith,Todd Bowles,Ron Torbert,TAM00,Raymond James Stadium
+2023_07_PIT_LA,2023,REG,7,2023-10-22,Sunday,16:05,PIT,24,LAR,17,Home,-7,0,0,14,7,Mike Tomlin,Sean McVay,Craig Wrolstad,LAX01,SoFi Stadium
+2023_07_ARI_SEA,2023,REG,7,2023-10-22,Sunday,16:05,ARI,10,SEA,20,Home,10,0,1,7,7,Jonathan Gannon,Pete Carroll,Scott Novak,SEA00,Lumen Field
+2023_07_GB_DEN,2023,REG,7,2023-10-22,Sunday,16:25,GB,17,DEN,19,Home,2,0,0,13,10,Matt LaFleur,Sean Payton,Alex Kemp,DEN00,Empower Field at Mile High
+2023_07_LAC_KC,2023,REG,7,2023-10-22,Sunday,16:25,LAC,17,KC,31,Home,14,0,1,6,10,Brandon Staley,Andy Reid,Tra Blake,KAN00,GEHA Field at Arrowhead Stadium
+2023_07_MIA_PHI,2023,REG,7,2023-10-22,Sunday,20:20,MIA,17,PHI,31,Home,14,0,0,7,7,Mike McDaniel,Nick Sirianni,Brad Allen,PHI00,Lincoln Financial Field
+2023_07_SF_MIN,2023,REG,7,2023-10-23,Monday,20:15,SF,17,MIN,22,Home,5,0,0,8,8,Kyle Shanahan,Kevin O'Connell,Carl Cheffers,MIN01,U.S. Bank Stadium
+2023_08_TB_BUF,2023,REG,8,2023-10-26,Thursday,20:15,TB,18,BUF,24,Home,6,0,0,4,4,Todd Bowles,Sean McDermott,Scott Novak,BUF00,New Era Field
+2023_08_HOU_CAR,2023,REG,8,2023-10-29,Sunday,13:00,HOU,13,CAR,15,Home,2,0,0,14,14,DeMeco Ryans,Frank Reich,John Hussey,CAR00,Bank of America Stadium
+2023_08_LA_DAL,2023,REG,8,2023-10-29,Sunday,13:00,LAR,20,DAL,43,Home,23,0,0,7,13,Sean McVay,Mike McCarthy,Adrian Hill,DAL00,AT&T Stadium
+2023_08_MIN_GB,2023,REG,8,2023-10-29,Sunday,13:00,MIN,24,GB,10,Home,-14,0,1,6,7,Kevin O'Connell,Matt LaFleur,Shawn Hochuli,GNB00,Lambeau Field
+2023_08_NO_IND,2023,REG,8,2023-10-29,Sunday,13:00,NO,38,IND,27,Home,-11,0,0,10,7,Dennis Allen,Shane Steichen,Craig Wrolstad,IND00,Lucas Oil Stadium
+2023_08_NE_MIA,2023,REG,8,2023-10-29,Sunday,13:00,NE,17,MIA,31,Home,14,0,1,7,7,Bill Belichick,Mike McDaniel,Land Clark,MIA00,Hard Rock Stadium
+2023_08_NYJ_NYG,2023,REG,8,2023-10-29,Sunday,13:00,NYJ,13,NYG,10,Home,-3,1,0,14,7,Robert Saleh,Brian Daboll,Shawn Smith,NYC01,MetLife Stadium
+2023_08_JAX_PIT,2023,REG,8,2023-10-29,Sunday,13:00,JAX,20,PIT,10,Home,-10,0,0,10,7,Doug Pederson,Mike Tomlin,Alan Eck,PIT00,Acrisure Stadium
+2023_08_ATL_TEN,2023,REG,8,2023-10-29,Sunday,13:00,ATL,23,TEN,28,Home,5,0,0,7,14,Arthur Smith,Mike Vrabel,Clay Martin,NAS00,Nissan Stadium
+2023_08_PHI_WAS,2023,REG,8,2023-10-29,Sunday,13:00,PHI,38,WAS,31,Home,-7,0,1,7,7,Nick Sirianni,Ron Rivera,Carl Cheffers,WAS00,FedExField
+2023_08_CLE_SEA,2023,REG,8,2023-10-29,Sunday,16:05,CLE,20,SEA,24,Home,4,0,0,7,7,Kevin Stefanski,Pete Carroll,Bill Vinovich,SEA00,Lumen Field
+2023_08_BAL_ARI,2023,REG,8,2023-10-29,Sunday,16:25,BAL,31,ARI,24,Home,-7,0,0,7,7,John Harbaugh,Jonathan Gannon,Tra Blake,PHO00,State Farm Stadium
+2023_08_KC_DEN,2023,REG,8,2023-10-29,Sunday,16:25,KC,9,DEN,24,Home,15,0,1,7,7,Andy Reid,Sean Payton,Brad Allen,DEN00,Empower Field at Mile High
+2023_08_CIN_SF,2023,REG,8,2023-10-29,Sunday,16:25,CIN,31,SF,17,Home,-14,0,0,14,6,Zac Taylor,Kyle Shanahan,Ron Torbert,SFO01,Levi's Stadium
+2023_08_CHI_LAC,2023,REG,8,2023-10-29,Sunday,20:20,CHI,13,LAC,30,Home,17,0,0,7,7,Matt Eberflus,Brandon Staley,Brad Rogers,LAX01,SoFi Stadium
+2023_08_LV_DET,2023,REG,8,2023-10-30,Monday,20:15,LV,14,DET,26,Home,12,0,0,8,8,Josh McDaniels,Dan Campbell,Clete Blakeman,DET00,Ford Field
+2023_09_TEN_PIT,2023,REG,9,2023-11-02,Thursday,20:15,TEN,16,PIT,20,Home,4,0,0,4,4,Mike Vrabel,Mike Tomlin,John Hussey,PIT00,Acrisure Stadium
+2023_09_MIA_KC,2023,REG,9,2023-11-05,Sunday,09:30,MIA,14,KC,21,Neutral,7,0,0,7,7,Mike McDaniel,Andy Reid,Clay Martin,FRA00,Deutsche Bank Park
+2023_09_MIN_ATL,2023,REG,9,2023-11-05,Sunday,13:00,MIN,31,ATL,28,Home,-3,0,0,7,7,Kevin O'Connell,Arthur Smith,Shawn Smith,ATL97,Mercedes-Benz Stadium
+2023_09_SEA_BAL,2023,REG,9,2023-11-05,Sunday,13:00,SEA,3,BAL,37,Home,34,0,0,7,7,Pete Carroll,John Harbaugh,Shawn Hochuli,BAL00,M&T Bank Stadium
+2023_09_ARI_CLE,2023,REG,9,2023-11-05,Sunday,13:00,ARI,0,CLE,27,Home,27,0,0,7,7,Jonathan Gannon,Kevin Stefanski,Carl Cheffers,CLE00,FirstEnergy Stadium
+2023_09_LA_GB,2023,REG,9,2023-11-05,Sunday,13:00,LAR,3,GB,20,Home,17,0,0,7,7,Sean McVay,Matt LaFleur,Clete Blakeman,GNB00,Lambeau Field
+2023_09_TB_HOU,2023,REG,9,2023-11-05,Sunday,13:00,TB,37,HOU,39,Home,2,0,0,10,7,Todd Bowles,DeMeco Ryans,Land Clark,HOU00,NRG Stadium
+2023_09_WAS_NE,2023,REG,9,2023-11-05,Sunday,13:00,WAS,20,NE,17,Home,-3,0,0,7,7,Ron Rivera,Bill Belichick,Adrian Hill,BOS00,Gillette Stadium
+2023_09_CHI_NO,2023,REG,9,2023-11-05,Sunday,13:00,CHI,17,NO,24,Home,7,0,0,7,7,Matt Eberflus,Dennis Allen,Ron Torbert,NOR00,Mercedes-Benz Superdome
+2023_09_IND_CAR,2023,REG,9,2023-11-05,Sunday,16:05,IND,27,CAR,13,Home,-14,0,0,7,7,Shane Steichen,Frank Reich,Bill Vinovich,CAR00,Bank of America Stadium
+2023_09_NYG_LV,2023,REG,9,2023-11-05,Sunday,16:25,NYG,6,LV,30,Home,24,0,0,7,6,Brian Daboll,Antonio Pierce,Alan Eck,VEG00,Allegiant Stadium
+2023_09_DAL_PHI,2023,REG,9,2023-11-05,Sunday,16:25,DAL,23,PHI,28,Home,5,0,1,7,7,Mike McCarthy,Nick Sirianni,Tra Blake,PHI00,Lincoln Financial Field
+2023_09_BUF_CIN,2023,REG,9,2023-11-05,Sunday,20:20,BUF,18,CIN,24,Home,6,0,0,10,7,Sean McDermott,Zac Taylor,Alex Kemp,CIN00,Paycor Stadium
+2023_09_LAC_NYJ,2023,REG,9,2023-11-06,Monday,20:15,LAC,27,NYJ,6,Home,-21,0,0,8,8,Brandon Staley,Robert Saleh,Craig Wrolstad,NYC01,MetLife Stadium
+2023_10_CAR_CHI,2023,REG,10,2023-11-09,Thursday,20:15,CAR,13,CHI,16,Home,3,0,0,4,4,Frank Reich,Matt Eberflus,Clete Blakeman,CHI98,Soldier Field
+2023_10_IND_NE,2023,REG,10,2023-11-12,Sunday,09:30,IND,10,NE,6,Neutral,-4,0,0,7,7,Shane Steichen,Bill Belichick,Tra Blake,FRA00,Deutsche Bank Park
+2023_10_CLE_BAL,2023,REG,10,2023-11-12,Sunday,13:00,CLE,33,BAL,31,Home,-2,0,1,7,7,Kevin Stefanski,John Harbaugh,Land Clark,BAL00,M&T Bank Stadium
+2023_10_HOU_CIN,2023,REG,10,2023-11-12,Sunday,13:00,HOU,30,CIN,27,Home,-3,0,0,7,7,DeMeco Ryans,Zac Taylor,Carl Cheffers,CIN00,Paycor Stadium
+2023_10_SF_JAX,2023,REG,10,2023-11-12,Sunday,13:00,SF,34,JAX,3,Home,-31,0,0,14,14,Kyle Shanahan,Doug Pederson,Brad Allen,JAX00,TIAA Bank Stadium
+2023_10_NO_MIN,2023,REG,10,2023-11-12,Sunday,13:00,NO,19,MIN,27,Home,8,0,0,7,7,Dennis Allen,Kevin O'Connell,Adrian Hill,MIN01,U.S. Bank Stadium
+2023_10_GB_PIT,2023,REG,10,2023-11-12,Sunday,13:00,GB,19,PIT,23,Home,4,0,0,7,10,Matt LaFleur,Mike Tomlin,Scott Novak,PIT00,Acrisure Stadium
+2023_10_TEN_TB,2023,REG,10,2023-11-12,Sunday,13:00,TEN,6,TB,20,Home,14,0,0,10,7,Mike Vrabel,Todd Bowles,Alan Eck,TAM00,Raymond James Stadium
+2023_10_ATL_ARI,2023,REG,10,2023-11-12,Sunday,16:05,ATL,23,ARI,25,Home,2,0,0,7,7,Arthur Smith,Jonathan Gannon,Craig Wrolstad,PHO00,State Farm Stadium
+2023_10_DET_LAC,2023,REG,10,2023-11-12,Sunday,16:05,DET,41,LAC,38,Home,-3,0,0,13,6,Dan Campbell,Brandon Staley,Shawn Smith,LAX01,SoFi Stadium
+2023_10_NYG_DAL,2023,REG,10,2023-11-12,Sunday,16:25,NYG,17,DAL,49,Home,32,0,1,7,7,Brian Daboll,Mike McCarthy,Brad Rogers,DAL00,AT&T Stadium
+2023_10_WAS_SEA,2023,REG,10,2023-11-12,Sunday,16:25,WAS,26,SEA,29,Home,3,0,0,7,7,Ron Rivera,Pete Carroll,Alex Kemp,SEA00,Lumen Field
+2023_10_NYJ_LV,2023,REG,10,2023-11-12,Sunday,20:20,NYJ,12,LV,16,Home,4,0,0,6,7,Robert Saleh,Antonio Pierce,Shawn Hochuli,VEG00,Allegiant Stadium
+2023_10_DEN_BUF,2023,REG,10,2023-11-13,Monday,20:15,DEN,24,BUF,22,Home,-2,0,0,15,8,Sean Payton,Sean McDermott,Bill Vinovich,BUF00,New Era Field
+2023_11_CIN_BAL,2023,REG,11,2023-11-16,Thursday,20:15,CIN,20,BAL,34,Home,14,0,1,4,4,Zac Taylor,John Harbaugh,Adrian Hill,BAL00,M&T Bank Stadium
+2023_11_DAL_CAR,2023,REG,11,2023-11-19,Sunday,13:00,DAL,33,CAR,10,Home,-23,0,0,7,10,Mike McCarthy,Frank Reich,Clay Martin,CAR00,Bank of America Stadium
+2023_11_PIT_CLE,2023,REG,11,2023-11-19,Sunday,13:00,PIT,10,CLE,13,Home,3,0,1,7,7,Mike Tomlin,Kevin Stefanski,Shawn Hochuli,CLE00,FirstEnergy Stadium
+2023_11_CHI_DET,2023,REG,11,2023-11-19,Sunday,13:00,CHI,26,DET,31,Home,5,0,1,10,7,Matt Eberflus,Dan Campbell,Scott Novak,DET00,Ford Field
+2023_11_LAC_GB,2023,REG,11,2023-11-19,Sunday,13:00,LAC,20,GB,23,Home,3,0,0,7,7,Brandon Staley,Matt LaFleur,John Hussey,GNB00,Lambeau Field
+2023_11_ARI_HOU,2023,REG,11,2023-11-19,Sunday,13:00,ARI,16,HOU,21,Home,5,0,0,7,7,Jonathan Gannon,DeMeco Ryans,Alex Kemp,HOU00,NRG Stadium
+2023_11_TEN_JAX,2023,REG,11,2023-11-19,Sunday,13:00,TEN,14,JAX,34,Home,20,0,1,7,7,Mike Vrabel,Doug Pederson,Brad Rogers,JAX00,TIAA Bank Stadium
+2023_11_LV_MIA,2023,REG,11,2023-11-19,Sunday,13:00,LV,13,MIA,20,Home,7,0,0,7,14,Antonio Pierce,Mike McDaniel,Bill Vinovich,MIA00,Hard Rock Stadium
+2023_11_NYG_WAS,2023,REG,11,2023-11-19,Sunday,13:00,NYG,31,WAS,19,Home,-12,0,1,7,7,Brian Daboll,Ron Rivera,Brad Allen,WAS00,FedExField
+2023_11_TB_SF,2023,REG,11,2023-11-19,Sunday,16:05,TB,14,SF,27,Home,13,0,0,7,7,Todd Bowles,Kyle Shanahan,Craig Wrolstad,SFO01,Levi's Stadium
+2023_11_NYJ_BUF,2023,REG,11,2023-11-19,Sunday,16:25,NYJ,6,BUF,32,Home,26,0,1,7,6,Robert Saleh,Sean McDermott,Alan Eck,BUF00,New Era Field
+2023_11_SEA_LA,2023,REG,11,2023-11-19,Sunday,16:25,SEA,16,LAR,17,Home,1,0,1,7,14,Pete Carroll,Sean McVay,Carl Cheffers,LAX01,SoFi Stadium
+2023_11_MIN_DEN,2023,REG,11,2023-11-19,Sunday,20:20,MIN,20,DEN,21,Home,1,0,0,7,6,Kevin O'Connell,Sean Payton,Ron Torbert,DEN00,Empower Field at Mile High
+2023_11_PHI_KC,2023,REG,11,2023-11-20,Monday,20:15,PHI,21,KC,17,Home,-4,0,0,15,15,Nick Sirianni,Andy Reid,Shawn Smith,KAN00,GEHA Field at Arrowhead Stadium
+2023_12_GB_DET,2023,REG,12,2023-11-23,Thursday,12:30,GB,29,DET,22,Home,-7,0,1,4,4,Matt LaFleur,Dan Campbell,Carl Cheffers,DET00,Ford Field
+2023_12_WAS_DAL,2023,REG,12,2023-11-23,Thursday,16:30,WAS,10,DAL,45,Home,35,0,1,4,4,Ron Rivera,Mike McCarthy,Bill Vinovich,DAL00,AT&T Stadium
+2023_12_SF_SEA,2023,REG,12,2023-11-23,Thursday,20:20,SF,31,SEA,13,Home,-18,0,1,4,4,Kyle Shanahan,Pete Carroll,Tra Blake,SEA00,Lumen Field
+2023_12_MIA_NYJ,2023,REG,12,2023-11-24,Friday,15:00,MIA,34,NYJ,13,Home,-21,0,1,5,5,Mike McDaniel,Robert Saleh,John Hussey,NYC01,MetLife Stadium
+2023_12_NO_ATL,2023,REG,12,2023-11-26,Sunday,13:00,NO,15,ATL,24,Home,9,0,1,14,14,Dennis Allen,Arthur Smith,Brad Allen,ATL97,Mercedes-Benz Stadium
+2023_12_PIT_CIN,2023,REG,12,2023-11-26,Sunday,13:00,PIT,16,CIN,10,Home,-6,0,1,7,10,Mike Tomlin,Zac Taylor,Brad Rogers,CIN00,Paycor Stadium
+2023_12_JAX_HOU,2023,REG,12,2023-11-26,Sunday,13:00,JAX,24,HOU,21,Home,-3,0,1,7,7,Doug Pederson,DeMeco Ryans,Clay Martin,HOU00,NRG Stadium
+2023_12_TB_IND,2023,REG,12,2023-11-26,Sunday,13:00,TB,20,IND,27,Home,7,0,0,7,14,Todd Bowles,Shane Steichen,Clete Blakeman,IND00,Lucas Oil Stadium
+2023_12_NE_NYG,2023,REG,12,2023-11-26,Sunday,13:00,NE,7,NYG,10,Home,3,0,0,14,7,Bill Belichick,Brian Daboll,Scott Novak,NYC01,MetLife Stadium
+2023_12_CAR_TEN,2023,REG,12,2023-11-26,Sunday,13:00,CAR,10,TEN,17,Home,7,0,0,7,7,Frank Reich,Mike Vrabel,Ron Torbert,NAS00,Nissan Stadium
+2023_12_LA_ARI,2023,REG,12,2023-11-26,Sunday,16:05,LAR,37,ARI,14,Home,-23,0,1,7,7,Sean McVay,Jonathan Gannon,Shawn Smith,PHO00,State Farm Stadium
+2023_12_CLE_DEN,2023,REG,12,2023-11-26,Sunday,16:05,CLE,12,DEN,29,Home,17,0,0,7,7,Kevin Stefanski,Sean Payton,Adrian Hill,DEN00,Empower Field at Mile High
+2023_12_KC_LV,2023,REG,12,2023-11-26,Sunday,16:25,KC,31,LV,17,Home,-14,0,1,6,7,Andy Reid,Antonio Pierce,Land Clark,VEG00,Allegiant Stadium
+2023_12_BUF_PHI,2023,REG,12,2023-11-26,Sunday,16:25,BUF,34,PHI,37,Home,3,1,0,7,6,Sean McDermott,Nick Sirianni,Shawn Hochuli,PHI00,Lincoln Financial Field
+2023_12_BAL_LAC,2023,REG,12,2023-11-26,Sunday,20:20,BAL,20,LAC,10,Home,-10,0,0,10,7,John Harbaugh,Brandon Staley,Alan Eck,LAX01,SoFi Stadium
+2023_12_CHI_MIN,2023,REG,12,2023-11-27,Monday,20:15,CHI,12,MIN,10,Home,-2,0,1,8,8,Matt Eberflus,Kevin O'Connell,Alex Kemp,MIN01,U.S. Bank Stadium
+2023_13_SEA_DAL,2023,REG,13,2023-11-30,Thursday,20:15,SEA,35,DAL,41,Home,6,0,0,7,7,Pete Carroll,Mike McCarthy,Clete Blakeman,DAL00,AT&T Stadium
+2023_13_DEN_HOU,2023,REG,13,2023-12-03,Sunday,13:00,DEN,17,HOU,22,Home,5,0,0,7,7,Sean Payton,DeMeco Ryans,Shawn Smith,HOU00,NRG Stadium
+2023_13_LAC_NE,2023,REG,13,2023-12-03,Sunday,13:00,LAC,6,NE,0,Home,-6,0,0,7,7,Brandon Staley,Bill Belichick,Bill Vinovich,BOS00,Gillette Stadium
+2023_13_DET_NO,2023,REG,13,2023-12-03,Sunday,13:00,DET,33,NO,28,Home,-5,0,0,10,7,Dan Campbell,Dennis Allen,Clay Martin,NOR00,Mercedes-Benz Superdome
+2023_13_ATL_NYJ,2023,REG,13,2023-12-03,Sunday,13:00,ATL,13,NYJ,8,Home,-5,0,0,7,9,Arthur Smith,Robert Saleh,Ron Torbert,NYC01,MetLife Stadium
+2023_13_ARI_PIT,2023,REG,13,2023-12-03,Sunday,13:00,ARI,24,PIT,10,Home,-14,0,0,7,7,Jonathan Gannon,Mike Tomlin,Land Clark,PIT00,Acrisure Stadium
+2023_13_IND_TEN,2023,REG,13,2023-12-03,Sunday,13:00,IND,31,TEN,28,Home,-3,1,1,7,7,Shane Steichen,Mike Vrabel,Craig Wrolstad,NAS00,Nissan Stadium
+2023_13_MIA_WAS,2023,REG,13,2023-12-03,Sunday,13:00,MIA,45,WAS,15,Home,-30,0,0,9,10,Mike McDaniel,Ron Rivera,Tra Blake,WAS00,FedExField
+2023_13_CAR_TB,2023,REG,13,2023-12-03,Sunday,16:05,CAR,18,TB,21,Home,3,0,1,7,7,Chris Tabor,Todd Bowles,Brad Rogers,TAM00,Raymond James Stadium
+2023_13_CLE_LA,2023,REG,13,2023-12-03,Sunday,16:25,CLE,19,LAR,36,Home,17,0,0,7,7,Kevin Stefanski,Sean McVay,John Hussey,LAX01,SoFi Stadium
+2023_13_SF_PHI,2023,REG,13,2023-12-03,Sunday,16:25,SF,42,PHI,19,Home,-23,0,0,10,7,Kyle Shanahan,Nick Sirianni,Alex Kemp,PHI00,Lincoln Financial Field
+2023_13_KC_GB,2023,REG,13,2023-12-03,Sunday,20:20,KC,19,GB,27,Home,8,0,0,7,10,Andy Reid,Matt LaFleur,Brad Allen,GNB00,Lambeau Field
+2023_13_CIN_JAX,2023,REG,13,2023-12-04,Monday,20:15,CIN,34,JAX,31,Home,-3,1,0,8,8,Zac Taylor,Doug Pederson,Scott Novak,JAX00,TIAA Bank Stadium
+2023_14_NE_PIT,2023,REG,14,2023-12-07,Thursday,20:15,NE,21,PIT,18,Home,-3,0,0,4,4,Bill Belichick,Mike Tomlin,Clay Martin,PIT00,Acrisure Stadium
+2023_14_TB_ATL,2023,REG,14,2023-12-10,Sunday,13:00,TB,29,ATL,25,Home,-4,0,1,7,7,Todd Bowles,Arthur Smith,Alex Kemp,ATL97,Mercedes-Benz Stadium
+2023_14_LA_BAL,2023,REG,14,2023-12-10,Sunday,13:00,LAR,31,BAL,37,Home,6,1,0,7,14,Sean McVay,John Harbaugh,Scott Novak,BAL00,M&T Bank Stadium
+2023_14_DET_CHI,2023,REG,14,2023-12-10,Sunday,13:00,DET,13,CHI,28,Home,15,0,1,7,13,Dan Campbell,Matt Eberflus,Tra Blake,CHI98,Soldier Field
+2023_14_IND_CIN,2023,REG,14,2023-12-10,Sunday,13:00,IND,14,CIN,34,Home,20,0,0,7,6,Shane Steichen,Zac Taylor,Shawn Hochuli,CIN00,Paycor Stadium
+2023_14_JAX_CLE,2023,REG,14,2023-12-10,Sunday,13:00,JAX,27,CLE,31,Home,4,0,0,6,7,Doug Pederson,Kevin Stefanski,Ron Torbert,CLE00,FirstEnergy Stadium
+2023_14_CAR_NO,2023,REG,14,2023-12-10,Sunday,13:00,CAR,6,NO,28,Home,22,0,1,7,7,Chris Tabor,Dennis Allen,Alan Eck,NOR00,Mercedes-Benz Superdome
+2023_14_HOU_NYJ,2023,REG,14,2023-12-10,Sunday,13:00,HOU,6,NYJ,30,Home,24,0,0,7,7,DeMeco Ryans,Robert Saleh,Brad Allen,NYC01,MetLife Stadium
+2023_14_MIN_LV,2023,REG,14,2023-12-10,Sunday,16:05,MIN,3,LV,0,Home,-3,0,0,13,14,Kevin O'Connell,Antonio Pierce,Craig Wrolstad,VEG00,Allegiant Stadium
+2023_14_SEA_SF,2023,REG,14,2023-12-10,Sunday,16:05,SEA,16,SF,28,Home,12,0,1,10,7,Pete Carroll,Kyle Shanahan,Brad Rogers,SFO01,Levi's Stadium
+2023_14_BUF_KC,2023,REG,14,2023-12-10,Sunday,16:25,BUF,20,KC,17,Home,-3,0,0,14,7,Sean McDermott,Andy Reid,Carl Cheffers,KAN00,GEHA Field at Arrowhead Stadium
+2023_14_DEN_LAC,2023,REG,14,2023-12-10,Sunday,16:25,DEN,24,LAC,7,Home,-17,0,1,7,7,Sean Payton,Brandon Staley,Clete Blakeman,LAX01,SoFi Stadium
+2023_14_PHI_DAL,2023,REG,14,2023-12-10,Sunday,20:20,PHI,13,DAL,33,Home,20,0,1,7,10,Nick Sirianni,Mike McCarthy,John Hussey,DAL00,AT&T Stadium
+2023_14_TEN_MIA,2023,REG,14,2023-12-11,Monday,20:15,TEN,28,MIA,27,Home,-1,0,0,8,8,Mike Vrabel,Mike McDaniel,Adrian Hill,MIA00,Hard Rock Stadium
+2023_14_GB_NYG,2023,REG,14,2023-12-11,Monday,20:15,GB,22,NYG,24,Home,2,0,0,8,15,Matt LaFleur,Brian Daboll,Land Clark,NYC01,MetLife Stadium
+2023_15_LAC_LV,2023,REG,15,2023-12-14,Thursday,20:15,LAC,21,LV,63,Home,42,0,1,4,4,Brandon Staley,Antonio Pierce,Ron Torbert,VEG00,Allegiant Stadium
+2023_15_MIN_CIN,2023,REG,15,2023-12-16,Saturday,13:00,MIN,24,CIN,27,Home,3,1,0,6,6,Kevin O'Connell,Zac Taylor,Bill Vinovich,CIN00,Paycor Stadium
+2023_15_PIT_IND,2023,REG,15,2023-12-16,Saturday,16:30,PIT,13,IND,30,Home,17,0,0,9,6,Mike Tomlin,Shane Steichen,Adrian Hill,IND00,Lucas Oil Stadium
+2023_15_DEN_DET,2023,REG,15,2023-12-16,Saturday,20:15,DEN,17,DET,42,Home,25,0,0,6,6,Sean Payton,Dan Campbell,John Hussey,DET00,Ford Field
+2023_15_ATL_CAR,2023,REG,15,2023-12-17,Sunday,13:00,ATL,7,CAR,9,Home,2,0,1,7,7,Arthur Smith,Chris Tabor,Land Clark,CAR00,Bank of America Stadium
+2023_15_CHI_CLE,2023,REG,15,2023-12-17,Sunday,13:00,CHI,17,CLE,20,Home,3,0,0,7,7,Matt Eberflus,Kevin Stefanski,Brad Allen,CLE00,FirstEnergy Stadium
+2023_15_TB_GB,2023,REG,15,2023-12-17,Sunday,13:00,TB,34,GB,20,Home,-14,0,0,7,6,Todd Bowles,Matt LaFleur,Tra Blake,GNB00,Lambeau Field
+2023_15_NYJ_MIA,2023,REG,15,2023-12-17,Sunday,13:00,NYJ,0,MIA,30,Home,30,0,1,7,6,Robert Saleh,Mike McDaniel,Brad Rogers,MIA00,Hard Rock Stadium
+2023_15_KC_NE,2023,REG,15,2023-12-17,Sunday,13:00,KC,27,NE,17,Home,-10,0,0,7,10,Andy Reid,Bill Belichick,Shawn Hochuli,BOS00,Gillette Stadium
+2023_15_NYG_NO,2023,REG,15,2023-12-17,Sunday,13:00,NYG,6,NO,24,Home,18,0,0,6,7,Brian Daboll,Dennis Allen,Carl Cheffers,NOR00,Mercedes-Benz Superdome
+2023_15_HOU_TEN,2023,REG,15,2023-12-17,Sunday,13:00,HOU,19,TEN,16,Home,-3,1,1,7,6,DeMeco Ryans,Mike Vrabel,Clete Blakeman,NAS00,Nissan Stadium
+2023_15_SF_ARI,2023,REG,15,2023-12-17,Sunday,16:05,SF,45,ARI,29,Home,-16,0,1,7,14,Kyle Shanahan,Jonathan Gannon,Scott Novak,PHO00,State Farm Stadium
+2023_15_WAS_LA,2023,REG,15,2023-12-17,Sunday,16:05,WAS,20,LAR,28,Home,8,0,0,14,7,Ron Rivera,Sean McVay,Alan Eck,LAX01,SoFi Stadium
+2023_15_DAL_BUF,2023,REG,15,2023-12-17,Sunday,16:25,DAL,10,BUF,31,Home,21,0,0,7,7,Mike McCarthy,Sean McDermott,Craig Wrolstad,BUF00,New Era Field
+2023_15_BAL_JAX,2023,REG,15,2023-12-17,Sunday,20:20,BAL,23,JAX,7,Home,-16,0,0,7,7,John Harbaugh,Doug Pederson,Shawn Smith,JAX00,TIAA Bank Stadium
+2023_15_PHI_SEA,2023,REG,15,2023-12-18,Monday,20:15,PHI,17,SEA,20,Home,3,0,0,8,8,Nick Sirianni,Pete Carroll,Clay Martin,SEA00,Lumen Field
+2023_16_NO_LA,2023,REG,16,2023-12-21,Thursday,20:15,NO,22,LAR,30,Home,8,0,0,4,4,Dennis Allen,Sean McVay,Brad Rogers,LAX01,SoFi Stadium
+2023_16_CIN_PIT,2023,REG,16,2023-12-23,Saturday,16:30,CIN,11,PIT,34,Home,23,0,1,7,7,Zac Taylor,Mike Tomlin,Craig Wrolstad,PIT00,Acrisure Stadium
+2023_16_BUF_LAC,2023,REG,16,2023-12-23,Saturday,20:00,BUF,24,LAC,22,Home,-2,0,0,6,9,Sean McDermott,Giff Smith,Adrian Hill,LAX01,SoFi Stadium
+2023_16_IND_ATL,2023,REG,16,2023-12-24,Sunday,13:00,IND,10,ATL,29,Home,19,0,0,8,7,Shane Steichen,Arthur Smith,Alan Eck,ATL97,Mercedes-Benz Stadium
+2023_16_GB_CAR,2023,REG,16,2023-12-24,Sunday,13:00,GB,33,CAR,30,Home,-3,0,0,7,7,Matt LaFleur,Chris Tabor,Alex Kemp,CAR00,Bank of America Stadium
+2023_16_CLE_HOU,2023,REG,16,2023-12-24,Sunday,13:00,CLE,36,HOU,22,Home,-14,0,0,7,7,Kevin Stefanski,DeMeco Ryans,Tra Blake,HOU00,NRG Stadium
+2023_16_DET_MIN,2023,REG,16,2023-12-24,Sunday,13:00,DET,30,MIN,24,Home,-6,0,1,8,8,Dan Campbell,Kevin O'Connell,Land Clark,MIN01,U.S. Bank Stadium
+2023_16_WAS_NYJ,2023,REG,16,2023-12-24,Sunday,13:00,WAS,28,NYJ,30,Home,2,0,0,7,7,Ron Rivera,Robert Saleh,Clay Martin,NYC01,MetLife Stadium
+2023_16_SEA_TEN,2023,REG,16,2023-12-24,Sunday,13:00,SEA,20,TEN,17,Home,-3,0,0,6,7,Pete Carroll,Mike Vrabel,Shawn Smith,NAS00,Nissan Stadium
+2023_16_JAX_TB,2023,REG,16,2023-12-24,Sunday,16:05,JAX,12,TB,30,Home,18,0,0,7,7,Doug Pederson,Todd Bowles,Brad Allen,TAM00,Raymond James Stadium
+2023_16_ARI_CHI,2023,REG,16,2023-12-24,Sunday,16:25,ARI,16,CHI,27,Home,11,0,0,7,7,Jonathan Gannon,Matt Eberflus,John Hussey,CHI98,Soldier Field
+2023_16_DAL_MIA,2023,REG,16,2023-12-24,Sunday,16:25,DAL,20,MIA,22,Home,2,0,0,7,7,Mike McCarthy,Mike McDaniel,Shawn Hochuli,MIA00,Hard Rock Stadium
+2023_16_NE_DEN,2023,REG,16,2023-12-24,Sunday,20:15,NE,26,DEN,23,Home,-3,0,0,7,8,Bill Belichick,Sean Payton,Carl Cheffers,DEN00,Empower Field at Mile High
+2023_16_LV_KC,2023,REG,16,2023-12-25,Monday,13:00,LV,20,KC,14,Home,-6,0,1,11,8,Antonio Pierce,Andy Reid,Clete Blakeman,KAN00,GEHA Field at Arrowhead Stadium
+2023_16_NYG_PHI,2023,REG,16,2023-12-25,Monday,16:30,NYG,25,PHI,33,Home,8,0,1,8,7,Brian Daboll,Nick Sirianni,Ron Torbert,PHI00,Lincoln Financial Field
+2023_16_BAL_SF,2023,REG,16,2023-12-25,Monday,20:15,BAL,33,SF,19,Home,-14,0,0,8,8,John Harbaugh,Kyle Shanahan,Bill Vinovich,SFO01,Levi's Stadium
+2023_17_NYJ_CLE,2023,REG,17,2023-12-28,Thursday,20:15,NYJ,20,CLE,37,Home,17,0,0,4,4,Robert Saleh,Kevin Stefanski,Alex Kemp,CLE00,FirstEnergy Stadium
+2023_17_DET_DAL,2023,REG,17,2023-12-30,Saturday,20:15,DET,19,DAL,20,Home,1,0,0,6,6,Dan Campbell,Mike McCarthy,Brad Allen,DAL00,AT&T Stadium
+2023_17_MIA_BAL,2023,REG,17,2023-12-31,Sunday,13:00,MIA,19,BAL,56,Home,37,0,0,7,6,Mike McDaniel,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2023_17_NE_BUF,2023,REG,17,2023-12-31,Sunday,13:00,NE,21,BUF,27,Home,6,0,1,7,8,Bill Belichick,Sean McDermott,Alan Eck,BUF00,New Era Field
+2023_17_ATL_CHI,2023,REG,17,2023-12-31,Sunday,13:00,ATL,17,CHI,37,Home,20,0,0,7,7,Arthur Smith,Matt Eberflus,Adrian Hill,CHI98,Soldier Field
+2023_17_TEN_HOU,2023,REG,17,2023-12-31,Sunday,13:00,TEN,3,HOU,26,Home,23,0,1,7,7,Mike Vrabel,DeMeco Ryans,Scott Novak,HOU00,NRG Stadium
+2023_17_LV_IND,2023,REG,17,2023-12-31,Sunday,13:00,LV,20,IND,23,Home,3,0,0,6,7,Antonio Pierce,Shane Steichen,Shawn Smith,IND00,Lucas Oil Stadium
+2023_17_CAR_JAX,2023,REG,17,2023-12-31,Sunday,13:00,CAR,0,JAX,26,Home,26,0,0,7,7,Chris Tabor,Doug Pederson,Carl Cheffers,JAX00,TIAA Bank Stadium
+2023_17_LA_NYG,2023,REG,17,2023-12-31,Sunday,13:00,LAR,26,NYG,25,Home,-1,0,0,10,6,Sean McVay,Brian Daboll,Tra Blake,NYC01,MetLife Stadium
+2023_17_ARI_PHI,2023,REG,17,2023-12-31,Sunday,13:00,ARI,35,PHI,31,Home,-4,0,0,7,6,Jonathan Gannon,Nick Sirianni,Bill Vinovich,PHI00,Lincoln Financial Field
+2023_17_NO_TB,2023,REG,17,2023-12-31,Sunday,13:00,NO,23,TB,13,Home,-10,0,1,10,7,Dennis Allen,Todd Bowles,Land Clark,TAM00,Raymond James Stadium
+2023_17_SF_WAS,2023,REG,17,2023-12-31,Sunday,13:00,SF,27,WAS,10,Home,-17,0,0,6,7,Kyle Shanahan,Ron Rivera,Ron Torbert,WAS00,FedExField
+2023_17_PIT_SEA,2023,REG,17,2023-12-31,Sunday,16:05,PIT,30,SEA,23,Home,-7,0,0,8,7,Mike Tomlin,Pete Carroll,Shawn Hochuli,SEA00,Lumen Field
+2023_17_LAC_DEN,2023,REG,17,2023-12-31,Sunday,16:25,LAC,9,DEN,16,Home,7,0,1,8,7,Giff Smith,Sean Payton,Craig Wrolstad,DEN00,Empower Field at Mile High
+2023_17_CIN_KC,2023,REG,17,2023-12-31,Sunday,16:25,CIN,17,KC,25,Home,8,0,0,8,6,Zac Taylor,Andy Reid,John Hussey,KAN00,GEHA Field at Arrowhead Stadium
+2023_17_GB_MIN,2023,REG,17,2023-12-31,Sunday,20:20,GB,33,MIN,10,Home,-23,0,1,7,7,Matt LaFleur,Kevin O'Connell,Clay Martin,MIN01,U.S. Bank Stadium
+2023_18_PIT_BAL,2023,REG,18,2024-01-06,Saturday,16:30,PIT,17,BAL,10,Home,-7,0,1,6,6,Mike Tomlin,John Harbaugh,Brad Allen,BAL00,M&T Bank Stadium
+2023_18_HOU_IND,2023,REG,18,2024-01-06,Saturday,20:15,HOU,23,IND,19,Home,-4,0,1,6,6,DeMeco Ryans,Shane Steichen,Bill Vinovich,IND00,Lucas Oil Stadium
+2023_18_TB_CAR,2023,REG,18,2024-01-07,Sunday,13:00,TB,9,CAR,0,Home,-9,0,1,7,7,Todd Bowles,Chris Tabor,Clete Blakeman,CAR00,Bank of America Stadium
+2023_18_CLE_CIN,2023,REG,18,2024-01-07,Sunday,13:00,CLE,14,CIN,31,Home,17,0,1,10,7,Kevin Stefanski,Zac Taylor,Alan Eck,CIN00,Paycor Stadium
+2023_18_MIN_DET,2023,REG,18,2024-01-07,Sunday,13:00,MIN,20,DET,30,Home,10,0,1,7,8,Kevin O'Connell,Dan Campbell,Brad Rogers,DET00,Ford Field
+2023_18_NYJ_NE,2023,REG,18,2024-01-07,Sunday,13:00,NYJ,17,NE,3,Home,-14,0,1,10,7,Robert Saleh,Bill Belichick,Land Clark,BOS00,Gillette Stadium
+2023_18_ATL_NO,2023,REG,18,2024-01-07,Sunday,13:00,ATL,17,NO,48,Home,31,0,1,7,7,Arthur Smith,Dennis Allen,John Hussey,NOR00,Mercedes-Benz Superdome
+2023_18_JAX_TEN,2023,REG,18,2024-01-07,Sunday,13:00,JAX,20,TEN,28,Home,8,0,1,7,7,Doug Pederson,Mike Vrabel,Tra Blake,NAS00,Nissan Stadium
+2023_18_SEA_ARI,2023,REG,18,2024-01-07,Sunday,16:25,SEA,21,ARI,20,Home,-1,0,1,7,7,Pete Carroll,Jonathan Gannon,Adrian Hill,PHO00,State Farm Stadium
+2023_18_CHI_GB,2023,REG,18,2024-01-07,Sunday,16:25,CHI,9,GB,17,Home,8,0,1,7,7,Matt Eberflus,Matt LaFleur,Carl Cheffers,GNB00,Lambeau Field
+2023_18_KC_LAC,2023,REG,18,2024-01-07,Sunday,16:25,KC,13,LAC,12,Home,-1,0,1,7,7,Andy Reid,Giff Smith,Scott Novak,LAX01,SoFi Stadium
+2023_18_DEN_LV,2023,REG,18,2024-01-07,Sunday,16:25,DEN,14,LV,27,Home,13,0,1,7,7,Sean Payton,Antonio Pierce,Shawn Hochuli,VEG00,Allegiant Stadium
+2023_18_PHI_NYG,2023,REG,18,2024-01-07,Sunday,16:25,PHI,10,NYG,27,Home,17,0,1,7,7,Nick Sirianni,Brian Daboll,Craig Wrolstad,NYC01,MetLife Stadium
+2023_18_LA_SF,2023,REG,18,2024-01-07,Sunday,16:25,LAR,21,SF,20,Home,-1,0,1,7,7,Sean McVay,Kyle Shanahan,Clay Martin,SFO01,Levi's Stadium
+2023_18_DAL_WAS,2023,REG,18,2024-01-07,Sunday,16:25,DAL,38,WAS,10,Home,-28,0,1,8,7,Mike McCarthy,Ron Rivera,Shawn Smith,WAS00,FedExField
+2023_18_BUF_MIA,2023,REG,18,2024-01-07,Sunday,20:20,BUF,21,MIA,14,Home,-7,0,1,7,7,Sean McDermott,Mike McDaniel,Alex Kemp,MIA00,Hard Rock Stadium

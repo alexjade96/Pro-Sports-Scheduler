@@ -1,0 +1,257 @@
+game_id,season,game_type,week,gameday,weekday,gametime,away_team,away_score,home_team,home_score,location,result,overtime,div_game,away_rest,home_rest,away_coach,home_coach,referee,stadium_id,stadium
+2016_01_CAR_DEN,2016,REG,1,2016-09-08,Thursday,20:30,CAR,20,DEN,21,Home,1,0,0,7,7,Ron Rivera,Gary Kubiak,Gene Steratore,DEN00,Sports Authority Field at Mile High
+2016_01_TB_ATL,2016,REG,1,2016-09-11,Sunday,13:00,TB,31,ATL,24,Home,-7,0,1,7,7,Dirk Koetter,Dan Quinn,Jeff Triplette,ATL00,Georgia Dome
+2016_01_BUF_BAL,2016,REG,1,2016-09-11,Sunday,13:00,BUF,7,BAL,13,Home,6,0,0,7,7,Rex Ryan,John Harbaugh,Brad Allen,BAL00,M&T Bank Stadium
+2016_01_CHI_HOU,2016,REG,1,2016-09-11,Sunday,13:00,CHI,14,HOU,23,Home,9,0,0,7,7,John Fox,Bill O'Brien,Peter Morelli,HOU00,NRG Stadium
+2016_01_GB_JAX,2016,REG,1,2016-09-11,Sunday,13:00,GB,27,JAX,23,Home,-4,0,0,7,7,Mike McCarthy,Gus Bradley,Carl Cheffers,JAX00,EverBank Field
+2016_01_SD_KC,2016,REG,1,2016-09-11,Sunday,13:00,SD,27,KC,33,Home,6,1,1,7,7,Mike McCoy,Andy Reid,Jerome Boger,KAN00,Arrowhead Stadium
+2016_01_OAK_NO,2016,REG,1,2016-09-11,Sunday,13:00,OAK,35,NO,34,Home,-1,0,0,7,7,Jack Del Rio,Sean Payton,John Parry,NOR00,Mercedes-Benz Superdome
+2016_01_CIN_NYJ,2016,REG,1,2016-09-11,Sunday,13:00,CIN,23,NYJ,22,Home,-1,0,0,7,7,Marvin Lewis,Todd Bowles,Clete Blakeman,NYC01,MetLife Stadium
+2016_01_CLE_PHI,2016,REG,1,2016-09-11,Sunday,13:00,CLE,10,PHI,29,Home,19,0,0,7,7,Hue Jackson,Doug Pederson,Walt Anderson,PHI00,Lincoln Financial Field
+2016_01_MIN_TEN,2016,REG,1,2016-09-11,Sunday,13:00,MIN,25,TEN,16,Home,-9,0,0,7,7,Mike Zimmer,Mike Mularkey,Walt Coleman,NAS00,Nissan Stadium
+2016_01_MIA_SEA,2016,REG,1,2016-09-11,Sunday,16:05,MIA,10,SEA,12,Home,2,0,0,7,7,Adam Gase,Pete Carroll,John Hussey,SEA00,CenturyLink Field
+2016_01_NYG_DAL,2016,REG,1,2016-09-11,Sunday,16:25,NYG,20,DAL,19,Home,-1,0,1,7,7,Ben McAdoo,Jason Garrett,Ron Torbert,DAL00,AT&T Stadium
+2016_01_DET_IND,2016,REG,1,2016-09-11,Sunday,16:25,DET,39,IND,35,Home,-4,0,0,7,7,Jim Caldwell,Chuck Pagano,Ed Hochuli,IND00,Lucas Oil Stadium
+2016_01_NE_ARI,2016,REG,1,2016-09-11,Sunday,20:30,NE,23,ARI,21,Home,-2,0,0,7,7,Bill Belichick,Bruce Arians,Tony Corrente,PHO00,University of Phoenix Stadium
+2016_01_PIT_WAS,2016,REG,1,2016-09-12,Monday,19:10,PIT,38,WAS,16,Home,-22,0,0,7,7,Mike Tomlin,Jay Gruden,Craig Wrolstad,WAS00,FedExField
+2016_01_LA_SF,2016,REG,1,2016-09-12,Monday,22:20,LAR,0,SF,28,Home,28,0,1,7,7,Jeff Fisher,Chip Kelly,Bill Vinovich,SFO01,Levi's Stadium
+2016_02_NYJ_BUF,2016,REG,2,2016-09-15,Thursday,20:25,NYJ,37,BUF,31,Home,-6,0,1,4,4,Todd Bowles,Rex Ryan,Ed Hochuli,BUF00,New Era Field
+2016_02_TB_ARI,2016,REG,2,2016-09-18,Sunday,13:00,TB,7,ARI,40,Home,33,0,0,7,7,Dirk Koetter,Bruce Arians,Ron Torbert,PHO00,University of Phoenix Stadium
+2016_02_SF_CAR,2016,REG,2,2016-09-18,Sunday,13:00,SF,27,CAR,46,Home,19,0,0,6,10,Chip Kelly,Ron Rivera,John Parry,CAR00,Bank of America Stadium
+2016_02_BAL_CLE,2016,REG,2,2016-09-18,Sunday,13:00,BAL,25,CLE,20,Home,-5,0,1,7,7,John Harbaugh,Hue Jackson,John Hussey,CLE00,FirstEnergy Stadium
+2016_02_TEN_DET,2016,REG,2,2016-09-18,Sunday,13:00,TEN,16,DET,15,Home,-1,0,0,7,7,Mike Mularkey,Jim Caldwell,Brad Allen,DET00,Ford Field
+2016_02_KC_HOU,2016,REG,2,2016-09-18,Sunday,13:00,KC,12,HOU,19,Home,7,0,0,7,7,Andy Reid,Bill O'Brien,Tony Corrente,HOU00,NRG Stadium
+2016_02_MIA_NE,2016,REG,2,2016-09-18,Sunday,13:00,MIA,24,NE,31,Home,7,0,1,7,7,Adam Gase,Bill Belichick,Craig Wrolstad,BOS00,Gillette Stadium
+2016_02_NO_NYG,2016,REG,2,2016-09-18,Sunday,13:00,NO,13,NYG,16,Home,3,0,0,7,7,Sean Payton,Ben McAdoo,Gene Steratore,NYC01,MetLife Stadium
+2016_02_CIN_PIT,2016,REG,2,2016-09-18,Sunday,13:00,CIN,16,PIT,24,Home,8,0,1,7,6,Marvin Lewis,Mike Tomlin,Peter Morelli,PIT00,Heinz Field
+2016_02_DAL_WAS,2016,REG,2,2016-09-18,Sunday,13:00,DAL,27,WAS,23,Home,-4,0,1,7,6,Jason Garrett,Jay Gruden,Bill Vinovich,WAS00,FedExField
+2016_02_SEA_LA,2016,REG,2,2016-09-18,Sunday,16:05,SEA,3,LAR,9,Home,6,0,1,7,6,Pete Carroll,Jeff Fisher,Jerome Boger,LAX99,Los Angeles Memorial Coliseum
+2016_02_IND_DEN,2016,REG,2,2016-09-18,Sunday,16:25,IND,20,DEN,34,Home,14,0,0,7,10,Chuck Pagano,Gary Kubiak,Walt Coleman,DEN00,Sports Authority Field at Mile High
+2016_02_ATL_OAK,2016,REG,2,2016-09-18,Sunday,16:25,ATL,35,OAK,28,Home,-7,0,0,7,7,Dan Quinn,Jack Del Rio,Clete Blakeman,OAK00,Oakland-Alameda County Coliseum
+2016_02_JAX_SD,2016,REG,2,2016-09-18,Sunday,16:25,JAX,14,SD,38,Home,24,0,0,7,7,Gus Bradley,Mike McCoy,Carl Cheffers,SDG00,Qualcomm Stadium
+2016_02_GB_MIN,2016,REG,2,2016-09-18,Sunday,20:30,GB,14,MIN,17,Home,3,0,1,7,7,Mike McCarthy,Mike Zimmer,Walt Anderson,MIN01,U.S. Bank Stadium
+2016_02_PHI_CHI,2016,REG,2,2016-09-19,Monday,20:30,PHI,29,CHI,14,Home,-15,0,0,8,8,Doug Pederson,John Fox,Jeff Triplette,CHI98,Soldier Field
+2016_03_HOU_NE,2016,REG,3,2016-09-22,Thursday,20:25,HOU,0,NE,27,Home,27,0,0,4,4,Bill O'Brien,Bill Belichick,Walt Coleman,BOS00,Gillette Stadium
+2016_03_ARI_BUF,2016,REG,3,2016-09-25,Sunday,13:00,ARI,18,BUF,33,Home,15,0,0,7,10,Bruce Arians,Rex Ryan,Walt Anderson,BUF00,New Era Field
+2016_03_MIN_CAR,2016,REG,3,2016-09-25,Sunday,13:00,MIN,22,CAR,10,Home,-12,0,0,7,7,Mike Zimmer,Ron Rivera,Jerome Boger,CAR00,Bank of America Stadium
+2016_03_DEN_CIN,2016,REG,3,2016-09-25,Sunday,13:00,DEN,29,CIN,17,Home,-12,0,0,7,7,Gary Kubiak,Marvin Lewis,John Parry,CIN00,Paul Brown Stadium
+2016_03_DET_GB,2016,REG,3,2016-09-25,Sunday,13:00,DET,27,GB,34,Home,7,0,1,7,7,Jim Caldwell,Mike McCarthy,Carl Cheffers,GNB00,Lambeau Field
+2016_03_BAL_JAX,2016,REG,3,2016-09-25,Sunday,13:00,BAL,19,JAX,17,Home,-2,0,0,7,7,John Harbaugh,Gus Bradley,Gene Steratore,JAX00,EverBank Field
+2016_03_CLE_MIA,2016,REG,3,2016-09-25,Sunday,13:00,CLE,24,MIA,30,Home,6,1,0,7,7,Hue Jackson,Adam Gase,Clete Blakeman,MIA00,Hard Rock Stadium
+2016_03_WAS_NYG,2016,REG,3,2016-09-25,Sunday,13:00,WAS,29,NYG,27,Home,-2,0,1,7,7,Jay Gruden,Ben McAdoo,John Hussey,NYC01,MetLife Stadium
+2016_03_OAK_TEN,2016,REG,3,2016-09-25,Sunday,13:00,OAK,17,TEN,10,Home,-7,0,0,7,7,Jack Del Rio,Mike Mularkey,Tony Corrente,NAS00,Nissan Stadium
+2016_03_SF_SEA,2016,REG,3,2016-09-25,Sunday,16:05,SF,18,SEA,37,Home,19,0,1,7,7,Chip Kelly,Pete Carroll,Jeff Triplette,SEA00,CenturyLink Field
+2016_03_LA_TB,2016,REG,3,2016-09-25,Sunday,16:05,LAR,37,TB,32,Home,-5,0,0,7,7,Jeff Fisher,Dirk Koetter,Ed Hochuli,TAM00,Raymond James Stadium
+2016_03_SD_IND,2016,REG,3,2016-09-25,Sunday,16:25,SD,22,IND,26,Home,4,0,0,7,7,Mike McCoy,Chuck Pagano,Ron Torbert,IND00,Lucas Oil Stadium
+2016_03_NYJ_KC,2016,REG,3,2016-09-25,Sunday,16:25,NYJ,3,KC,24,Home,21,0,0,10,7,Todd Bowles,Andy Reid,Bill Vinovich,KAN00,Arrowhead Stadium
+2016_03_PIT_PHI,2016,REG,3,2016-09-25,Sunday,16:25,PIT,3,PHI,34,Home,31,0,0,7,6,Mike Tomlin,Doug Pederson,Brad Allen,PHI00,Lincoln Financial Field
+2016_03_CHI_DAL,2016,REG,3,2016-09-25,Sunday,20:30,CHI,17,DAL,31,Home,14,0,0,6,7,John Fox,Jason Garrett,Craig Wrolstad,DAL00,AT&T Stadium
+2016_03_ATL_NO,2016,REG,3,2016-09-26,Monday,20:30,ATL,45,NO,32,Home,-13,0,1,8,8,Dan Quinn,Sean Payton,Peter Morelli,NOR00,Mercedes-Benz Superdome
+2016_04_MIA_CIN,2016,REG,4,2016-09-29,Thursday,20:25,MIA,7,CIN,22,Home,15,0,0,4,4,Adam Gase,Marvin Lewis,Bill Vinovich,CIN00,Paul Brown Stadium
+2016_04_IND_JAX,2016,REG,4,2016-10-02,Sunday,09:30,IND,27,JAX,30,Neutral,3,0,1,7,7,Chuck Pagano,Gus Bradley,Walt Anderson,LON00,Wembley Stadium
+2016_04_CAR_ATL,2016,REG,4,2016-10-02,Sunday,13:00,CAR,33,ATL,48,Home,15,0,1,7,6,Ron Rivera,Dan Quinn,John Hussey,ATL00,Georgia Dome
+2016_04_OAK_BAL,2016,REG,4,2016-10-02,Sunday,13:00,OAK,28,BAL,27,Home,-1,0,0,7,7,Jack Del Rio,John Harbaugh,Ed Hochuli,BAL00,M&T Bank Stadium
+2016_04_DET_CHI,2016,REG,4,2016-10-02,Sunday,13:00,DET,14,CHI,17,Home,3,0,1,7,7,Jim Caldwell,John Fox,Tony Corrente,CHI98,Soldier Field
+2016_04_TEN_HOU,2016,REG,4,2016-10-02,Sunday,13:00,TEN,20,HOU,27,Home,7,0,1,7,10,Mike Mularkey,Bill O'Brien,Clete Blakeman,HOU00,NRG Stadium
+2016_04_BUF_NE,2016,REG,4,2016-10-02,Sunday,13:00,BUF,16,NE,0,Home,-16,0,1,7,10,Rex Ryan,Bill Belichick,Peter Morelli,BOS00,Gillette Stadium
+2016_04_SEA_NYJ,2016,REG,4,2016-10-02,Sunday,13:00,SEA,27,NYJ,17,Home,-10,0,0,7,7,Pete Carroll,Todd Bowles,Carl Cheffers,NYC01,MetLife Stadium
+2016_04_CLE_WAS,2016,REG,4,2016-10-02,Sunday,13:00,CLE,20,WAS,31,Home,11,0,0,7,7,Hue Jackson,Jay Gruden,Jeff Triplette,WAS00,FedExField
+2016_04_DEN_TB,2016,REG,4,2016-10-02,Sunday,16:05,DEN,27,TB,7,Home,-20,0,0,7,7,Gary Kubiak,Dirk Koetter,Jerome Boger,TAM00,Raymond James Stadium
+2016_04_LA_ARI,2016,REG,4,2016-10-02,Sunday,16:25,LAR,17,ARI,13,Home,-4,0,1,7,7,Jeff Fisher,Bruce Arians,Gene Steratore,PHO00,University of Phoenix Stadium
+2016_04_NO_SD,2016,REG,4,2016-10-02,Sunday,16:25,NO,35,SD,34,Home,-1,0,0,6,7,Sean Payton,Mike McCoy,Walt Coleman,SDG00,Qualcomm Stadium
+2016_04_DAL_SF,2016,REG,4,2016-10-02,Sunday,16:25,DAL,24,SF,17,Home,-7,0,0,7,7,Jason Garrett,Chip Kelly,Terry McAulay,SFO01,Levi's Stadium
+2016_04_KC_PIT,2016,REG,4,2016-10-02,Sunday,20:30,KC,14,PIT,43,Home,29,0,0,7,7,Andy Reid,Mike Tomlin,Ron Torbert,PIT00,Heinz Field
+2016_04_NYG_MIN,2016,REG,4,2016-10-03,Monday,20:30,NYG,10,MIN,24,Home,14,0,0,8,8,Ben McAdoo,Mike Zimmer,Brad Allen,MIN01,U.S. Bank Stadium
+2016_05_ARI_SF,2016,REG,5,2016-10-06,Thursday,20:25,ARI,33,SF,21,Home,-12,0,1,4,4,Bruce Arians,Chip Kelly,Carl Cheffers,SFO01,Levi's Stadium
+2016_05_WAS_BAL,2016,REG,5,2016-10-09,Sunday,13:00,WAS,16,BAL,10,Home,-6,0,0,7,7,Jay Gruden,John Harbaugh,Ron Torbert,BAL00,M&T Bank Stadium
+2016_05_NE_CLE,2016,REG,5,2016-10-09,Sunday,13:00,NE,33,CLE,13,Home,-20,0,0,7,7,Bill Belichick,Hue Jackson,Bill Vinovich,CLE00,FirstEnergy Stadium
+2016_05_PHI_DET,2016,REG,5,2016-10-09,Sunday,13:00,PHI,23,DET,24,Home,1,0,0,14,7,Doug Pederson,Jim Caldwell,Peter Morelli,DET00,Ford Field
+2016_05_CHI_IND,2016,REG,5,2016-10-09,Sunday,13:00,CHI,23,IND,29,Home,6,0,0,7,7,John Fox,Chuck Pagano,John Hussey,IND00,Lucas Oil Stadium
+2016_05_TEN_MIA,2016,REG,5,2016-10-09,Sunday,13:00,TEN,30,MIA,17,Home,-13,0,0,7,10,Mike Mularkey,Adam Gase,Craig Wrolstad,MIA00,Hard Rock Stadium
+2016_05_HOU_MIN,2016,REG,5,2016-10-09,Sunday,13:00,HOU,13,MIN,31,Home,18,0,0,7,6,Bill O'Brien,Mike Zimmer,Jeff Triplette,MIN01,U.S. Bank Stadium
+2016_05_NYJ_PIT,2016,REG,5,2016-10-09,Sunday,13:00,NYJ,13,PIT,31,Home,18,0,0,7,7,Todd Bowles,Mike Tomlin,John Parry,PIT00,Heinz Field
+2016_05_ATL_DEN,2016,REG,5,2016-10-09,Sunday,16:05,ATL,23,DEN,16,Home,-7,0,0,7,7,Dan Quinn,Gary Kubiak,Terry McAulay,DEN00,Sports Authority Field at Mile High
+2016_05_CIN_DAL,2016,REG,5,2016-10-09,Sunday,16:25,CIN,14,DAL,28,Home,14,0,0,10,7,Marvin Lewis,Jason Garrett,Tony Corrente,DAL00,AT&T Stadium
+2016_05_BUF_LA,2016,REG,5,2016-10-09,Sunday,16:25,BUF,30,LAR,19,Home,-11,0,0,7,7,Rex Ryan,Jeff Fisher,Walt Coleman,LAX99,Los Angeles Memorial Coliseum
+2016_05_SD_OAK,2016,REG,5,2016-10-09,Sunday,16:25,SD,31,OAK,34,Home,3,0,1,7,7,Mike McCoy,Jack Del Rio,Gene Steratore,OAK00,Oakland-Alameda County Coliseum
+2016_05_NYG_GB,2016,REG,5,2016-10-09,Sunday,20:30,NYG,16,GB,23,Home,7,0,0,6,14,Ben McAdoo,Mike McCarthy,Ed Hochuli,GNB00,Lambeau Field
+2016_05_TB_CAR,2016,REG,5,2016-10-10,Monday,20:30,TB,17,CAR,14,Home,-3,0,1,8,8,Dirk Koetter,Ron Rivera,Clete Blakeman,CAR00,Bank of America Stadium
+2016_06_DEN_SD,2016,REG,6,2016-10-13,Thursday,20:25,DEN,13,SD,21,Home,8,0,1,4,4,Gary Kubiak,Mike McCoy,Craig Wrolstad,SDG00,Qualcomm Stadium
+2016_06_SF_BUF,2016,REG,6,2016-10-16,Sunday,13:00,SF,16,BUF,45,Home,29,0,0,10,7,Chip Kelly,Rex Ryan,Gene Steratore,BUF00,New Era Field
+2016_06_JAX_CHI,2016,REG,6,2016-10-16,Sunday,13:00,JAX,17,CHI,16,Home,-1,0,0,14,7,Gus Bradley,John Fox,Clete Blakeman,CHI98,Soldier Field
+2016_06_LA_DET,2016,REG,6,2016-10-16,Sunday,13:00,LAR,28,DET,31,Home,3,0,0,7,7,Jeff Fisher,Jim Caldwell,John Hussey,DET00,Ford Field
+2016_06_PIT_MIA,2016,REG,6,2016-10-16,Sunday,13:00,PIT,15,MIA,30,Home,15,0,0,7,7,Mike Tomlin,Adam Gase,Ed Hochuli,MIA00,Hard Rock Stadium
+2016_06_CIN_NE,2016,REG,6,2016-10-16,Sunday,13:00,CIN,17,NE,35,Home,18,0,0,7,7,Marvin Lewis,Bill Belichick,Ron Torbert,BOS00,Gillette Stadium
+2016_06_CAR_NO,2016,REG,6,2016-10-16,Sunday,13:00,CAR,38,NO,41,Home,3,0,1,6,14,Ron Rivera,Sean Payton,Walt Anderson,NOR00,Mercedes-Benz Superdome
+2016_06_BAL_NYG,2016,REG,6,2016-10-16,Sunday,13:00,BAL,23,NYG,27,Home,4,0,0,7,7,John Harbaugh,Ben McAdoo,Jeff Triplette,NYC01,MetLife Stadium
+2016_06_CLE_TEN,2016,REG,6,2016-10-16,Sunday,13:00,CLE,26,TEN,28,Home,2,0,0,7,7,Hue Jackson,Mike Mularkey,Carl Cheffers,NAS00,Nissan Stadium
+2016_06_PHI_WAS,2016,REG,6,2016-10-16,Sunday,13:00,PHI,20,WAS,27,Home,7,0,1,7,7,Doug Pederson,Jay Gruden,John Parry,WAS00,FedExField
+2016_06_KC_OAK,2016,REG,6,2016-10-16,Sunday,16:05,KC,26,OAK,10,Home,-16,0,1,14,7,Andy Reid,Jack Del Rio,Peter Morelli,OAK00,Oakland-Alameda County Coliseum
+2016_06_DAL_GB,2016,REG,6,2016-10-16,Sunday,16:25,DAL,30,GB,16,Home,-14,0,0,7,7,Jason Garrett,Mike McCarthy,Brad Allen,GNB00,Lambeau Field
+2016_06_ATL_SEA,2016,REG,6,2016-10-16,Sunday,16:25,ATL,24,SEA,26,Home,2,0,0,7,14,Dan Quinn,Pete Carroll,Tony Corrente,SEA00,CenturyLink Field
+2016_06_IND_HOU,2016,REG,6,2016-10-16,Sunday,20:30,IND,23,HOU,26,Home,3,1,1,7,7,Chuck Pagano,Bill O'Brien,Bill Vinovich,HOU00,NRG Stadium
+2016_06_NYJ_ARI,2016,REG,6,2016-10-17,Monday,20:30,NYJ,3,ARI,28,Home,25,0,0,8,11,Todd Bowles,Bruce Arians,Jerome Boger,PHO00,University of Phoenix Stadium
+2016_07_CHI_GB,2016,REG,7,2016-10-20,Thursday,20:25,CHI,10,GB,26,Home,16,0,1,4,4,John Fox,Mike McCarthy,John Parry,GNB00,Lambeau Field
+2016_07_NYG_LA,2016,REG,7,2016-10-23,Sunday,09:30,NYG,17,LAR,10,Neutral,-7,0,0,7,7,Ben McAdoo,Jeff Fisher,Ron Torbert,LON01,Twickenham Stadium
+2016_07_CLE_CIN,2016,REG,7,2016-10-23,Sunday,13:00,CLE,17,CIN,31,Home,14,0,1,7,7,Hue Jackson,Marvin Lewis,Ed Hochuli,CIN00,Paul Brown Stadium
+2016_07_WAS_DET,2016,REG,7,2016-10-23,Sunday,13:00,WAS,17,DET,20,Home,3,0,0,7,7,Jay Gruden,Jim Caldwell,Walt Coleman,DET00,Ford Field
+2016_07_OAK_JAX,2016,REG,7,2016-10-23,Sunday,13:00,OAK,33,JAX,16,Home,-17,0,0,7,7,Jack Del Rio,Gus Bradley,Jeff Triplette,JAX00,EverBank Field
+2016_07_NO_KC,2016,REG,7,2016-10-23,Sunday,13:00,NO,21,KC,27,Home,6,0,0,7,7,Sean Payton,Andy Reid,Clete Blakeman,KAN00,Arrowhead Stadium
+2016_07_BUF_MIA,2016,REG,7,2016-10-23,Sunday,13:00,BUF,25,MIA,28,Home,3,0,1,7,7,Rex Ryan,Adam Gase,Brad Allen,MIA00,Hard Rock Stadium
+2016_07_BAL_NYJ,2016,REG,7,2016-10-23,Sunday,13:00,BAL,16,NYJ,24,Home,8,0,0,7,6,John Harbaugh,Todd Bowles,Walt Anderson,NYC01,MetLife Stadium
+2016_07_MIN_PHI,2016,REG,7,2016-10-23,Sunday,13:00,MIN,10,PHI,21,Home,11,0,0,14,7,Mike Zimmer,Doug Pederson,John Hussey,PHI00,Lincoln Financial Field
+2016_07_IND_TEN,2016,REG,7,2016-10-23,Sunday,13:00,IND,34,TEN,26,Home,-8,0,1,7,7,Chuck Pagano,Mike Mularkey,Jerome Boger,NAS00,Nissan Stadium
+2016_07_SD_ATL,2016,REG,7,2016-10-23,Sunday,16:05,SD,33,ATL,30,Home,-3,1,0,10,7,Mike McCoy,Dan Quinn,Bill Vinovich,ATL00,Georgia Dome
+2016_07_TB_SF,2016,REG,7,2016-10-23,Sunday,16:05,TB,34,SF,17,Home,-17,0,0,13,7,Dirk Koetter,Chip Kelly,Peter Morelli,SFO01,Levi's Stadium
+2016_07_NE_PIT,2016,REG,7,2016-10-23,Sunday,16:25,NE,27,PIT,16,Home,-11,0,0,7,7,Bill Belichick,Mike Tomlin,Craig Wrolstad,PIT00,Heinz Field
+2016_07_SEA_ARI,2016,REG,7,2016-10-23,Sunday,20:30,SEA,6,ARI,6,Home,0,1,1,7,6,Pete Carroll,Bruce Arians,Terry McAulay,PHO00,University of Phoenix Stadium
+2016_07_HOU_DEN,2016,REG,7,2016-10-24,Monday,20:30,HOU,9,DEN,27,Home,18,0,0,8,11,Bill O'Brien,Gary Kubiak,Carl Cheffers,DEN00,Sports Authority Field at Mile High
+2016_08_JAX_TEN,2016,REG,8,2016-10-27,Thursday,20:25,JAX,22,TEN,36,Home,14,0,1,4,4,Gus Bradley,Mike Mularkey,John Hussey,NAS00,Nissan Stadium
+2016_08_WAS_CIN,2016,REG,8,2016-10-30,Sunday,09:30,WAS,27,CIN,27,Neutral,0,1,0,7,7,Jay Gruden,Marvin Lewis,Carl Cheffers,LON00,Wembley Stadium
+2016_08_NE_BUF,2016,REG,8,2016-10-30,Sunday,13:00,NE,41,BUF,25,Home,-16,0,1,7,7,Bill Belichick,Rex Ryan,John Parry,BUF00,New Era Field
+2016_08_ARI_CAR,2016,REG,8,2016-10-30,Sunday,13:00,ARI,20,CAR,30,Home,10,0,0,7,14,Bruce Arians,Ron Rivera,Walt Coleman,CAR00,Bank of America Stadium
+2016_08_NYJ_CLE,2016,REG,8,2016-10-30,Sunday,13:00,NYJ,31,CLE,28,Home,-3,0,0,7,7,Todd Bowles,Hue Jackson,Peter Morelli,CLE00,FirstEnergy Stadium
+2016_08_DET_HOU,2016,REG,8,2016-10-30,Sunday,13:00,DET,13,HOU,20,Home,7,0,0,7,6,Jim Caldwell,Bill O'Brien,Brad Allen,HOU00,NRG Stadium
+2016_08_KC_IND,2016,REG,8,2016-10-30,Sunday,13:00,KC,30,IND,14,Home,-16,0,0,7,7,Andy Reid,Chuck Pagano,Craig Wrolstad,IND00,Lucas Oil Stadium
+2016_08_SEA_NO,2016,REG,8,2016-10-30,Sunday,13:00,SEA,20,NO,25,Home,5,0,0,7,7,Pete Carroll,Sean Payton,Ed Hochuli,NOR00,Mercedes-Benz Superdome
+2016_08_OAK_TB,2016,REG,8,2016-10-30,Sunday,13:00,OAK,30,TB,24,Home,-6,1,0,7,7,Jack Del Rio,Dirk Koetter,Terry McAulay,TAM00,Raymond James Stadium
+2016_08_SD_DEN,2016,REG,8,2016-10-30,Sunday,16:05,SD,19,DEN,27,Home,8,0,1,7,6,Mike McCoy,Gary Kubiak,Tony Corrente,DEN00,Sports Authority Field at Mile High
+2016_08_GB_ATL,2016,REG,8,2016-10-30,Sunday,16:25,GB,32,ATL,33,Home,1,0,0,10,7,Mike McCarthy,Dan Quinn,Walt Anderson,ATL00,Georgia Dome
+2016_08_PHI_DAL,2016,REG,8,2016-10-30,Sunday,20:30,PHI,23,DAL,29,Home,6,1,1,7,14,Doug Pederson,Jason Garrett,Jerome Boger,DAL00,AT&T Stadium
+2016_08_MIN_CHI,2016,REG,8,2016-10-31,Monday,20:30,MIN,10,CHI,20,Home,10,0,1,8,11,Mike Zimmer,John Fox,Gene Steratore,CHI98,Soldier Field
+2016_09_ATL_TB,2016,REG,9,2016-11-03,Thursday,20:25,ATL,43,TB,28,Home,-15,0,1,4,4,Dan Quinn,Dirk Koetter,Ron Torbert,TAM00,Raymond James Stadium
+2016_09_PIT_BAL,2016,REG,9,2016-11-06,Sunday,13:00,PIT,14,BAL,21,Home,7,0,1,14,14,Mike Tomlin,John Harbaugh,John Hussey,BAL00,M&T Bank Stadium
+2016_09_DAL_CLE,2016,REG,9,2016-11-06,Sunday,13:00,DAL,35,CLE,10,Home,-25,0,0,7,7,Jason Garrett,Hue Jackson,Jeff Triplette,CLE00,FirstEnergy Stadium
+2016_09_JAX_KC,2016,REG,9,2016-11-06,Sunday,13:00,JAX,14,KC,19,Home,5,0,0,10,7,Gus Bradley,Andy Reid,Gene Steratore,KAN00,Arrowhead Stadium
+2016_09_NYJ_MIA,2016,REG,9,2016-11-06,Sunday,13:00,NYJ,23,MIA,27,Home,4,0,1,7,14,Todd Bowles,Adam Gase,Walt Coleman,MIA00,Hard Rock Stadium
+2016_09_DET_MIN,2016,REG,9,2016-11-06,Sunday,13:00,DET,22,MIN,16,Home,-6,1,1,7,6,Jim Caldwell,Mike Zimmer,Ed Hochuli,MIN01,U.S. Bank Stadium
+2016_09_PHI_NYG,2016,REG,9,2016-11-06,Sunday,13:00,PHI,23,NYG,28,Home,5,0,1,7,14,Doug Pederson,Ben McAdoo,Bill Vinovich,NYC01,MetLife Stadium
+2016_09_CAR_LA,2016,REG,9,2016-11-06,Sunday,16:05,CAR,13,LAR,10,Home,-3,0,0,7,14,Ron Rivera,Jeff Fisher,Terry McAulay,LAX99,Los Angeles Memorial Coliseum
+2016_09_NO_SF,2016,REG,9,2016-11-06,Sunday,16:05,NO,41,SF,23,Home,-18,0,0,7,14,Sean Payton,Chip Kelly,Jerome Boger,SFO01,Levi's Stadium
+2016_09_IND_GB,2016,REG,9,2016-11-06,Sunday,16:25,IND,31,GB,26,Home,-5,0,0,7,7,Chuck Pagano,Mike McCarthy,Tony Corrente,GNB00,Lambeau Field
+2016_09_TEN_SD,2016,REG,9,2016-11-06,Sunday,16:25,TEN,35,SD,43,Home,8,0,0,10,7,Mike Mularkey,Mike McCoy,Brad Allen,SDG00,Qualcomm Stadium
+2016_09_DEN_OAK,2016,REG,9,2016-11-06,Sunday,20:30,DEN,20,OAK,30,Home,10,0,1,7,7,Gary Kubiak,Jack Del Rio,Clete Blakeman,OAK00,Oakland-Alameda County Coliseum
+2016_09_BUF_SEA,2016,REG,9,2016-11-07,Monday,20:30,BUF,25,SEA,31,Home,6,0,0,8,8,Rex Ryan,Pete Carroll,Walt Anderson,SEA00,CenturyLink Field
+2016_10_CLE_BAL,2016,REG,10,2016-11-10,Thursday,20:25,CLE,7,BAL,28,Home,21,0,1,4,4,Hue Jackson,John Harbaugh,Jerome Boger,BAL00,M&T Bank Stadium
+2016_10_KC_CAR,2016,REG,10,2016-11-13,Sunday,13:00,KC,20,CAR,17,Home,-3,0,0,7,7,Andy Reid,Ron Rivera,Carl Cheffers,CAR00,Bank of America Stadium
+2016_10_HOU_JAX,2016,REG,10,2016-11-13,Sunday,13:00,HOU,24,JAX,21,Home,-3,0,1,14,7,Bill O'Brien,Gus Bradley,Ron Torbert,JAX00,EverBank Field
+2016_10_DEN_NO,2016,REG,10,2016-11-13,Sunday,13:00,DEN,25,NO,23,Home,-2,0,0,7,7,Gary Kubiak,Sean Payton,Bill Vinovich,NOR00,Mercedes-Benz Superdome
+2016_10_LA_NYJ,2016,REG,10,2016-11-13,Sunday,13:00,LAR,9,NYJ,6,Home,-3,0,0,7,7,Jeff Fisher,Todd Bowles,Ed Hochuli,NYC01,MetLife Stadium
+2016_10_ATL_PHI,2016,REG,10,2016-11-13,Sunday,13:00,ATL,15,PHI,24,Home,9,0,0,10,7,Dan Quinn,Doug Pederson,Craig Wrolstad,PHI00,Lincoln Financial Field
+2016_10_CHI_TB,2016,REG,10,2016-11-13,Sunday,13:00,CHI,10,TB,36,Home,26,0,0,13,10,John Fox,Dirk Koetter,Walt Coleman,TAM00,Raymond James Stadium
+2016_10_GB_TEN,2016,REG,10,2016-11-13,Sunday,13:00,GB,25,TEN,47,Home,22,0,0,7,7,Mike McCarthy,Mike Mularkey,Jeff Triplette,NAS00,Nissan Stadium
+2016_10_MIN_WAS,2016,REG,10,2016-11-13,Sunday,13:00,MIN,20,WAS,26,Home,6,0,0,7,14,Mike Zimmer,Jay Gruden,Peter Morelli,WAS00,FedExField
+2016_10_MIA_SD,2016,REG,10,2016-11-13,Sunday,16:05,MIA,31,SD,24,Home,-7,0,0,7,7,Adam Gase,Mike McCoy,Terry McAulay,SDG00,Qualcomm Stadium
+2016_10_SF_ARI,2016,REG,10,2016-11-13,Sunday,16:25,SF,20,ARI,23,Home,3,0,1,7,14,Chip Kelly,Bruce Arians,Brad Allen,PHO00,University of Phoenix Stadium
+2016_10_DAL_PIT,2016,REG,10,2016-11-13,Sunday,16:25,DAL,35,PIT,30,Home,-5,0,0,7,7,Jason Garrett,Mike Tomlin,Clete Blakeman,PIT00,Heinz Field
+2016_10_SEA_NE,2016,REG,10,2016-11-13,Sunday,20:30,SEA,31,NE,24,Home,-7,0,0,6,14,Pete Carroll,Bill Belichick,Gene Steratore,BOS00,Gillette Stadium
+2016_10_CIN_NYG,2016,REG,10,2016-11-14,Monday,20:30,CIN,20,NYG,21,Home,1,0,0,15,8,Marvin Lewis,Ben McAdoo,John Parry,NYC01,MetLife Stadium
+2016_11_NO_CAR,2016,REG,11,2016-11-17,Thursday,20:25,NO,20,CAR,23,Home,3,0,1,4,4,Sean Payton,Ron Rivera,Peter Morelli,CAR00,Bank of America Stadium
+2016_11_BUF_CIN,2016,REG,11,2016-11-20,Sunday,13:00,BUF,16,CIN,12,Home,-4,0,0,13,6,Rex Ryan,Marvin Lewis,Terry McAulay,CIN00,Paul Brown Stadium
+2016_11_PIT_CLE,2016,REG,11,2016-11-20,Sunday,13:00,PIT,24,CLE,9,Home,-15,0,1,7,10,Mike Tomlin,Hue Jackson,Brad Allen,CLE00,FirstEnergy Stadium
+2016_11_BAL_DAL,2016,REG,11,2016-11-20,Sunday,13:00,BAL,17,DAL,27,Home,10,0,0,10,7,John Harbaugh,Jason Garrett,John Parry,DAL00,AT&T Stadium
+2016_11_JAX_DET,2016,REG,11,2016-11-20,Sunday,13:00,JAX,19,DET,26,Home,7,0,0,7,14,Gus Bradley,Jim Caldwell,Bill Vinovich,DET00,Ford Field
+2016_11_TEN_IND,2016,REG,11,2016-11-20,Sunday,13:00,TEN,17,IND,24,Home,7,0,1,7,14,Mike Mularkey,Chuck Pagano,Walt Anderson,IND00,Lucas Oil Stadium
+2016_11_TB_KC,2016,REG,11,2016-11-20,Sunday,13:00,TB,19,KC,17,Home,-2,0,0,7,7,Dirk Koetter,Andy Reid,Ed Hochuli,KAN00,Arrowhead Stadium
+2016_11_ARI_MIN,2016,REG,11,2016-11-20,Sunday,13:00,ARI,24,MIN,30,Home,6,0,0,7,7,Bruce Arians,Mike Zimmer,Clete Blakeman,MIN01,U.S. Bank Stadium
+2016_11_CHI_NYG,2016,REG,11,2016-11-20,Sunday,13:00,CHI,16,NYG,22,Home,6,0,0,7,6,John Fox,Ben McAdoo,Craig Wrolstad,NYC01,MetLife Stadium
+2016_11_MIA_LA,2016,REG,11,2016-11-20,Sunday,16:05,MIA,14,LAR,10,Home,-4,0,0,7,7,Adam Gase,Jeff Fisher,Gene Steratore,LAX99,Los Angeles Memorial Coliseum
+2016_11_PHI_SEA,2016,REG,11,2016-11-20,Sunday,16:25,PHI,15,SEA,26,Home,11,0,0,7,7,Doug Pederson,Pete Carroll,Carl Cheffers,SEA00,CenturyLink Field
+2016_11_NE_SF,2016,REG,11,2016-11-20,Sunday,16:25,NE,30,SF,17,Home,-13,0,0,7,7,Bill Belichick,Chip Kelly,Jeff Triplette,SFO01,Levi's Stadium
+2016_11_GB_WAS,2016,REG,11,2016-11-20,Sunday,20:30,GB,24,WAS,42,Home,18,0,0,7,7,Mike McCarthy,Jay Gruden,John Hussey,WAS00,FedExField
+2016_11_HOU_OAK,2016,REG,11,2016-11-21,Monday,20:30,HOU,20,OAK,27,Neutral,7,0,0,8,15,Bill O'Brien,Jack Del Rio,Tony Corrente,MEX00,Azteca Stadium
+2016_12_MIN_DET,2016,REG,12,2016-11-24,Thursday,12:30,MIN,13,DET,16,Home,3,0,1,4,4,Mike Zimmer,Jim Caldwell,Carl Cheffers,DET00,Ford Field
+2016_12_WAS_DAL,2016,REG,12,2016-11-24,Thursday,16:30,WAS,26,DAL,31,Home,5,0,1,4,4,Jay Gruden,Jason Garrett,Craig Wrolstad,DAL00,AT&T Stadium
+2016_12_PIT_IND,2016,REG,12,2016-11-24,Thursday,20:30,PIT,28,IND,7,Home,-21,0,0,4,4,Mike Tomlin,Chuck Pagano,Walt Coleman,IND00,Lucas Oil Stadium
+2016_12_ARI_ATL,2016,REG,12,2016-11-27,Sunday,13:00,ARI,19,ATL,38,Home,19,0,0,7,14,Bruce Arians,Dan Quinn,John Parry,ATL00,Georgia Dome
+2016_12_CIN_BAL,2016,REG,12,2016-11-27,Sunday,13:00,CIN,14,BAL,19,Home,5,0,1,7,7,Marvin Lewis,John Harbaugh,Clete Blakeman,BAL00,M&T Bank Stadium
+2016_12_JAX_BUF,2016,REG,12,2016-11-27,Sunday,13:00,JAX,21,BUF,28,Home,7,0,0,7,7,Gus Bradley,Rex Ryan,Tony Corrente,BUF00,New Era Field
+2016_12_TEN_CHI,2016,REG,12,2016-11-27,Sunday,13:00,TEN,27,CHI,21,Home,-6,0,0,7,7,Mike Mularkey,John Fox,Ed Hochuli,CHI98,Soldier Field
+2016_12_NYG_CLE,2016,REG,12,2016-11-27,Sunday,13:00,NYG,27,CLE,13,Home,-14,0,0,7,7,Ben McAdoo,Hue Jackson,Walt Anderson,CLE00,FirstEnergy Stadium
+2016_12_SD_HOU,2016,REG,12,2016-11-27,Sunday,13:00,SD,21,HOU,13,Home,-8,0,0,14,6,Mike McCoy,Bill O'Brien,Jeff Triplette,HOU00,NRG Stadium
+2016_12_SF_MIA,2016,REG,12,2016-11-27,Sunday,13:00,SF,24,MIA,31,Home,7,0,0,7,7,Chip Kelly,Adam Gase,Ron Torbert,MIA00,Hard Rock Stadium
+2016_12_LA_NO,2016,REG,12,2016-11-27,Sunday,13:00,LAR,21,NO,49,Home,28,0,0,7,10,Jeff Fisher,Sean Payton,John Hussey,NOR00,Mercedes-Benz Superdome
+2016_12_SEA_TB,2016,REG,12,2016-11-27,Sunday,16:05,SEA,5,TB,14,Home,9,0,0,7,7,Pete Carroll,Dirk Koetter,Bill Vinovich,TAM00,Raymond James Stadium
+2016_12_NE_NYJ,2016,REG,12,2016-11-27,Sunday,16:25,NE,22,NYJ,17,Home,-5,0,1,7,14,Bill Belichick,Todd Bowles,Brad Allen,NYC01,MetLife Stadium
+2016_12_CAR_OAK,2016,REG,12,2016-11-27,Sunday,16:25,CAR,32,OAK,35,Home,3,0,0,10,6,Ron Rivera,Jack Del Rio,Jerome Boger,OAK00,Oakland-Alameda County Coliseum
+2016_12_KC_DEN,2016,REG,12,2016-11-27,Sunday,20:30,KC,30,DEN,27,Home,-3,1,1,7,14,Andy Reid,Gary Kubiak,Peter Morelli,DEN00,Sports Authority Field at Mile High
+2016_12_GB_PHI,2016,REG,12,2016-11-28,Monday,20:30,GB,27,PHI,13,Home,-14,0,0,8,8,Mike McCarthy,Doug Pederson,Terry McAulay,PHI00,Lincoln Financial Field
+2016_13_DAL_MIN,2016,REG,13,2016-12-01,Thursday,20:25,DAL,17,MIN,15,Home,-2,0,0,7,7,Jason Garrett,Mike Zimmer,Tony Corrente,MIN01,U.S. Bank Stadium
+2016_13_KC_ATL,2016,REG,13,2016-12-04,Sunday,13:00,KC,29,ATL,28,Home,-1,0,0,7,7,Andy Reid,Dan Quinn,Walt Coleman,ATL00,Georgia Dome
+2016_13_MIA_BAL,2016,REG,13,2016-12-04,Sunday,13:00,MIA,6,BAL,38,Home,32,0,0,7,7,Adam Gase,John Harbaugh,Carl Cheffers,BAL00,M&T Bank Stadium
+2016_13_SF_CHI,2016,REG,13,2016-12-04,Sunday,13:00,SF,6,CHI,26,Home,20,0,0,7,7,Chip Kelly,John Fox,Peter Morelli,CHI98,Soldier Field
+2016_13_PHI_CIN,2016,REG,13,2016-12-04,Sunday,13:00,PHI,14,CIN,32,Home,18,0,0,6,7,Doug Pederson,Marvin Lewis,Jeff Triplette,CIN00,Paul Brown Stadium
+2016_13_HOU_GB,2016,REG,13,2016-12-04,Sunday,13:00,HOU,13,GB,21,Home,8,0,0,7,6,Bill O'Brien,Mike McCarthy,Gene Steratore,GNB00,Lambeau Field
+2016_13_DEN_JAX,2016,REG,13,2016-12-04,Sunday,13:00,DEN,20,JAX,10,Home,-10,0,0,7,7,Gary Kubiak,Gus Bradley,Craig Wrolstad,JAX00,EverBank Field
+2016_13_LA_NE,2016,REG,13,2016-12-04,Sunday,13:00,LAR,10,NE,26,Home,16,0,0,7,7,Jeff Fisher,Bill Belichick,Jerome Boger,BOS00,Gillette Stadium
+2016_13_DET_NO,2016,REG,13,2016-12-04,Sunday,13:00,DET,28,NO,13,Home,-15,0,0,10,7,Jim Caldwell,Sean Payton,Clete Blakeman,NOR00,Mercedes-Benz Superdome
+2016_13_BUF_OAK,2016,REG,13,2016-12-04,Sunday,16:05,BUF,24,OAK,38,Home,14,0,0,7,7,Rex Ryan,Jack Del Rio,Bill Vinovich,OAK00,Oakland-Alameda County Coliseum
+2016_13_WAS_ARI,2016,REG,13,2016-12-04,Sunday,16:25,WAS,23,ARI,31,Home,8,0,0,10,7,Jay Gruden,Bruce Arians,Walt Anderson,PHO00,University of Phoenix Stadium
+2016_13_NYG_PIT,2016,REG,13,2016-12-04,Sunday,16:25,NYG,14,PIT,24,Home,10,0,0,7,10,Ben McAdoo,Mike Tomlin,Terry McAulay,PIT00,Heinz Field
+2016_13_TB_SD,2016,REG,13,2016-12-04,Sunday,16:25,TB,28,SD,21,Home,-7,0,0,7,7,Dirk Koetter,Mike McCoy,John Hussey,SDG00,Qualcomm Stadium
+2016_13_CAR_SEA,2016,REG,13,2016-12-04,Sunday,20:30,CAR,7,SEA,40,Home,33,0,0,7,7,Ron Rivera,Pete Carroll,John Parry,SEA00,CenturyLink Field
+2016_13_IND_NYJ,2016,REG,13,2016-12-05,Monday,20:30,IND,41,NYJ,10,Home,-31,0,0,11,8,Chuck Pagano,Todd Bowles,Ron Torbert,NYC01,MetLife Stadium
+2016_14_OAK_KC,2016,REG,14,2016-12-08,Thursday,20:25,OAK,13,KC,21,Home,8,0,1,4,4,Jack Del Rio,Andy Reid,Terry McAulay,KAN00,Arrowhead Stadium
+2016_14_PIT_BUF,2016,REG,14,2016-12-11,Sunday,13:00,PIT,27,BUF,20,Home,-7,0,0,7,7,Mike Tomlin,Rex Ryan,Peter Morelli,BUF00,New Era Field
+2016_14_SD_CAR,2016,REG,14,2016-12-11,Sunday,13:00,SD,16,CAR,28,Home,12,0,0,7,7,Mike McCoy,Ron Rivera,Ron Torbert,CAR00,Bank of America Stadium
+2016_14_CIN_CLE,2016,REG,14,2016-12-11,Sunday,13:00,CIN,23,CLE,10,Home,-13,0,1,7,14,Marvin Lewis,Hue Jackson,Gene Steratore,CLE00,FirstEnergy Stadium
+2016_14_CHI_DET,2016,REG,14,2016-12-11,Sunday,13:00,CHI,17,DET,20,Home,3,0,1,7,7,John Fox,Jim Caldwell,Jeff Triplette,DET00,Ford Field
+2016_14_HOU_IND,2016,REG,14,2016-12-11,Sunday,13:00,HOU,22,IND,17,Home,-5,0,1,7,6,Bill O'Brien,Chuck Pagano,Brad Allen,IND00,Lucas Oil Stadium
+2016_14_MIN_JAX,2016,REG,14,2016-12-11,Sunday,13:00,MIN,25,JAX,16,Home,-9,0,0,10,7,Mike Zimmer,Gus Bradley,John Hussey,JAX00,EverBank Field
+2016_14_ARI_MIA,2016,REG,14,2016-12-11,Sunday,13:00,ARI,23,MIA,26,Home,3,0,0,7,7,Bruce Arians,Adam Gase,Jerome Boger,MIA00,Hard Rock Stadium
+2016_14_WAS_PHI,2016,REG,14,2016-12-11,Sunday,13:00,WAS,27,PHI,22,Home,-5,0,1,7,7,Jay Gruden,Doug Pederson,Tony Corrente,PHI00,Lincoln Financial Field
+2016_14_DEN_TEN,2016,REG,14,2016-12-11,Sunday,13:00,DEN,10,TEN,13,Home,3,0,0,7,14,Gary Kubiak,Mike Mularkey,John Parry,NAS00,Nissan Stadium
+2016_14_NYJ_SF,2016,REG,14,2016-12-11,Sunday,16:05,NYJ,23,SF,17,Home,-6,1,0,6,7,Todd Bowles,Chip Kelly,Craig Wrolstad,SFO01,Levi's Stadium
+2016_14_SEA_GB,2016,REG,14,2016-12-11,Sunday,16:25,SEA,10,GB,38,Home,28,0,0,7,7,Pete Carroll,Mike McCarthy,Walt Coleman,GNB00,Lambeau Field
+2016_14_ATL_LA,2016,REG,14,2016-12-11,Sunday,16:25,ATL,42,LAR,14,Home,-28,0,0,7,7,Dan Quinn,Jeff Fisher,Clete Blakeman,LAX99,Los Angeles Memorial Coliseum
+2016_14_NO_TB,2016,REG,14,2016-12-11,Sunday,16:25,NO,11,TB,16,Home,5,0,1,7,7,Sean Payton,Dirk Koetter,Walt Anderson,TAM00,Raymond James Stadium
+2016_14_DAL_NYG,2016,REG,14,2016-12-11,Sunday,20:30,DAL,7,NYG,10,Home,3,0,1,10,7,Jason Garrett,Ben McAdoo,Carl Cheffers,NYC01,MetLife Stadium
+2016_14_BAL_NE,2016,REG,14,2016-12-12,Monday,20:30,BAL,23,NE,30,Home,7,0,0,8,8,John Harbaugh,Bill Belichick,Ed Hochuli,BOS00,Gillette Stadium
+2016_15_LA_SEA,2016,REG,15,2016-12-15,Thursday,20:25,LAR,3,SEA,24,Home,21,0,1,4,4,Jeff Fisher,Pete Carroll,Brad Allen,SEA00,CenturyLink Field
+2016_15_MIA_NYJ,2016,REG,15,2016-12-17,Saturday,20:25,MIA,34,NYJ,13,Home,-21,0,1,6,6,Adam Gase,Todd Bowles,Peter Morelli,NYC01,MetLife Stadium
+2016_15_PHI_BAL,2016,REG,15,2016-12-18,Sunday,13:00,PHI,26,BAL,27,Home,1,0,0,7,6,Doug Pederson,John Harbaugh,Craig Wrolstad,BAL00,M&T Bank Stadium
+2016_15_CLE_BUF,2016,REG,15,2016-12-18,Sunday,13:00,CLE,13,BUF,33,Home,20,0,0,7,7,Hue Jackson,Rex Ryan,Clete Blakeman,BUF00,New Era Field
+2016_15_GB_CHI,2016,REG,15,2016-12-18,Sunday,13:00,GB,30,CHI,27,Home,-3,0,1,7,7,Mike McCarthy,John Fox,Ron Torbert,CHI98,Soldier Field
+2016_15_PIT_CIN,2016,REG,15,2016-12-18,Sunday,13:00,PIT,24,CIN,20,Home,-4,0,1,7,7,Mike Tomlin,Marvin Lewis,Bill Vinovich,CIN00,Paul Brown Stadium
+2016_15_JAX_HOU,2016,REG,15,2016-12-18,Sunday,13:00,JAX,20,HOU,21,Home,1,0,1,7,7,Gus Bradley,Bill O'Brien,Ed Hochuli,HOU00,NRG Stadium
+2016_15_TEN_KC,2016,REG,15,2016-12-18,Sunday,13:00,TEN,19,KC,17,Home,-2,0,0,7,10,Mike Mularkey,Andy Reid,John Hussey,KAN00,Arrowhead Stadium
+2016_15_IND_MIN,2016,REG,15,2016-12-18,Sunday,13:00,IND,34,MIN,6,Home,-28,0,0,7,7,Chuck Pagano,Mike Zimmer,Jerome Boger,MIN01,U.S. Bank Stadium
+2016_15_DET_NYG,2016,REG,15,2016-12-18,Sunday,13:00,DET,6,NYG,17,Home,11,0,0,7,7,Jim Caldwell,Ben McAdoo,Tony Corrente,NYC01,MetLife Stadium
+2016_15_NO_ARI,2016,REG,15,2016-12-18,Sunday,16:05,NO,48,ARI,41,Home,-7,0,0,7,7,Sean Payton,Bruce Arians,Carl Cheffers,PHO00,University of Phoenix Stadium
+2016_15_SF_ATL,2016,REG,15,2016-12-18,Sunday,16:05,SF,13,ATL,41,Home,28,0,0,7,7,Chip Kelly,Dan Quinn,Gene Steratore,ATL00,Georgia Dome
+2016_15_NE_DEN,2016,REG,15,2016-12-18,Sunday,16:25,NE,16,DEN,3,Home,-13,0,0,6,7,Bill Belichick,Gary Kubiak,Walt Anderson,DEN00,Sports Authority Field at Mile High
+2016_15_OAK_SD,2016,REG,15,2016-12-18,Sunday,16:25,OAK,19,SD,16,Home,-3,0,1,10,7,Jack Del Rio,Mike McCoy,John Parry,SDG00,Qualcomm Stadium
+2016_15_TB_DAL,2016,REG,15,2016-12-18,Sunday,20:30,TB,20,DAL,26,Home,6,0,0,7,7,Dirk Koetter,Jason Garrett,Terry McAulay,DAL00,AT&T Stadium
+2016_15_CAR_WAS,2016,REG,15,2016-12-19,Monday,20:30,CAR,26,WAS,15,Home,-11,0,0,8,8,Ron Rivera,Jay Gruden,Walt Coleman,WAS00,FedExField
+2016_16_NYG_PHI,2016,REG,16,2016-12-22,Thursday,20:25,NYG,19,PHI,24,Home,5,0,1,4,4,Ben McAdoo,Doug Pederson,Clete Blakeman,PHI00,Lincoln Financial Field
+2016_16_MIA_BUF,2016,REG,16,2016-12-24,Saturday,13:00,MIA,34,BUF,31,Home,-3,1,1,7,6,Adam Gase,Rex Ryan,Craig Wrolstad,BUF00,New Era Field
+2016_16_ATL_CAR,2016,REG,16,2016-12-24,Saturday,13:00,ATL,33,CAR,16,Home,-17,0,1,6,5,Dan Quinn,Ron Rivera,Bill Vinovich,CAR00,Bank of America Stadium
+2016_16_WAS_CHI,2016,REG,16,2016-12-24,Saturday,13:00,WAS,41,CHI,21,Home,-20,0,0,5,6,Jay Gruden,John Fox,Brad Allen,CHI98,Soldier Field
+2016_16_SD_CLE,2016,REG,16,2016-12-24,Saturday,13:00,SD,17,CLE,20,Home,3,0,0,6,6,Mike McCoy,Hue Jackson,Walt Coleman,CLE00,FirstEnergy Stadium
+2016_16_MIN_GB,2016,REG,16,2016-12-24,Saturday,13:00,MIN,25,GB,38,Home,13,0,1,6,6,Mike Zimmer,Mike McCarthy,Jeff Triplette,GNB00,Lambeau Field
+2016_16_TEN_JAX,2016,REG,16,2016-12-24,Saturday,13:00,TEN,17,JAX,38,Home,21,0,1,6,6,Mike Mularkey,Doug Marrone,Peter Morelli,JAX00,EverBank Field
+2016_16_NYJ_NE,2016,REG,16,2016-12-24,Saturday,13:00,NYJ,3,NE,41,Home,38,0,1,7,6,Todd Bowles,Bill Belichick,Gene Steratore,BOS00,Gillette Stadium
+2016_16_IND_OAK,2016,REG,16,2016-12-24,Saturday,16:05,IND,25,OAK,33,Home,8,0,0,6,6,Chuck Pagano,Jack Del Rio,Ed Hochuli,OAK00,Oakland-Alameda County Coliseum
+2016_16_SF_LA,2016,REG,16,2016-12-24,Saturday,16:25,SF,22,LAR,21,Home,-1,0,1,6,9,Chip Kelly,Jeff Fisher,Walt Anderson,LAX99,Los Angeles Memorial Coliseum
+2016_16_TB_NO,2016,REG,16,2016-12-24,Saturday,16:25,TB,24,NO,31,Home,7,0,1,6,6,Dirk Koetter,Sean Payton,Jerome Boger,NOR00,Mercedes-Benz Superdome
+2016_16_ARI_SEA,2016,REG,16,2016-12-24,Saturday,16:25,ARI,34,SEA,31,Home,-3,0,1,6,9,Bruce Arians,Pete Carroll,Ron Torbert,SEA00,CenturyLink Field
+2016_16_CIN_HOU,2016,REG,16,2016-12-24,Saturday,20:25,CIN,10,HOU,12,Home,2,0,0,6,6,Marvin Lewis,Bill O'Brien,Carl Cheffers,HOU00,NRG Stadium
+2016_16_BAL_PIT,2016,REG,16,2016-12-25,Sunday,16:30,BAL,27,PIT,31,Home,4,0,1,7,7,John Harbaugh,Mike Tomlin,John Parry,PIT00,Heinz Field
+2016_16_DEN_KC,2016,REG,16,2016-12-25,Sunday,20:30,DEN,10,KC,33,Home,23,0,1,7,7,Gary Kubiak,Andy Reid,Tony Corrente,KAN00,Arrowhead Stadium
+2016_16_DET_DAL,2016,REG,16,2016-12-26,Monday,20:30,DET,21,DAL,42,Home,21,0,0,8,8,Jim Caldwell,Jason Garrett,John Hussey,DAL00,AT&T Stadium
+2016_17_BAL_CIN,2016,REG,17,2017-01-01,Sunday,13:00,BAL,10,CIN,27,Home,17,0,1,7,8,John Harbaugh,Marvin Lewis,Peter Morelli,CIN00,Paul Brown Stadium
+2016_17_JAX_IND,2016,REG,17,2017-01-01,Sunday,13:00,JAX,20,IND,24,Home,4,0,1,8,8,Doug Marrone,Chuck Pagano,Clete Blakeman,IND00,Lucas Oil Stadium
+2016_17_NE_MIA,2016,REG,17,2017-01-01,Sunday,13:00,NE,35,MIA,14,Home,-21,0,1,8,8,Bill Belichick,Adam Gase,John Parry,MIA00,Hard Rock Stadium
+2016_17_CHI_MIN,2016,REG,17,2017-01-01,Sunday,13:00,CHI,10,MIN,38,Home,28,0,1,8,8,John Fox,Mike Zimmer,Terry McAulay,MIN01,U.S. Bank Stadium
+2016_17_BUF_NYJ,2016,REG,17,2017-01-01,Sunday,13:00,BUF,10,NYJ,30,Home,20,0,1,8,8,Anthony Lynn,Todd Bowles,Jeff Triplette,NYC01,MetLife Stadium
+2016_17_DAL_PHI,2016,REG,17,2017-01-01,Sunday,13:00,DAL,13,PHI,27,Home,14,0,1,6,10,Jason Garrett,Doug Pederson,Walt Coleman,PHI00,Lincoln Financial Field
+2016_17_CLE_PIT,2016,REG,17,2017-01-01,Sunday,13:00,CLE,24,PIT,27,Home,3,1,1,8,7,Hue Jackson,Mike Tomlin,John Hussey,PIT00,Heinz Field
+2016_17_CAR_TB,2016,REG,17,2017-01-01,Sunday,13:00,CAR,16,TB,17,Home,1,0,1,8,8,Ron Rivera,Dirk Koetter,Carl Cheffers,TAM00,Raymond James Stadium
+2016_17_HOU_TEN,2016,REG,17,2017-01-01,Sunday,13:00,HOU,17,TEN,24,Home,7,0,1,8,8,Bill O'Brien,Mike Mularkey,Bill Vinovich,NAS00,Nissan Stadium
+2016_17_NO_ATL,2016,REG,17,2017-01-01,Sunday,16:25,NO,32,ATL,38,Home,6,0,1,8,8,Sean Payton,Dan Quinn,Ron Torbert,ATL00,Georgia Dome
+2016_17_OAK_DEN,2016,REG,17,2017-01-01,Sunday,16:25,OAK,6,DEN,24,Home,18,0,1,8,7,Jack Del Rio,Gary Kubiak,Brad Allen,DEN00,Sports Authority Field at Mile High
+2016_17_ARI_LA,2016,REG,17,2017-01-01,Sunday,16:25,ARI,44,LAR,6,Home,-38,0,1,8,8,Bruce Arians,Jeff Fisher,Craig Wrolstad,LAX99,Los Angeles Memorial Coliseum
+2016_17_KC_SD,2016,REG,17,2017-01-01,Sunday,16:25,KC,37,SD,27,Home,-10,0,1,7,8,Andy Reid,Mike McCoy,Walt Anderson,SDG00,Qualcomm Stadium
+2016_17_SEA_SF,2016,REG,17,2017-01-01,Sunday,16:25,SEA,25,SF,23,Home,-2,0,1,8,8,Pete Carroll,Chip Kelly,Tony Corrente,SFO01,Levi's Stadium
+2016_17_NYG_WAS,2016,REG,17,2017-01-01,Sunday,16:25,NYG,19,WAS,10,Home,-9,0,1,10,8,Ben McAdoo,Jay Gruden,Gene Steratore,WAS00,FedExField
+2016_17_GB_DET,2016,REG,17,2017-01-01,Sunday,20:30,GB,31,DET,24,Home,-7,0,1,8,6,Mike McCarthy,Jim Caldwell,Jerome Boger,DET00,Ford Field
