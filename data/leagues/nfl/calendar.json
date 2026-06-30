@@ -18,6 +18,16 @@
     {"label": "Super Bowl bye week", "start": "2026-02-01", "end": "2026-02-07"}
   ],
 
+  "matchday_slots": [
+    {"day": "Thursday", "times": ["20:15"]},
+    {"day": "Sunday",   "times": ["13:00", "16:05", "16:25", "20:20"]},
+    {"day": "Monday",   "times": ["20:15"]},
+    {"day": "Saturday", "times": ["13:00", "16:30", "20:15"]},
+    {"day": "Friday",   "times": ["20:15"]},
+    {"day": "Tuesday",  "times": ["20:15"]},
+    {"day": "Wednesday","times": ["20:15"]}
+  ],
+
   "broadcast_windows": [
     {"slot": "Sunday_13:00_ET",  "label": "Early Sunday",          "games_per_week": 8},
     {"slot": "Sunday_16:05_ET",  "label": "Late Sunday (NFC)",     "games_per_week": 3},
