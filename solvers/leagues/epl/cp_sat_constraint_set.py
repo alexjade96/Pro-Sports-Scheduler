@@ -20,16 +20,18 @@ from solvers.cp_sat.constraints import (
     add_max_wednesday_games_per_team,
     add_max_thursday_games_per_team,
     add_soft_max_consecutive_home_away,
+    add_soft_half_season_balance,
+)
+from solvers.leagues.epl.cp_sat_helpers import (
     add_soft_ha_window,
     add_soft_derby_gap,
     add_soft_same_city_home_clash,
-    add_soft_london_cluster,
+    add_soft_city_cluster,
     add_soft_festive_coverage,
     add_soft_sc14_season_boundary,
     add_soft_sc15_boxing_day_nyd,
     add_soft_min_sat_1500,
     add_soft_min_monday,
-    add_soft_half_season_balance,
 )
 
 _FIXTURES_PER_ROUND = 10
@@ -113,8 +115,9 @@ class EPLCpSatConstraintSet:
             window_days=sc7.get("window_days", 4), penalty=sc7.get("penalty_per_clash", 80),
         )
         sc10 = s.get("SC10", {})
-        terms += add_soft_london_cluster(
+        terms += add_soft_city_cluster(
             model, x, fixtures, slots,
+            city_name="London",
             max_per_day=sc10.get("max_home_same_day", 3),
             penalty=sc10.get("penalty_per_violation", 30),
         )

@@ -44,7 +44,7 @@ class EPLMHConstraintSet:
         blocked_ids  : slot_ids that should be removed from the greedy pool
                        (all slots on the final-day date)
         """
-        from solvers.metaheuristic.objective import set_r38_fixture_ids
+        from solvers.leagues.epl.mh_objective import set_r38_fixture_ids
 
         if not self._final_day:
             set_r38_fixture_ids(frozenset())
@@ -81,5 +81,5 @@ class EPLMHConstraintSet:
         }
 
     def score(self, schedule, teams) -> float:
-        from solvers.metaheuristic.objective import score
+        from solvers.leagues.epl.mh_objective import score
         return score(schedule, teams)
