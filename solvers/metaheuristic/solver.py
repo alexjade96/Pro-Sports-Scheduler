@@ -19,7 +19,7 @@ import bisect
 import math
 import random
 import time
-from collections import deque
+from collections import defaultdict, deque
 from copy import deepcopy
 
 from core.models import Fixture, Slot, Schedule, ScheduledFixture, Team
@@ -43,6 +43,14 @@ def greedy_initial_schedule(
     Pre-assigned fixtures (e.g. EPL Round 38, NFL Thanksgiving hosts) are
     handled by constraint_set.pre_assign(), which also returns the set of
     slot IDs to block from the general pool.
+
+    A slot (date + kickoff time) may legitimately host multiple simultaneous
+    fixtures — e.g. NFL Sunday 13:00 ET hosts ~8 games across different
+    stadiums, NBA has many nightly slots with several games, and even EPL's
+    final day pins all 10 Round-38 fixtures to one slot. The only real
+    constraint is that no single TEAM can appear twice in the same slot.
+    Slots are therefore never removed from the pool; occupancy is tracked
+    per (slot_id, team) instead.
     """
     params = constraint_set.greedy_params()
     min_rest_days: int = params.get("min_rest_days", 3)
@@ -59,6 +67,7 @@ def greedy_initial_schedule(
     assigned: list[ScheduledFixture] = []
     team_ords: dict[str, list[int]] = {}
     day_counts: dict[tuple[str, str], int] = {}
+    slot_teams: dict[str, set[str]] = defaultdict(set)
 
     def _hc1_ok(team_id: str, ord_: int) -> bool:
         ords = team_ords.get(team_id)
@@ -81,6 +90,12 @@ def greedy_initial_schedule(
             return False
         return True
 
+    def _slot_free(slot: Slot, home: str, away: str) -> bool:
+        used = slot_teams.get(slot.slot_id)
+        if not used:
+            return True
+        return home not in used and away not in used
+
     def _record(slot: Slot, home: str, away: str, ord_: int) -> None:
         bisect.insort(team_ords.setdefault(home, []), ord_)
         bisect.insort(team_ords.setdefault(away, []), ord_)
@@ -89,6 +104,8 @@ def greedy_initial_schedule(
             key_a = (away, slot.day_of_week)
             day_counts[key_h] = day_counts.get(key_h, 0) + 1
             day_counts[key_a] = day_counts.get(key_a, 0) + 1
+        slot_teams[slot.slot_id].add(home)
+        slot_teams[slot.slot_id].add(away)
 
     for fixture, slot in pre_assigned_pairs:
         assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
@@ -104,22 +121,35 @@ def greedy_initial_schedule(
 
         for slot in available_slots:
             ord_ = slot.date.toordinal()
-            if _hc1_ok(home, ord_) and _hc1_ok(away, ord_) and _day_cap_ok(slot, home, away):
+            if (
+                _hc1_ok(home, ord_) and _hc1_ok(away, ord_)
+                and _day_cap_ok(slot, home, away) and _slot_free(slot, home, away)
+            ):
                 assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
                 _record(slot, home, away, ord_)
-                available_slots.remove(slot)
                 placed = True
                 break
 
         if not placed:
             fallbacks += 1
-            if available_slots:
-                slot = available_slots.pop(0)
-                assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
-                _record(slot, home, away, slot.date.toordinal())
+            # Best-effort fallback: relax HC1/day-cap but still avoid a literal
+            # team double-booking in the same slot if any such slot exists.
+            for slot in available_slots:
+                if _slot_free(slot, home, away):
+                    assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
+                    _record(slot, home, away, slot.date.toordinal())
+                    placed = True
+                    break
+
+        if not placed and available_slots:
+            # Last resort: every slot already has both teams booked somewhere;
+            # schedule anyway so no fixture is silently dropped.
+            slot = available_slots[0]
+            assigned.append(ScheduledFixture(fixture=fixture, slot=slot))
+            _record(slot, home, away, slot.date.toordinal())
 
     if fallbacks:
-        print(f"[Greedy] {fallbacks} fixture(s) fell back (no compliant slot found)")
+        print(f"[Greedy] {fallbacks} fixture(s) fell back to relaxed placement")
 
     return Schedule(season=season, fixtures=assigned)
 

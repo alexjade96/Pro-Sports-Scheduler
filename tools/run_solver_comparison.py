@@ -187,7 +187,7 @@ def main():
         print_report(val_report)
 
         # Compute metrics report with solver metadata
-        from solvers.metaheuristic.objective import score as mh_score
+        from solvers.leagues.epl.mh_objective import score as mh_score
         penalty = val_report.get("total_penalty_score")
         hard_v  = val_report.get("hard_violation_count", 0)
         soft_v  = val_report.get("soft_violation_count", 0)

@@ -14,6 +14,10 @@ from solvers.ilp.constraints import (
     add_min_rest_days,
     add_max_games_on_day,
     add_max_midweek_games,
+    add_soft_half_season_balance,
+    add_soft_max_consecutive_home_away,
+)
+from solvers.leagues.epl.ilp_helpers import (
     add_soft_derby_gap,
     add_soft_sc14_season_boundary,
     add_soft_sc15_boxing_day_nyd,
@@ -21,9 +25,7 @@ from solvers.ilp.constraints import (
     add_soft_min_monday,
     add_soft_same_city_home_clash,
     add_soft_festive_coverage,
-    add_soft_london_cluster,
-    add_soft_half_season_balance,
-    add_soft_max_consecutive_home_away,
+    add_soft_city_cluster,
     add_soft_ha_window,
 )
 
@@ -113,8 +115,9 @@ class EPLILPConstraintSet:
             penalty=sc9.get("penalty_per_missing_team", 50),
         )
         sc10 = s.get("SC10", {})
-        terms += add_soft_london_cluster(
+        terms += add_soft_city_cluster(
             prob, x, fixtures, slots,
+            city_name="London",
             max_per_day=sc10.get("max_home_same_day", 3),
             penalty=sc10.get("penalty_per_violation", 30),
         )

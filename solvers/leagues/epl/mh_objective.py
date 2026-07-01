@@ -1,11 +1,16 @@
 """
-Option C — Metaheuristic: Objective / penalty function.
+EPL objective / penalty function for the metaheuristic (Option C) solver.
 
 Evaluates a complete Schedule and returns a scalar penalty score.
 Lower is better; zero means all hard and soft constraints satisfied.
 
 Hard violations carry HARD_PENALTY (dominates soft, drives them out first).
 Soft violation weights are loaded from constraints.json.
+
+This module is EPL-specific — moved out of solvers/metaheuristic/ (which is
+shared across all leagues) into solvers/leagues/epl/ so it is only ever
+reachable via EPLMHConstraintSet.score(), never accidentally imported by
+another league's constraint set.
 
 Constraints scored
 ------------------
