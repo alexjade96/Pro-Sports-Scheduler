@@ -225,7 +225,6 @@ class NFLCpSatConstraintSet:
     # ------------------------------------------------------------------
 
     def add_soft_constraints(self, model, x, fixtures, slots, teams) -> list:
-        from solvers.cp_sat.constraints import add_soft_half_season_balance
         cost_terms = []
 
         # SC1 / SC2: consecutive road/home limits (separate thresholds, so the
@@ -242,9 +241,14 @@ class NFLCpSatConstraintSet:
         )
         cost_terms.extend(consec_terms)
 
-        # SC8: H/A half-season balance (within ±1 game per half)
+        # SC8: H/A half-season balance (within ±1 game per half). Uses a
+        # per-team dynamic target (half of that team's eligible H1 fixture
+        # count), NOT the shared EPL helper — that hardcodes a 9-10 target
+        # calibrated for a 19-game half-season, which is meaningless for
+        # NFL's ~8-9 game half-season and would permanently under-flag
+        # every team.
         pen_balance = self._soft.get("SC8", {}).get("penalty_per_violation", 15)
-        balance_terms = add_soft_half_season_balance(
+        balance_terms = self._add_soft_half_season_balance(
             model, x, fixtures, slots, teams,
             tolerance=1, penalty=pen_balance,
         )
@@ -258,6 +262,42 @@ class NFLCpSatConstraintSet:
             min_gap_days=min_gap_weeks * 7, penalty=pen_rival,
         )
         cost_terms.extend(rival_terms)
+
+        return cost_terms
+
+    def _add_soft_half_season_balance(
+        self, model, x, fixtures, slots, teams, tolerance: int, penalty: int
+    ) -> list:
+        """SC8: penalise H/A imbalance across the season midpoint, using a
+        per-team dynamic target (half that team's eligible H1 fixture count)
+        rather than a league-wide fixed constant."""
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+        midpoint = self._season_start + (self._season_end - self._season_start) / 2
+
+        cost_terms = []
+        for team_id in teams:
+            home_h1 = []
+            for (fid, sid), var in x.items():
+                f = fixture_map.get(fid)
+                s = slot_map.get(sid)
+                if f and s and f.home_team_id == team_id and s.date <= midpoint:
+                    home_h1.append(var)
+            if not home_h1:
+                continue
+
+            n = len(home_h1)
+            target = n // 2
+            hi = min(n, target + tolerance)
+            lo = max(0, target - tolerance)
+
+            ub_exc = model.new_int_var(0, n, f"nfl_sc8_ub_{team_id}")
+            model.add(ub_exc >= sum(home_h1) - hi)
+            cost_terms.append((penalty, ub_exc))
+
+            lb_exc = model.new_int_var(0, n, f"nfl_sc8_lb_{team_id}")
+            model.add(lb_exc >= lo - sum(home_h1))
+            cost_terms.append((penalty, lb_exc))
 
         return cost_terms
 
