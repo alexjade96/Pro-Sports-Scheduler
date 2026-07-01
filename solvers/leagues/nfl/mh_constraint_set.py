@@ -118,6 +118,16 @@ class NFLMHConstraintSet:
             dates = [sf.slot.date for sf in sfs]
             is_home = [sf.home_team_id == team_id for sf in sfs]
 
+            # Team plays at most once per day (mirrors CP-SAT/ILP's hard
+            # constraint) — a team appearing twice on the same date is never
+            # legitimate, unlike a genuine back-to-back on consecutive days.
+            date_counts: dict = {}
+            for d in dates:
+                date_counts[d] = date_counts.get(d, 0) + 1
+            for count in date_counts.values():
+                if count > 1:
+                    penalty += 1000 * (count - 1)
+
             # SC1/SC2: consecutive road/home runs
             road_run = home_run = 0
             for h in is_home:

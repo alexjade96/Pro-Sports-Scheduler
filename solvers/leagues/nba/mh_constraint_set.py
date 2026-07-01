@@ -93,6 +93,16 @@ class NBAMHConstraintSet:
             dates = [sf.slot.date for sf in team_fixtures]
             is_home = [sf.home_team_id == team_id for sf in team_fixtures]
 
+            # Team plays at most once per day (mirrors CP-SAT/ILP's hard
+            # constraint) — a team appearing twice on the same date is never
+            # legitimate, unlike a genuine back-to-back on consecutive days.
+            date_counts: dict = {}
+            for d in dates:
+                date_counts[d] = date_counts.get(d, 0) + 1
+            for count in date_counts.values():
+                if count > 1:
+                    penalty += 1000 * (count - 1)
+
             # All-Star blackout (HC10): each game on a blackout date
             for sf in team_fixtures:
                 if sf.slot.date in self._allstar_dates:
