@@ -104,7 +104,7 @@ class NFLMHConstraintSet:
 
         # Build per-team fixture list sorted by date
         team_fixtures: dict[str, list] = {tid: [] for tid in teams}
-        for sf in schedule.scheduled_fixtures:
+        for sf in schedule.fixtures:
             team_fixtures[sf.home_team_id].append(sf)
             team_fixtures[sf.away_team_id].append(sf)
         for tid in team_fixtures:
@@ -161,7 +161,7 @@ class NFLMHConstraintSet:
 
         # SC11: division rivalry spread
         pair_fixtures: dict[frozenset, list] = defaultdict(list)
-        for sf in schedule.scheduled_fixtures:
+        for sf in schedule.fixtures:
             if self._div_map.get(sf.home_team_id) == self._div_map.get(sf.away_team_id):
                 pair = frozenset({sf.home_team_id, sf.away_team_id})
                 pair_fixtures[pair].append(sf)
@@ -177,7 +177,7 @@ class NFLMHConstraintSet:
 
         # HC8: shared venue (two co-tenants both home same day)
         home_by_team_date: dict[tuple[str, date], int] = defaultdict(int)
-        for sf in schedule.scheduled_fixtures:
+        for sf in schedule.fixtures:
             home_by_team_date[(sf.home_team_id, sf.slot.date)] += 1
 
         for venue_teams in self._shared_venues:
@@ -196,7 +196,7 @@ class NFLMHConstraintSet:
                     continue
                 plays_home = any(
                     sf.home_team_id == mandatory_home and sf.slot.date == td
-                    for sf in schedule.scheduled_fixtures
+                    for sf in schedule.fixtures
                 )
                 if not plays_home:
                     penalty += 500
@@ -207,11 +207,11 @@ class NFLMHConstraintSet:
             for tid in teams:
                 plays_dec24 = any(
                     (sf.home_team_id == tid or sf.away_team_id == tid) and sf.slot.date == dec24
-                    for sf in schedule.scheduled_fixtures
+                    for sf in schedule.fixtures
                 )
                 plays_dec25 = any(
                     (sf.home_team_id == tid or sf.away_team_id == tid) and sf.slot.date == dec25
-                    for sf in schedule.scheduled_fixtures
+                    for sf in schedule.fixtures
                 )
                 if plays_dec24 and plays_dec25:
                     penalty += 500

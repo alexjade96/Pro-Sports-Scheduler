@@ -80,7 +80,7 @@ class NFLCpSatConstraintSet:
         add_team_plays_at_most_once_per_slot(model, x, fixtures, slots, teams)
 
         # HC1: minimum rest (NFL plays ~weekly; 5 days between games minimum)
-        add_min_rest_days(model, x, fixtures, slots, teams, min_rest_days=5)
+        add_min_rest_days(model, x, fixtures, slots, teams, min_days=5)
 
         # HC8: Shared venue — MetLife and SoFi co-tenants can't both play home same day
         self._add_shared_venue(model, x, fixtures, slots)
@@ -225,22 +225,20 @@ class NFLCpSatConstraintSet:
     # ------------------------------------------------------------------
 
     def add_soft_constraints(self, model, x, fixtures, slots, teams) -> list:
-        from solvers.cp_sat.constraints import (
-            add_soft_max_consecutive_home_away,
-            add_soft_half_season_balance,
-        )
+        from solvers.cp_sat.constraints import add_soft_half_season_balance
         cost_terms = []
 
-        # SC1 / SC2: consecutive road/home limits
+        # SC1 / SC2: consecutive road/home limits (separate thresholds, so the
+        # shared EPL helper — single max_run/penalty for both — doesn't fit)
         max_road = self._soft.get("SC1", {}).get("value", 3)
         pen_road = self._soft.get("SC1", {}).get("penalty_per_violation", 25)
         max_home = self._soft.get("SC2", {}).get("value", 4)
         pen_home = self._soft.get("SC2", {}).get("penalty_per_violation", 20)
 
-        consec_terms = add_soft_max_consecutive_home_away(
+        consec_terms = self._add_soft_consec_home_away(
             model, x, fixtures, slots, teams,
             max_home=max_home, max_away=max_road,
-            penalty_home=pen_home, penalty_away=pen_road,
+            pen_home=pen_home, pen_away=pen_road,
         )
         cost_terms.extend(consec_terms)
 
@@ -260,6 +258,60 @@ class NFLCpSatConstraintSet:
             min_gap_days=min_gap_weeks * 7, penalty=pen_rival,
         )
         cost_terms.extend(rival_terms)
+
+        return cost_terms
+
+    def _add_soft_consec_home_away(
+        self, model, x, fixtures, slots, teams,
+        max_home: int, max_away: int, pen_home: int, pen_away: int,
+    ) -> list:
+        """SC1/SC2: penalise runs of >max_home home or >max_away away games."""
+        from collections import defaultdict
+        from datetime import timedelta
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_home_date: dict = defaultdict(lambda: defaultdict(list))
+        team_away_date: dict = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            team_home_date[f.home_team_id][s.date].append(var)
+            team_away_date[f.away_team_id][s.date].append(var)
+
+        all_dates = sorted({s.date for s in slots})
+        window_days = 42
+        cost_terms = []
+
+        for team_id in teams:
+            home_by_date = team_home_date[team_id]
+            away_by_date = team_away_date[team_id]
+            for i, d in enumerate(all_dates):
+                end_d = d + timedelta(days=window_days)
+                home_in_win: list = []
+                away_in_win: list = []
+                for wd in all_dates[i:]:
+                    if wd > end_d:
+                        break
+                    home_in_win.extend(home_by_date.get(wd, []))
+                    away_in_win.extend(away_by_date.get(wd, []))
+
+                if len(home_in_win) > max_home:
+                    hc = model.new_int_var(0, len(home_in_win), f"nfl_sc2h_{team_id}_{d}")
+                    model.add(hc == sum(home_in_win))
+                    exc = model.new_int_var(0, len(home_in_win) - max_home, f"nfl_sc2he_{team_id}_{d}")
+                    model.add(exc >= hc - max_home)
+                    cost_terms.append((pen_home, exc))
+
+                if len(away_in_win) > max_away:
+                    ac = model.new_int_var(0, len(away_in_win), f"nfl_sc1a_{team_id}_{d}")
+                    model.add(ac == sum(away_in_win))
+                    exc = model.new_int_var(0, len(away_in_win) - max_away, f"nfl_sc1ae_{team_id}_{d}")
+                    model.add(exc >= ac - max_away)
+                    cost_terms.append((pen_away, exc))
 
         return cost_terms
 

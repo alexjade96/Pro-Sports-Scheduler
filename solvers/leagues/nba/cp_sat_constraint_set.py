@@ -57,7 +57,7 @@ class NBAcpSatConstraintSet:
         add_team_plays_at_most_once_per_slot(model, x, fixtures, slots, teams)
 
         # HC1 proxy: no same-slot double-scheduling (min rest = 0 days means B2Bs allowed)
-        add_min_rest_days(model, x, fixtures, slots, teams, min_rest_days=0)
+        add_min_rest_days(model, x, fixtures, slots, teams, min_days=0)
 
         # HC10: All-Star break blackout
         if self._hard.get("HC10"):
@@ -182,21 +182,89 @@ class NBAcpSatConstraintSet:
     # ------------------------------------------------------------------
 
     def add_soft_constraints(self, model, x, fixtures, slots, teams) -> list:
-        from solvers.cp_sat.constraints import add_soft_max_consecutive_home_away
         cost_terms = []
 
-        # SC1/SC2/SC3: consecutive home/away caps (weaker than EPL; NBA teams travel more)
-        sc3_max = self._soft.get("SC3", {}).get("max_consecutive_road_games", 6)
-        sc3_pen = self._soft.get("SC3", {}).get("penalty_per_violation", 20)
+        # SC2: no road back-to-back
         sc2_pen = self._soft.get("SC2", {}).get("penalty_per_violation", 30)
+        cost_terms.extend(self._add_soft_no_road_b2b(model, x, fixtures, slots, teams, sc2_pen))
 
-        consec_terms = add_soft_max_consecutive_home_away(
-            model, x, fixtures, slots, teams,
-            max_home=9,  # NBA home stands can be long
-            max_away=sc3_max,
-            penalty_home=sc2_pen,
-            penalty_away=sc3_pen,
-        )
-        cost_terms.extend(consec_terms)
+        # SC3: road trip length cap (approximated via rolling date window;
+        # away-only — NBA declares no analogous home-run cap)
+        cost_terms.extend(self._add_soft_road_trip_cap(model, x, fixtures, slots, teams))
+
+        return cost_terms
+
+    def _add_soft_no_road_b2b(self, model, x, fixtures, slots, teams, penalty: int) -> list:
+        """SC2: penalise a team playing away games on two consecutive calendar dates."""
+        from collections import defaultdict
+        from datetime import timedelta
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            team_away_date[f.away_team_id][s.date].append(var)
+
+        cost_terms = []
+        counter = [0]
+        for tid in teams:
+            away_by_date = team_away_date[tid]
+            for d in sorted(away_by_date):
+                nxt = d + timedelta(days=1)
+                if nxt not in away_by_date:
+                    continue
+                va = away_by_date[d]
+                vb = away_by_date[nxt]
+                counter[0] += 1
+                b = model.NewBoolVar(f"nba_sc2_roadb2b_{tid}_{counter[0]}")
+                model.Add(sum(va) + sum(vb) >= 2 * b)
+                model.Add(sum(va) + sum(vb) <= 1 + b)
+                cost_terms.append((penalty, b))
+        return cost_terms
+
+    def _add_soft_road_trip_cap(self, model, x, fixtures, slots, teams) -> list:
+        """SC3: penalise road-trip windows exceeding max_consecutive_road_games."""
+        from collections import defaultdict
+        from datetime import timedelta
+
+        max_away = self._soft.get("SC3", {}).get("max_consecutive_road_games", 6)
+        penalty = self._soft.get("SC3", {}).get("penalty_per_violation", 20)
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_away_date: dict = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            team_away_date[f.away_team_id][s.date].append(var)
+
+        all_dates = sorted({s.date for s in slots})
+        window_days = 42
+        cost_terms = []
+
+        for team_id in teams:
+            away_by_date = team_away_date[team_id]
+            for i, d in enumerate(all_dates):
+                end_d = d + timedelta(days=window_days)
+                away_in_win: list = []
+                for wd in all_dates[i:]:
+                    if wd > end_d:
+                        break
+                    away_in_win.extend(away_by_date.get(wd, []))
+
+                if len(away_in_win) > max_away:
+                    ac = model.new_int_var(0, len(away_in_win), f"nba_sc3_{team_id}_{d}")
+                    model.add(ac == sum(away_in_win))
+                    exc = model.new_int_var(0, len(away_in_win) - max_away, f"nba_sc3e_{team_id}_{d}")
+                    model.add(exc >= ac - max_away)
+                    cost_terms.append((penalty, exc))
 
         return cost_terms

@@ -6,7 +6,9 @@ Implements the MHConstraintSet protocol. The score() method penalises:
   SC2  — Road back-to-backs (heavier penalty)
   SC3  — Road trips > 6 consecutive away games
   HC5  — 4 games in 5 consecutive nights (hard violation, very large penalty)
+  HC6  — 8 games in 12 consecutive nights (hard violation, very large penalty)
   HC10 — Games during All-Star break (forbidden)
+  HC13 — All 30 teams must play on the final day of the season
 """
 from __future__ import annotations
 
@@ -76,7 +78,9 @@ class NBAMHConstraintSet:
         sc2_penalty = self._soft.get("SC2", {}).get("penalty_per_violation", 30)
         sc3_max_road = self._soft.get("SC3", {}).get("max_consecutive_road_games", 6)
         sc3_penalty = self._soft.get("SC3", {}).get("penalty_per_violation", 20)
-        hc5_penalty = 1000  # 4-in-5-nights hard violation
+        hc5_penalty = 1000   # 4-in-5-nights hard violation
+        hc6_penalty = 1000   # 8-in-12-nights hard violation
+        hc13_penalty = 2000  # missing final-day appearance (seeding integrity)
 
         for team_id in teams:
             team_fixtures = sorted(
@@ -116,6 +120,13 @@ class NBAMHConstraintSet:
                 if count_in_window >= 4:
                     penalty += hc5_penalty
 
+            # 8-in-12-nights (HC6)
+            for i in range(len(dates)):
+                window_end = dates[i] + timedelta(days=11)
+                count_in_window = sum(1 for d in dates if dates[i] <= d <= window_end)
+                if count_in_window >= 8:
+                    penalty += hc6_penalty
+
             # Road trip length (SC3)
             consecutive_road = 0
             for home in is_home:
@@ -125,5 +136,14 @@ class NBAMHConstraintSet:
                         penalty += sc3_penalty
                 else:
                     consecutive_road = 0
+
+        # All teams play on the final day of the season (HC13)
+        final_day_teams = {
+            sf.home_team_id for sf in schedule.fixtures if sf.slot.date == self._season_end
+        } | {
+            sf.away_team_id for sf in schedule.fixtures if sf.slot.date == self._season_end
+        }
+        missing_final_day = set(teams) - final_day_teams
+        penalty += len(missing_final_day) * hc13_penalty
 
         return penalty

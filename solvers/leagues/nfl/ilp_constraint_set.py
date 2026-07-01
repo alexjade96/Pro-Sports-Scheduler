@@ -116,10 +116,12 @@ class NFLILPConstraintSet:
                 s = slot_map.get(sid)
                 if s:
                     t2_by_date[s.date].append(var)
+            counter = [0]
             for d in set(t1_by_date) & set(t2_by_date):
                 for v1 in t1_by_date[d]:
                     for v2 in t2_by_date[d]:
-                        prob += v1 + v2 <= 1, f"shared_venue_{t1}_{t2}_{d}"
+                        counter[0] += 1
+                        prob += v1 + v2 <= 1, f"shared_venue_{t1}_{t2}_{d}_{counter[0]}"
 
     def _add_thanksgiving_home(self, prob, x, fixtures, slots, teams) -> None:
         """HC9: DAL and DET must play home on Thanksgiving Day."""
