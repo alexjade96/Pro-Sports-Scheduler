@@ -29,7 +29,7 @@ how it's enforced.
 source .venv/bin/activate
 
 # Run a solver (EPL — the only league with wired-up main.py entry points so far)
-python -m solvers.cp_sat.main           # Option A: CP-SAT (~7s, reaches OPTIMAL)
+python -m solvers.cp_sat.main           # Option A: CP-SAT (reaches FEASIBLE with 0 hard violations within ~30-60s; the current 54K-penalty-term objective is large enough that OR-tools does not prove OPTIMAL even given a 300s+ budget — an earlier, much smaller constraint set reached OPTIMAL in ~7s, but that's no longer accurate)
 python -m solvers.ilp.main              # Option B: ILP / PuLP + CBC (~1800s cap)
 python -m solvers.metaheuristic.main    # Option C: Simulated Annealing (~300s)
 
