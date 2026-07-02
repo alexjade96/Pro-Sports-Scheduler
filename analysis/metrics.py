@@ -1,19 +1,30 @@
 """
 Metrics engine: computes a rich MetricsReport from any Schedule object.
 Works identically on historical and generated schedules — that's what
-makes the comparison meaningful.
+makes the comparison meaningful — and identically across leagues, since
+it reads the active league via core.data_loader.get_active_league().
 
 Metric categories
 -----------------
-  REST          — days between consecutive fixtures per team
-  RUNS          — consecutive home / away streaks
-  DISTRIBUTION  — day-of-week and kickoff-time slot usage
-  CITY          — same-city home game clashes
-  DERBY         — gap (days) between the two legs of each derby
-  FESTIVE       — team coverage on Boxing Day and New Year's Day
-  COMPLIANCE    — fixtures falling in international-break windows
-  BALANCE       — home/away split per half-season
+  REST          — days between consecutive fixtures per team (generic)
+  RUNS          — consecutive home / away streaks (generic)
+  DISTRIBUTION  — day-of-week and kickoff-time slot usage (generic)
+  CITY          — same-city home game clashes (generic; needs city_groups)
+  DERBY         — gap (days) between the two legs of each rivalry (generic;
+                  gap threshold is read from the league's own rivalry-spread
+                  constraint, not hardcoded)
+  BALANCE       — home/away split per half-season (generic)
+  COMPLIANCE    — fixtures falling in blocked calendar windows (generic)
+  COVERAGE      — team participation on the schedule's final calendar date
+                  (generic)
   SOLVER        — solve time, penalty, violations (generated schedules only)
+
+Everything above is league-agnostic: it only reads whatever calendar/team
+data the active league provides. League-specific rules (Atos Golden Rules,
+UK festive coverage, Thanksgiving, back-to-backs, etc.) are NOT computed
+here — they live in analysis/leagues/<league>/metrics.py and are invoked
+via extend() below. See "Analysis architecture" in CLAUDE.md for the rule
+on what belongs in this shared module vs. a league-scoped one.
 """
 from __future__ import annotations
 
@@ -24,7 +35,13 @@ from datetime import date
 from typing import Optional
 
 from core.models import Schedule, ScheduledFixture
-from core.data_loader import load_city_groups, load_high_profile_derbies, load_calendar
+from core.data_loader import (
+    load_city_groups,
+    load_high_profile_derbies,
+    load_calendar,
+    load_constraints,
+    get_active_league,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -62,13 +79,17 @@ class MetricsReport:
     city_clash_dates:     list[tuple[str, str, list[str]]] = field(default_factory=list)
     city_clash_count:     int                         = 0   # legacy same-day count
     city_weekend_clash_count: int                     = 0   # SC7 widened: 4-day window
-    london_cluster_violations: int                    = 0   # SC10: >3 London home games/day
+    london_cluster_violations: int                    = 0   # SC10 (EPL-only)
 
-    # DERBY
+    # DERBY / RIVALRY (generic mechanism; gap threshold is league-derived —
+    # see _derby_gap_threshold_days() below. Field name kept for backward
+    # compatibility with existing EPL callers; it no longer implies a
+    # hardcoded 56-day window for every league.)
     derby_gaps_days:      dict[str, int]              = field(default_factory=dict)
     derbies_under_56d:    list[str]                   = field(default_factory=list)
+    derby_gap_threshold_days: int                     = 0
 
-    # FESTIVE
+    # FESTIVE (EPL-only)
     boxing_day_teams:     list[str]                   = field(default_factory=list)
     new_years_day_teams:  list[str]                   = field(default_factory=list)
     boxing_day_coverage:  int                         = 0
@@ -76,7 +97,7 @@ class MetricsReport:
     good_friday_coverage: int                         = 0   # SC9
     easter_monday_coverage: int                       = 0   # SC9
 
-    # GOLDEN RULES (Atos)
+    # GOLDEN RULES (Atos, EPL-only)
     five_match_pattern_violations: int                = 0   # SC13
     season_boundary_violations:    int                = 0   # SC14
     boxing_day_nyd_violations:     int                = 0   # SC15
@@ -84,11 +105,25 @@ class MetricsReport:
     # COMPLIANCE
     intl_break_violations:  list[tuple[str, str]]     = field(default_factory=list)
     intl_break_violation_count: int                   = 0
-    christmas_day_violations: int                     = 0   # HC7
+    christmas_day_violations: int                     = 0   # HC7 (EPL-only)
 
     # BALANCE
     home_pct_first_half:  dict[str, float]            = field(default_factory=dict)
     home_pct_second_half: dict[str, float]            = field(default_factory=dict)
+
+    # COVERAGE (generic)
+    final_day_team_coverage: int                      = 0
+
+    # NFL-only
+    thanksgiving_coverage: int                        = 0
+    thanksgiving_fixed_host_violations: int            = 0
+    primetime_game_pct:   float                        = 0.0
+
+    # NBA-only
+    back_to_back_counts:  dict[str, int]              = field(default_factory=dict)
+    league_back_to_backs: int                         = 0
+    four_in_five_violations: int                      = 0
+    all_star_break_violations: int                    = 0
 
     # TOTALS
     total_fixtures:       int                         = 0
@@ -101,7 +136,43 @@ class MetricsReport:
     soft_violations:      Optional[int]               = None
     # Per-constraint violation breakdown from validator (generated schedules only)
     constraint_violations: dict[str, int]             = field(default_factory=dict)
-    final_day_enforced:   Optional[bool]              = None  # HC8
+    final_day_enforced:   Optional[bool]              = None  # HC8 (EPL-only)
+
+
+# ---------------------------------------------------------------------------
+# League extension dispatch
+# ---------------------------------------------------------------------------
+
+def _league_extension(league: str):
+    """Returns the extend(report, schedule, calendar, city_groups, all_team_ids)
+    function for the given league, or None if it has no extensions."""
+    if league == "epl":
+        from analysis.leagues.epl.metrics import extend
+        return extend
+    if league == "nfl":
+        from analysis.leagues.nfl.metrics import extend
+        return extend
+    if league == "nba":
+        from analysis.leagues.nba.metrics import extend
+        return extend
+    return None
+
+
+def _derby_gap_threshold_days(constraints: dict) -> int:
+    """
+    Derives a minimum-gap-in-days threshold for rivalry/derby fixtures from
+    the active league's own constraint config, instead of hardcoding one
+    league's convention. Falls back to 56 days (EPL's 8-round convention)
+    if the league defines no rivalry-spread constraint.
+    """
+    for bucket in ("soft", "hard"):
+        for c in constraints.get(bucket, []):
+            ctype = c.get("type", "")
+            if ctype == "derby_min_gap_rounds" and "value" in c:
+                return int(c["value"]) * 7
+            if ctype in ("division_rivalry_spread", "rivalry_spread") and "min_gap_weeks" in c:
+                return int(c["min_gap_weeks"]) * 7
+    return 56
 
 
 # ---------------------------------------------------------------------------
@@ -113,11 +184,16 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
     Main entry point. Pass solver_meta dict with keys:
         solve_time_seconds, penalty_score, hard_violations, soft_violations
     for generated schedules; leave None for historical.
+
+    Reads the active league via core.data_loader.get_active_league() — call
+    set_league() before compute() if analysing a non-EPL schedule.
     """
     report = MetricsReport(label=schedule.season)
     report.total_fixtures = len(schedule.fixtures)
 
+    league       = get_active_league()
     calendar     = load_calendar()
+    constraints  = load_constraints()
     city_groups  = load_city_groups()
     city_lookup  = {t: city for city, members in city_groups.items() for t in members}
     derby_pairs  = load_high_profile_derbies()
@@ -198,10 +274,9 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
     report.kickoff_time_counts = dict(ko_counts)
     report.kickoff_time_pct    = {t: round(c / total * 100, 1) for t, c in ko_counts.items()}
 
-    # --- CITY CLASHES (SC7 same-day + SC7 4-day window) + LONDON CLUSTER (SC10) ---
+    # --- CITY CLASHES (same-day + 4-day window) ---
     home_by_date: dict[str, list[str]] = defaultdict(list)
     home_dates_by_team: dict[str, list[date]] = defaultdict(list)
-    london_teams = set(city_groups.get("London", []))
     for sf in schedule.fixtures:
         home_by_date[str(sf.slot.date)].append(sf.home_team_id)
         home_dates_by_team[sf.home_team_id].append(sf.slot.date)
@@ -213,13 +288,10 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
         for city, clashing in city_count.items():
             if len(clashing) > 1 and city != "_unknown":
                 report.city_clash_dates.append((date_str, city, clashing))
-        london_home = [t for t in home_teams if t in london_teams]
-        if len(london_home) > 3:
-            report.london_cluster_violations += 1
 
     report.city_clash_count = len(report.city_clash_dates)
 
-    # SC7 widened: count same-city pairs with home fixtures within 4 days
+    # 4-day-window same-city home clash count
     checked_pairs: set[frozenset] = set()
     for city, members in city_groups.items():
         for i, team_a in enumerate(members):
@@ -233,7 +305,8 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
                         if abs((da - db).days) <= 4:
                             report.city_weekend_clash_count += 1
 
-    # --- DERBY GAPS ---
+    # --- DERBY / RIVALRY GAPS ---
+    report.derby_gap_threshold_days = _derby_gap_threshold_days(constraints)
     derby_fixture_dates: dict[str, list[date]] = defaultdict(list)
     for sf in schedule.fixtures:
         pair_key = "_v_".join(sorted([sf.home_team_id, sf.away_team_id]))
@@ -245,26 +318,10 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
         if len(dates) == 2:
             gap = abs((dates[1] - dates[0]).days)
             report.derby_gaps_days[key] = gap
-            if gap < 56:
+            if gap < report.derby_gap_threshold_days:
                 report.derbies_under_56d.append(key)
 
-    # --- FESTIVE COVERAGE ---
-    festive_dates = {d: [] for d in calendar.get("festive_matchdays", [])}
-    for sf in schedule.fixtures:
-        date_str = str(sf.slot.date)
-        if date_str in festive_dates:
-            festive_dates[date_str].append(sf.home_team_id)
-            festive_dates[date_str].append(sf.away_team_id)
-
-    for date_str, teams in festive_dates.items():
-        if "2025-12-26" in date_str or "12-26" in date_str:
-            report.boxing_day_teams     = sorted(set(teams))
-            report.boxing_day_coverage  = len(set(teams))
-        if "01-01" in date_str:
-            report.new_years_day_teams    = sorted(set(teams))
-            report.new_years_day_coverage = len(set(teams))
-
-    # --- INTERNATIONAL BREAK COMPLIANCE + CHRISTMAS DAY (HC7) ---
+    # --- BLOCKED-WINDOW COMPLIANCE ---
     for sf in schedule.fixtures:
         match_date = sf.slot.date
         for start, end in blocked_windows:
@@ -273,61 +330,15 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
                     str(match_date),
                     f"{sf.home_team_id} v {sf.away_team_id}",
                 ))
-        if match_date.month == 12 and match_date.day == 25:
-            report.christmas_day_violations += 1
     report.intl_break_violation_count = len(report.intl_break_violations)
 
-    # --- EASTER COVERAGE (SC9) ---
-    easter_cfg = calendar.get("easter_matchdays", {})
-    for attr, date_key in [("good_friday_coverage", "good_friday"),
-                            ("easter_monday_coverage", "easter_monday")]:
-        if date_key not in easter_cfg:
-            continue
-        easter_date = date.fromisoformat(easter_cfg[date_key])
-        playing: set[str] = set()
-        for sf in schedule.fixtures:
-            if sf.slot.date == easter_date:
-                playing.add(sf.home_team_id)
-                playing.add(sf.away_team_id)
-        setattr(report, attr, len(playing))
-
-    # --- SC13: five-match H/A pattern ---
-    for team_id in all_team_ids:
-        team_fx = sorted(
-            schedule.fixtures_for_team(team_id),
-            key=lambda sf: sf.slot.date,
-        )
-        for i in range(len(team_fx) - 4):
-            home_count = sum(1 for sf in team_fx[i:i+5] if sf.home_team_id == team_id)
-            if home_count not in (2, 3):
-                report.five_match_pattern_violations += 1
-
-    # --- SC14: season boundary H/A ---
-    for team_id in all_team_ids:
-        team_fx = sorted(
-            schedule.fixtures_for_team(team_id),
-            key=lambda sf: sf.slot.date,
-        )
-        if len(team_fx) >= 2:
-            open_h = [sf.home_team_id == team_id for sf in team_fx[:2]]
-            if open_h[0] == open_h[1]:
-                report.season_boundary_violations += 1
-            close_h = [sf.home_team_id == team_id for sf in team_fx[-2:]]
-            if close_h[0] == close_h[1]:
-                report.season_boundary_violations += 1
-
-    # --- SC15: Boxing Day / NYD pairing ---
-    for team_id in all_team_ids:
-        bd_home: bool | None = None
-        nyd_home: bool | None = None
-        for sf in schedule.fixtures_for_team(team_id):
-            d = sf.slot.date
-            if d.month == 12 and d.day == 26:
-                bd_home = (sf.home_team_id == team_id)
-            if d.month == 1 and d.day == 1:
-                nyd_home = (sf.home_team_id == team_id)
-        if bd_home is not None and nyd_home is not None and bd_home == nyd_home:
-            report.boxing_day_nyd_violations += 1
+    # --- FINAL-DAY TEAM COVERAGE ---
+    final_day_fixtures = [sf for sf in schedule.fixtures if sf.slot.date == season_end]
+    final_day_teams: set[str] = set()
+    for sf in final_day_fixtures:
+        final_day_teams.add(sf.home_team_id)
+        final_day_teams.add(sf.away_team_id)
+    report.final_day_team_coverage = len(final_day_teams)
 
     # --- HOME/AWAY BALANCE per half-season ---
     for team_id in all_team_ids:
@@ -345,6 +356,11 @@ def compute(schedule: Schedule, solver_meta: dict | None = None) -> MetricsRepor
         h2_total = (h2_home + h2_away) or 1
         report.home_pct_first_half[team_id]  = round(h1_home / h1_total * 100, 1)
         report.home_pct_second_half[team_id] = round(h2_home / h2_total * 100, 1)
+
+    # --- LEAGUE-SPECIFIC EXTENSIONS ---
+    extend = _league_extension(league)
+    if extend is not None:
+        extend(report, schedule, calendar, city_groups, all_team_ids)
 
     # --- SOLVER META ---
     if solver_meta:

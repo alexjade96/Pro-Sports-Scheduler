@@ -1,14 +1,19 @@
 """
-Generates a PNG calendar graphic of the full EPL season schedule.
+Generates a PNG calendar graphic of a season schedule for the active league
+(core.data_loader.set_league() / --league). EPL, NFL, and NBA are all
+supported — team colours, the season's month range, and festive/blocked
+matchday labels are all derived from the active league's data files rather
+than hardcoded, per "Analysis architecture" in CLAUDE.md.
 
 Each month is rendered as a calendar grid. Day cells are colour-coded:
 
 Full-season mode:
   - Sky blue    : regular matchday
-  - Gold        : festive matchday (Boxing Day / Dec 28 / NYD)
-  - Peach       : international break (hard block — no fixtures)
-  - Violet      : cup reservation window (FA Cup / Carabao Cup)
-  - Light grey  : other hard block (Christmas Day)
+  - Gold        : festive matchday (from calendar.json's festive_matchdays /
+                  special_matchdays — e.g. Boxing Day, Thanksgiving, Opening Night)
+  - Peach       : hard-blocked window (e.g. international break, Pro Bowl week)
+  - Violet      : reservation window (e.g. FA Cup / Carabao Cup)
+  - Light grey  : other hard block
   - White       : no fixtures
   Derby fixtures are indicated by a ◆ symbol in the fixture text.
 
@@ -27,6 +32,7 @@ Usage:
     python tools/calendar_png.py --month 12
     python tools/calendar_png.py --team LIV
     python tools/calendar_png.py --team ARS --month 11
+    python tools/calendar_png.py --league nfl --csv output/schedule_nfl.csv --team KC
 """
 from __future__ import annotations
 
@@ -49,7 +55,7 @@ from matplotlib.patches import FancyBboxPatch
 
 _cal.setfirstweekday(6)  # 6 = Sunday; shifts all monthcalendar() grids to Sun-start
 
-from core.data_loader import load_teams, load_high_profile_derbies, load_calendar
+from core.data_loader import load_teams, load_high_profile_derbies, load_calendar, get_active_league
 from core.models import Fixture, Slot, ScheduledFixture, Schedule
 
 # ---------------------------------------------------------------------------
@@ -85,7 +91,9 @@ C_CUP_TEXT   = "#581c87"   # cup window label
 C_BLOCK_TEXT = "#374151"   # hard block label
 
 # Primary brand colours used in team-mode calendars for headers and home cells.
-TEAM_COLORS: dict[str, str] = {
+# Per-league, since team IDs collide across leagues (e.g. NFL "DAL" Cowboys vs
+# NBA "DAL" Mavericks) and must not resolve to the same colour.
+TEAM_COLORS_EPL: dict[str, str] = {
     "ARS": "#EF0107",  # Arsenal — red
     "AVL": "#670E36",  # Aston Villa — claret
     "BHA": "#0057B8",  # Brighton — blue
@@ -107,6 +115,38 @@ TEAM_COLORS: dict[str, str] = {
     "WHU": "#7A263A",  # West Ham — claret
     "WOL": "#B07D00",  # Wolves — gold (darkened for white-text contrast)
 }
+
+TEAM_COLORS_NFL: dict[str, str] = {
+    "ARI": "#97233F", "ATL": "#A71930", "BAL": "#241773", "BUF": "#00338D",
+    "CAR": "#0085CA", "CHI": "#0B162A", "CIN": "#FB4F14", "CLE": "#311D00",
+    "DAL": "#041E42", "DEN": "#FB4F14", "DET": "#0076B6", "GB":  "#203731",
+    "HOU": "#03202F", "IND": "#002C5F", "JAX": "#101820", "KC":  "#E31837",
+    "LAC": "#0080C6", "LAR": "#003594", "LV":  "#000000", "MIA": "#008E97",
+    "MIN": "#4F2683", "NE":  "#002244", "NO":  "#D3BC8D", "NYG": "#0B2265",
+    "NYJ": "#125740", "PHI": "#004C54", "PIT": "#FFB612", "SEA": "#002244",
+    "SF":  "#AA0000", "TB":  "#D50A0A", "TEN": "#0C2340", "WAS": "#5A1414",
+}
+
+TEAM_COLORS_NBA: dict[str, str] = {
+    "ATL": "#E03A3E", "BKN": "#000000", "BOS": "#007A33", "CHA": "#1D1160",
+    "CHI": "#CE1141", "CLE": "#860038", "DAL": "#00538C", "DEN": "#0E2240",
+    "DET": "#C8102E", "GSW": "#1D428A", "HOU": "#CE1141", "IND": "#002D62",
+    "LAC": "#C8102E", "LAL": "#552583", "MEM": "#5D76A9", "MIA": "#98002E",
+    "MIL": "#00471B", "MIN": "#0C2340", "NOP": "#0C2340", "NYK": "#006BB6",
+    "OKC": "#007AC1", "ORL": "#0077C0", "PHI": "#006BB6", "PHX": "#1D1160",
+    "POR": "#E03A3E", "SAC": "#5A2D81", "SAS": "#C4CED4", "TOR": "#CE1141",
+    "UTA": "#002B5C", "WAS": "#002B5C",
+}
+
+LEAGUE_TEAM_COLORS: dict[str, dict[str, str]] = {
+    "epl": TEAM_COLORS_EPL,
+    "nfl": TEAM_COLORS_NFL,
+    "nba": TEAM_COLORS_NBA,
+}
+
+
+def team_colors_for_league(league: str) -> dict[str, str]:
+    return LEAGUE_TEAM_COLORS.get(league, {})
 
 
 def _lighten(hex_color: str, factor: float = 0.75) -> str:
@@ -130,19 +170,61 @@ def _darken(hex_color: str, factor: float = 0.25) -> str:
         int(b * (1 - factor)),
     )
 
-FESTIVE_DATES = {date(2025, 12, 26), date(2025, 12, 28), date(2026, 1, 1)}
-FESTIVE_LABEL = {
-    date(2025, 12, 26): "Boxing Day",
-    date(2025, 12, 28): "Dec 28",
-    date(2026,  1,  1): "New Year's Day",
-}
-
-MONTHS = [
-    (2025, 8), (2025, 9), (2025, 10), (2025, 11), (2025, 12),
-    (2026, 1), (2026, 2), (2026, 3),  (2026, 4),  (2026, 5),
-]
-
 MAX_FIXTURES_SHOWN = 5
+
+
+def build_festive_dates(calendar: dict) -> dict[date, str]:
+    """
+    Derives {date: short_label} for festive/marquee matchdays from the
+    active league's calendar.json — covers both EPL's flat
+    "festive_matchdays" list and NFL/NBA's "special_matchdays" dict of
+    named single-dates / date-lists. Nested structures (e.g. NFL's
+    international_games, NBA's in_season_tournament) are skipped since
+    they aren't single calendar dates.
+    """
+    result: dict[date, str] = {}
+
+    for d in calendar.get("festive_matchdays", []):
+        dt = date.fromisoformat(d)
+        if dt.month == 12 and dt.day == 26:
+            label = "Boxing Day"
+        elif dt.month == 12 and dt.day == 28:
+            label = "Dec 28"
+        elif dt.month == 1 and dt.day == 1:
+            label = "New Year's Day"
+        else:
+            label = "Festive"
+        result[dt] = label
+
+    for key, val in calendar.get("special_matchdays", {}).items():
+        dates = val if isinstance(val, list) else [val]
+        label = key.replace("_", " ").title()
+        for d in dates:
+            if not isinstance(d, str):
+                continue
+            try:
+                result[date.fromisoformat(d)] = label
+            except ValueError:
+                continue
+
+    return result
+
+
+def derive_months(calendar: dict) -> list[tuple[int, int]]:
+    """Walks the league's season_start..season_end range and returns the
+    (year, month) tuples spanned, in chronological order."""
+    start = date.fromisoformat(calendar["start_date"])
+    end   = date.fromisoformat(calendar["end_date"])
+
+    months: list[tuple[int, int]] = []
+    year, month = start.year, start.month
+    while (year, month) <= (end.year, end.month):
+        months.append((year, month))
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+    return months
 
 
 # ---------------------------------------------------------------------------
@@ -165,6 +247,12 @@ def _window_style(label: str) -> tuple[str, str, str]:
         return C_CUP, C_CUP_TEXT, "FA " + parts[-1]
     if "Christmas" in label:
         return C_HARDBLOCK, C_BLOCK_TEXT, "XMAS"
+    if "All-Star" in label:
+        return C_CUP, C_CUP_TEXT, "ALL-STAR"
+    if "Pro Bowl" in label:
+        return C_CUP, C_CUP_TEXT, "PRO BOWL"
+    if "Super Bowl" in label:
+        return C_CUP, C_CUP_TEXT, "SB BYE"
     return C_HARDBLOCK, C_BLOCK_TEXT, "BLK"
 
 
@@ -200,7 +288,7 @@ def build_blocked_dates(calendar: dict) -> dict[date, tuple[str, str, str]]:
 # CSV loader
 # ---------------------------------------------------------------------------
 
-def _load_csv(path: Path) -> Schedule:
+def _load_csv(path: Path, season_label: str = "") -> Schedule:
     rows = []
     with open(path, newline="") as f:
         for row in csv.DictReader(f):
@@ -215,7 +303,7 @@ def _load_csv(path: Path) -> Schedule:
                 away_team_id=row["away"],
             )
             rows.append(ScheduledFixture(fixture=fixture, slot=slot))
-    return Schedule(season="2025-26", fixtures=rows)
+    return Schedule(season=season_label, fixtures=rows)
 
 
 # ---------------------------------------------------------------------------
@@ -258,6 +346,7 @@ def _render_month(
     by_date: dict,
     derby_pairs: set,
     blocked_dates: dict,
+    festive_dates: dict,
 ) -> None:
     """Draw one month calendar (all fixtures) onto ax."""
     weeks      = _cal.monthcalendar(year, month)
@@ -307,7 +396,7 @@ def _render_month(
             d          = date(year, month, day_num)
             fixtures   = sorted(by_date.get(d, []), key=lambda s: s.slot.kickoff)
             n_fix      = len(fixtures)
-            is_festive = d in FESTIVE_DATES
+            is_festive = d in festive_dates
 
             # ── Blocked window with no fixtures ───────────────────────────────
             if n_fix == 0 and d in blocked_dates:
@@ -333,7 +422,7 @@ def _render_month(
 
             if is_festive and n_fix > 0:
                 ax.text(
-                    x + 0.94, y + 0.92, FESTIVE_LABEL[d],
+                    x + 0.94, y + 0.92, festive_dates[d],
                     ha="right", va="top", fontsize=4.5,
                     color="#92400e", fontstyle="italic", zorder=2,
                 )
@@ -376,6 +465,7 @@ def _render_month_team(
     team_id: str,
     team_name: str,
     blocked_dates: dict,
+    festive_dates: dict,
     team_color: str = C_HEADER_BG,
 ) -> None:
     """Draw one month calendar filtered to a single team's fixtures."""
@@ -453,7 +543,7 @@ def _render_month_team(
             # ── Team has a fixture ─────────────────────────────────────────────────
             is_home    = sf.home_team_id == team_id
             opponent   = sf.away_team_id if is_home else sf.home_team_id
-            is_festive = d in FESTIVE_DATES
+            is_festive = d in festive_dates
             is_derby   = (sf.home_team_id, sf.away_team_id) in derby_pairs
 
             if is_festive:
@@ -473,7 +563,7 @@ def _render_month_team(
 
             if is_festive:
                 ax.text(
-                    x + 0.94, y + 0.92, FESTIVE_LABEL[d],
+                    x + 0.94, y + 0.92, festive_dates[d],
                     ha="right", va="top", fontsize=4.2,
                     color="#92400e", fontstyle="italic", zorder=2,
                 )
@@ -625,16 +715,20 @@ def render_season_png(
     months: list[tuple[int, int]],
     out_path: Path,
     blocked_dates: dict,
+    festive_dates: dict,
     solver_label: str = "",
     team_id: str | None = None,
     team_name: str = "",
+    league: str = "epl",
+    season_label: str = "",
 ) -> None:
     from matplotlib.gridspec import GridSpec
 
     N_ROWS  = (len(months) + 1) // 2   # always 2 calendar columns
     MONTH_H = 3.6
 
-    team_color = TEAM_COLORS.get(team_id, C_HEADER_BG) if team_id else C_HEADER_BG
+    team_colors = team_colors_for_league(league)
+    team_color  = team_colors.get(team_id, C_HEADER_BG) if team_id else C_HEADER_BG
 
     if team_id:
         FIG_W = 22
@@ -673,12 +767,12 @@ def render_season_png(
         if team_id:
             _render_month_team(
                 axes_flat[i], year, month, by_date, derby_pairs,
-                team_id, team_name, blocked_dates,
+                team_id, team_name, blocked_dates, festive_dates,
                 team_color=team_color,
             )
         else:
             _render_month(
-                axes_flat[i], year, month, by_date, derby_pairs, blocked_dates,
+                axes_flat[i], year, month, by_date, derby_pairs, blocked_dates, festive_dates,
             )
 
     for j in range(len(months), len(axes_flat)):
@@ -688,10 +782,12 @@ def render_season_png(
         _draw_fixture_list(list_ax, team_id, by_date, derby_pairs, team_color=team_color)
 
     # ── Title ─────────────────────────────────────────────────────────────────
+    league_label = league.upper()
+    season_part  = f" {season_label}" if season_label else ""
     if team_id:
-        title = f"{team_name} ({team_id}) — EPL 2025/26 Fixture Calendar"
+        title = f"{team_name} ({team_id}) — {league_label}{season_part} Fixture Calendar"
     else:
-        title = "EPL 2025/26 Season Calendar"
+        title = f"{league_label}{season_part} Season Calendar"
     if solver_label:
         title += f"  —  {solver_label}"
     fig.suptitle(title, fontsize=14, fontweight="bold", color=team_color, y=0.998)
@@ -711,7 +807,7 @@ def render_season_png(
 
     constraint_patches = [
         mpatches.Patch(facecolor=C_INTL,      edgecolor="#9ca3af", label="Intl break"),
-        mpatches.Patch(facecolor=C_CUP,       edgecolor="#9ca3af", label="Cup window"),
+        mpatches.Patch(facecolor=C_CUP,       edgecolor="#9ca3af", label="Reserved window"),
         mpatches.Patch(facecolor=C_HARDBLOCK, edgecolor="#9ca3af", label="Hard block"),
         mpatches.Patch(facecolor=C_EMPTY,     edgecolor="#9ca3af", label="No fixture"),
     ]
@@ -736,8 +832,12 @@ def render_season_png(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate a PNG season calendar")
     parser.add_argument(
-        "--csv", default=str(ROOT / "output" / "schedule_cp_sat.csv"),
-        help="Schedule CSV (default: output/schedule_cp_sat.csv)",
+        "--league", default=None,
+        help="League to render (epl, nfl, nba). Default: the active league (epl unless set_league() was called).",
+    )
+    parser.add_argument(
+        "--csv", default=None,
+        help="Schedule CSV (default: output/schedule_cp_sat.csv for EPL, output/schedule_<league>.csv otherwise)",
     )
     parser.add_argument(
         "--out", default=str(ROOT / "output" / "calendar.png"),
@@ -747,21 +847,31 @@ def main() -> None:
     parser.add_argument("--year",  type=int, default=None)
     parser.add_argument(
         "--team", default=None,
-        help="Team ID for individual team schedule (e.g. LIV, ARS, MCI)",
+        help="Team ID for individual team schedule (e.g. LIV, ARS, MCI, KC, BOS)",
     )
     args = parser.parse_args()
 
-    csv_path = Path(args.csv)
+    if args.league:
+        from core.data_loader import set_league
+        set_league(args.league)
+    league = get_active_league()
+
+    csv_path = Path(args.csv) if args.csv else ROOT / "output" / (
+        "schedule_cp_sat.csv" if league == "epl" else f"schedule_{league}.csv"
+    )
     if not csv_path.exists():
         print(f"Not found: {csv_path}\nRun a solver first: python -m solvers.cp_sat.main")
         sys.exit(1)
 
-    schedule      = _load_csv(csv_path)
+    calendar      = load_calendar()
+    season_label  = calendar.get("season", "")
+    schedule      = _load_csv(csv_path, season_label)
     teams         = load_teams()
     derby_pairs   = {(a, b) for a, b in load_high_profile_derbies()}
     derby_pairs  |= {(b, a) for a, b in derby_pairs}
-    calendar      = load_calendar()
     blocked_dates = build_blocked_dates(calendar)
+    festive_dates = build_festive_dates(calendar)
+    all_months    = derive_months(calendar)
 
     team_id   = args.team.upper() if args.team else None
     team_name = ""
@@ -777,22 +887,26 @@ def main() -> None:
         by_date[sf.slot.date].append(sf)
 
     solver_label = csv_path.stem.replace("schedule_", "").upper()
+    if solver_label == league.upper():
+        solver_label = ""
 
     if args.month:
-        year   = args.year or (2025 if args.month >= 8 else 2026)
+        year = args.year or next(
+            (y for y, m in all_months if m == args.month), all_months[0][0],
+        )
         months = [(year, args.month)]
         stem   = f"calendar_{team_id.lower() + '_' if team_id else ''}{_cal.month_abbr[args.month].lower()}"
         out    = Path(args.out).with_name(f"{stem}.png")
     elif team_id:
-        months = MONTHS
+        months = all_months
         out    = Path(args.out).with_name(f"calendar_{team_id.lower()}.png")
     else:
-        months = MONTHS
+        months = all_months
         out    = Path(args.out)
 
     render_season_png(
-        by_date, derby_pairs, months, out, blocked_dates, solver_label,
-        team_id=team_id, team_name=team_name,
+        by_date, derby_pairs, months, out, blocked_dates, festive_dates, solver_label,
+        team_id=team_id, team_name=team_name, league=league, season_label=season_label,
     )
 
 
