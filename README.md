@@ -2,7 +2,7 @@
 
 A general-purpose fixture scheduling engine for professional sports leagues, implemented in Python. Give it a league's teams, calendar, and constraint rules as JSON, and it generates a full-season schedule, checks it against those rules, and compares it against real historical seasons — using three interchangeable solving algorithms and a shared analysis framework.
 
-The engine has no built-in notion of "20 teams" or "38 rounds" or any other league-specific assumption baked into its core — every shared module (data loading, the two MIP solvers' constraint-building libraries, the metaheuristic engine, the metrics framework) operates purely on whatever a league's `data/leagues/<league>/` directory and fixture generator hand it. Anything that only makes sense for one league — the Premier League's Atos Golden Rules, the NFL's Thanksgiving hosts, the NBA's back-to-back limits — lives in that league's own `leagues/<league>/` subpackage, never in the shared code. Adding a new league means adding data and a small amount of league-scoped code, not modifying the engine.
+Team counts, season length, and every scheduling rule are read from `data/leagues/<league>/` at runtime — every shared module (data loading, the two MIP solvers' constraint-building libraries, the metaheuristic engine, the metrics framework) operates purely on whatever that league's directory and fixture generator hand it. League-specific rules — the Premier League's Atos Golden Rules, the NFL's Thanksgiving hosts, the NBA's back-to-back limits — live in that league's own `leagues/<league>/` subpackage. Adding a new league is a matter of adding data and a small amount of league-scoped code alongside the existing ones.
 
 Three leagues are implemented today:
 
@@ -25,14 +25,14 @@ core/data_loader.py                              ← league-aware loader (set_le
         │
 generators/leagues/<league>/generate_<league>.py ← per-league fixture generator
         │
-solvers/{cp_sat,ilp,metaheuristic}/solver.py     ← 3 generic solver engines, zero league-specific logic
+solvers/{cp_sat,ilp,metaheuristic}/solver.py     ← 3 generic solver engines, driven entirely by the constraint_set they're given
         + solvers/leagues/<league>/*_constraint_set.py   ← per-league rules, plugged into the generic solvers
         │
 analysis/metrics.py                              ← generic metrics core (rest, runs, distribution, balance, …)
         + analysis/leagues/<league>/metrics.py           ← per-league metrics (Golden Rules, Thanksgiving, B2Bs, …)
 ```
 
-The three solver engines (`solvers/cp_sat/solver.py`, `solvers/ilp/solver.py`, `solvers/metaheuristic/solver.py`) never import anything league-specific — they only call methods on whatever `constraint_set` object they're handed, per the `Protocol` interfaces in `solvers/constraint_set.py`. `analysis/metrics.py` follows the same split: it computes only metrics that are meaningful for any league (rest days, consecutive-run limits, city clashes, rivalry gaps, home/away balance) and dispatches to a per-league extension module for anything else.
+The three solver engines (`solvers/cp_sat/solver.py`, `solvers/ilp/solver.py`, `solvers/metaheuristic/solver.py`) operate entirely through the `constraint_set` object they're handed, per the `Protocol` interfaces in `solvers/constraint_set.py` — all league-specific behavior lives inside that object. `analysis/metrics.py` follows the same split: it computes metrics that generalize across any league (rest days, consecutive-run limits, city clashes, rivalry gaps, home/away balance) and dispatches to a per-league extension module for the rest.
 
 ---
 
@@ -40,11 +40,11 @@ The three solver engines (`solvers/cp_sat/solver.py`, `solvers/ilp/solver.py`, `
 
 | | Option A — CP-SAT | Option B — ILP | Option C — Metaheuristic |
 |---|---|---|---|
-| **Library** | Google OR-Tools | PuLP + CBC | Pure Python (no dependencies) |
+| **Library** | Google OR-Tools | PuLP + CBC | Pure Python (standard library) |
 | **Method** | Constraint programming | Integer linear programming | Simulated annealing + tabu search |
-| **Feasibility** | Guaranteed if proven feasible | Guaranteed if solved | Heuristic — no guarantee |
-| **EPL runtime** | Reaches FEASIBLE (0 hard violations) in ~30–60s; the current objective's size means OR-Tools doesn't prove OPTIMAL even with a 300s+ budget | ~1800s cap | ~300s |
-| **NFL / NBA** | Currently infeasible — see Known Limitations | Currently infeasible — see Known Limitations | Works (see caveats below) |
+| **Feasibility** | Guaranteed if proven feasible | Guaranteed if solved | Converges toward a low-penalty solution; quality depends on the time budget |
+| **EPL runtime** | Reaches FEASIBLE (0 hard violations) in ~30–60s; a 300s+ budget improves the penalty score further but the current objective's size keeps OR-Tools short of a proven OPTIMAL | ~1800s cap | ~300s |
+| **NFL / NBA** | Blocked on the slot-filter limitation below | Blocked on the slot-filter limitation below | Fully working (see caveats below) |
 
 The two MIP solvers (A and B) use a temporal slot-filter (`solvers/slot_filter.py`) that restricts each fixture to slots within a window of its natural round, cutting decision variables substantially. That filter currently assumes EPL's round-interleaved fixture order — see **Known Limitations**.
 
@@ -85,7 +85,7 @@ Run `python tools/constraint_report.py` for a full, current, per-constraint impl
 Pro-Sports-Scheduler/
 │
 ├── core/
-│   ├── models.py                  # Team, Slot, Fixture, ScheduledFixture, Schedule — no league-specific fields
+│   ├── models.py                  # Team, Slot, Fixture, ScheduledFixture, Schedule — shared by every league
 │   ├── data_loader.py             # League-aware loader: set_league("nfl"), get_active_league(), generate_slots()
 │   └── validator.py               # EPL-only constraint validator (hardcoded EPL constraint IDs, by design)
 │
@@ -100,7 +100,7 @@ Pro-Sports-Scheduler/
 ├── solvers/
 │   ├── constraint_set.py          # Protocol interfaces every league's constraint sets implement
 │   ├── slot_filter.py             # Temporal pre-filter for the MIP solvers (currently EPL-round-structure only)
-│   ├── cp_sat/ · ilp/ · metaheuristic/    # 3 generic solver engines — zero league-specific logic
+│   ├── cp_sat/ · ilp/ · metaheuristic/    # 3 generic solver engines, driven entirely by the constraint_set they're given
 │   └── leagues/{epl,nfl,nba}/     # Per-league constraint-set implementations plugged into the 3 engines
 │
 ├── analysis/
@@ -138,7 +138,7 @@ source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-`requirements.txt` pulls `ortools` (Option A), `pulp` (Option B), `flask` (web dashboard), and `matplotlib` (charts/calendars). Option C (metaheuristic) has no dependencies beyond the standard library.
+`requirements.txt` pulls `ortools` (Option A), `pulp` (Option B), `flask` (web dashboard), and `matplotlib` (charts/calendars). Option C (metaheuristic) runs on the standard library alone.
 
 ---
 
@@ -266,9 +266,9 @@ See `CLAUDE.md` for the full architectural rules this repo enforces (what belong
 
 ## Known limitations
 
-- **CP-SAT/ILP solving is currently infeasible for NFL and NBA.** `solvers/slot_filter.py` restricts each fixture to slots near its "natural round," but that logic assumes EPL's round-interleaved fixture order; NFL/NBA generators emit fixtures grouped by matchup type instead. The metaheuristic solver is unaffected and works for all three leagues.
-- **The web dashboard and several `tools/` scripts (`export_analytics.py`, `solver_accuracy_viz.py`) are EPL-only today** — they haven't been given a league selector yet, though the data layer underneath them (`analysis/metrics.py`, `analysis/historical_loader.py`, `tools/calendar_png.py`) already supports all three leagues.
-- **`core/validator.py` is EPL-only by design** — it hardcodes EPL's constraint IDs and should not be called on NFL/NBA schedules.
-- **NBA's historical data is synthetic** (`data/leagues/nba/historical/generate_synthetic.py`) pending real historical data collection; EPL and NFL historical data is real.
+- **CP-SAT/ILP solving for NFL and NBA is blocked by `solvers/slot_filter.py`.** It restricts each fixture to slots near its "natural round," logic that assumes EPL's round-interleaved fixture order; NFL/NBA generators emit fixtures grouped by matchup type instead. The metaheuristic solver works for all three leagues regardless.
+- **The web dashboard and two `tools/` scripts (`export_analytics.py`, `solver_accuracy_viz.py`) default to EPL** — a league selector is still on the roadmap for them, even though the data layer underneath them (`analysis/metrics.py`, `analysis/historical_loader.py`, `tools/calendar_png.py`) already supports all three leagues.
+- **`core/validator.py` checks schedules against EPL's specific constraint IDs by design** — use it for EPL schedules; NFL/NBA validation runs through `tools/constraint_report.py` and each league's own constraint sets instead.
+- **EPL and NFL historical data is real; NBA's is synthetic** (`data/leagues/nba/historical/generate_synthetic.py`), pending real historical data collection.
 
-`Guide.txt` in the repo root is the original 2018 milestone list from when this project was EPL-only — kept as a historical artifact, not a description of current scope.
+`Guide.txt` in the repo root is the original 2018 milestone list from when the project was EPL-only, kept as a historical artifact — `CLAUDE.md` and this README describe the current scope.
