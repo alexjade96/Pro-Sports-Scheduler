@@ -12,8 +12,7 @@
   "total_games": 1230,
 
   "blocked_windows": [
-    {"label": "All-Star Break",        "start": "2026-02-13", "end": "2026-02-23"},
-    {"label": "Christmas Day (games played)", "start": "2025-12-25", "end": "2025-12-25", "note": "Christmas is a MAJOR game day — 5 marquee matchups, not blocked"}
+    {"label": "All-Star Break",        "start": "2026-02-13", "end": "2026-02-23"}
   ],
 
   "special_matchdays": {
@@ -26,6 +25,14 @@
       "knockout_rounds":  ["2025-12-02", "2025-12-04", "2025-12-09"]
     }
   },
+
+  "special_date_slots": [
+    {
+      "date": "2025-12-25",
+      "times": ["12:00", "14:30", "17:00", "20:00", "22:30"],
+      "note": "Christmas Day — 5 marquee ABC/ESPN matchups (overrides the normal Thursday slot count so all 5 can be scheduled)"
+    }
+  ],
 
   "matchday_slots": [
     {"day": "Monday",    "times": ["19:00", "22:00"]},

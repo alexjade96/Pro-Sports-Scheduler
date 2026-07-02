@@ -125,7 +125,7 @@ webapp/app.py → Flask dashboard (reads output/ CSVs + samples/calendars/ PNGs 
 
 ### League-aware data loader
 
-`_ACTIVE_LEAGUE` is a module-level global in `core/data_loader.py`. Call `set_league("nfl")` before any load call; all subsequent calls read from `data/leagues/nfl/`. Default is `"epl"`. This global persists for the lifetime of the process — reset it explicitly when switching leagues in long-running scripts.
+`_ACTIVE_LEAGUE` is a module-level global in `core/data_loader.py`. Call `set_league("nfl")` before any load call; all subsequent calls read from `data/leagues/nfl/`. Default is `"epl"`. `get_active_league()` returns the current value — used by `analysis/metrics.py` and `analysis/historical_loader.py` to dispatch to the right per-league extension without threading an explicit `league` parameter through every call site. This global persists for the lifetime of the process — reset it explicitly when switching leagues in long-running scripts.
 
 ### Solver architecture: shared vs. league-scoped code
 
@@ -193,19 +193,22 @@ Calendar images are served from `samples/calendars/` (falling back to `output/`)
 
 ### Calendar PNG tool (`tools/calendar_png.py`)
 
-`render_season_png()` produces either a full-season or single-team PNG. In team mode:
-- Panel width is content-driven: `_list_panel_width_frac(fig_w_in)` derives from `_LIST_COLS` character counts × `_LIST_FONT_PT` × `_LIST_MONO_ADV` — no hardcoded pixel values.
-- `TEAM_COLORS` dict maps each of the 20 EPL club IDs to a primary brand hex color. When adding/changing a team color, update only `TEAM_COLORS` — the rendering functions consume it via the `team_color` parameter.
+League-agnostic: pass `--league nfl` / `--league nba` (or call `set_league()` before invoking `main()`/`render_season_png()` programmatically) to render a non-EPL calendar. Nothing about month range, team colors, or festive/blocked-window labels is hardcoded to EPL:
+- `render_season_png()` produces either a full-season or single-team PNG. In team mode, panel width is content-driven: `_list_panel_width_frac(fig_w_in)` derives from `_LIST_COLS` character counts × `_LIST_FONT_PT` × `_LIST_MONO_ADV` — no hardcoded pixel values.
+- `TEAM_COLORS_EPL` / `TEAM_COLORS_NFL` / `TEAM_COLORS_NBA` each map that league's club IDs to a primary brand hex color, selected via `team_colors_for_league(league)` — kept as separate dicts (not one merged dict) because team IDs collide across leagues (e.g. NFL "DAL" Cowboys vs NBA "DAL" Mavericks need different colors).
+- `derive_months(calendar)` walks `calendar["start_date"]..calendar["end_date"]` to build the month grid instead of a hardcoded Aug–May list.
+- `build_festive_dates(calendar)` reads EPL's flat `festive_matchdays` list and NFL/NBA's `special_matchdays` dict (skipping nested non-date structures like NFL's `international_games` or NBA's `in_season_tournament`) to label festive/marquee cells — no hardcoded 2025-26 dates.
 
-Committed samples live in `samples/calendars/` (21 PNGs: `calendar.png` + one per team). Generated output goes to `output/` (gitignored).
+Committed samples live in `samples/calendars/` (21 EPL PNGs: `calendar.png` + one per team). Generated output goes to `output/` (gitignored).
 
-### Analysis framework
+### Analysis architecture: shared vs. league-scoped code
 
-`analysis/metrics.py → compute(schedule, solver_meta=None) → MetricsReport` is the single source of truth for all 27 metrics. It loads the active league's calendar and constraint data at call time — if `set_league()` was used before solving, metrics will use the same league's calendar.
+`analysis/metrics.py` and `analysis/historical_loader.py` follow the same shared-vs-league-scoped split as the solver layer (see "Solver architecture" above) — the same test applies: *would this produce a correct or at least meaningful result for a league with a totally different season length, calendar, and team set?* If not, it's league-scoped and belongs under `analysis/leagues/<league>/`, not in the shared module.
 
-`solver_meta` is an optional dict with keys `solve_time_seconds`, `penalty_score`, `hard_violations`, `soft_violations`; pass it to attach solver performance data to the report.
-
-`analysis/comparator.py` produces structured dicts consumed by `analysis/report.py`. The two modes are `compare_to_historical(gen, hist)` (delta table) and `compare_solvers(reports)` (side-by-side table).
+- `analysis/metrics.py → compute(schedule, solver_meta=None) → MetricsReport` computes only genuinely generic metrics — REST, RUNS, DISTRIBUTION, CITY clashes, DERBY/rivalry gaps (with the minimum-gap threshold read from that league's own rivalry-spread constraint via `_derby_gap_threshold_days()`, not hardcoded to EPL's 56 days), BALANCE, blocked-window compliance, and final-day team coverage. It reads the active league via `core.data_loader.get_active_league()` (call `set_league()` before `compute()` for a non-EPL schedule) and dispatches to that league's `analysis/leagues/<league>/metrics.py → extend(report, schedule, calendar, city_groups, all_team_ids)`, which fills in `MetricsReport` fields that only make sense for one league in place: EPL's Atos Golden Rules (SC13/SC14/SC15), Boxing Day/NYD/Easter festive coverage, and the London cluster cap (SC10) live in `analysis/leagues/epl/metrics.py`; NFL's Thanksgiving coverage/fixed-host check and primetime broadcast-slot share (derived from `calendar.json`'s `broadcast_windows`, not a hardcoded kickoff-time set) live in `analysis/leagues/nfl/metrics.py`; NBA's back-to-back counts, 4-games-in-5-nights violations, and All-Star break compliance live in `analysis/leagues/nba/metrics.py`. `MetricsReport` keeps every league's fields on one dataclass (rather than per-league subclasses) for backward compatibility with existing EPL-only callers (`analysis/comparator.py`, `analysis/cross_season.py`, `tools/export_analytics.py`) — non-EPL schedules simply leave EPL-only fields at their zero/empty default, and vice versa.
+- `analysis/historical_loader.py → load_season(csv_path, season_label=None, league=None) / available_seasons(league=None)` is a thin dispatcher: it infers the league from the CSV path (`data/leagues/<league>/historical/...`) or falls back to the active league, then delegates row-parsing to `analysis/leagues/<league>/historical.py`. Each league's CSV schema is genuinely different — EPL is football-data.co.uk's name-mapped `DD/MM/YYYY` format (needs `team_name_map.json`); NFL/NBA use direct team IDs with an ISO date column (`gameday` / `game_date`) — so the row-parsing itself is league-scoped, not shared.
+- `solver_meta` is an optional dict with keys `solve_time_seconds`, `penalty_score`, `hard_violations`, `soft_violations`; pass it to attach solver performance data to the report (league-agnostic).
+- `analysis/comparator.py`, `analysis/cross_season.py`, and `tools/export_analytics.py` remain EPL-only CLI/reporting tools (their titles, notes, and hardcoded historical CSV paths assume EPL) — they were not part of this refactor and still need their own league-awareness pass before they'd produce meaningful output for NFL/NBA.
 
 ### EPL constraint IDs
 
@@ -265,6 +268,7 @@ Data files (`data/leagues/nfl/`, `data/leagues/nba/`), fixture generators (`gene
 3. Create `solvers/leagues/<league>/{cp_sat,ilp,mh}_constraint_set.py` implementing the `CpSatConstraintSet`/`ILPConstraintSet`/`MHConstraintSet` protocols from `solvers/constraint_set.py`. Only import genuinely generic helpers from `solvers/cp_sat/constraints.py` / `solvers/ilp/constraints.py` — write league-specific logic locally in the constraint-set file or a sibling `*_helpers.py` module, never in the shared files (see "Solver architecture" above).
 4. Call `set_league("<league>")` before any data loader or solver call.
 5. Run `python tools/constraint_report.py` after wiring up constraints to check documented coverage against actual implementation status.
+6. Optionally add `analysis/leagues/<league>/metrics.py` (an `extend()` hook — see "Analysis architecture" above) and `analysis/leagues/<league>/historical.py` (a `load_season()` row-parser) if the league has metrics or historical data that don't fit the generic `analysis/metrics.py` core / `analysis/historical_loader.py` dispatcher.
 
 ### Output
 

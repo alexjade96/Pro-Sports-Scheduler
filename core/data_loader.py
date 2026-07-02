@@ -19,6 +19,11 @@ def set_league(league: str) -> None:
     _ACTIVE_LEAGUE = league
 
 
+def get_active_league() -> str:
+    """Returns the currently active league (default "epl")."""
+    return _ACTIVE_LEAGUE
+
+
 def _data_dir() -> Path:
     return Path(__file__).parent.parent / "data" / "leagues" / _ACTIVE_LEAGUE
 
