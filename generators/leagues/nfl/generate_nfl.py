@@ -23,6 +23,7 @@ from itertools import permutations
 from pathlib import Path
 
 from core.models import Fixture, Team
+from generators.interleave import interleave_blocks
 
 # ── 2025 rotation configuration ───────────────────────────────────────────────
 # Derived from nflverse 2025 REG game pairings (see data/leagues/nfl/historical/)
@@ -161,6 +162,7 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
 
     fixtures: list[Fixture] = []
     fid = 0
+    block_bounds: list[int] = [0]   # index boundaries; block i = fixtures[block_bounds[i]:block_bounds[i+1]]
 
     # ── 1. Division games (6 per team, 96 total) ──────────────────────────────
     seen_div: set[frozenset[str]] = set()
@@ -178,6 +180,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
                 ))
                 fid += 1
 
+    block_bounds.append(len(fixtures))
+
     # ── 2. Primary intra-conference rotation (4 per team, 64 total) ──────────
     seen_intra: set[tuple[str, str]] = set()
     for div_a, div_b in _INTRA_2025.items():
@@ -190,6 +194,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
         fixtures.extend(_rotation_games(teams_a, teams_b, fid, "INTRA"))
         fid += len(teams_a) * len(teams_b)
 
+    block_bounds.append(len(fixtures))
+
     # ── 3. Primary inter-conference rotation (4 per team, 64 total) ──────────
     seen_inter: set[tuple[str, str]] = set()
     for div_a, div_b in _INTER_2025.items():
@@ -201,6 +207,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
         teams_b = by_div.get(div_b, [])
         fixtures.extend(_rotation_games(teams_a, teams_b, fid, "INTER"))
         fid += len(teams_a) * len(teams_b)
+
+    block_bounds.append(len(fixtures))
 
     # ── 4. Standings-based cross-division games (2 per team, 32 total) ────────
     # Each team plays 1 game vs the team from each of 2 remaining same-conf
@@ -251,6 +259,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
                     ))
                     fid += 1
 
+    block_bounds.append(len(fixtures))
+
     # ── 5. 17th game (1 per team, 16 total) ──────────────────────────────────
     # 1 inter-conference game matched by prior-year division rank.
     seen_17: set[frozenset[str]] = set()
@@ -276,4 +286,12 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
             ))
             fid += 1
 
-    return fixtures
+    block_bounds.append(len(fixtures))
+
+    # Merge the matchup-type blocks (division/intra-conf/inter-conf/standings/
+    # 17th-game) into a single round-interleaved order — see generators/
+    # interleave.py. Without this, a team's entire block of e.g. division
+    # games would cluster at one end of the list, which solvers/slot_filter.py
+    # would then read as "these all happen in the season's first few weeks."
+    blocks = [fixtures[block_bounds[i]:block_bounds[i + 1]] for i in range(len(block_bounds) - 1)]
+    return interleave_blocks(blocks)

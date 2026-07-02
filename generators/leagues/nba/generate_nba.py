@@ -29,6 +29,7 @@ import json
 from pathlib import Path
 
 from core.models import Fixture, Team
+from generators.interleave import interleave_blocks
 
 _DATA_DIR = Path(__file__).parent.parent.parent.parent / "data" / "leagues" / "nba"
 _TEAMS_PATH = _DATA_DIR / "teams.json"
@@ -76,6 +77,7 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
 
     fixtures: list[Fixture] = []
     fid = 0
+    block_bounds: list[int] = [0]   # index boundaries; block i = fixtures[block_bounds[i]:block_bounds[i+1]]
 
     # ── 1. Division games: 4 per pair (2H + 2A) ───────────────────────────────
     # 6 divisions × C(5,2)=10 pairs × 4 games = 240 fixtures
@@ -93,6 +95,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
                         away_team_id=away,
                     ))
                     fid += 1
+
+    block_bounds.append(len(fixtures))
 
     # ── 2. Conference non-division games ──────────────────────────────────────
     # For each pair of divisions within the same conference:
@@ -158,6 +162,8 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
                                 ))
                                 fid += 1
 
+    block_bounds.append(len(fixtures))
+
     # ── 3. Inter-conference games: 2 per pair (1H + 1A each) ──────────────────
     # 15 East × 15 West = 225 pairs × 2 games = 450 fixtures
     east_teams = by_conf.get("East", [])
@@ -182,4 +188,13 @@ def generate_fixtures(teams: dict[str, Team]) -> list[Fixture]:
             ))
             fid += 1
 
-    return fixtures
+    block_bounds.append(len(fixtures))
+
+    # Merge the matchup-type blocks (division/conference-non-division/
+    # inter-conference) into a single round-interleaved order — see
+    # generators/interleave.py. Without this, a team's entire block of e.g.
+    # division games would cluster at one end of the list, which
+    # solvers/slot_filter.py would then read as "these all happen in the
+    # season's first few weeks."
+    blocks = [fixtures[block_bounds[i]:block_bounds[i + 1]] for i in range(len(block_bounds) - 1)]
+    return interleave_blocks(blocks)

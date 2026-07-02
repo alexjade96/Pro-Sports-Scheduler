@@ -5,24 +5,25 @@ Problem: a full (fixture × slot) variable matrix for 380 fixtures and 373
 slots creates 141,740 binary variables — too memory-intensive for the
 container environment.
 
-Solution: exploit the fact that generate_fixtures() returns fixtures in
-strict round order (10 per round, 38 rounds total).  Each fixture belongs
-to a logical round R, and should be assigned to a slot whose date falls
-within a ±window_rounds window around the expected date for round R.
+Solution: each fixture belongs to a natural round R (assigned generically
+by solvers/round_assignment.py — the greedy earliest-available-round
+algorithm, not a hardcoded round count), and should be assigned to a slot
+whose date falls within a ±window_rounds window around the expected date
+for round R. days_per_round is derived from however many rounds that
+league's fixture set actually produces, so this works the same way for a
+20-team, 38-round league or a 32-team, ~18-round league.
 
 This reduces the active variable count to roughly:
-    380 fixtures × (2 * window_rounds * slots_per_round)
-which at window_rounds=5 and ~5 slots/round gives ~19,000 variables —
-14× fewer than the full cross-product.
+    n_fixtures × (2 * window_rounds * slots_per_round)
+which for EPL at window_rounds=5 and ~5 slots/round gives ~19,000
+variables — 14× fewer than the full cross-product.
 """
 from __future__ import annotations
 
 from datetime import date, timedelta
 
 from core.models import Fixture, Slot
-
-
-_FIXTURES_PER_ROUND = 10   # 20-team EPL: 10 games per matchday round
+from solvers.round_assignment import assign_natural_rounds
 
 
 def build_eligible_slots(
@@ -38,21 +39,26 @@ def build_eligible_slots(
 
     Parameters
     ----------
-    fixtures       : ordered list returned by generate_fixtures()
+    fixtures       : list returned by generate_fixtures() — for formula-based
+                     generators (NFL/NBA), pass the fixtures through
+                     generators/interleave.py first so a team's fixtures of
+                     different matchup types are spread across the list
+                     instead of clustered by type.
     slots          : all available slots (after blocked-window filtering)
     season_start   : first day of the season
     season_end     : last day of the season
     window_rounds  : how many rounds either side of the natural round to allow
                      (default 5 → ~5 weeks either side)
     """
-    n_rounds       = 38
-    season_days    = (season_end - season_start).days
-    days_per_round = season_days / n_rounds
+    fixture_rounds = assign_natural_rounds(fixtures)
+    n_rounds        = max(fixture_rounds.values(), default=0) + 1
+    season_days     = (season_end - season_start).days
+    days_per_round  = season_days / n_rounds
 
     eligible: dict[str, list[str]] = {}
 
-    for idx, fixture in enumerate(fixtures):
-        natural_round = idx // _FIXTURES_PER_ROUND          # 0-indexed, 0-37
+    for fixture in fixtures:
+        natural_round = fixture_rounds[fixture.fixture_id]
         round_centre  = season_start + timedelta(
             days=natural_round * days_per_round + days_per_round / 2
         )

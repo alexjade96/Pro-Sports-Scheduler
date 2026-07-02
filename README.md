@@ -44,9 +44,9 @@ The three solver engines (`solvers/cp_sat/solver.py`, `solvers/ilp/solver.py`, `
 | **Method** | Constraint programming | Integer linear programming | Simulated annealing + tabu search |
 | **Feasibility** | Guaranteed if proven feasible | Guaranteed if solved | Converges toward a low-penalty solution; quality depends on the time budget |
 | **EPL runtime** | Reaches FEASIBLE (0 hard violations) in ~30–60s; a 300s+ budget improves the penalty score further but the current objective's size keeps OR-Tools short of a proven OPTIMAL | ~1800s cap | ~300s |
-| **NFL / NBA** | Blocked on the slot-filter limitation below | Blocked on the slot-filter limitation below | Fully working (see caveats below) |
+| **NFL / NBA** | Hard-constraint feasibility confirmed (reaches OPTIMAL); no wired `main.py` entry point yet | Same eligible-slot model as CP-SAT, but CBC hasn't been confirmed to converge at this scale — CP-SAT is the working MIP option for now | Fully working (see caveats below) |
 
-The two MIP solvers (A and B) use a temporal slot-filter (`solvers/slot_filter.py`) that restricts each fixture to slots within a window of its natural round, cutting decision variables substantially. That filter currently assumes EPL's round-interleaved fixture order — see **Known Limitations**.
+The two MIP solvers (A and B) use a temporal slot-filter (`solvers/slot_filter.py`) that restricts each fixture to slots within a window of its natural round, cutting decision variables substantially. The round assignment is computed generically for any league (`solvers/round_assignment.py`), and NFL/NBA's generators pre-interleave their matchup-type-blocked fixture order (`generators/interleave.py`) before handing fixtures to it — see **Known Limitations** for where ILP's own solve time still needs work at NFL/NBA's scale.
 
 ---
 
@@ -95,11 +95,14 @@ Pro-Sports-Scheduler/
 │   ├── constraints.json           # Hard / soft / preference constraint definitions
 │   └── historical/                # Real (EPL, NFL) or synthetic (NBA) historical season CSVs — 10 seasons each
 │
-├── generators/leagues/{epl,nfl,nba}/generate_<league>.py   # Full fixture-generation formula per league
+├── generators/
+│   ├── interleave.py               # Generic weighted-round-robin merge of matchup-type fixture blocks
+│   └── leagues/{epl,nfl,nba}/generate_<league>.py   # Full fixture-generation formula per league
 │
 ├── solvers/
 │   ├── constraint_set.py          # Protocol interfaces every league's constraint sets implement
-│   ├── slot_filter.py             # Temporal pre-filter for the MIP solvers (currently EPL-round-structure only)
+│   ├── round_assignment.py        # Generic "natural round" assignment (greedy edge-coloring over any fixture list)
+│   ├── slot_filter.py             # Temporal pre-filter for the MIP solvers, built on round_assignment.py
 │   ├── cp_sat/ · ilp/ · metaheuristic/    # 3 generic solver engines, driven entirely by the constraint_set they're given
 │   └── leagues/{epl,nfl,nba}/     # Per-league constraint-set implementations plugged into the 3 engines
 │
@@ -254,7 +257,7 @@ Each league then fills in its own extension via `analysis/leagues/<league>/metri
 ## Extending to a new league
 
 1. Create `data/leagues/<league>/{teams,calendar,constraints}.json`
-2. Create `generators/leagues/<league>/generate_<league>.py`. Round-based leagues (like EPL) should return fixtures in strict round order, required by `solvers/slot_filter.py`; formula-based leagues (like NFL/NBA) should be aware of the slot-filter caveat below.
+2. Create `generators/leagues/<league>/generate_<league>.py`. Round-based leagues (like EPL) should return fixtures in strict round order; formula-based leagues that build fixtures as matchup-type blocks (like NFL/NBA) should merge them via `generators/interleave.py → interleave_blocks()` as the last step, and may need to widen `window_rounds` in their `{cp_sat,ilp}_constraint_set.py` from EPL's 3–5 default depending on how many natural rounds their fixture set produces.
 3. Implement `solvers/leagues/<league>/{cp_sat,ilp,mh}_constraint_set.py` against the `Protocol`s in `solvers/constraint_set.py`. Pull genuinely generic building blocks from `solvers/cp_sat/constraints.py` / `solvers/ilp/constraints.py`; write anything league-specific locally.
 4. Call `set_league("<league>")` before any data-loader or solver call.
 5. Run `python tools/constraint_report.py` to check implementation coverage.
@@ -266,7 +269,7 @@ See `CLAUDE.md` for the full architectural rules this repo enforces (what belong
 
 ## Known limitations
 
-- **CP-SAT/ILP solving for NFL and NBA is blocked by `solvers/slot_filter.py`.** It restricts each fixture to slots near its "natural round," logic that assumes EPL's round-interleaved fixture order; NFL/NBA generators emit fixtures grouped by matchup type instead. The metaheuristic solver works for all three leagues regardless.
+- **CP-SAT's hard-constraint feasibility is confirmed for NFL and NBA** — it reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC shares the same eligible-slot model but hasn't been confirmed to converge at this scale**: a feasibility-only test left CBC still in presolve/branch-and-bound past a 280s budget for NBA's ~221K-variable model, consistent with EPL's own ILP already needing a documented ~1800s cap at a 10× smaller variable count. Neither league has a wired `main.py` entry point for CP-SAT/ILP yet. The metaheuristic solver works for all three leagues regardless.
 - **The web dashboard and two `tools/` scripts (`export_analytics.py`, `solver_accuracy_viz.py`) default to EPL** — a league selector is still on the roadmap for them, even though the data layer underneath them (`analysis/metrics.py`, `analysis/historical_loader.py`, `tools/calendar_png.py`) already supports all three leagues.
 - **`core/validator.py` checks schedules against EPL's specific constraint IDs by design** — use it for EPL schedules; NFL/NBA validation runs through `tools/constraint_report.py` and each league's own constraint sets instead.
 - **EPL and NFL historical data is real; NBA's is synthetic** (`data/leagues/nba/historical/generate_synthetic.py`), pending real historical data collection.

@@ -36,8 +36,13 @@ class NBAcpSatConstraintSet:
     # ------------------------------------------------------------------
 
     def build_eligible_slots(self, fixtures, slots) -> dict[str, list[str]]:
+        # NBA's ~94 natural rounds (vs EPL's 38) put far less real time behind
+        # each round, so a window this dense needs many more rounds either
+        # side than EPL's window_rounds=3-5 to stay feasible under HC5/HC6
+        # (4-in-5, 8-in-12) — 20 is the smallest value confirmed feasible by
+        # direct testing; narrower windows provably infeasible.
         eligible = build_eligible_slots(
-            fixtures, slots, self._season_start, self._season_end, window_rounds=5
+            fixtures, slots, self._season_start, self._season_end, window_rounds=20
         )
         log_filter_stats(eligible)
         return eligible
