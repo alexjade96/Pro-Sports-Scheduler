@@ -2,17 +2,17 @@
 
 A general-purpose fixture scheduling engine for professional sports leagues, implemented in Python. Give it a league's teams, calendar, and constraint rules as JSON, and it generates a full-season schedule, checks it against those rules, and compares it against real historical seasons — using three interchangeable solving algorithms and a shared analysis framework.
 
-**This is not an EPL tool that grew a couple of extra leagues bolted on.** The engine has no built-in notion of "20 teams" or "38 rounds" or any other league-specific assumption baked into its core — every genuinely shared module (data loading, the two MIP solvers' constraint-building libraries, the metaheuristic engine, the metrics framework) operates purely on whatever a league's `data/leagues/<league>/` directory and fixture generator hand it. Anything that only makes sense for one league — the Premier League's Atos Golden Rules, the NFL's Thanksgiving hosts, the NBA's back-to-back limits — lives in that league's own `leagues/<league>/` subpackage, never in the shared code. Adding a new league means adding data and a small amount of league-scoped code, not modifying the engine.
+The engine has no built-in notion of "20 teams" or "38 rounds" or any other league-specific assumption baked into its core — every shared module (data loading, the two MIP solvers' constraint-building libraries, the metaheuristic engine, the metrics framework) operates purely on whatever a league's `data/leagues/<league>/` directory and fixture generator hand it. Anything that only makes sense for one league — the Premier League's Atos Golden Rules, the NFL's Thanksgiving hosts, the NBA's back-to-back limits — lives in that league's own `leagues/<league>/` subpackage, never in the shared code. Adding a new league means adding data and a small amount of league-scoped code, not modifying the engine.
 
 Three leagues are implemented today:
 
 | League | Teams | Fixtures/season | Status |
 |---|---|---|---|
-| **EPL** | 20 | 380 | Reference implementation — all 3 solvers, full validator, web dashboard, 10 seasons of real historical data |
+| **EPL** | 20 | 380 | All 3 solvers, full validator, web dashboard, 10 seasons of real historical data |
 | **NFL** | 32 | 272 | Fixture generator + all 3 constraint sets implemented; CP-SAT/ILP solving currently blocked (see Known Limitations) |
 | **NBA** | 30 | 1,230 | Fixture generator + all 3 constraint sets implemented; CP-SAT/ILP solving currently blocked (see Known Limitations) |
 
-EPL is simply the most mature of the three because it was built first and has had the most iteration — it is not architecturally privileged over NFL or NBA in any way.
+EPL has had the most iteration and is currently the most complete of the three.
 
 ---
 
