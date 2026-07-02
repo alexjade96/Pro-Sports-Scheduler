@@ -9,3 +9,7 @@ pulp>=2.8
 
 # Web dashboard
 flask>=3.0
+
+# Charts / calendar PNGs (tools/calendar_png.py, tools/export_analytics.py, tools/solver_accuracy_viz.py)
+matplotlib>=3.8
+numpy>=1.26
