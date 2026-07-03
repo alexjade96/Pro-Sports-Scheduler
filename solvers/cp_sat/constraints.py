@@ -155,52 +155,11 @@ def add_max_single_day_games_per_team(
             model.add(sum(team_vars) <= max_games)
 
 
-def add_max_monday_games_per_team(
-    model: cp_model.CpModel,
-    x: dict,
-    fixtures: list[Fixture],
-    slots: list[Slot],
-    teams: dict[str, Team],
-    max_monday: int = 3,
-) -> None:
-    """Each team plays at most max_monday games on Monday."""
-    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Monday", max_monday)
-
-
-def add_max_friday_games_per_team(
-    model: cp_model.CpModel,
-    x: dict,
-    fixtures: list[Fixture],
-    slots: list[Slot],
-    teams: dict[str, Team],
-    max_friday: int = 3,
-) -> None:
-    """Each team plays at most max_friday games on a Friday."""
-    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Friday", max_friday)
-
-
-def add_max_wednesday_games_per_team(
-    model: cp_model.CpModel,
-    x: dict,
-    fixtures: list[Fixture],
-    slots: list[Slot],
-    teams: dict[str, Team],
-    max_wednesday: int = 6,
-) -> None:
-    """Each team plays at most max_wednesday games on Wednesday."""
-    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Wednesday", max_wednesday)
-
-
-def add_max_thursday_games_per_team(
-    model: cp_model.CpModel,
-    x: dict,
-    fixtures: list[Fixture],
-    slots: list[Slot],
-    teams: dict[str, Team],
-    max_thursday: int = 2,
-) -> None:
-    """Each team plays at most max_thursday games on Thursday."""
-    add_max_single_day_games_per_team(model, x, fixtures, slots, teams, "Thursday", max_thursday)
+# Per-day EPL caps (HC9 Friday, HC11 Monday, HC12 Wednesday, HC13 Thursday) are
+# applied by calling add_max_single_day_games_per_team directly from a table in
+# solvers/leagues/epl/cp_sat_constraint_set.py (_DAY_CAPS) rather than via
+# per-day wrapper functions. The generic function above is the single
+# implementation; HC10 (Tue+Wed combined) uses add_max_midweek_games_per_team.
 
 
 # ---------------------------------------------------------------------------

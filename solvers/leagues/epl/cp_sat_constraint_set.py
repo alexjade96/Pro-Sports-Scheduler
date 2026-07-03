@@ -14,14 +14,23 @@ from solvers.cp_sat.constraints import (
     add_each_fixture_assigned_exactly_once,
     add_team_plays_at_most_once_per_slot,
     add_min_rest_days,
-    add_max_friday_games_per_team,
+    add_max_single_day_games_per_team,
     add_max_midweek_games_per_team,
-    add_max_monday_games_per_team,
-    add_max_wednesday_games_per_team,
-    add_max_thursday_games_per_team,
     add_soft_max_consecutive_home_away,
     add_soft_half_season_balance,
 )
+
+# Per-team single-day appearance caps (HC9, HC11, HC12, HC13): (constraint_id,
+# weekday, default). These are officially-sourced Sky/PL slot allocations —
+# each stays a named, sourced entry in constraints.json; only the enforcement
+# is consolidated into one generic call here. HC10 (Tue+Wed combined) is a
+# two-day union, handled separately. See "EPL constraint IDs" in CLAUDE.md.
+_DAY_CAPS = [
+    ("HC9",  "Friday",    3),
+    ("HC11", "Monday",    7),
+    ("HC12", "Wednesday", 6),
+    ("HC13", "Thursday",  2),
+]
 from solvers.leagues.epl.cp_sat_helpers import (
     add_soft_ha_window,
     add_soft_derby_gap,
@@ -81,16 +90,12 @@ class EPLCpSatConstraintSet:
         add_each_fixture_assigned_exactly_once(model, x, fixtures, slots)
         add_team_plays_at_most_once_per_slot(model, x, fixtures, slots, teams)
         add_min_rest_days(model, x, fixtures, slots, teams, h["HC1"]["value"])
-        add_max_friday_games_per_team(model, x, fixtures, slots, teams,
-                                      h.get("HC9", {}).get("value", 3))
+        for cid, day, default in _DAY_CAPS:
+            add_max_single_day_games_per_team(
+                model, x, fixtures, slots, teams, day,
+                h.get(cid, {}).get("value", default))
         add_max_midweek_games_per_team(model, x, fixtures, slots, teams,
                                        h.get("HC10", {}).get("value", 10))
-        add_max_monday_games_per_team(model, x, fixtures, slots, teams,
-                                      h.get("HC11", {}).get("value", 7))
-        add_max_wednesday_games_per_team(model, x, fixtures, slots, teams,
-                                         h.get("HC12", {}).get("value", 6))
-        add_max_thursday_games_per_team(model, x, fixtures, slots, teams,
-                                        h.get("HC13", {}).get("value", 2))
 
     def add_soft_constraints(self, model, x, fixtures, slots, teams) -> list:
         s = self._soft

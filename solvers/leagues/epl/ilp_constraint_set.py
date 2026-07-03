@@ -31,6 +31,18 @@ from solvers.leagues.epl.ilp_helpers import (
 
 _FIXTURES_PER_ROUND = 10
 
+# Per-team single-day appearance caps (HC9, HC11, HC12, HC13): (constraint_id,
+# weekday, default). Officially-sourced Sky/PL slot allocations — each stays a
+# named, sourced entry in constraints.json; only the enforcement is
+# consolidated into one generic call here. HC10 (Tue+Wed combined) is a
+# two-day union, handled separately. Mirrors cp_sat_constraint_set._DAY_CAPS.
+_DAY_CAPS = [
+    ("HC9",  "Friday",    3),
+    ("HC11", "Monday",    7),
+    ("HC12", "Wednesday", 6),
+    ("HC13", "Thursday",  2),
+]
+
 
 class EPLILPConstraintSet:
     def __init__(
@@ -76,16 +88,11 @@ class EPLILPConstraintSet:
         add_each_fixture_assigned_exactly_once(prob, x, fixtures, slots)
         add_team_plays_at_most_once_per_day(prob, x, fixtures, slots, teams)
         add_min_rest_days(prob, x, fixtures, slots, teams, h["HC1"]["value"])
-        add_max_games_on_day(prob, x, fixtures, slots, teams, "Friday",
-                             h.get("HC9", {}).get("value", 3))
+        for cid, day, default in _DAY_CAPS:
+            add_max_games_on_day(prob, x, fixtures, slots, teams, day,
+                                 h.get(cid, {}).get("value", default))
         add_max_midweek_games(prob, x, fixtures, slots, teams,
                               h.get("HC10", {}).get("value", 10))
-        add_max_games_on_day(prob, x, fixtures, slots, teams, "Monday",
-                             h.get("HC11", {}).get("value", 7))
-        add_max_games_on_day(prob, x, fixtures, slots, teams, "Wednesday",
-                             h.get("HC12", {}).get("value", 6))
-        add_max_games_on_day(prob, x, fixtures, slots, teams, "Thursday",
-                             h.get("HC13", {}).get("value", 2))
 
     def add_soft_constraints(self, prob, x, fixtures, slots, teams) -> list:
         s = self._soft

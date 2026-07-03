@@ -43,6 +43,8 @@
       "id": "HC6",
       "type": "venue_single_use",
       "source": "Logical constraint / ground operations",
+      "implied_by": "HC5",
+      "implied_note": "In single-ground EPL a pitch is used only by its home team, so HC5 (a team appears in at most one fixture per slot) already guarantees a ground hosts at most one game per slot. Kept as a named rule for documentation; not separately enforced by any solver.",
       "description": "A ground can host at most one game per slot"
     },
     {
@@ -103,6 +105,8 @@
       "value": 5,
       "penalty_per_violation": 15,
       "source": "PL scheduling preference — relaxed from 3 to 5 to match historical reality (mean 8.3 max/season)",
+      "implied_by": "SC13",
+      "implied_note": "For EPL the Atos SC13 rule (2-3 home in any 5) already forces max consecutive away <= 3, tighter than this rule's threshold of 5, so this never binds on an SC13-compliant EPL schedule. Kept because (a) it is reported as a named validator metric and (b) the same underlying mechanism is a genuine independent constraint for NFL/NBA, which have no SC13.",
       "description": "Teams should not have more than 5 consecutive away games"
     },
     {
@@ -111,6 +115,8 @@
       "value": 5,
       "penalty_per_violation": 15,
       "source": "PL scheduling preference — relaxed from 3 to 5 to match historical reality (mean 7.9 max/season)",
+      "implied_by": "SC13",
+      "implied_note": "For EPL the Atos SC13 rule (2-3 home in any 5) already forces max consecutive home <= 3, tighter than this rule's threshold of 5, so this never binds on an SC13-compliant EPL schedule. Kept because (a) it is reported as a named validator metric and (b) the same underlying mechanism is a genuine independent constraint for NFL/NBA, which have no SC13.",
       "description": "Teams should not have more than 5 consecutive home games"
     },
     {
@@ -193,6 +199,8 @@
       "max_consecutive": 3,
       "penalty_per_violation": 20,
       "source": "PL scheduling standard — teams should not start the season with a very heavy home or away run",
+      "implied_by": ["SC13", "SC14"],
+      "implied_note": "This is SC13's first 5-fixture window (which is stronger — it requires 2-3 home, not merely <=3 consecutive) combined with SC14's no-HH/AA season-opening boundary rule. Enforced only in the metaheuristic and validator today; kept as a named rule but redundant with the Atos Golden Rules for the MIP solvers.",
       "description": "No team should have more than 3 consecutive home or away games in rounds 1-5"
     },
     {
@@ -256,6 +264,8 @@
       "dates": ["2025-12-26", "2025-12-28", "2026-01-01"],
       "reward": 8,
       "source": "PL tradition — Boxing Day and New Year's Day are the highest-attended fixture windows",
+      "implied_by": "SC9",
+      "implied_note": "Now enforced by the SC9 festive-coverage term (add_soft_festive_coverage), which weights Boxing Day and New Year's Day as marquee near-full rounds. Kept as a named preference for documentation; not separately rewarded.",
       "description": "All 20 teams should have a fixture on Boxing Day, December 28, and New Year's Day"
     },
     {
