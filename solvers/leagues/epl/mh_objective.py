@@ -63,7 +63,6 @@ def score(schedule: Schedule, teams: dict) -> float:
     _init()
     total        = 0.0
     city_groups  = load_city_groups()
-    city_lookup  = {t: c for c, members in city_groups.items() for t in members}
     london_teams = set(city_groups.get("London", []))
     derbies      = set(tuple(sorted(p)) for p in load_high_profile_derbies())
 

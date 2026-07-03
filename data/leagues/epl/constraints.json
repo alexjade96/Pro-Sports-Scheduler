@@ -198,9 +198,6 @@
     {
       "id": "SC13",
       "type": "five_match_ha_pattern",
-      "window": 5,
-      "min_home": 2,
-      "max_home": 3,
       "penalty_per_violation": 40,
       "source": "Atos/PL Golden Rule (confirmed via Atos press releases and PL documentation): in any 5 consecutive fixtures the H/A split must be 3+2 or 2+3. This is the primary structural constraint the sequencing algorithm enforces. Raised from 25 to 40 so it competes with SC7 (city clashes) and the festive-coverage terms: the generator hands the solver a perfect 2-3/3-2 sequence in natural-round order, and the solver-side SC13 term (round-ordering in the MIPs, true 5-game count in the metaheuristic) preserves it — a heavier weight keeps the solver from trading SC13 away.",
       "description": "In any sliding window of 5 consecutive fixtures, a team must have exactly 2 or 3 home games (never 0, 1, 4, or 5)"
