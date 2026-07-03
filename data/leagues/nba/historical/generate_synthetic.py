@@ -1,6 +1,12 @@
 """
 Generates synthetic-but-realistic NBA schedule CSVs for 10 seasons.
 
+Fallback only — data/leagues/nba/historical/ is now populated with 9 real
+seasons (2015-16 through 2023-24) by download_seasons.py, sourced from an
+MIT-licensed GitHub mirror of NBA Stats API data (stats.nba.com itself is
+blocked by the sandbox proxy). Use this generator only if that mirror ever
+becomes unreachable and real data collection needs a placeholder again.
+
 Uses the NBA fixture generator for game pairings and distributes games
 across realistic NBA season dates. Output format matches download_seasons.py
 so the same analysis loader handles both.

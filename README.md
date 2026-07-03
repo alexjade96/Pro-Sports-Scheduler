@@ -93,7 +93,7 @@ Pro-Sports-Scheduler/
 │   ├── teams.json                 # Teams, city groups, high-profile derbies
 │   ├── calendar.json              # Season dates, blocked windows, festive/special matchdays
 │   ├── constraints.json           # Hard / soft / preference constraint definitions
-│   └── historical/                # Real (EPL, NFL) or synthetic (NBA) historical season CSVs — 10 seasons each
+│   └── historical/                # Real historical season CSVs (EPL/NFL: 10 seasons, NBA: 9 seasons)
 │
 ├── generators/
 │   ├── interleave.py               # Generic weighted-round-robin merge of matchup-type fixture blocks
@@ -272,6 +272,6 @@ See `CLAUDE.md` for the full architectural rules this repo enforces (what belong
 - **CP-SAT's hard-constraint feasibility is confirmed for NFL and NBA** — it reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC shares the same eligible-slot model but hasn't been confirmed to converge at this scale**: a feasibility-only test left CBC still in presolve/branch-and-bound past a 280s budget for NBA's ~221K-variable model, consistent with EPL's own ILP already needing a documented ~1800s cap at a 10× smaller variable count. Neither league has a wired `main.py` entry point for CP-SAT/ILP yet. The metaheuristic solver works for all three leagues regardless.
 - **The web dashboard and two `tools/` scripts (`export_analytics.py`, `solver_accuracy_viz.py`) default to EPL** — a league selector is still on the roadmap for them, even though the data layer underneath them (`analysis/metrics.py`, `analysis/historical_loader.py`, `tools/calendar_png.py`) already supports all three leagues.
 - **`core/validator.py` checks schedules against EPL's specific constraint IDs by design** — use it for EPL schedules; NFL/NBA validation runs through `tools/constraint_report.py` and each league's own constraint sets instead.
-- **EPL and NFL historical data is real; NBA's is synthetic** (`data/leagues/nba/historical/generate_synthetic.py`), pending real historical data collection.
+- **NBA's real historical data covers 9 seasons (2015-16 through 2023-24), not 10.** It's fetched from an MIT-licensed GitHub mirror of NBA Stats API data rather than `stats.nba.com` directly (blocked by the sandbox proxy) — see `data/leagues/nba/historical/download_seasons.py`. That mirror doesn't yet cover 2024-25; `generate_synthetic.py` remains available as a fallback generator if the mirror ever becomes unavailable.
 
 `Guide.txt` in the repo root is the original 2018 milestone list from when the project was EPL-only, kept as a historical artifact — `CLAUDE.md` and this README describe the current scope.

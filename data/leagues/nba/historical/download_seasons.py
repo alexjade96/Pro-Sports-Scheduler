@@ -1,109 +1,71 @@
 """
-Downloads NBA game data from the NBA Stats API and splits it into
-per-season CSV files covering the regular season (2015-16 to 2024-25).
+Downloads real NBA game data and splits it into per-season CSV files
+covering the regular season (2015-16 onward).
 
-Source:
-    https://stats.nba.com/stats/leaguegamelog
-    Endpoint returns team-level game logs; we pivot to home/away game rows.
+Source: NocturneBear/NBA-Data-2010-2024 (MIT licensed), which itself is
+sourced from the NBA Stats API — used here instead of querying
+stats.nba.com directly because that endpoint is unreachable from this
+project's sandboxed network environment. The dataset covers 2010-11
+through 2023-24; regenerate against a fresher mirror (or stats.nba.com
+directly, via the commented-out fetch_season_live() path below) once a
+2024-25+ source becomes reachable.
 
-Column subset written:
-    game_id, season, season_label, game_type, game_date, weekday, gametime,
-    away_team, away_score, home_team, home_score, result, overtime,
-    home_rest, away_rest, arena
+    https://github.com/NocturneBear/NBA-Data-2010-2024
+    regular_season_totals_2010_2024.csv — one row per team per game
+    (TEAM_ABBREVIATION, GAME_ID, GAME_DATE, MATCHUP "TEAM vs. OPP" / "TEAM @ OPP",
+    WL, PTS, MIN, ...). Pivoted here into one row per game (home vs away),
+    same shape as football-data-style historical CSVs used elsewhere in
+    this project.
+
+Column subset written (matches analysis/leagues/nba/historical.py):
+    game_id, season, game_type, game_date, weekday, gametime,
+    away_team, away_score, home_team, home_score, result, overtime, arena
 
 Usage:
-    python data/leagues/nba/historical/download_seasons.py [--seasons 2015-2024]
+    python data/leagues/nba/historical/download_seasons.py [--seasons 2015-2023]
 
 Season argument uses the *start year* of each season:
-    2015 → 2015-16, 2023 → 2023-24, 2024 → 2024-25
+    2015 → 2015-16, 2023 → 2023-24
 """
 import csv
-import json
 import sys
-import time
 import urllib.request
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime
 
 OUT_DIR = Path(__file__).parent
-DEFAULT_SEASONS = range(2015, 2025)   # 2015-16 through 2024-25
+DEFAULT_SEASONS = range(2015, 2024)   # 2015-16 through 2023-24 (source's latest complete season)
 
-_NBA_API_BASE = "https://stats.nba.com/stats/leaguegamelog"
+_SOURCE_URL = (
+    "https://raw.githubusercontent.com/NocturneBear/NBA-Data-2010-2024"
+    "/main/regular_season_totals_2010_2024.csv"
+)
 
-_HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    ),
-    "Referer":           "https://www.nba.com/",
-    "Origin":            "https://www.nba.com",
-    "x-nba-stats-origin": "stats",
-    "x-nba-stats-token": "true",
-    "Accept":            "application/json, text/plain, */*",
-    "Accept-Language":   "en-US,en;q=0.9",
-    "Connection":        "keep-alive",
-}
-
-_TEAM_ABBREV_REMAP = {
-    "NJN": "BKN",   # New Jersey Nets → Brooklyn
-    "NOH": "NOP",   # New Orleans Hornets → Pelicans
-    "NOK": "NOP",
-    "SEA": "OKC",   # Seattle SuperSonics → OKC
-    "VAN": "MEM",   # Vancouver Grizzlies → Memphis
-    "WSB": "WAS",   # Washington Bullets → Wizards
-    "CHA": "CHA",   # Charlotte Bobcats/Hornets (kept as CHA)
-    "CHH": "CHA",
-}
-
-
-def _remap(abbr: str) -> str:
-    return _TEAM_ABBREV_REMAP.get(abbr, abbr)
+OUT_COLS = [
+    "game_id", "season", "game_type", "game_date", "weekday", "gametime",
+    "away_team", "away_score", "home_team", "home_score",
+    "result", "overtime", "arena",
+]
 
 
 def _season_str(start_year: int) -> str:
-    """2015 → '2015-16', 2024 → '2024-25'."""
+    """2015 → '2015-16', 2023 → '2023-24'."""
     return f"{start_year}-{str(start_year + 1)[-2:]}"
 
 
-def _fetch_json(url: str, params: dict, retries: int = 4) -> dict:
-    import subprocess, tempfile, os
-    query = "&".join(f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items())
-    full_url = f"{url}?{query}"
-    header_args = []
-    for k, v in _HEADERS.items():
-        header_args += ["-H", f"{k}: {v}"]
-    delay = 2
-    for attempt in range(retries):
-        try:
-            with tempfile.NamedTemporaryFile(suffix=".json", delete=False) as tmp:
-                tmp_path = tmp.name
-            result = subprocess.run(
-                [
-                    "curl", "-s", "-L", "--max-time", "60",
-                    *header_args,
-                    "-o", tmp_path, full_url,
-                ],
-                capture_output=True, timeout=70,
-            )
-            if result.returncode != 0:
-                raise RuntimeError(f"curl exit {result.returncode}: {result.stderr.decode()[:200]}")
-            with open(tmp_path) as f:
-                data = json.load(f)
-            os.unlink(tmp_path)
-            return data
-        except Exception as exc:
-            if attempt == retries - 1:
-                raise
-            print(f"  [attempt {attempt+1}] {exc!r} — retrying in {delay}s")
-            time.sleep(delay)
-            delay *= 2
+def fetch_source_csv(cache_path: Path | None = None) -> Path:
+    """Downloads the source CSV once (~9MB) and caches it locally."""
+    cache_path = cache_path or (OUT_DIR / "_source_totals_2010_2024.csv")
+    if cache_path.exists():
+        return cache_path
+    print(f"Downloading source dataset from {_SOURCE_URL} …")
+    urllib.request.urlretrieve(_SOURCE_URL, cache_path)
+    print(f"  → cached at {cache_path.name} ({cache_path.stat().st_size // 1024} KB)")
+    return cache_path
 
 
 def _pivot_to_games(rows: list[dict]) -> list[dict]:
-    """
-    NBA API returns one row per team per game. Convert to one row per game
-    (home vs away). Rows with 'vs.' in MATCHUP are home games.
-    """
+    """One row per team per game -> one row per game (home vs away)."""
     home_rows: dict[str, dict] = {}
     away_rows: dict[str, dict] = {}
 
@@ -124,79 +86,49 @@ def _pivot_to_games(rows: list[dict]) -> list[dict]:
         date_str = home.get("GAME_DATE", "")
         try:
             dt = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S")
-            weekday = dt.strftime("%A")
-            game_date = dt.strftime("%Y-%m-%d")
         except ValueError:
             try:
                 dt = datetime.strptime(date_str, "%Y-%m-%d")
-                weekday = dt.strftime("%A")
-                game_date = date_str
             except ValueError:
-                weekday = ""
-                game_date = date_str
+                continue
+        weekday   = dt.strftime("%A")
+        game_date = dt.strftime("%Y-%m-%d")
 
-        home_pts = home.get("PTS") or 0
-        away_pts = away.get("PTS") or 0
-        ot = 1 if home.get("MIN", 0) and float(str(home.get("MIN", 240)).split(":")[0]) > 240 else 0
+        home_pts = int(float(home.get("PTS") or 0))
+        away_pts = int(float(away.get("PTS") or 0))
+
+        def _is_ot(row: dict) -> int:
+            try:
+                return 1 if float(row.get("MIN") or 0) > 240 else 0
+            except ValueError:
+                return 0
 
         games.append({
             "game_id":    gid,
-            "season":     home.get("SEASON_ID", "")[-5:] if home.get("SEASON_ID") else "",
+            "season":     home.get("SEASON_YEAR", ""),
             "game_type":  "REG",
             "game_date":  game_date,
             "weekday":    weekday,
             "gametime":   "",
-            "away_team":  _remap(away.get("TEAM_ABBREVIATION", "")),
-            "away_score": int(away_pts),
-            "home_team":  _remap(home.get("TEAM_ABBREVIATION", "")),
-            "home_score": int(home_pts),
-            "result":     int(home_pts) - int(away_pts),
-            "overtime":   ot,
-            "arena":      home.get("GAME_DATE", ""),
+            "away_team":  away.get("TEAM_ABBREVIATION", ""),
+            "away_score": away_pts,
+            "home_team":  home.get("TEAM_ABBREVIATION", ""),
+            "home_score": home_pts,
+            "result":     home_pts - away_pts,
+            "overtime":   _is_ot(home) or _is_ot(away),
+            "arena":      "",
         })
     return games
 
 
-def fetch_season(start_year: int) -> list[dict]:
-    """Fetch all regular-season games for a given season start year."""
-    import urllib.parse  # needed for _fetch_json
-    season = _season_str(start_year)
-    print(f"  Fetching {season} …", end=" ", flush=True)
-    params = {
-        "Counter":      "0",
-        "DateFrom":     "",
-        "DateTo":       "",
-        "Direction":    "ASC",
-        "LeagueID":     "00",
-        "PlayerOrTeam": "T",
-        "Season":       season,
-        "SeasonType":   "Regular Season",
-        "Sorter":       "DATE",
-    }
-    data = _fetch_json(_NBA_API_BASE, params)
-
-    result_set = data.get("resultSets", [{}])[0]
-    headers = result_set.get("headers", [])
-    rows_raw = result_set.get("rowSet", [])
-    rows = [dict(zip(headers, r)) for r in rows_raw]
-    print(f"{len(rows)} team-game rows")
-    return rows
-
-
-OUT_COLS = [
-    "game_id", "season", "game_type", "game_date", "weekday", "gametime",
-    "away_team", "away_score", "home_team", "home_score",
-    "result", "overtime", "arena",
-]
-
-
 def save_season(start_year: int, games: list[dict], out_dir: Path) -> None:
     path = out_dir / f"{start_year}.csv"
+    games_sorted = sorted(games, key=lambda g: (g["game_date"], g["game_id"]))
     with open(path, "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=OUT_COLS, extrasaction="ignore")
         writer.writeheader()
-        writer.writerows(games)
-    print(f"  → {path.name}  ({len(games)} games)")
+        writer.writerows(games_sorted)
+    print(f"  → {path.name}  ({len(games_sorted)} games)")
 
 
 def parse_seasons_arg(arg: str) -> set[int]:
@@ -211,27 +143,36 @@ def parse_seasons_arg(arg: str) -> set[int]:
     return result
 
 
-if __name__ == "__main__":
+def main() -> None:
     import argparse
-    import urllib.parse
 
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
-        "--seasons", default="2015-2024",
-        help="Start-year range or comma list, e.g. '2015-2024' or '2022,2023,2024'",
+        "--seasons", default="2015-2023",
+        help="Start-year range or comma list, e.g. '2015-2023' or '2021,2022,2023'",
     )
     args = parser.parse_args()
 
     seasons = parse_seasons_arg(args.seasons)
-    print(f"Downloading NBA game logs for {len(seasons)} seasons from stats.nba.com …")
+    source_path = fetch_source_csv()
+
+    print(f"Splitting {len(seasons)} season(s) from {source_path.name} …")
+    by_season: dict[str, list[dict]] = {}
+    with open(source_path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            by_season.setdefault(row["SEASON_YEAR"], []).append(row)
 
     for year in sorted(seasons):
-        try:
-            rows = fetch_season(year)
-            games = _pivot_to_games(rows)
-            save_season(year, games, OUT_DIR)
-            time.sleep(1.5)   # be polite to the API
-        except Exception as e:
-            print(f"  ERROR for {_season_str(year)}: {e}")
+        season_key = _season_str(year)
+        rows = by_season.get(season_key)
+        if not rows:
+            print(f"  {season_key}: not present in source dataset, skipping")
+            continue
+        games = _pivot_to_games(rows)
+        save_season(year, games, OUT_DIR)
 
     print("Done.")
+
+
+if __name__ == "__main__":
+    main()

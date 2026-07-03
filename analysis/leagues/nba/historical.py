@@ -1,13 +1,14 @@
 """
-Loads NBA game data (synthetic or real) and converts it into Schedule
-objects compatible with the shared metrics engine.
+Loads NBA game data (real or synthetic-fallback) and converts it into
+Schedule objects compatible with the shared metrics engine.
 
 CSV format:
     game_id, season, game_type, game_date (YYYY-MM-DD), weekday, gametime,
     away_team, away_score, home_team, home_score, result, overtime, arena
 
-See data/leagues/nba/historical/generate_synthetic.py for the generator
-used until real historical data is available.
+See data/leagues/nba/historical/download_seasons.py for the real-data
+fetcher (9 seasons, 2015-16 through 2023-24) and generate_synthetic.py for
+the fallback generator used if that source ever becomes unreachable.
 """
 from __future__ import annotations
 
