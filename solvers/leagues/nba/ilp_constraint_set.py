@@ -8,6 +8,8 @@ Hard constraints implemented:
   HC13 — All teams play on the final regular-season day
 
 Soft constraints implemented:
+  SC1  — Back-to-back count ≤ target (14/team)
+  SC2  — Road back-to-backs penalised more heavily
   SC3  — Road trip length ≤ 6 consecutive away games
 """
 from __future__ import annotations
@@ -188,15 +190,98 @@ class NBAILPConstraintSet:
                 )
 
     def add_soft_constraints(self, prob, x, fixtures, slots, teams) -> list:
+        cost_terms = []
+        cost_terms.extend(self._add_soft_b2b_minimization(prob, x, fixtures, slots, teams))
+        cost_terms.extend(self._add_soft_no_road_b2b(prob, x, fixtures, slots, teams))
+        cost_terms.extend(self._add_soft_road_trip_cap(prob, x, fixtures, slots, teams))
+        return cost_terms
+
+    def _add_soft_b2b_minimization(self, prob, x, fixtures, slots, teams) -> list:
+        """SC1: penalise a team's total back-to-back count beyond target_per_team (14)."""
         import pulp
         from collections import defaultdict
 
+        target  = self._soft.get("SC1", {}).get("target_per_team", 14)
+        penalty = self._soft.get("SC1", {}).get("penalty_per_occurrence_above_target", 10)
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_date_vars: dict[str, dict[date, list]] = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            for tid in (f.home_team_id, f.away_team_id):
+                team_date_vars[tid][s.date].append(var)
+
         cost_terms = []
+        counter = [0]
+        for tid in teams:
+            date_map = team_date_vars[tid]
+            b2b_vars = []
+            for d in sorted(date_map):
+                nxt = d + timedelta(days=1)
+                if nxt not in date_map:
+                    continue
+                va, vb = date_map[d], date_map[nxt]
+                counter[0] += 1
+                b = pulp.LpVariable(f"nba_sc1_b2b_{counter[0]}", cat="Binary")
+                prob += pulp.lpSum(va) + pulp.lpSum(vb) >= 2 * b
+                prob += pulp.lpSum(va) + pulp.lpSum(vb) <= 1 + b
+                b2b_vars.append(b)
+            if not b2b_vars:
+                continue
+            exc = pulp.LpVariable(f"nba_sc1_exc_{tid}", lowBound=0)
+            prob += exc >= pulp.lpSum(b2b_vars) - target
+            cost_terms.append((penalty, exc))
+        return cost_terms
+
+    def _add_soft_no_road_b2b(self, prob, x, fixtures, slots, teams) -> list:
+        """SC2: penalise a team playing away games on two consecutive calendar dates."""
+        import pulp
+        from collections import defaultdict
+
+        penalty = self._soft.get("SC2", {}).get("penalty_per_violation", 30)
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_away_date: dict[str, dict[date, list]] = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            team_away_date[f.away_team_id][s.date].append(var)
+
+        cost_terms = []
+        counter = [0]
+        for tid in teams:
+            away_by_date = team_away_date[tid]
+            for d in sorted(away_by_date):
+                nxt = d + timedelta(days=1)
+                if nxt not in away_by_date:
+                    continue
+                va, vb = away_by_date[d], away_by_date[nxt]
+                counter[0] += 1
+                b = pulp.LpVariable(f"nba_sc2_roadb2b_{counter[0]}", cat="Binary")
+                prob += pulp.lpSum(va) + pulp.lpSum(vb) >= 2 * b
+                prob += pulp.lpSum(va) + pulp.lpSum(vb) <= 1 + b
+                cost_terms.append((penalty, b))
+        return cost_terms
+
+    def _add_soft_road_trip_cap(self, prob, x, fixtures, slots, teams) -> list:
+        """SC3: penalise road-trip windows exceeding max_consecutive_road_games."""
+        import pulp
+        from collections import defaultdict
+
         sc3_max = self._soft.get("SC3", {}).get("max_consecutive_road_games", 6)
         sc3_pen = self._soft.get("SC3", {}).get("penalty_per_violation", 20)
 
         if sc3_max <= 0:
-            return cost_terms
+            return []
 
         slot_map = {s.slot_id: s for s in slots}
         fixture_map = {f.fixture_id: f for f in fixtures}
@@ -210,7 +295,16 @@ class NBAILPConstraintSet:
             team_away_date[f.away_team_id][s.date].append(var)
 
         all_dates = sorted({s.date for s in slots})
-        window_days = sc3_max * 7  # approx window for max road games
+        # NBA teams play roughly every ~2 days, not weekly like EPL — a fixed
+        # 42-day window (sc3_max * 7, borrowed from EPL's weekly cadence)
+        # would span several genuinely separate road trips as if they were
+        # one continuous trip. Derive the window from this model's actual
+        # game cadence instead: avg days between a team's games × max_away.
+        season_days = max((self._season_end - self._season_start).days, 1)
+        avg_games_per_team = max(2 * len(fixtures) / max(len(teams), 1), 1)
+        avg_gap_days = season_days / avg_games_per_team
+        window_days = max(sc3_max * avg_gap_days, 1)
+        cost_terms = []
         counter = [0]
 
         for tid in teams:

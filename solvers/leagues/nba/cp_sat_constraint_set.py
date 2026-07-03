@@ -189,6 +189,9 @@ class NBAcpSatConstraintSet:
     def add_soft_constraints(self, model, x, fixtures, slots, teams) -> list:
         cost_terms = []
 
+        # SC1: total back-to-back count beyond target (14/team)
+        cost_terms.extend(self._add_soft_b2b_minimization(model, x, fixtures, slots, teams))
+
         # SC2: no road back-to-back
         sc2_pen = self._soft.get("SC2", {}).get("penalty_per_violation", 30)
         cost_terms.extend(self._add_soft_no_road_b2b(model, x, fixtures, slots, teams, sc2_pen))
@@ -197,6 +200,48 @@ class NBAcpSatConstraintSet:
         # away-only — NBA declares no analogous home-run cap)
         cost_terms.extend(self._add_soft_road_trip_cap(model, x, fixtures, slots, teams))
 
+        return cost_terms
+
+    def _add_soft_b2b_minimization(self, model, x, fixtures, slots, teams) -> list:
+        """SC1: penalise a team's total back-to-back count beyond target_per_team (14)."""
+        from collections import defaultdict
+        from datetime import timedelta
+
+        target  = self._soft.get("SC1", {}).get("target_per_team", 14)
+        penalty = self._soft.get("SC1", {}).get("penalty_per_occurrence_above_target", 10)
+
+        slot_map = {s.slot_id: s for s in slots}
+        fixture_map = {f.fixture_id: f for f in fixtures}
+
+        team_date_vars: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+        for (fid, sid), var in x.items():
+            f = fixture_map.get(fid)
+            s = slot_map.get(sid)
+            if not f or not s:
+                continue
+            for tid in (f.home_team_id, f.away_team_id):
+                team_date_vars[tid][s.date].append(var)
+
+        cost_terms = []
+        for tid in teams:
+            date_map = team_date_vars[tid]
+            b2b_bools = []
+            for d in sorted(date_map):
+                nxt = d + timedelta(days=1)
+                if nxt not in date_map:
+                    continue
+                va, vb = date_map[d], date_map[nxt]
+                b = model.new_bool_var(f"nba_sc1_b2b_{tid}_{d}")
+                model.add(sum(va) + sum(vb) >= 2 * b)
+                model.add(sum(va) + sum(vb) <= 1 + b)
+                b2b_bools.append(b)
+            if not b2b_bools:
+                continue
+            total = model.new_int_var(0, len(b2b_bools), f"nba_sc1_total_{tid}")
+            model.add(total == sum(b2b_bools))
+            exc = model.new_int_var(0, len(b2b_bools), f"nba_sc1_exc_{tid}")
+            model.add(exc >= total - target)
+            cost_terms.append((penalty, exc))
         return cost_terms
 
     def _add_soft_no_road_b2b(self, model, x, fixtures, slots, teams, penalty: int) -> list:
@@ -252,7 +297,15 @@ class NBAcpSatConstraintSet:
             team_away_date[f.away_team_id][s.date].append(var)
 
         all_dates = sorted({s.date for s in slots})
-        window_days = 42
+        # NBA teams play roughly every ~2 days, not weekly like EPL — a fixed
+        # 42-day window (borrowed from EPL's weekly cadence) would span
+        # several genuinely separate road trips as if they were one
+        # continuous trip. Derive the window from this model's actual game
+        # cadence instead: avg days between a team's games × max_away games.
+        season_days = max((self._season_end - self._season_start).days, 1)
+        avg_games_per_team = max(2 * len(fixtures) / max(len(teams), 1), 1)
+        avg_gap_days = season_days / avg_games_per_team
+        window_days = max(max_away * avg_gap_days, 1)
         cost_terms = []
 
         for team_id in teams:
