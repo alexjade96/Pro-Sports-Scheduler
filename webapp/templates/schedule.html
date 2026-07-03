@@ -5,7 +5,7 @@
 <div class="d-flex align-items-center mb-4">
   <div>
     <h1 class="h3 mb-0 fw-bold">Schedule Viewer</h1>
-    <p class="text-muted mb-0 small">2025/26 EPL Season — all 380 fixtures</p>
+    <p class="text-muted mb-0 small">{{ active_league_label }} Season — all {{ rows_json[default_label]|length if default_label else 0 }} fixtures</p>
   </div>
 </div>
 

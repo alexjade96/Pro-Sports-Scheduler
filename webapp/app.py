@@ -13,7 +13,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from flask import Flask, jsonify, render_template, send_from_directory
+from flask import Flask, jsonify, render_template, request, send_from_directory
 
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
@@ -22,7 +22,7 @@ from analysis.comparator import compare_solvers, compare_to_historical
 from analysis.historical_loader import load_season, available_seasons
 from analysis.main import _load_generated_csv, _validate_generated
 from analysis.metrics import compute
-from core.data_loader import load_teams
+from core.data_loader import load_teams, set_league
 
 app = Flask(__name__)
 OUTPUT_DIR          = ROOT / "output"
@@ -30,10 +30,20 @@ SAMPLES_DIR         = ROOT / "samples" / "calendars"
 ANALYTICS_SAMPLES_DIR = ROOT / "samples" / "analytics"
 
 # ---------------------------------------------------------------------------
-# Startup data load (cached in-process)
+# Per-league data load, cached in-process on first request for that league.
+#
+# EPL is the only league with a wired-up validator (core/validator.py
+# hardcodes EPL constraint IDs) and EPL-specific comparator rows (Golden
+# Rules, festive coverage) — those fields simply stay at their MetricsReport
+# defaults (0/None) for NFL/NBA rather than being computed, since no
+# equivalent exists for those leagues yet. Every other page (dashboard,
+# schedule, calendar) works identically for all three leagues.
 # ---------------------------------------------------------------------------
 
-_cache: dict = {}
+LEAGUES = ["epl", "nfl", "nba"]
+LEAGUE_LABELS = {"epl": "EPL", "nfl": "NFL", "nba": "NBA"}
+
+_cache: dict[str, dict] = {}
 
 SOLVER_LABELS = {
     "cp_sat":        "CP-SAT",
@@ -42,24 +52,18 @@ SOLVER_LABELS = {
 }
 
 
+def active_league() -> str:
+    lg = request.args.get("league", "epl")
+    return lg if lg in LEAGUES else "epl"
+
+
 def _read_csv_rows(path: Path) -> list[dict]:
     with open(path, newline="") as f:
         return list(csv.DictReader(f))
 
 
-def _date_from_hist_str(date_str: str):
-    """Parse DD/MM/YYYY or DD/MM/YY date strings from historical CSVs."""
-    from datetime import datetime as _dt2
-    for fmt in ("%d/%m/%Y", "%d/%m/%y"):
-        try:
-            return _dt2.strptime(date_str.strip(), fmt).date()
-        except ValueError:
-            continue
-    raise ValueError(f"Cannot parse date: {date_str!r}")
-
-
-def _gen_heatmap(rows: list[dict]) -> dict:
-    """Day × kickoff fixture counts from generated schedule rows."""
+def _heatmap_from_rows(rows: list[dict]) -> dict:
+    """Day × kickoff fixture counts from generated schedule CSV rows."""
     DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     counts: dict[str, dict[str, int]] = {d: {} for d in DAYS}
     for row in rows:
@@ -72,64 +76,73 @@ def _gen_heatmap(rows: list[dict]) -> dict:
     return {"days": [d[:3] for d in DAYS], "kickoffs": kickoffs, "matrix": matrix}
 
 
-def _hist_heatmap(hist_path: Path) -> dict:
-    """Day × kickoff fixture counts from a football-data.co.uk CSV."""
+def _heatmap_from_schedule(schedule) -> dict:
+    """Day × kickoff fixture counts from a Schedule object — works for any
+    league's historical data via the league-aware historical_loader, unlike
+    the old version which hand-parsed EPL's football-data.co.uk CSV columns
+    directly."""
     DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     counts: dict[str, dict[str, int]] = {d: {} for d in DAYS}
-    with open(hist_path, newline="", encoding="utf-8-sig") as f:
-        for row in csv.DictReader(f):
-            if not row.get("Date"):
-                continue
-            try:
-                d = _date_from_hist_str(row["Date"])
-            except ValueError:
-                continue
-            day_name = d.strftime("%A")
-            ko = (row.get("Time") or "15:00").strip() or "15:00"
-            if day_name in counts and ko:
-                counts[day_name][ko] = counts[day_name].get(ko, 0) + 1
+    for sf in schedule.fixtures:
+        day, ko = sf.slot.day_of_week, sf.slot.kickoff
+        if day in counts and ko:
+            counts[day][ko] = counts[day].get(ko, 0) + 1
     kickoffs = sorted({ko for dc in counts.values() for ko in dc})
     matrix   = [[counts[day].get(ko, 0) for ko in kickoffs] for day in DAYS]
     return {"days": [d[:3] for d in DAYS], "kickoffs": kickoffs, "matrix": matrix}
 
 
-def _load_all() -> None:
+def _solver_csv_path(league: str, key: str) -> Path:
+    """EPL keeps its established output/schedule_<solver>.csv convention
+    (unprefixed, for backward compatibility with existing tooling); NFL/NBA
+    use output/schedule_<league>_<solver>.csv."""
+    if league == "epl":
+        return OUTPUT_DIR / f"schedule_{key}.csv"
+    return OUTPUT_DIR / f"schedule_{league}_{key}.csv"
+
+
+def _load_league_data(league: str) -> dict:
+    set_league(league)
+    cache: dict = {}
     teams = load_teams()
 
-    # Historical baseline
-    hist_path = ROOT / "data/leagues/epl/historical/2024-25.csv"
-    hist_schedule = load_season(str(hist_path))
-    hist_report = compute(hist_schedule)
-    _cache["hist"] = hist_report
+    # Historical baseline — most recent available season for this league
+    seasons = sorted(available_seasons())
+    hist_report = None
+    if seasons:
+        hist_schedule = load_season(str(seasons[-1]))
+        hist_report = compute(hist_schedule)
+    cache["hist"] = hist_report
 
     # Generated schedules
     gen_reports = []
     gen_rows: dict[str, list[dict]] = {}
     for key in ("cp_sat", "ilp", "metaheuristic"):
-        csv_path = OUTPUT_DIR / f"schedule_{key}.csv"
+        csv_path = _solver_csv_path(league, key)
         if not csv_path.exists():
             continue
         gen_schedule = _load_generated_csv(str(csv_path))
-        solver_meta  = _validate_generated(gen_schedule, teams)
-        report       = compute(gen_schedule, solver_meta=solver_meta)
+        # core/validator.py hardcodes EPL constraint IDs — only meaningful for EPL.
+        solver_meta = _validate_generated(gen_schedule, teams) if league == "epl" else None
+        report      = compute(gen_schedule, solver_meta=solver_meta)
         report.label = SOLVER_LABELS[key]
         gen_reports.append(report)
         gen_rows[SOLVER_LABELS[key]] = _read_csv_rows(csv_path)
 
-    _cache["gen_reports"] = gen_reports
-    _cache["gen_rows"]    = gen_rows
+    cache["gen_reports"] = gen_reports
+    cache["gen_rows"]    = gen_rows
 
-    if gen_reports:
-        _cache["accuracy"] = compare_to_historical(gen_reports[0], hist_report)
+    if gen_reports and hist_report:
+        cache["accuracy"] = compare_to_historical(gen_reports[0], hist_report)
     if len(gen_reports) > 1:
-        _cache["solvers"] = compare_solvers(gen_reports)
+        cache["solvers"] = compare_solvers(gen_reports)
 
-    _cache["teams"]      = sorted(teams.keys())
-    _cache["team_names"] = {t: teams[t].name for t in teams}
+    cache["teams"]      = sorted(teams.keys())
+    cache["team_names"] = {t: teams[t].name for t in teams}
 
     # ── Multi-season historical metrics ──────────────────────────────────────
     hist_all: list[dict] = []
-    for _spath in sorted(available_seasons()):
+    for _spath in seasons:
         if _spath.suffix != ".csv":
             continue
         try:
@@ -153,7 +166,7 @@ def _load_all() -> None:
             })
         except Exception as _e:
             print(f"[analysis] hist {_spath.stem}: {_e}")
-    _cache["hist_all"] = hist_all
+    cache["hist_all"] = hist_all
 
     # ── Per-team scorecard for best generated solver ──────────────────────────
     if gen_reports:
@@ -170,66 +183,98 @@ def _load_all() -> None:
                 "h2_home_pct":     round(_best.home_pct_second_half.get(_tid, 0), 1),
                 "solver":          _best.label,
             })
-        _cache["team_scorecard"] = _score
+        cache["team_scorecard"] = _score
 
     # ── Fixture density heatmaps ──────────────────────────────────────────────
     if gen_reports:
         _best_rows = gen_rows.get(gen_reports[0].label, [])
-        _cache["heatmap_gen"]  = _gen_heatmap(_best_rows)
-        _hist24 = ROOT / "data/leagues/epl/historical/2024-25.csv"
-        if _hist24.exists():
-            _cache["heatmap_hist"] = _hist_heatmap(_hist24)
+        cache["heatmap_gen"] = _heatmap_from_rows(_best_rows)
+        if seasons:
+            cache["heatmap_hist"] = _heatmap_from_schedule(load_season(str(seasons[-1])))
+
+    return cache
 
 
-_load_all()
+def _get_cache(league: str) -> dict:
+    if league not in _cache:
+        _cache[league] = _load_league_data(league)
+    return _cache[league]
+
+
+# League data loads lazily on first request for that league (see _get_cache)
+# rather than eagerly for all three at startup — NFL/NBA may not have any
+# generated output/ CSVs yet, and there's no need to pay that load cost
+# before a request for that league actually arrives.
 
 
 # ---------------------------------------------------------------------------
 # Helper: calendar / analytics PNG availability
 # ---------------------------------------------------------------------------
 
-def _calendar_images() -> list[dict]:
-    images = [{"key": "season", "label": "Full Season", "filename": "calendar.png"}]
-    for tid in _cache["teams"]:
-        fname = f"calendar_{tid.lower()}.png"
+def _calendar_images(league: str) -> list[dict]:
+    cache = _get_cache(league)
+    prefix = "calendar" if league == "epl" else f"calendar_{league}"
+    images = [{"key": "season", "label": "Full Season", "filename": f"{prefix}.png"}]
+    for tid in cache["teams"]:
+        fname = f"{prefix}_{tid.lower()}.png"
         images.append({
             "key":      tid,
-            "label":    _cache["team_names"].get(tid, tid),
+            "label":    cache["team_names"].get(tid, tid),
             "filename": fname,
         })
     return images
 
 
-def _analytics_sample_files() -> list[str]:
+def _analytics_sample_files(league: str) -> list[str]:
+    """EPL's exports are unprefixed (analytics_*.png); NFL/NBA use an
+    analytics_<league>_ prefix (see tools/export_analytics.py's
+    _out_filename()) — filter so one league's gallery never shows another
+    league's charts."""
     if not ANALYTICS_SAMPLES_DIR.exists():
         return []
-    return sorted(f.name for f in ANALYTICS_SAMPLES_DIR.glob("analytics_*.png"))
+    pattern = "analytics_*.png" if league == "epl" else f"analytics_{league}_*.png"
+    files = sorted(f.name for f in ANALYTICS_SAMPLES_DIR.glob(pattern))
+    if league == "epl":
+        files = [f for f in files if not f.startswith(("analytics_nfl_", "analytics_nba_"))]
+    return files
 
 
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
 
+def _nav_context(league: str) -> dict:
+    """Common template variables for the league switcher nav, present on every page."""
+    return {
+        "leagues":        LEAGUES,
+        "league_labels":  LEAGUE_LABELS,
+        "active_league":  league,
+        "active_league_label": LEAGUE_LABELS[league],
+    }
+
+
 @app.route("/")
 def index():
-    gen = _cache.get("gen_reports", [])
+    league = active_league()
+    cache = _get_cache(league)
+    gen = cache.get("gen_reports", [])
     best = gen[0] if gen else None
-    hist = _cache.get("hist")
+    hist = cache.get("hist")
 
     kpis = []
     if best:
         kpis = [
-            {"label": "Total Fixtures",   "value": best.total_fixtures,        "sub": "380 target"},
-            {"label": "Hard Violations",  "value": best.hard_violations or 0,  "sub": "must be 0",    "ok": (best.hard_violations or 0) == 0},
-            {"label": "Soft Violations",  "value": best.soft_violations or 0,  "sub": "lower is better"},
-            {"label": "Penalty Score",    "value": best.penalty_score or 0,    "sub": "lower is better"},
+            {"label": "Total Fixtures",   "value": best.total_fixtures,        "sub": f"{hist.total_fixtures if hist else best.total_fixtures} target"},
+            {"label": "Hard Violations",  "value": best.hard_violations if best.hard_violations is not None else "—",  "sub": "must be 0" if league == "epl" else "no validator for this league yet", "ok": (best.hard_violations or 0) == 0 if best.hard_violations is not None else None},
+            {"label": "Soft Violations",  "value": best.soft_violations if best.soft_violations is not None else "—",  "sub": "lower is better"},
+            {"label": "Penalty Score",    "value": best.penalty_score if best.penalty_score is not None else "—",    "sub": "lower is better"},
             {"label": "Mean Rest Days",   "value": best.rest_mean,             "sub": f"hist {hist.rest_mean if hist else '—'}"},
             {"label": "Min Rest Days",    "value": best.rest_min_global,       "sub": "≥3 required",  "ok": best.rest_min_global >= 3},
         ]
 
     solvers_available = len(gen)
-    has_accuracy = "accuracy" in _cache
-    has_solvers  = "solvers" in _cache
+    has_accuracy = "accuracy" in cache
+    has_solvers  = "solvers" in cache
 
     dow_labels, dow_gen, dow_hist = [], [], []
     if best and hist:
@@ -251,15 +296,19 @@ def index():
         dow_gen=json.dumps(dow_gen),
         dow_hist=json.dumps(dow_hist),
         best_label=best.label if best else "—",
+        total_fixtures=best.total_fixtures if best else (hist.total_fixtures if hist else "—"),
+        **_nav_context(league),
     )
 
 
 @app.route("/schedule")
 def schedule():
-    gen_rows = _cache.get("gen_rows", {})
+    league = active_league()
+    cache = _get_cache(league)
+    gen_rows = cache.get("gen_rows", {})
     labels   = list(gen_rows.keys())
-    team_names = _cache.get("team_names", {})
-    teams    = _cache.get("teams", [])
+    team_names = cache.get("team_names", {})
+    teams    = cache.get("teams", [])
 
     team_display = sorted(
         [{"id": t, "name": team_names.get(t, t)} for t in teams],
@@ -272,38 +321,44 @@ def schedule():
         default_label=labels[0] if labels else "",
         team_display=team_display,
         rows_json={lbl: rows for lbl, rows in gen_rows.items()},
+        **_nav_context(league),
     )
 
 
 @app.route("/accuracy")
 def accuracy():
-    cmp = _cache.get("accuracy")
+    league = active_league()
+    cmp = _get_cache(league).get("accuracy")
     if not cmp:
-        return render_template("accuracy.html", rows=[], gen="—", hist="—")
+        return render_template("accuracy.html", rows=[], gen="—", hist="—", **_nav_context(league))
     return render_template(
         "accuracy.html",
         rows=cmp["rows"],
         gen=cmp["generated"],
         hist=cmp["historical"],
+        **_nav_context(league),
     )
 
 
 @app.route("/solvers")
 def solvers():
-    cmp = _cache.get("solvers")
+    league = active_league()
+    cmp = _get_cache(league).get("solvers")
     if not cmp:
-        return render_template("solvers.html", labels=[], rows=[])
+        return render_template("solvers.html", labels=[], rows=[], **_nav_context(league))
     return render_template(
         "solvers.html",
         labels=cmp["labels"],
         rows=cmp["rows"],
+        **_nav_context(league),
     )
 
 
 @app.route("/calendar")
 def calendar():
-    images = _calendar_images()
-    return render_template("calendar.html", images=images)
+    league = active_league()
+    images = _calendar_images(league)
+    return render_template("calendar.html", images=images, **_nav_context(league))
 
 
 @app.route("/calendar-img/<filename>")
@@ -315,8 +370,10 @@ def calendar_img(filename: str):
 
 @app.route("/analysis")
 def analysis():
-    hist_all    = _cache.get("hist_all", [])
-    gen_reports = _cache.get("gen_reports", [])
+    league = active_league()
+    cache = _get_cache(league)
+    hist_all    = cache.get("hist_all", [])
+    gen_reports = cache.get("gen_reports", [])
 
     def _series(key: str) -> list:
         return [h[key] for h in hist_all]
@@ -379,20 +436,27 @@ def analysis():
             }),
         })
 
-    sample_files = _analytics_sample_files()
+    sample_files = _analytics_sample_files(league)
 
     return render_template(
         "analysis.html",
         trend_json=json.dumps(trend),
         gen_trend_json=json.dumps(gen_trend),
         radar_json=json.dumps(radar_datasets),
-        heatmap_gen_json=json.dumps(_cache.get("heatmap_gen", {})),
-        heatmap_hist_json=json.dumps(_cache.get("heatmap_hist", {})),
-        team_scorecard_json=json.dumps(_cache.get("team_scorecard", [])),
+        heatmap_gen_json=json.dumps(cache.get("heatmap_gen", {})),
+        heatmap_hist_json=json.dumps(cache.get("heatmap_hist", {})),
+        team_scorecard_json=json.dumps(cache.get("team_scorecard", [])),
         sample_files_json=json.dumps(sample_files),
         best_label=gen_reports[0].label if gen_reports else "—",
         has_gen=bool(gen_reports),
         hist_count=len(hist_all),
+        # This page's Golden-Rule/festive dimensions (Boxing Day, SC13, SC14,
+        # derby spacing) are EPL-only — analysis/leagues/nfl/nba don't
+        # populate those MetricsReport fields, so they'd show as a flat 0
+        # for other leagues. Flag it so the template can show a banner
+        # instead of presenting zeros as if they were real compliance data.
+        epl_only_charts=(league != "epl"),
+        **_nav_context(league),
     )
 
 
@@ -408,10 +472,11 @@ def analytics_img(filename: str):
 @app.route("/api/export-analytics", methods=["POST"])
 def api_export_analytics():
     """Server-side: run matplotlib export, return list of generated filenames."""
+    league = active_league()
     try:
         from tools.export_analytics import main as _export_main
         out_dir = ANALYTICS_SAMPLES_DIR
-        files = _export_main(out_dir)
+        files = _export_main(out_dir, league=league)
         return jsonify({"ok": True, "files": [f.name for f in sorted(files)]})
     except Exception as e:
         import traceback
@@ -420,7 +485,7 @@ def api_export_analytics():
 
 @app.route("/api/team-details")
 def api_team_details():
-    return jsonify(_cache.get("team_scorecard", []))
+    return jsonify(_get_cache(active_league()).get("team_scorecard", []))
 
 
 # ---------------------------------------------------------------------------
@@ -429,14 +494,14 @@ def api_team_details():
 
 @app.route("/api/schedule/<label>")
 def api_schedule(label: str):
-    rows = _cache.get("gen_rows", {}).get(label, [])
+    rows = _get_cache(active_league()).get("gen_rows", {}).get(label, [])
     return jsonify(rows)
 
 
 @app.route("/api/metrics")
 def api_metrics():
     out = []
-    for r in _cache.get("gen_reports", []):
+    for r in _get_cache(active_league()).get("gen_reports", []):
         out.append({
             "label":                  r.label,
             "total_fixtures":         r.total_fixtures,

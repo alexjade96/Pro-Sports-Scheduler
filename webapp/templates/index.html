@@ -5,11 +5,11 @@
 <div class="d-flex align-items-center mb-4">
   <div>
     <h1 class="h3 mb-0 fw-bold">Dashboard</h1>
-    <p class="text-muted mb-0 small">Best solver: <strong>{{ best_label }}</strong> &nbsp;·&nbsp; 2025/26 EPL Season</p>
+    <p class="text-muted mb-0 small">Best solver: <strong>{{ best_label }}</strong> &nbsp;·&nbsp; {{ active_league_label }} Season</p>
   </div>
   <div class="ms-auto d-flex gap-2">
-    {% if has_accuracy %}<a href="/accuracy" class="btn btn-sm btn-outline-primary">Accuracy Report</a>{% endif %}
-    {% if has_solvers  %}<a href="/solvers"  class="btn btn-sm btn-outline-secondary">Solver Comparison</a>{% endif %}
+    {% if has_accuracy %}<a href="/accuracy?league={{ active_league }}" class="btn btn-sm btn-outline-primary">Accuracy Report</a>{% endif %}
+    {% if has_solvers  %}<a href="/solvers?league={{ active_league }}"  class="btn btn-sm btn-outline-secondary">Solver Comparison</a>{% endif %}
   </div>
 </div>
 
@@ -32,7 +32,7 @@
 <div class="row g-3 mb-4">
   <div class="col-lg-7">
     <div class="card shadow-sm h-100">
-      <div class="card-header fw-semibold">Day-of-Week Distribution <span class="text-muted fw-normal small">vs 2024-25 Historical</span></div>
+      <div class="card-header fw-semibold">Day-of-Week Distribution <span class="text-muted fw-normal small">vs Most Recent Historical Season</span></div>
       <div class="card-body">
         <canvas id="dowChart" height="200"></canvas>
       </div>
@@ -42,23 +42,23 @@
     <div class="card shadow-sm h-100">
       <div class="card-header fw-semibold">Quick Links</div>
       <div class="card-body d-flex flex-column gap-2">
-        <a href="/schedule" class="btn btn-outline-primary w-100 text-start px-3">
+        <a href="/schedule?league={{ active_league }}" class="btn btn-outline-primary w-100 text-start px-3">
           <strong>Schedule Viewer</strong>
-          <br><small class="text-muted">Browse all 380 fixtures by team or date</small>
+          <br><small class="text-muted">Browse all {{ total_fixtures }} fixtures by team or date</small>
         </a>
-        <a href="/accuracy" class="btn btn-outline-success w-100 text-start px-3">
+        <a href="/accuracy?league={{ active_league }}" class="btn btn-outline-success w-100 text-start px-3">
           <strong>Accuracy Report</strong>
-          <br><small class="text-muted">Generated schedule vs 2024-25 historical</small>
+          <br><small class="text-muted">Generated schedule vs most recent historical season</small>
         </a>
-        <a href="/solvers" class="btn btn-outline-secondary w-100 text-start px-3">
+        <a href="/solvers?league={{ active_league }}" class="btn btn-outline-secondary w-100 text-start px-3">
           <strong>Solver Comparison</strong>
           <br><small class="text-muted">CP-SAT vs ILP vs Metaheuristic side-by-side</small>
         </a>
-        <a href="/analysis" class="btn btn-outline-info w-100 text-start px-3">
+        <a href="/analysis?league={{ active_league }}" class="btn btn-outline-info w-100 text-start px-3">
           <strong>Deep Analysis</strong>
-          <br><small class="text-muted">10-season trends, radar chart, team scorecard &amp; exports</small>
+          <br><small class="text-muted">Historical trends, radar chart, team scorecard &amp; exports</small>
         </a>
-        <a href="/calendar" class="btn btn-outline-dark w-100 text-start px-3">
+        <a href="/calendar?league={{ active_league }}" class="btn btn-outline-dark w-100 text-start px-3">
           <strong>Calendar View</strong>
           <br><small class="text-muted">Visual calendar for any team or full season</small>
         </a>
@@ -109,7 +109,7 @@ new Chart(dowCtx, {
         borderRadius: 3,
       },
       {
-        label: '2024-25 Historical',
+        label: 'Historical',
         data: {{ dow_hist | safe }},
         backgroundColor: 'rgba(108,117,125,0.5)',
         borderRadius: 3,
@@ -125,7 +125,7 @@ new Chart(dowCtx, {
   }
 });
 
-fetch('/api/metrics')
+fetch('/api/metrics?league={{ active_league }}')
   .then(r => r.json())
   .then(data => {
     const body = document.getElementById('summaryBody');

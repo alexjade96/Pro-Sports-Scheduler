@@ -85,7 +85,7 @@
 {% if labels %}
 <script>
 // Build chart data from solver metrics API
-fetch('/api/metrics').then(r => r.json()).then(data => {
+fetch('/api/metrics?league={{ active_league }}').then(r => r.json()).then(data => {
   const labels = data.map(s => s.label);
   const colors = ['rgba(13,110,253,0.8)', 'rgba(25,135,84,0.8)', 'rgba(255,193,7,0.9)'];
   const border = ['rgba(13,110,253,1)',   'rgba(25,135,84,1)',   'rgba(255,193,7,1)'];

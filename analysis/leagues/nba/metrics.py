@@ -52,17 +52,49 @@ def _four_in_five(report: MetricsReport, schedule: Schedule, all_team_ids: set[s
                 report.four_in_five_violations += 1
 
 
+# All-Star break dates, keyed by season start year — the break's exact
+# window is set by league committee each season and isn't derivable from a
+# formula the way Boxing Day or Thanksgiving are, so historical seasons need
+# their own real dates rather than the active calendar's single
+# blocked_windows entry (which only covers the currently-configured season).
+# Same source/dates as data/leagues/nba/historical/generate_synthetic.py's
+# ALLSTAR_BREAKS.
+_ALLSTAR_BREAKS = {
+    2015: ("2016-02-12", "2016-02-22"),
+    2016: ("2017-02-17", "2017-02-27"),
+    2017: ("2018-02-16", "2018-02-22"),
+    2018: ("2019-02-15", "2019-02-21"),
+    2019: ("2020-02-14", "2020-02-20"),
+    2020: ("2021-03-05", "2021-03-10"),
+    2021: ("2022-02-18", "2022-02-24"),
+    2022: ("2023-02-17", "2023-02-23"),
+    2023: ("2024-02-16", "2024-02-22"),
+    2024: ("2025-02-14", "2025-02-24"),
+}
+
+
 def _all_star_break(report: MetricsReport, schedule: Schedule, calendar: dict) -> None:
     """HC10: no games during the All-Star break window."""
+    years = sorted({sf.slot.date.year for sf in schedule.fixtures})
+    season_start_year = years[0] if years else None
+
     blackout: set[date] = set()
-    for bw in calendar.get("blocked_windows", []):
-        if "all-star" in bw.get("label", "").lower():
-            start = date.fromisoformat(bw["start"])
-            end   = date.fromisoformat(bw["end"])
-            d = start
-            while d <= end:
-                blackout.add(d)
-                d += timedelta(days=1)
+    if season_start_year in _ALLSTAR_BREAKS:
+        start_s, end_s = _ALLSTAR_BREAKS[season_start_year]
+        windows = [(date.fromisoformat(start_s), date.fromisoformat(end_s))]
+    else:
+        # Not a historical season in the lookup (e.g. the active/generated
+        # season) — fall back to the active calendar's own blocked_windows.
+        windows = [
+            (date.fromisoformat(bw["start"]), date.fromisoformat(bw["end"]))
+            for bw in calendar.get("blocked_windows", [])
+            if "all-star" in bw.get("label", "").lower()
+        ]
+    for start, end in windows:
+        d = start
+        while d <= end:
+            blackout.add(d)
+            d += timedelta(days=1)
 
     if not blackout:
         return

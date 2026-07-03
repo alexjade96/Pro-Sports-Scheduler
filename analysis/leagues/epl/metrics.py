@@ -6,7 +6,7 @@ other leagues — see "Analysis architecture" in CLAUDE.md.
 """
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 
 from analysis.metrics import MetricsReport
 from core.models import Schedule
@@ -44,21 +44,26 @@ def _london_cluster(report: MetricsReport, schedule: Schedule, city_groups: dict
 
 
 def _festive_coverage(report: MetricsReport, schedule: Schedule, calendar: dict) -> None:
-    """Boxing Day / New Year's Day team coverage."""
-    festive_dates = {d: [] for d in calendar.get("festive_matchdays", [])}
+    """Boxing Day / New Year's Day team coverage. Matched by month/day (both
+    dates recur on the same civil calendar date every year) rather than the
+    active calendar's specific year, so this stays correct when scoring a
+    historical season other than the one calendar.json currently describes —
+    mirrors _boxing_day_nyd_pairing()'s month/day matching below."""
+    boxing_teams: set[str] = set()
+    nyd_teams: set[str] = set()
     for sf in schedule.fixtures:
-        date_str = str(sf.slot.date)
-        if date_str in festive_dates:
-            festive_dates[date_str].append(sf.home_team_id)
-            festive_dates[date_str].append(sf.away_team_id)
+        d = sf.slot.date
+        if d.month == 12 and d.day == 26:
+            boxing_teams.add(sf.home_team_id)
+            boxing_teams.add(sf.away_team_id)
+        if d.month == 1 and d.day == 1:
+            nyd_teams.add(sf.home_team_id)
+            nyd_teams.add(sf.away_team_id)
 
-    for date_str, teams in festive_dates.items():
-        if "12-26" in date_str:
-            report.boxing_day_teams    = sorted(set(teams))
-            report.boxing_day_coverage = len(set(teams))
-        if "01-01" in date_str:
-            report.new_years_day_teams    = sorted(set(teams))
-            report.new_years_day_coverage = len(set(teams))
+    report.boxing_day_teams       = sorted(boxing_teams)
+    report.boxing_day_coverage    = len(boxing_teams)
+    report.new_years_day_teams    = sorted(nyd_teams)
+    report.new_years_day_coverage = len(nyd_teams)
 
 
 def _christmas_day(report: MetricsReport, schedule: Schedule) -> None:
@@ -69,20 +74,49 @@ def _christmas_day(report: MetricsReport, schedule: Schedule) -> None:
             report.christmas_day_violations += 1
 
 
+def _easter_sunday(year: int) -> date:
+    """Anonymous Gregorian algorithm (Meeus/Jones/Butcher) — Easter moves
+    every year, so it can't be read as a fixed date the way Boxing Day can."""
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    month, day = divmod(h + l - 7 * m + 114, 31)
+    return date(year, month, day + 1)
+
+
 def _easter_coverage(report: MetricsReport, schedule: Schedule, calendar: dict) -> None:
-    """SC9: all clubs play on Good Friday and Easter Monday."""
-    easter_cfg = calendar.get("easter_matchdays", {})
-    for attr, date_key in [("good_friday_coverage", "good_friday"),
-                            ("easter_monday_coverage", "easter_monday")]:
-        if date_key not in easter_cfg:
-            continue
-        easter_date = date.fromisoformat(easter_cfg[date_key])
-        playing: set[str] = set()
-        for sf in schedule.fixtures:
-            if sf.slot.date == easter_date:
-                playing.add(sf.home_team_id)
-                playing.add(sf.away_team_id)
-        setattr(report, attr, len(playing))
+    """SC9: all clubs play on Good Friday and Easter Monday. Easter Sunday is
+    computed per calendar year actually present in the schedule (rather than
+    read from the active calendar's single easter_matchdays entry), since a
+    historical season's Easter falls on a different date than the current
+    season's — same reasoning as _festive_coverage() above."""
+    years = {sf.slot.date.year for sf in schedule.fixtures}
+    good_friday_dates: set[date] = set()
+    easter_monday_dates: set[date] = set()
+    for year in years:
+        easter = _easter_sunday(year)
+        good_friday_dates.add(easter - timedelta(days=2))
+        easter_monday_dates.add(easter + timedelta(days=1))
+
+    good_friday_teams: set[str] = set()
+    easter_monday_teams: set[str] = set()
+    for sf in schedule.fixtures:
+        d = sf.slot.date
+        if d in good_friday_dates:
+            good_friday_teams.add(sf.home_team_id)
+            good_friday_teams.add(sf.away_team_id)
+        if d in easter_monday_dates:
+            easter_monday_teams.add(sf.home_team_id)
+            easter_monday_teams.add(sf.away_team_id)
+
+    report.good_friday_coverage   = len(good_friday_teams)
+    report.easter_monday_coverage = len(easter_monday_teams)
 
 
 def _five_match_pattern(report: MetricsReport, schedule: Schedule, all_team_ids: set[str]) -> None:

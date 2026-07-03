@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 """
-Export analytics charts as PNG files using matplotlib.
+Export analytics charts as PNG files using matplotlib. Works for any of the
+three leagues via --league; EPL's Atos-rule-flavored charts (SC7/SC13/Boxing
+Day) are replaced with each league's own signature metrics for NFL
+(Thanksgiving/primetime) and NBA (back-to-backs/4-in-5) — see TREND_CONFIGS
+and RADAR_CONFIGS.
 
-Generates in <out-dir> (default: samples/analytics/):
-  analytics_trend_rest.png      — 10-season rest days trend + solver points
-  analytics_trend_clashes.png   — 10-season SC7 city-clash trend
-  analytics_trend_boxing.png    — Boxing Day coverage trend
-  analytics_trend_sc13.png      — SC13 violations trend
-  analytics_radar.png           — Quality radar (6 dimensions)
-  analytics_heatmap.png         — Fixture density heatmap (gen vs historical)
-  analytics_scorecard.png       — Per-team compliance table
-  analytics_overview.png        — 2×2 combined trend overview
+Generates in <out-dir> (default: samples/analytics/). EPL keeps unprefixed
+filenames for backward compatibility; NFL/NBA get an analytics_<league>_
+prefix so all three leagues can export into the same directory:
+  analytics[_<league>]_trend_rest.png      — season rest days trend + solver points
+  analytics[_<league>]_trend_clashes.png   — season same-city clash trend
+  analytics[_<league>]_trend_*.png         — two more league-specific trend charts
+  analytics[_<league>]_radar.png           — quality radar (6 dimensions)
+  analytics[_<league>]_heatmap.png         — fixture density heatmap (gen vs historical)
+  analytics[_<league>]_scorecard.png       — per-team compliance table
+  analytics[_<league>]_overview.png        — 2×2 combined trend overview
 
 Usage:
-    python tools/export_analytics.py [--out-dir samples/analytics]
+    python tools/export_analytics.py [--out-dir samples/analytics] [--league epl|nfl|nba]
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import sys
-from collections import defaultdict
-from datetime import datetime as _dt
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -37,6 +40,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from analysis.historical_loader import available_seasons, load_season
 from analysis.metrics import compute
+from core.data_loader import set_league
 
 # ── Style constants ─────────────────────────────────────────────────────────
 # Validated categorical palette (dataviz skill reference instance, light mode).
@@ -70,6 +74,58 @@ SEQ_HIGH = "#0d366b"   # step 700
 
 DAYS_FULL  = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 DAYS_SHORT = [d[:3] for d in DAYS_FULL]
+
+LEAGUE_LABELS = {"epl": "EPL", "nfl": "NFL", "nba": "NBA"}
+
+# Per-league trend chart definitions: (metric_key, filename_base, ylabel, ymin).
+# Each league surfaces two metrics generic across all leagues (rest, city
+# clashes) plus two of its own signature metrics.
+TREND_CONFIGS = {
+    "epl": [
+        ("rest_mean",                    "trend_rest.png",         "Mean rest days (all teams)",     10),
+        ("city_weekend_clash_count",     "trend_clashes.png",      "SC7 same-city clashes (4-day)",  0),
+        ("boxing_day_coverage",          "trend_boxing.png",       "Boxing Day coverage (# teams)",  0),
+        ("five_match_pattern_violations","trend_sc13.png",         "SC13 five-match H/A violations", 0),
+    ],
+    "nfl": [
+        ("rest_mean",                    "trend_rest.png",         "Mean rest days (all teams)",     3),
+        ("city_weekend_clash_count",     "trend_clashes.png",      "Same-city clashes (4-day)",      0),
+        ("thanksgiving_coverage",        "trend_thanksgiving.png", "Thanksgiving coverage (# teams)",0),
+        ("primetime_game_pct",           "trend_primetime.png",    "Primetime broadcast share (%)",  0),
+    ],
+    "nba": [
+        ("rest_mean",                    "trend_rest.png",         "Mean rest days (all teams)",     1),
+        ("city_weekend_clash_count",     "trend_clashes.png",      "Same-city clashes (4-day)",      0),
+        ("league_back_to_backs",         "trend_b2b.png",          "League back-to-backs",           0),
+        ("four_in_five_violations",      "trend_4in5.png",         "4-in-5 violations",              0),
+    ],
+}
+
+
+def _out_filename(league: str, base: str) -> str:
+    """EPL keeps unprefixed analytics_*.png names (backward compatibility);
+    NFL/NBA get analytics_<league>_*.png so both leagues can export into the
+    same out_dir without overwriting each other — matches calendar_png.py."""
+    prefix = "analytics" if league == "epl" else f"analytics_{league}"
+    return f"{prefix}_{base}"
+
+
+def _next_season_label(hist_all: list[dict]) -> str:
+    """Derives a 'next season' x-axis label from the last historical season
+    string, supporting both EPL's YYYY-YY and NFL/NBA's plain-year formats.
+    Falls back to a generic label if the format isn't recognized."""
+    import re
+    if not hist_all:
+        return "Generated"
+    last = hist_all[-1]["season"]
+    m = re.match(r"^(\d{4})-(\d{2})$", last)
+    if m:
+        y1 = int(m.group(1)) + 1
+        return f"{y1}-{str(y1 + 1)[-2:]}"
+    m = re.match(r"^(\d{4})$", last)
+    if m:
+        return str(int(m.group(1)) + 1)
+    return "Generated"
 
 
 def _solver_color(label: str) -> str:
@@ -130,13 +186,14 @@ def _title(ax, text: str, fontsize: float = 11, pad: float = 18,
 
 # ── Data loaders ───────────────────────────────────────────────────────────────
 
-def load_hist_all() -> list[dict]:
+def load_hist_all(league: str = "epl") -> list[dict]:
+    set_league(league)
     results = []
-    for path in sorted(available_seasons()):
+    for path in sorted(available_seasons(league=league)):
         if path.suffix != ".csv":
             continue
         try:
-            sched = load_season(str(path))
+            sched = load_season(str(path), league=league)
             r = compute(sched)
             results.append({
                 "season":                       r.label,
@@ -150,31 +207,49 @@ def load_hist_all() -> list[dict]:
                 "derbies_under_56d":            len(r.derbies_under_56d),
                 "teams_over_5_home":            len(r.teams_over_5_home),
                 "teams_over_5_away":            len(r.teams_over_5_away),
+                "thanksgiving_coverage":        r.thanksgiving_coverage,
+                "thanksgiving_fixed_host_violations": r.thanksgiving_fixed_host_violations,
+                "primetime_game_pct":           r.primetime_game_pct,
+                "league_back_to_backs":         r.league_back_to_backs,
+                "four_in_five_violations":      r.four_in_five_violations,
+                "all_star_break_violations":    r.all_star_break_violations,
             })
         except Exception as e:
             print(f"  [warn] hist {path.stem}: {e}")
     return results
 
 
-def load_gen_reports() -> list:
+def load_gen_reports(league: str = "epl") -> list:
     from analysis.main import _load_generated_csv, _validate_generated
     from core.data_loader import load_teams
+    set_league(league)
     teams = load_teams()
     output_dir = ROOT / "output"
     reports = []
     for key, label in [("cp_sat", "CP-SAT"), ("ilp", "ILP"), ("metaheuristic", "Metaheuristic")]:
-        p = output_dir / f"schedule_{key}.csv"
+        p = _gen_csv_path(output_dir, league, key)
         if not p.exists():
             continue
         try:
             sched = _load_generated_csv(str(p))
-            meta  = _validate_generated(sched, teams)
-            r     = compute(sched, solver_meta=meta)
+            # core.validator hardcodes EPL constraint IDs — only run it for EPL;
+            # NFL/NBA reports get plain metrics with no solver_meta.
+            meta = _validate_generated(sched, teams) if league == "epl" else None
+            r    = compute(sched, solver_meta=meta)
             r.label = label
             reports.append(r)
         except Exception as e:
             print(f"  [warn] gen {key}: {e}")
     return reports
+
+
+def _gen_csv_path(output_dir: Path, league: str, key: str) -> Path:
+    """EPL keeps the established output/schedule_<solver>.csv convention
+    (unprefixed, for backward compatibility); NFL/NBA use
+    output/schedule_<league>_<solver>.csv — matches webapp/app.py."""
+    if league == "epl":
+        return output_dir / f"schedule_{key}.csv"
+    return output_dir / f"schedule_{league}_{key}.csv"
 
 
 def _gen_value(r, key: str):
@@ -186,27 +261,22 @@ def _gen_value(r, key: str):
         "five_match_pattern_violations":r.five_match_pattern_violations,
         "season_boundary_violations":   r.season_boundary_violations,
         "boxing_day_coverage":          r.boxing_day_coverage,
+        "thanksgiving_coverage":        r.thanksgiving_coverage,
+        "primetime_game_pct":           r.primetime_game_pct,
+        "league_back_to_backs":         r.league_back_to_backs,
+        "four_in_five_violations":      r.four_in_five_violations,
     }
     return mapping.get(key)
 
 
-def _date_from_str(s: str):
-    for fmt in ("%d/%m/%Y", "%d/%m/%y"):
-        try:
-            return _dt.strptime(s.strip(), fmt).date()
-        except ValueError:
-            continue
-    raise ValueError(s)
-
-
 # ── Individual trend chart ─────────────────────────────────────────────────────
 
-def _plot_trend(ax, hist_all, gen_reports, metric_key, ylabel, ymin=None) -> None:
+def _plot_trend(ax, hist_all, gen_reports, metric_key, ylabel, ymin=None, gen_label="Generated") -> None:
     seasons = [h["season"] for h in hist_all]
     values  = [h[metric_key] for h in hist_all]
     x_nums  = list(range(len(seasons)))
     gen_x   = len(seasons)
-    all_x   = seasons + ["2025/26"]
+    all_x   = seasons + [gen_label]
 
     ax.plot(x_nums, values, color=HIST_COLOR, linewidth=1.75, linestyle="--",
             dashes=(4, 2), solid_capstyle="round", marker="o", markersize=4.5,
@@ -256,21 +326,21 @@ def _plot_trend(ax, hist_all, gen_reports, metric_key, ylabel, ymin=None) -> Non
     ax.legend(fontsize=8, loc="best", handletextpad=0.5)
 
 
-def export_trend_charts(hist_all, gen_reports, out_dir: Path) -> list[Path]:
+def export_trend_charts(hist_all, gen_reports, out_dir: Path, league: str = "epl") -> list[Path]:
     _set_style()
-    configs = [
-        ("rest_mean",                   "analytics_trend_rest.png",    "Mean rest days (all teams)",     10),
-        ("city_weekend_clash_count",    "analytics_trend_clashes.png", "SC7 same-city clashes (4-day)",  0),
-        ("boxing_day_coverage",         "analytics_trend_boxing.png",  "Boxing Day coverage (# teams)",  0),
-        ("five_match_pattern_violations","analytics_trend_sc13.png",   "SC13 five-match H/A violations", 0),
-    ]
+    configs = TREND_CONFIGS.get(league, TREND_CONFIGS["epl"])
+    gen_label = _next_season_label(hist_all)
+    seasons = [h["season"] for h in hist_all]
+    span = f"{seasons[0]}–{seasons[-1]}" if seasons else "n/a"
     saved = []
-    for metric_key, filename, ylabel, ymin in configs:
+    for metric_key, base, ylabel, ymin in configs:
+        filename = _out_filename(league, base)
         fig, ax = plt.subplots(figsize=(9, 4.5))
         fig.patch.set_facecolor(BG_COLOR)
         ax.set_facecolor(BG_COLOR)
-        _plot_trend(ax, hist_all, gen_reports, metric_key, ylabel, ymin)
-        _title(ax, f"{ylabel} — EPL 10-season trend (2015–2025)", fontsize=12, pad=16)
+        _plot_trend(ax, hist_all, gen_reports, metric_key, ylabel, ymin, gen_label)
+        _title(ax, f"{ylabel} — {LEAGUE_LABELS.get(league, league.upper())} {len(seasons)}-season trend ({span})",
+               fontsize=12, pad=16)
         fig.tight_layout()
         dest = out_dir / filename
         fig.savefig(dest, dpi=150, bbox_inches="tight", facecolor=BG_COLOR)
@@ -282,30 +352,92 @@ def export_trend_charts(hist_all, gen_reports, out_dir: Path) -> list[Path]:
 
 # ── Radar chart ────────────────────────────────────────────────────────────────
 
-def _radar_score(d: dict) -> list[float]:
-    return [
-        round(min(d.get("rest_mean", 0) * 5.0, 100), 1),
-        round(max(0, 100 - d.get("city_weekend_clash_count", 0) * 1.2), 1),
-        round(max(0, 100 - (d.get("teams_over_5_home", 0) + d.get("teams_over_5_away", 0)) * 5), 1),
-        round((d.get("boxing_day_coverage", 0) + d.get("new_years_day_coverage", 0)) / 40 * 100, 1),
-        round(max(0, 100 - d.get("five_match_pattern_violations", 0) * 0.3), 1),
-        round(max(0, 100 - d.get("derbies_under_56d", 0) * 12), 1),
-    ]
+def _score_rest(d, ref_rest=1.0):
+    # Scaled against the league's own historical average rest_mean rather
+    # than a flat constant — a fixed multiplier tuned for EPL/NFL's weekly
+    # cadence collapses to near-zero for NBA, where a ~2-day average gap is
+    # normal. 1.4× the historical average is treated as "excellent" headroom
+    # for any cadence.
+    ref = ref_rest if ref_rest and ref_rest > 0 else 1.0
+    return round(min(d.get("rest_mean", 0) / (ref * 1.4) * 100, 100), 1)
 
 
-def export_radar(hist_all, gen_reports, out_dir: Path) -> Path:
+def _score_city(d, ref_rest=1.0):      return round(max(0, 100 - d.get("city_weekend_clash_count", 0) * 1.2), 1)
+def _score_runs(d, ref_rest=1.0):      return round(max(0, 100 - (d.get("teams_over_5_home", 0) + d.get("teams_over_5_away", 0)) * 5), 1)
+def _score_derby(d, ref_rest=1.0):     return round(max(0, 100 - d.get("derbies_under_56d", 0) * 12), 1)
+def _score_festive(d, ref_rest=1.0):   return round((d.get("boxing_day_coverage", 0) + d.get("new_years_day_coverage", 0)) / 40 * 100, 1)
+def _score_sc13(d, ref_rest=1.0):      return round(max(0, 100 - d.get("five_match_pattern_violations", 0) * 0.3), 1)
+def _score_thanksgiving(d, ref_rest=1.0):
+    return round(max(0, min(d.get("thanksgiving_coverage", 0) / 6 * 100, 100)
+                      - d.get("thanksgiving_fixed_host_violations", 0) * 20), 1)
+def _score_primetime(d, ref_rest=1.0): return round(min(d.get("primetime_game_pct", 0) / 25 * 100, 100), 1)
+def _score_b2b(d, ref_rest=1.0):       return round(max(0, 100 - d.get("four_in_five_violations", 0) * 2), 1)
+def _score_allstar(d, ref_rest=1.0):   return round(max(0, 100 - d.get("all_star_break_violations", 0) * 10), 1)
+
+# Per-league radar dimensions: (label, score_fn). Rest/City/Run/Derby are
+# generic across leagues; the other two are each league's signature metrics.
+RADAR_CONFIGS = {
+    "epl": [
+        ("Rest\nQuality", _score_rest), ("City\nSeparation", _score_city),
+        ("Run\nControl", _score_runs), ("Festive\nCoverage", _score_festive),
+        ("SC13\nCompliance", _score_sc13), ("Derby\nSpacing", _score_derby),
+    ],
+    "nfl": [
+        ("Rest\nQuality", _score_rest), ("City\nSeparation", _score_city),
+        ("Run\nControl", _score_runs), ("Thanksgiving\nCoverage", _score_thanksgiving),
+        ("Primetime\nBalance", _score_primetime), ("Derby\nSpacing", _score_derby),
+    ],
+    "nba": [
+        ("Rest\nQuality", _score_rest), ("City\nSeparation", _score_city),
+        ("Run\nControl", _score_runs), ("4-in-5\nControl", _score_b2b),
+        ("All-Star\nCompliance", _score_allstar), ("Derby\nSpacing", _score_derby),
+    ],
+}
+
+_RADAR_AVG_KEYS = [
+    "rest_mean", "city_weekend_clash_count", "teams_over_5_home", "teams_over_5_away",
+    "boxing_day_coverage", "new_years_day_coverage", "five_match_pattern_violations",
+    "derbies_under_56d", "thanksgiving_coverage", "thanksgiving_fixed_host_violations",
+    "primetime_game_pct", "four_in_five_violations", "all_star_break_violations",
+]
+
+
+def _report_raw(r) -> dict:
+    """Raw metric dict for a generated MetricsReport, keyed the same way as
+    load_hist_all()'s per-season dicts so both feed the same radar scorers."""
+    return {
+        "rest_mean":                    r.rest_mean,
+        "city_weekend_clash_count":     r.city_weekend_clash_count,
+        "teams_over_5_home":            len(r.teams_over_5_home),
+        "teams_over_5_away":            len(r.teams_over_5_away),
+        "boxing_day_coverage":          r.boxing_day_coverage,
+        "new_years_day_coverage":       r.new_years_day_coverage,
+        "five_match_pattern_violations":r.five_match_pattern_violations,
+        "derbies_under_56d":            len(r.derbies_under_56d),
+        "thanksgiving_coverage":        r.thanksgiving_coverage,
+        "thanksgiving_fixed_host_violations": r.thanksgiving_fixed_host_violations,
+        "primetime_game_pct":           r.primetime_game_pct,
+        "four_in_five_violations":      r.four_in_five_violations,
+        "all_star_break_violations":    r.all_star_break_violations,
+    }
+
+
+def export_radar(hist_all, gen_reports, out_dir: Path, league: str = "epl") -> Path:
     _set_style()
-    RLABELS = ["Rest\nQuality", "City\nSeparation", "Run\nControl",
-               "Festive\nCoverage", "SC13\nCompliance", "Derby\nSpacing"]
+    dims = RADAR_CONFIGS.get(league, RADAR_CONFIGS["epl"])
+    RLABELS = [label for label, _ in dims]
     N = len(RLABELS)
     angles = [n / N * 2 * np.pi for n in range(N)] + [0]
 
     n = len(hist_all)
     avg = {}
     if n:
-        for k in ["rest_mean", "city_weekend_clash_count", "teams_over_5_home", "teams_over_5_away",
-                  "boxing_day_coverage", "new_years_day_coverage", "five_match_pattern_violations", "derbies_under_56d"]:
+        for k in _RADAR_AVG_KEYS:
             avg[k] = sum(h.get(k, 0) for h in hist_all) / n
+    ref_rest = avg.get("rest_mean", 1.0)
+
+    def _radar_score(d: dict) -> list[float]:
+        return [fn(d, ref_rest) for _, fn in dims]
 
     fig, ax = plt.subplots(figsize=(7.5, 7.5), subplot_kw={"projection": "polar"})
     fig.patch.set_facecolor(BG_COLOR)
@@ -324,23 +456,14 @@ def export_radar(hist_all, gen_reports, out_dir: Path) -> Path:
         ax.plot(angles, vals, color=HIST_COLOR, linewidth=1.75, linestyle="dashed",
                 dashes=(4, 2), solid_capstyle="round", zorder=3)
         ax.fill(angles, vals, color=HIST_COLOR, alpha=0.08, zorder=1)
-        legend_handles.append(mpatches.Patch(facecolor=HIST_COLOR, alpha=0.6, label="10-Season Avg"))
+        legend_handles.append(mpatches.Patch(facecolor=HIST_COLOR, alpha=0.6, label=f"{n}-Season Avg"))
 
     ordered_reports = sorted(
         gen_reports,
         key=lambda r: SOLVER_ORDER.index(r.label) if r.label in SOLVER_ORDER else 99,
     )
     for r in ordered_reports:
-        rd = {
-            "rest_mean":                    r.rest_mean,
-            "city_weekend_clash_count":     r.city_weekend_clash_count,
-            "teams_over_5_home":            len(r.teams_over_5_home),
-            "teams_over_5_away":            len(r.teams_over_5_away),
-            "boxing_day_coverage":          r.boxing_day_coverage,
-            "new_years_day_coverage":       r.new_years_day_coverage,
-            "five_match_pattern_violations":r.five_match_pattern_violations,
-            "derbies_under_56d":            len(r.derbies_under_56d),
-        }
+        rd = _report_raw(r)
         vals = _radar_score(rd) + [_radar_score(rd)[0]]
         c = _solver_color(r.label)
         ax.plot(angles, vals, color=c, linewidth=2.25, solid_capstyle="round", zorder=4)
@@ -354,19 +477,20 @@ def export_radar(hist_all, gen_reports, out_dir: Path) -> Path:
     ax.set_ylim(0, 100)
     ax.set_yticks([20, 40, 60, 80, 100])
     ax.set_yticklabels(["20", "40", "60", "80", "100"], size=7, color=INK_MUTED)
-    ax.set_title("Schedule Quality Radar", loc="left", pad=28, fontsize=13,
-                 fontweight="bold", color=INK_PRIMARY)
-    ax.text(0.0, 1.065, "100 = perfect across all six dimensions", transform=ax.transAxes,
+    ax.set_title(f"{LEAGUE_LABELS.get(league, league.upper())} Schedule Quality Radar",
+                 loc="left", pad=28, fontsize=13, fontweight="bold", color=INK_PRIMARY)
+    ax.text(0.0, 1.065, f"100 = perfect across all {N} dimensions", transform=ax.transAxes,
             fontsize=9, color=INK_MUTED, ha="left")
     ax.plot([0.0, 0.09], [1.10, 1.10], transform=ax.transAxes, color=SEQ_MID,
             linewidth=3, solid_capstyle="round", clip_on=False, zorder=10)
     ax.legend(handles=legend_handles, loc="lower right",
               bbox_to_anchor=(1.38, -0.08), fontsize=9.5)
     fig.tight_layout()
-    dest = out_dir / "analytics_radar.png"
+    filename = _out_filename(league, "radar.png")
+    dest = out_dir / filename
     fig.savefig(dest, dpi=150, bbox_inches="tight", facecolor=BG_COLOR)
     plt.close(fig)
-    print("  → analytics_radar.png")
+    print(f"  → {filename}")
     return dest
 
 
@@ -384,20 +508,15 @@ def _build_matrix(rows_iter, day_col="day", ko_col="kickoff") -> tuple[list, lis
     return matrix, kickoffs
 
 
-def _build_hist_matrix(hist_path: Path) -> tuple[list, list]:
+def _build_hist_matrix_from_schedule(schedule) -> tuple[list, list]:
+    """Day × kickoff counts from a Schedule object — works for any league via
+    the league-aware historical_loader, rather than hand-parsing EPL's
+    football-data.co.uk Date/Time CSV columns directly."""
     counts: dict[str, dict[str, int]] = {d: {} for d in DAYS_FULL}
-    with open(hist_path, newline="", encoding="utf-8-sig") as f:
-        for row in csv.DictReader(f):
-            if not row.get("Date"):
-                continue
-            try:
-                d = _date_from_str(row["Date"])
-            except ValueError:
-                continue
-            day_name = d.strftime("%A")
-            ko = (row.get("Time") or "15:00").strip() or "15:00"
-            if day_name in counts and ko:
-                counts[day_name][ko] = counts[day_name].get(ko, 0) + 1
+    for sf in schedule.fixtures:
+        day, ko = sf.slot.day_of_week, sf.slot.kickoff
+        if day in counts and ko:
+            counts[day][ko] = counts[day].get(ko, 0) + 1
     kickoffs = sorted({ko for dc in counts.values() for ko in dc})
     matrix   = [[counts[day].get(ko, 0) for ko in kickoffs] for day in DAYS_FULL]
     return matrix, kickoffs
@@ -436,7 +555,7 @@ def _draw_heatmap_ax(ax, matrix, kickoffs, title):
     return im
 
 
-def export_heatmap(gen_reports, out_dir: Path) -> Path | None:
+def export_heatmap(gen_reports, out_dir: Path, league: str = "epl") -> Path | None:
     _set_style()
     if not gen_reports:
         return None
@@ -445,7 +564,7 @@ def export_heatmap(gen_reports, out_dir: Path) -> Path | None:
     key = label_map.get(gen_reports[0].label)
     if not key:
         return None
-    gen_csv = ROOT / "output" / f"schedule_{key}.csv"
+    gen_csv = _gen_csv_path(ROOT / "output", league, key)
     if not gen_csv.exists():
         return None
 
@@ -453,10 +572,14 @@ def export_heatmap(gen_reports, out_dir: Path) -> Path | None:
         gen_rows = list(csv.DictReader(f))
     gen_matrix, gen_kickoffs = _build_matrix(gen_rows)
 
-    hist24 = ROOT / "data/leagues/epl/historical/2024-25.csv"
-    has_hist = hist24.exists()
+    seasons = available_seasons(league=league)
+    has_hist = bool(seasons)
+    hist_label = "Historical"
     if has_hist:
-        hist_matrix, hist_kickoffs = _build_hist_matrix(hist24)
+        hist_path = seasons[-1]
+        hist_sched = load_season(str(hist_path), league=league)
+        hist_matrix, hist_kickoffs = _build_hist_matrix_from_schedule(hist_sched)
+        hist_label = f"{hist_sched.season} Historical"
 
     ncols = 2 if has_hist else 1
     fig, axes = plt.subplots(1, ncols, figsize=(7 * ncols, 5.5))
@@ -468,7 +591,7 @@ def export_heatmap(gen_reports, out_dir: Path) -> Path | None:
 
     im = _draw_heatmap_ax(axes[0], gen_matrix, gen_kickoffs, f"Generated ({gen_reports[0].label})")
     if has_hist:
-        _draw_heatmap_ax(axes[1], hist_matrix, hist_kickoffs, "2024-25 Historical")
+        _draw_heatmap_ax(axes[1], hist_matrix, hist_kickoffs, hist_label)
 
     cbar = fig.colorbar(im, ax=axes, orientation="horizontal", fraction=0.04,
                         pad=0.14, aspect=40, shrink=0.5)
@@ -478,18 +601,19 @@ def export_heatmap(gen_reports, out_dir: Path) -> Path | None:
 
     fig.suptitle("Fixture Density: Day × Kickoff Time", fontsize=13, fontweight="bold",
                  color=INK_PRIMARY, x=0.02, ha="left", y=1.04)
-    fig.text(0.02, 0.985, "Where each solver clusters kickoffs vs. the real 2024-25 slate",
+    fig.text(0.02, 0.985, f"Where each solver clusters kickoffs vs. the real {hist_label.lower()} slate",
               fontsize=9, color=INK_MUTED, ha="left")
-    dest = out_dir / "analytics_heatmap.png"
+    filename = _out_filename(league, "heatmap.png")
+    dest = out_dir / filename
     fig.savefig(dest, dpi=150, bbox_inches="tight", facecolor=BG_COLOR)
     plt.close(fig)
-    print("  → analytics_heatmap.png")
+    print(f"  → {filename}")
     return dest
 
 
 # ── Per-team compliance scorecard ──────────────────────────────────────────────
 
-def export_scorecard(gen_reports, out_dir: Path) -> Path | None:
+def export_scorecard(gen_reports, out_dir: Path, league: str = "epl") -> Path | None:
     if not gen_reports:
         return None
     _set_style()
@@ -588,69 +712,72 @@ def export_scorecard(gen_reports, out_dir: Path) -> Path | None:
         0.0, cap_y * fig_h_in - 0.30,
         fig_w_in, title_bbox_in.y1 + 0.18,
     )
-    dest = out_dir / "analytics_scorecard.png"
+    filename = _out_filename(league, "scorecard.png")
+    dest = out_dir / filename
     fig.savefig(dest, dpi=150, bbox_inches=crop, facecolor=BG_COLOR)
     plt.close(fig)
-    print("  → analytics_scorecard.png")
+    print(f"  → {filename}")
     return dest
 
 
 # ── 2×2 combined overview ──────────────────────────────────────────────────────
 
-def export_overview(hist_all, gen_reports, out_dir: Path) -> Path:
+def export_overview(hist_all, gen_reports, out_dir: Path, league: str = "epl") -> Path:
     _set_style()
-    configs = [
-        ("rest_mean",                   "Mean Rest Days",             10),
-        ("city_weekend_clash_count",    "SC7 City Clashes (4-day)",   0),
-        ("boxing_day_coverage",         "Boxing Day Coverage",        0),
-        ("five_match_pattern_violations","SC13 H/A Violations",       0),
-    ]
+    configs = TREND_CONFIGS.get(league, TREND_CONFIGS["epl"])
+    gen_label = _next_season_label(hist_all)
+    seasons = [h["season"] for h in hist_all]
+    span = f"{seasons[0]}–{seasons[-1]}" if seasons else "n/a"
+
     fig, axes = plt.subplots(2, 2, figsize=(14, 9.5))
     fig.patch.set_facecolor(BG_COLOR)
-    fig.suptitle("EPL Schedule Analytics — 10-Season Overview (2015–2025)",
+    fig.suptitle(f"{LEAGUE_LABELS.get(league, league.upper())} Schedule Analytics — "
+                 f"{len(seasons)}-Season Overview ({span})",
                  fontsize=15, fontweight="bold", color=INK_PRIMARY, x=0.015, ha="left", y=1.015)
-    fig.text(0.015, 0.975, "Historical baseline vs. each solver's 2025/26 output",
+    fig.text(0.015, 0.975, f"Historical baseline vs. each solver's {gen_label} output",
              fontsize=10, color=INK_MUTED, ha="left")
 
-    for ax, (mk, label, ymin) in zip(axes.flat, configs):
+    for ax, (mk, _base, label, ymin) in zip(axes.flat, configs):
         ax.set_facecolor(BG_COLOR)
-        _plot_trend(ax, hist_all, gen_reports, mk, label, ymin)
+        _plot_trend(ax, hist_all, gen_reports, mk, label, ymin, gen_label)
         _title(ax, label, fontsize=11, pad=14)
 
     fig.tight_layout(rect=(0, 0, 1, 0.955))
-    dest = out_dir / "analytics_overview.png"
+    filename = _out_filename(league, "overview.png")
+    dest = out_dir / filename
     fig.savefig(dest, dpi=150, bbox_inches="tight", facecolor=BG_COLOR)
     plt.close(fig)
-    print("  → analytics_overview.png")
+    print(f"  → {filename}")
     return dest
 
 
 # ── Main entry point ───────────────────────────────────────────────────────────
 
-def main(out_dir: Path | None = None) -> list[Path]:
+def main(out_dir: Path | None = None, league: str = "epl") -> list[Path]:
     if out_dir is None:
         out_dir = ROOT / "samples" / "analytics"
     out_dir.mkdir(parents=True, exist_ok=True)
+    set_league(league)
 
-    print("[export] Loading 10 historical seasons…")
-    hist_all = load_hist_all()
+    print(f"[export] Loading historical seasons ({league})…")
+    hist_all = load_hist_all(league)
     print(f"[export] Loaded {len(hist_all)} seasons")
 
     print("[export] Loading generated solver reports…")
-    gen_reports = load_gen_reports()
+    gen_reports = load_gen_reports(league)
     print(f"[export] Found {len(gen_reports)} solver outputs")
 
     print("[export] Generating charts…")
     saved: list[Path] = []
-    saved += export_trend_charts(hist_all, gen_reports, out_dir)
-    saved.append(export_radar(hist_all, gen_reports, out_dir))
-    hm = export_heatmap(gen_reports, out_dir)
+    saved += export_trend_charts(hist_all, gen_reports, out_dir, league)
+    saved.append(export_radar(hist_all, gen_reports, out_dir, league))
+    hm = export_heatmap(gen_reports, out_dir, league)
     if hm:
         saved.append(hm)
-    sc = export_scorecard(gen_reports, out_dir)
+    sc = export_scorecard(gen_reports, out_dir, league)
     if sc:
         saved.append(sc)
-    saved.append(export_overview(hist_all, gen_reports, out_dir))
+    saved.append(export_overview(hist_all, gen_reports, out_dir, league))
 
     saved = [p for p in saved if p is not None]
     print(f"[export] Done — {len(saved)} PNGs in {out_dir}/")
@@ -661,6 +788,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--out-dir", default=str(ROOT / "samples" / "analytics"),
                     help="Output directory (default: samples/analytics/)")
+    ap.add_argument("--league", default="epl", choices=["epl", "nfl", "nba"],
+                    help="League to export analytics for (default: epl)")
     args = ap.parse_args()
-    files = main(Path(args.out_dir))
+    files = main(Path(args.out_dir), league=args.league)
     print(f"\nGenerated {len(files)} PNG files in {args.out_dir}")

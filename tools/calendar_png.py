@@ -890,19 +890,25 @@ def main() -> None:
     if solver_label == league.upper():
         solver_label = ""
 
+    # EPL keeps the original unprefixed "calendar*.png" convention (matches
+    # the committed samples/calendars/ filenames and existing tooling);
+    # NFL/NBA get a league-prefixed name so their output/ PNGs don't collide
+    # with each other (e.g. both leagues have a team abbreviated "DAL").
+    prefix = "calendar" if league == "epl" else f"calendar_{league}"
+
     if args.month:
         year = args.year or next(
             (y for y, m in all_months if m == args.month), all_months[0][0],
         )
         months = [(year, args.month)]
-        stem   = f"calendar_{team_id.lower() + '_' if team_id else ''}{_cal.month_abbr[args.month].lower()}"
+        stem   = f"{prefix}_{team_id.lower() + '_' if team_id else ''}{_cal.month_abbr[args.month].lower()}"
         out    = Path(args.out).with_name(f"{stem}.png")
     elif team_id:
         months = all_months
-        out    = Path(args.out).with_name(f"calendar_{team_id.lower()}.png")
+        out    = Path(args.out).with_name(f"{prefix}_{team_id.lower()}.png")
     else:
         months = all_months
-        out    = Path(args.out)
+        out    = Path(args.out) if league == "epl" else Path(args.out).with_name(f"{prefix}.png")
 
     render_season_png(
         by_date, derby_pairs, months, out, blocked_dates, festive_dates, solver_label,

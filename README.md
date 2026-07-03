@@ -120,12 +120,12 @@ Pro-Sports-Scheduler/
 │   ├── constraint_report.py       # Per-league, per-constraint implementation-status report
 │   ├── calendar_png.py            # League-agnostic PNG calendar renderer (--league nfl/nba/epl)
 │   ├── calendar_view.py           # Terminal/text calendar renderer
-│   ├── export_analytics.py        # Styled analytics chart set (EPL-focused today)
-│   ├── solver_accuracy_viz.py     # Solver-vs-historical accuracy charts (EPL-focused today)
+│   ├── export_analytics.py        # Styled analytics chart set (--league epl/nfl/nba)
+│   ├── solver_accuracy_viz.py     # Solver-vs-historical accuracy charts (--league epl/nfl/nba)
 │   ├── sample_schedule.py         # Prints matchday grids / team cards / derby lists from a schedule CSV
 │   └── validate_ha_windows.py     # H/A window constraint validator
 │
-├── webapp/                        # Flask dashboard (EPL only today — see Known Limitations)
+├── webapp/                        # Flask dashboard (all 3 leagues, ?league= query param)
 ├── samples/                       # Committed reference output: 21 EPL calendar PNGs, 8 analytics charts
 ├── output/                        # Generated schedules and reports (gitignored)
 └── requirements.txt
@@ -200,11 +200,13 @@ python -m analysis.main \
   --historical data/leagues/epl/historical/2024-25.csv
 ```
 
-### Web dashboard (EPL only today)
+### Web dashboard
 
 ```bash
 python run_webapp.py
-# http://127.0.0.1:5000
+# http://127.0.0.1:5000              — EPL (default)
+# http://127.0.0.1:5000/?league=nfl  — NFL
+# http://127.0.0.1:5000/?league=nba  — NBA
 ```
 
 ### Switching leagues
@@ -270,7 +272,7 @@ See `CLAUDE.md` for the full architectural rules this repo enforces (what belong
 ## Known limitations
 
 - **CP-SAT's hard-constraint feasibility is confirmed for NFL and NBA** — it reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC shares the same eligible-slot model but hasn't been confirmed to converge at this scale**: a feasibility-only test left CBC still in presolve/branch-and-bound past a 280s budget for NBA's ~221K-variable model, consistent with EPL's own ILP already needing a documented ~1800s cap at a 10× smaller variable count. Neither league has a wired `main.py` entry point for CP-SAT/ILP yet. The metaheuristic solver works for all three leagues regardless.
-- **The web dashboard and two `tools/` scripts (`export_analytics.py`, `solver_accuracy_viz.py`) default to EPL** — a league selector is still on the roadmap for them, even though the data layer underneath them (`analysis/metrics.py`, `analysis/historical_loader.py`, `tools/calendar_png.py`) already supports all three leagues.
+- **The web dashboard and `tools/export_analytics.py` / `tools/solver_accuracy_viz.py` support all three leagues** via a `?league=` query param / `--league` flag. EPL keeps its Atos-Golden-Rule-flavored charts (Boxing Day coverage, SC13 pattern violations, London cluster) unchanged; NFL and NBA substitute their own signature metrics (Thanksgiving coverage/primetime share; back-to-backs/4-in-5/All-Star-break compliance) for the panels that depend on EPL-only `MetricsReport` fields — the web dashboard's `/analysis` page shows a banner explaining this rather than presenting EPL-only fields as zeros. Penalty score and hard/soft-violation panels stay EPL-only, since `core/validator.py` hardcodes EPL constraint IDs (see the next bullet).
 - **`core/validator.py` checks schedules against EPL's specific constraint IDs by design** — use it for EPL schedules; NFL/NBA validation runs through `tools/constraint_report.py` and each league's own constraint sets instead.
 - **NBA's real historical data covers 9 seasons (2015-16 through 2023-24), not 10.** It's fetched from an MIT-licensed GitHub mirror of NBA Stats API data rather than `stats.nba.com` directly (blocked by the sandbox proxy) — see `data/leagues/nba/historical/download_seasons.py`. That mirror doesn't yet cover 2024-25; `generate_synthetic.py` remains available as a fallback generator if the mirror ever becomes unavailable.
 

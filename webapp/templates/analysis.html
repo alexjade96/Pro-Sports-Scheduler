@@ -6,16 +6,25 @@
   <div>
     <h1 class="h3 mb-0 fw-bold">Deep Analysis</h1>
     <p class="text-muted mb-0 small">
-      {{ hist_count }} historical seasons (2015&ndash;2025) &nbsp;&middot;&nbsp;
+      {{ hist_count }} historical seasons &nbsp;&middot;&nbsp;
       Comparing <strong>{{ best_label }}</strong> against historical benchmarks
     </p>
   </div>
   <div class="ms-auto d-flex gap-2">
     <button id="btnExportAll" class="btn btn-sm btn-primary">&#8987; Generate Export PNGs</button>
-    <a href="/accuracy" class="btn btn-sm btn-outline-secondary">Accuracy &rarr;</a>
+    <a href="/accuracy?league={{ active_league }}" class="btn btn-sm btn-outline-secondary">Accuracy &rarr;</a>
   </div>
 </div>
 <div id="exportStatus" class="alert alert-info py-2 small d-none mb-3"></div>
+
+{% if epl_only_charts %}
+<div class="alert alert-info small mb-4">
+  The Boxing Day coverage, SC13 H/A pattern, and Festive Coverage radar dimension below are EPL Atos Golden Rules and read as 0 for {{ active_league_label }} — {{ active_league_label }} has no equivalent rule, not a compliance gap.
+  Rest days, city clashes, and derby spacing are computed generically and are meaningful for any league.
+  Use <strong>Generate Export PNGs</strong> above for charts built from {{ active_league_label }}'s own signature metrics
+  ({{ 'Thanksgiving coverage and primetime share' if active_league == 'nfl' else 'back-to-backs, 4-in-5 violations, and All-Star break compliance' }}).
+</div>
+{% endif %}
 
 {% if not has_gen %}
 <div class="alert alert-warning">No generated schedule found. Run a solver first (<code>python -m solvers.cp_sat.main</code>).</div>
@@ -123,7 +132,7 @@
   </div>
   <div class="col-lg-6">
     <div class="card shadow-sm">
-      <div class="card-header fw-semibold">2024-25 Historical</div>
+      <div class="card-header fw-semibold">Most Recent Historical Season</div>
       <div class="card-body p-2" id="hmHistWrap"><p class="text-muted small p-2">Loading&hellip;</p></div>
     </div>
   </div>
@@ -193,7 +202,7 @@ const _charts = {};
 
 // ── Trend chart factory ───────────────────────────────────────────────────────
 function makeTrendChart(canvasId, metricKey, yLabel, yMin) {
-  const allSeasons = [...trend.seasons, '2025/26'];
+  const allSeasons = [...trend.seasons, 'Generated'];
   const histData   = [...trend[metricKey], null];
 
   const datasets = [{
@@ -406,7 +415,7 @@ document.getElementById('btnExportAll').addEventListener('click', async () => {
   status.textContent = 'Running matplotlib export (this may take 10–20 seconds)…';
 
   try {
-    const resp = await fetch('/api/export-analytics', { method: 'POST' });
+    const resp = await fetch('/api/export-analytics?league={{ active_league }}', { method: 'POST' });
     const data = await resp.json();
     if (data.ok) {
       sampleFiles = data.files;

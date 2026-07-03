@@ -6,7 +6,7 @@ other leagues — see "Analysis architecture" in CLAUDE.md.
 """
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, timedelta
 
 from analysis.metrics import MetricsReport
 from core.models import Schedule
@@ -24,13 +24,22 @@ def extend(
     _primetime_share(report, schedule, calendar)
 
 
+def _fourth_thursday_of_november(year: int) -> date:
+    """US Thanksgiving. Computed per calendar year present in the schedule
+    rather than read from the active calendar's single special_matchdays
+    entry, since Thanksgiving falls on a different date every year — a
+    historical season needs its own date, not the currently-configured
+    season's — mirrors EPL's _easter_sunday() fix for the same class of bug."""
+    d = date(year, 11, 1)
+    first_thursday = d + timedelta(days=(3 - d.weekday()) % 7)
+    return first_thursday + timedelta(days=21)
+
+
 def _thanksgiving(report: MetricsReport, schedule: Schedule, calendar: dict) -> None:
     """HC9: DAL and DET must play home on Thanksgiving; also tracks overall
     team coverage on the holiday (normally 6 teams across 3 games)."""
-    thanksgiving_dates = {
-        date.fromisoformat(d)
-        for d in calendar.get("special_matchdays", {}).get("thanksgiving", [])
-    }
+    years = {sf.slot.date.year for sf in schedule.fixtures}
+    thanksgiving_dates = {_fourth_thursday_of_november(y) for y in years}
     if not thanksgiving_dates:
         return
 
