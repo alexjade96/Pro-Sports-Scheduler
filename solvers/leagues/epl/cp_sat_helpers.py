@@ -60,63 +60,67 @@ def add_soft_ha_window(
     fixtures: list[Fixture],
     slots: list[Slot],
     teams: dict[str, Team],
-    window: int = 5,
-    min_home: int = 2,
-    max_home: int = 3,
     penalty: int = 25,
 ) -> list:
-    """SC13 (Atos Golden Rule) — penalise home-game clusters within date windows."""
+    """SC13 (Atos Golden Rule) — keep each team's fixtures in natural-round order.
+
+    The EPL fixture generator emits a double round-robin whose natural-round
+    ordering is already a perfect 2-3/3-2 five-match H/A pattern (see
+    generators/leagues/epl/generate_epl.py — each first-half round is
+    interleaved with its H/A-swapped counterpart, so any 5 consecutive rounds
+    hold exactly 2 or 3 home games per team). Home/away per fixture is fixed by
+    the generator, so the ONLY way SC13 gets broken is the solver scheduling a
+    team's games out of round order within the eligible-slot window.
+
+    This term penalises exactly that: for each team, an inversion where the
+    later-round fixture of an adjacent pair is played on an earlier date than
+    the round before it. If every adjacent pair stays in order, the team's date
+    order equals its round order and SC13 is 0 by construction — which matches
+    the metric (5-consecutive-*fixture* windows). The previous formulation
+    approximated SC13 with a rolling 35-day date window capped at 3 home / 3
+    away; that window holds 8-9 games in festive congestion, where a
+    simultaneous 3-home/3-away cap is unsatisfiable, so it penalised the solver
+    for congestion it could not avoid while never tracking the true 5-game
+    pattern."""
+    from solvers.round_assignment import assign_natural_rounds
+
     fsi = _fixture_slot_index(x, slots)
-    penalty_terms = []
+    ordered_dates = sorted({slot.date for slot in slots})
+    if not ordered_dates:
+        return []
+    date_index = {d: i for i, d in enumerate(ordered_dates)}
+    rounds = assign_natural_rounds(fixtures)
 
-    team_home_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
-    team_away_date: dict[str, dict] = defaultdict(lambda: defaultdict(list))
+    # pos[f] = date index of the slot fixture f is assigned to. Exactly one
+    # x var per fixture is 1 (fixture-once hard constraint), so this single
+    # weighted sum equals the assigned slot's chronological position.
+    pos: dict[str, cp_model.IntVar] = {}
     for fixture in fixtures:
-        for sid, slot in fsi.get(fixture.fixture_id, []):
-            team_home_date[fixture.home_team_id][slot.date].append(
-                x[(fixture.fixture_id, sid)]
-            )
-            team_away_date[fixture.away_team_id][slot.date].append(
-                x[(fixture.fixture_id, sid)]
-            )
+        elig = fsi.get(fixture.fixture_id, [])
+        if not elig:
+            continue
+        pvar = model.new_int_var(0, len(ordered_dates) - 1, f"pos_{fixture.fixture_id}")
+        model.add(pvar == sum(date_index[slot.date] * x[(fixture.fixture_id, sid)]
+                              for sid, slot in elig))
+        pos[fixture.fixture_id] = pvar
 
-    all_dates = sorted({slot.date for slot in slots})
-    if not all_dates:
-        return penalty_terms
+    team_fixtures: dict[str, list] = defaultdict(list)
+    for fixture in fixtures:
+        team_fixtures[fixture.home_team_id].append(fixture)
+        team_fixtures[fixture.away_team_id].append(fixture)
 
-    window_days = 35  # covers ~5 EPL fixtures in normal periods
-
+    penalty_terms = []
     for team_id in teams:
-        home_by_date = team_home_date[team_id]
-        away_by_date = team_away_date[team_id]
-
-        for d in all_dates:
-            end_d = d + timedelta(days=window_days)
-
-            home_in_win: list = []
-            away_in_win: list = []
-            for wd in all_dates:
-                if wd < d or wd > end_d:
-                    continue
-                home_in_win.extend(home_by_date.get(wd, []))
-                away_in_win.extend(away_by_date.get(wd, []))
-
-            if len(home_in_win) > max_home:
-                hc = model.new_int_var(0, len(home_in_win), f"hc_{team_id}_{d}")
-                model.add(hc == sum(home_in_win))
-                exc = model.new_int_var(0, len(home_in_win) - max_home,
-                                        f"exc_{team_id}_{d}")
-                model.add(exc >= hc - max_home)
-                penalty_terms.append((penalty, exc))
-
-            max_away = window - min_home
-            if len(away_in_win) > max_away:
-                ac = model.new_int_var(0, len(away_in_win), f"ac_{team_id}_{d}")
-                model.add(ac == sum(away_in_win))
-                dfc = model.new_int_var(0, len(away_in_win) - max_away,
-                                        f"dfc_{team_id}_{d}")
-                model.add(dfc >= ac - max_away)
-                penalty_terms.append((penalty, dfc))
+        seq = sorted(team_fixtures[team_id], key=lambda f: rounds[f.fixture_id])
+        for a, b in zip(seq, seq[1:]):
+            fa, fb = a.fixture_id, b.fixture_id
+            if fa not in pos or fb not in pos:
+                continue
+            # inv == 1  iff  pos[fb] < pos[fa]  (later round played earlier)
+            inv = model.new_bool_var(f"sc13inv_{team_id}_{fa}_{fb}")
+            model.add(pos[fb] <= pos[fa] - 1).only_enforce_if(inv)
+            model.add(pos[fb] >= pos[fa]).only_enforce_if(inv.Not())
+            penalty_terms.append((penalty, inv))
 
     return penalty_terms
 
@@ -252,6 +256,22 @@ def add_soft_city_cluster(
     return penalty_terms
 
 
+def _festive_date_weight(fest_date, base_penalty: int, marquee_penalty: int) -> int:
+    """Boxing Day (Dec 26) and New Year's Day (Jan 1) are the marquee
+    near-full-round festive dates the accuracy metric scores, so they get the
+    higher marquee weight. Dec 28 sits only 2 days after Boxing Day, and HC1's
+    3-day minimum rest means a team physically cannot play both — weighting it
+    equally would split teams across the two dates and cap Boxing Day coverage
+    at ~half, so it gets a low weight. Good Friday / Easter Monday are 3 days
+    apart (both fillable) and keep the base SC9 weight."""
+    md = (fest_date.month, fest_date.day)
+    if md in ((12, 26), (1, 1)):
+        return marquee_penalty
+    if md == (12, 28):
+        return max(1, base_penalty // 5)
+    return base_penalty
+
+
 def add_soft_festive_coverage(
     model: cp_model.CpModel,
     x: dict,
@@ -259,14 +279,26 @@ def add_soft_festive_coverage(
     slots: list[Slot],
     teams: dict[str, Team],
     penalty: int = 20,
+    marquee_penalty: int | None = None,
 ) -> list:
-    """SC9/PR2 — penalise missing team coverage on Boxing Day, Dec 28, Good Friday, Easter Monday."""
+    """SC9/PR2 — push a near-full round onto each marquee festive date.
+
+    Boxing Day and New Year's Day should each host a full round (all 20 teams),
+    the way real EPL schedules them; the previous flat per-team penalty was too
+    weak to beat the rest/city costs of concentrating a round, so the solver
+    smeared the late-December round across ~12 days and Boxing Day coverage
+    collapsed to a handful of teams. Marquee dates now carry a heavier weight
+    (see _festive_date_weight)."""
     from datetime import date as _date
 
     fsi = _fixture_slot_index(x, slots)
     calendar = load_calendar()
     penalty_terms = []
     all_team_ids = set(teams.keys())
+    # 1.5x (not 2x): a Boxing Day full round is worth pulling toward, but the
+    # cross-round compression it takes to fill the date breaks SC13 ordering,
+    # so the marquee weight is held just above the base rather than dominating.
+    marquee_penalty = marquee_penalty if marquee_penalty is not None else int(penalty * 1.5)
 
     festive_dates: set[_date] = set()
     for d in calendar.get("festive_matchdays", []):
@@ -280,6 +312,7 @@ def add_soft_festive_coverage(
     active_festive = sorted(festive_dates & slot_dates)
 
     for fest_date in active_festive:
+        w = _festive_date_weight(fest_date, penalty, marquee_penalty)
         for team_id in all_team_ids:
             team_vars = [
                 x[(f.fixture_id, sid)]
@@ -292,7 +325,7 @@ def add_soft_festive_coverage(
                 continue
             plays = model.new_bool_var(f"fst_{team_id}_{fest_date}")
             model.add_max_equality(plays, team_vars)
-            penalty_terms.append((penalty, plays.Not()))
+            penalty_terms.append((w, plays.Not()))
 
     return penalty_terms
 

@@ -103,8 +103,7 @@ class EPLCpSatConstraintSet:
         sc13 = s.get("SC13", {})
         terms += add_soft_ha_window(
             model, x, fixtures, slots, teams,
-            window=sc13.get("window", 5), min_home=sc13.get("min_home", 2),
-            max_home=sc13.get("max_home", 3), penalty=sc13.get("penalty_per_violation", 25),
+            penalty=sc13.get("penalty_per_violation", 25),
         )
         sc3 = s["SC3"]
         terms += add_soft_derby_gap(model, x, fixtures, slots,

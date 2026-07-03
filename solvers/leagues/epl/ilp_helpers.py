@@ -296,60 +296,59 @@ def add_soft_ha_window(
     fixtures: list[Fixture],
     slots: list[Slot],
     teams: dict[str, Team],
-    window: int = 5,
-    min_home: int = 2,
-    max_home: int = 3,
     penalty: int = 25,
 ) -> list[tuple[int, pulp.LpVariable]]:
-    """SC13 (Atos Golden Rule) — penalise home-game clusters within 35-day
-    date windows."""
-    from datetime import timedelta
+    """SC13 (Atos Golden Rule) — keep each team's fixtures in natural-round order.
+
+    Mirrors the CP-SAT formulation in cp_sat_helpers.add_soft_ha_window (see
+    that docstring for the full rationale): the EPL generator emits a fixture
+    sequence that is already a perfect 2-3/3-2 five-match H/A pattern in
+    natural-round order, and home/away is fixed per fixture, so SC13 is only
+    broken when the solver plays a team's games out of round order. This term
+    penalises each adjacent out-of-order pair. The previous 35-day date-window
+    home/away cap could not be satisfied during festive congestion (8-9 games
+    in a 35-day span vs a 3-home/3-away cap) and never tracked the true 5-game
+    metric.
+
+    ILP encodes each inversion with a big-M boolean:
+        pos(a) - pos(b) <= M * inv      (inv is forced to 1 when a's date index
+                                         exceeds b's, i.e. the later round plays
+                                         earlier), objective minimises penalty*inv.
+    """
+    from solvers.round_assignment import assign_natural_rounds
 
     fsi = _fixture_slot_index(x, slots)
     penalty_vars: list[tuple[int, pulp.LpVariable]] = []
 
-    team_home_date: dict = defaultdict(lambda: defaultdict(list))
-    team_away_date: dict = defaultdict(lambda: defaultdict(list))
+    ordered_dates = sorted({slot.date for slot in slots})
+    if not ordered_dates:
+        return penalty_vars
+    date_index = {d: i for i, d in enumerate(ordered_dates)}
+    big_m = len(ordered_dates)
+    rounds = assign_natural_rounds(fixtures)
+
+    def pos_expr(f: Fixture):
+        return pulp.lpSum(
+            date_index[slot.date] * x[(f.fixture_id, sid)]
+            for sid, slot in fsi.get(f.fixture_id, [])
+        )
+
+    team_fixtures: dict = defaultdict(list)
     for fixture in fixtures:
-        for sid, slot in fsi.get(fixture.fixture_id, []):
-            team_home_date[fixture.home_team_id][slot.date].append(
-                x[(fixture.fixture_id, sid)]
-            )
-            team_away_date[fixture.away_team_id][slot.date].append(
-                x[(fixture.fixture_id, sid)]
-            )
+        team_fixtures[fixture.home_team_id].append(fixture)
+        team_fixtures[fixture.away_team_id].append(fixture)
 
-    all_dates = sorted({slot.date for slot in slots})
-    window_days = 35
-    max_away = window - min_home
     counter = [0]
-
     for team_id in teams:
-        home_by_date = team_home_date[team_id]
-        away_by_date = team_away_date[team_id]
-
-        for d in all_dates:
-            end_d = d + timedelta(days=window_days)
-            home_in_win: list = []
-            away_in_win: list = []
-            for wd in all_dates:
-                if wd < d or wd > end_d:
-                    continue
-                home_in_win.extend(home_by_date.get(wd, []))
-                away_in_win.extend(away_by_date.get(wd, []))
-
+        seq = sorted(team_fixtures[team_id], key=lambda f: rounds[f.fixture_id])
+        for a, b in zip(seq, seq[1:]):
+            if not fsi.get(a.fixture_id) or not fsi.get(b.fixture_id):
+                continue
             counter[0] += 1
-            k = counter[0]
-
-            if len(home_in_win) > max_home:
-                slack = pulp.LpVariable(f"sc13h_{k}", lowBound=0)
-                prob += slack >= pulp.lpSum(home_in_win) - max_home
-                penalty_vars.append((penalty, slack))
-
-            if len(away_in_win) > max_away:
-                slack = pulp.LpVariable(f"sc13a_{k}", lowBound=0)
-                prob += slack >= pulp.lpSum(away_in_win) - max_away
-                penalty_vars.append((penalty, slack))
+            inv = pulp.LpVariable(f"sc13inv_{counter[0]}", cat="Binary")
+            # later-round fixture b played on an earlier date than a -> inv = 1
+            prob += pos_expr(a) - pos_expr(b) <= big_m * inv
+            penalty_vars.append((penalty, inv))
 
     return penalty_vars
 
@@ -402,6 +401,20 @@ def add_soft_same_city_home_clash(
     return penalty_vars
 
 
+def _festive_date_weight(fest_date, base_penalty: int, marquee_penalty: int) -> int:
+    """Boxing Day (Dec 26) and New Year's Day (Jan 1) are the marquee
+    near-full-round dates the accuracy metric scores → marquee weight. Dec 28
+    is 2 days after Boxing Day and HC1 (3-day min rest) forbids a team playing
+    both, so it gets a low weight to avoid cannibalising Boxing Day coverage.
+    Good Friday / Easter Monday (3 days apart, both fillable) keep the base."""
+    md = (fest_date.month, fest_date.day)
+    if md in ((12, 26), (1, 1)):
+        return marquee_penalty
+    if md == (12, 28):
+        return max(1, base_penalty // 5)
+    return base_penalty
+
+
 def add_soft_festive_coverage(
     prob: pulp.LpProblem,
     x: dict,
@@ -409,14 +422,20 @@ def add_soft_festive_coverage(
     slots: list[Slot],
     teams: dict[str, Team],
     penalty: int = 50,
+    marquee_penalty: int | None = None,
 ) -> list[tuple[int, pulp.LpVariable]]:
-    """SC9 — penalise missing team coverage on festive matchdays and Easter."""
+    """SC9/PR2 — push a near-full round onto each marquee festive date. Mirrors
+    cp_sat_helpers.add_soft_festive_coverage (see that docstring); Boxing Day
+    and New Year's Day carry the heavier marquee weight so the solver
+    concentrates a full round on them instead of smearing the late-December
+    round across ~12 days."""
     from datetime import date as _date
 
     calendar = load_calendar()
     fsi = _fixture_slot_index(x, slots)
     penalty_vars: list[tuple[int, pulp.LpVariable]] = []
     all_team_ids = set(teams.keys())
+    marquee_penalty = marquee_penalty if marquee_penalty is not None else int(penalty * 1.5)
 
     festive_dates: set[_date] = set()
     for d in calendar.get("festive_matchdays", []):
@@ -437,6 +456,7 @@ def add_soft_festive_coverage(
 
     counter = [0]
     for fest_date in active_festive:
+        w = _festive_date_weight(fest_date, penalty, marquee_penalty)
         for team_id in all_team_ids:
             team_vars = team_date_vars[team_id].get(fest_date, [])
             if not team_vars:
@@ -447,7 +467,7 @@ def add_soft_festive_coverage(
             prob += plays * len(team_vars) >= pulp.lpSum(team_vars)
             not_plays = pulp.LpVariable(f"sc9_miss_{counter[0]}", cat="Binary")
             prob += not_plays == 1 - plays
-            penalty_vars.append((penalty, not_plays))
+            penalty_vars.append((w, not_plays))
 
     return penalty_vars
 

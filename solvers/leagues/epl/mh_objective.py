@@ -240,6 +240,30 @@ def score(schedule: Schedule, teams: dict) -> float:
                 playing.add(sf.away_team_id)
         total += p_easter * len(team_ids - playing)
 
+    # ── SC9/PR2: Boxing Day & New Year's Day coverage ─────────────────────
+    # Marquee near-full rounds the accuracy metric scores. The MH previously
+    # had no Boxing Day/NYD coverage term at all, so nothing pushed teams onto
+    # those dates. Dec 28 sits 2 days after Boxing Day and HC1 (3-day min rest)
+    # forbids a team playing both, so it is weighted low to avoid cannibalising
+    # Boxing Day coverage. Mirrors the MIP festive term.
+    p_fest_base    = _WEIGHTS.get("SC9", 50)
+    p_fest_marquee = int(p_fest_base * 1.5)
+    for d_str in _CALENDAR.get("festive_matchdays", []):
+        fdate = date.fromisoformat(d_str)
+        md = (fdate.month, fdate.day)
+        if md in ((12, 26), (1, 1)):
+            w = p_fest_marquee
+        elif md == (12, 28):
+            w = max(1, p_fest_base // 5)
+        else:
+            w = p_fest_base
+        playing = set()
+        for sf in schedule.fixtures:
+            if sf.slot.date == fdate:
+                playing.add(sf.home_team_id)
+                playing.add(sf.away_team_id)
+        total += w * len(team_ids - playing)
+
     # ── SC13: five-match H/A pattern ─────────────────────────────────────
     p_5match = _WEIGHTS.get("SC13", 25)
     for team_id in teams:
