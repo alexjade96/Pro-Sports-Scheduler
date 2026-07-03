@@ -3,9 +3,19 @@ Generates synthetic-but-realistic historical EPL fixture CSVs for 10 seasons.
 Uses actual team rosters per season and realistic slot distributions derived
 from published EPL scheduling patterns.
 
+Fallback only — data/leagues/epl/historical/ is now populated with 10 real
+seasons (2015-16 through 2024-25) by download_seasons.py, sourced from the
+openfootball public-domain dataset (football-data.co.uk itself is blocked by
+the sandbox proxy). Use this generator only if that mirror ever becomes
+unreachable and real data collection needs a placeholder again. Note that
+this synthetic data assigns approximate dates that do not preserve real
+match-day/weekday structure, so date-derived metrics (rest, consecutive
+runs, festive coverage) are unreliable on it — that's exactly why it was
+replaced with the real fixtures.
+
 Output format matches football-data.co.uk so the same loader handles both.
 
-Run:  python data/historical/generate_synthetic.py
+Run:  python data/leagues/epl/historical/generate_synthetic.py
 """
 import csv
 import random
