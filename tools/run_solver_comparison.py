@@ -39,6 +39,12 @@ _SOLVER_HEADERS = {"cp_sat": "SOLVER A: CP-SAT (OR-Tools)",
                    "mh":     "SOLVER C: Metaheuristic (SA)"}
 
 
+def _report_name(league: str, base: str) -> str:
+    """EPL keeps unprefixed report_*.txt (backward compatibility); NFL/NBA use
+    report_<league>_*.txt so a run per league doesn't overwrite another's."""
+    return base if league == "epl" else base.replace("report_", f"report_{league}_", 1)
+
+
 def run_one(solver, league, fixtures, slots, teams, constraints, calendar,
             season_start, season_end, time_limit):
     print(f"\n{'='*60}")
@@ -149,7 +155,7 @@ def main():
         solver_cmp = compare_solvers(reports)
         text = rpt.render_text_solver_comparison(solver_cmp)
         print(text)
-        saved = rpt.save(text, "report_solvers.txt")
+        saved = rpt.save(text, _report_name(league, "report_solvers.txt"))
         print(f"  Saved: {saved}")
 
     # --- Accuracy vs historical ---
@@ -164,7 +170,7 @@ def main():
             print(text)
         saved = rpt.save(
             rpt.render_text_accuracy(compare_to_historical(reports[0], hist_report)),
-            "report_accuracy.txt",
+            _report_name(league, "report_accuracy.txt"),
         )
 
     # --- Per-team table ---
@@ -173,7 +179,7 @@ def main():
         all_reports.append(hist_report)
     if all_reports:
         per_team = rpt.render_per_team_table(all_reports)
-        saved = rpt.save(per_team, "report_per_team.txt")
+        saved = rpt.save(per_team, _report_name(league, "report_per_team.txt"))
         print(f"\n  Per-team table saved: {saved}")
 
     print(f"\n{'='*60}")
