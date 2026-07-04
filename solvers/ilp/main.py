@@ -1,70 +1,25 @@
 """
-ILP / PuLP solver entry point (EPL).
-Usage: python -m solvers.ilp.main
+ILP / PuLP solver entry point. League-agnostic via the shared runner/registry.
+Usage:
+    python -m solvers.ilp.main [--league epl|nfl|nba] [--time-limit 1800]
+
+Note: PuLP/CBC's timeLimit is unreliable in this environment and CBC has not
+been confirmed to converge at NFL/NBA scale — see CLAUDE.md. CP-SAT is the
+recommended MIP option for NFL/NBA.
 """
-import csv
-from datetime import date
-from pathlib import Path
+import argparse
 
-from core.data_loader import load_teams, load_calendar, load_constraints, generate_slots
-from generators.leagues.epl.generate_epl import generate_fixtures
-from core.validator import validate, print_report
-from solvers.ilp.solver import solve
-from solvers.leagues.epl.ilp_constraint_set import EPLILPConstraintSet
-
-
-OUTPUT_DIR = Path(__file__).parent.parent.parent / "output"
-
-
-def export_csv(schedule, path: Path) -> None:
-    with open(path, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["fixture_id", "date", "kickoff", "day", "home", "away"])
-        for sf in sorted(schedule.fixtures, key=lambda s: (s.slot.date, s.slot.kickoff)):
-            writer.writerow([
-                sf.fixture.fixture_id,
-                sf.slot.date,
-                sf.slot.kickoff,
-                sf.slot.day_of_week,
-                sf.home_team_id,
-                sf.away_team_id,
-            ])
-    print(f"Schedule exported to {path}")
+from solvers.runner import run_solver
+from solvers.registry import LEAGUES
 
 
 def main():
-    teams       = load_teams()
-    calendar    = load_calendar()
-    constraints = load_constraints()
-    slots       = generate_slots(calendar)
-    fixtures    = generate_fixtures(teams)
-
-    season_start = date.fromisoformat(calendar["start_date"])
-    season_end   = date.fromisoformat(calendar["end_date"])
-
-    print(f"Teams: {len(teams)} | Fixtures: {len(fixtures)} | Slots available: {len(slots)}")
-
-    constraint_set = EPLILPConstraintSet(
-        constraints, season_start, season_end,
-        final_day=calendar.get("final_day"),
-    )
-
-    schedule = solve(
-        fixtures=fixtures,
-        slots=slots,
-        teams=teams,
-        constraint_set=constraint_set,
-        season=calendar["season"],
-        time_limit_seconds=1800,
-    )
-
-    if schedule:
-        report = validate(schedule, teams)
-        print_report(report)
-        OUTPUT_DIR.mkdir(exist_ok=True)
-        export_csv(schedule, OUTPUT_DIR / "schedule_ilp.csv")
-    else:
-        print("No feasible schedule found.")
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--league", default="epl", choices=LEAGUES)
+    ap.add_argument("--time-limit", type=int, default=None,
+                    help="Solver time limit in seconds (default: 1800)")
+    args = ap.parse_args()
+    run_solver("ilp", league=args.league, time_limit=args.time_limit)
 
 
 if __name__ == "__main__":

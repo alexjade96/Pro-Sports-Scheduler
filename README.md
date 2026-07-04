@@ -44,7 +44,7 @@ The three solver engines (`solvers/cp_sat/solver.py`, `solvers/ilp/solver.py`, `
 | **Method** | Constraint programming | Integer linear programming | Simulated annealing + tabu search |
 | **Feasibility** | Guaranteed if proven feasible | Guaranteed if solved | Converges toward a low-penalty solution; quality depends on the time budget |
 | **EPL runtime** | Reaches FEASIBLE (0 hard violations) in ~30–60s; a 300s+ budget improves the penalty score further but the current objective's size keeps OR-Tools short of a proven OPTIMAL | ~1800s cap | ~300s |
-| **NFL / NBA** | Hard-constraint feasibility confirmed (reaches OPTIMAL); no wired `main.py` entry point yet | Same eligible-slot model as CP-SAT, but CBC hasn't been confirmed to converge at this scale — CP-SAT is the working MIP option for now | Fully working (see caveats below) |
+| **NFL / NBA** | Hard-constraint feasibility confirmed (reaches OPTIMAL); wired via `--league` | Same eligible-slot model as CP-SAT, but CBC hasn't been confirmed to converge at this scale — CP-SAT is the working MIP option for now | Fully working (see caveats below) |
 
 The two MIP solvers (A and B) use a temporal slot-filter (`solvers/slot_filter.py`) that restricts each fixture to slots within a window of its natural round, cutting decision variables substantially. The round assignment is computed generically for any league (`solvers/round_assignment.py`), and NFL/NBA's generators pre-interleave their matchup-type-blocked fixture order (`generators/interleave.py`) before handing fixtures to it — see **Known Limitations** for where ILP's own solve time still needs work at NFL/NBA's scale.
 
@@ -101,9 +101,11 @@ Pro-Sports-Scheduler/
 │
 ├── solvers/
 │   ├── constraint_set.py          # Protocol interfaces every league's constraint sets implement
+│   ├── registry.py                # (league, solver) → generator + constraint-set-class factory
+│   ├── runner.py                  # League-agnostic run flow (load→generate→build→solve→validate→export)
 │   ├── round_assignment.py        # Generic "natural round" assignment (greedy edge-coloring over any fixture list)
 │   ├── slot_filter.py             # Temporal pre-filter for the MIP solvers, built on round_assignment.py
-│   ├── cp_sat/ · ilp/ · metaheuristic/    # 3 generic solver engines, driven entirely by the constraint_set they're given
+│   ├── cp_sat/ · ilp/ · metaheuristic/    # 3 generic solver engines + league-parametrized main.py entry points
 │   └── leagues/{epl,nfl,nba}/     # Per-league constraint-set implementations plugged into the 3 engines
 │
 ├── analysis/
@@ -149,15 +151,16 @@ pip install -r requirements.txt
 
 All commands below default to EPL. Switch leagues by passing `--league nfl`/`--league nba` where supported, or by calling `set_league()` first in a script (see **Switching leagues** below).
 
-### Run a single solver (EPL — the only league with wired-up `main.py` entry points so far)
+### Run a single solver (any league via `--league`)
 
 ```bash
-python -m solvers.cp_sat.main           # Option A — CP-SAT
-python -m solvers.ilp.main              # Option B — ILP / PuLP + CBC
-python -m solvers.metaheuristic.main    # Option C — Simulated Annealing
+python -m solvers.cp_sat.main --league epl            # Option A — CP-SAT
+python -m solvers.ilp.main --league nfl               # Option B — ILP / PuLP + CBC
+python -m solvers.metaheuristic.main --league nba     # Option C — Simulated Annealing
+# --league defaults to epl; add --time-limit <seconds> to override the solver budget
 ```
 
-Each solver writes its schedule to `output/schedule_<solver>.csv`. For NFL/NBA, construct fixtures/slots/constraint-set manually and call `solvers.metaheuristic.solver.solve()` directly — see any `solvers/leagues/{nfl,nba}/*_constraint_set.py` for the exact pattern.
+Every entry point is league-parametrized — they dispatch through `solvers/registry.py` (the `(league, solver) → generator + constraint-set` factory) and `solvers/runner.py` (the shared solve/validate/export flow), so no league is hardcoded. Output goes to `output/schedule_<solver>.csv` for EPL and `output/schedule_<league>_<solver>.csv` for NFL/NBA. The full constraint validator runs only for EPL (its IDs are EPL-specific); NFL/NBA print a generic metrics summary and are validated via `tools/constraint_report.py`. CP-SAT is the recommended MIP for NFL/NBA (CBC not confirmed to converge at that scale).
 
 ### Run all three solvers and compare
 
@@ -271,7 +274,7 @@ See `CLAUDE.md` for the full architectural rules this repo enforces (what belong
 
 ## Known limitations
 
-- **CP-SAT's hard-constraint feasibility is confirmed for NFL and NBA** — it reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC shares the same eligible-slot model but hasn't been confirmed to converge at this scale**: a feasibility-only test left CBC still in presolve/branch-and-bound past a 280s budget for NBA's ~221K-variable model, consistent with EPL's own ILP already needing a documented ~1800s cap at a 10× smaller variable count. Neither league has a wired `main.py` entry point for CP-SAT/ILP yet. The metaheuristic solver works for all three leagues regardless.
+- **CP-SAT's hard-constraint feasibility is confirmed for NFL and NBA** — it reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC shares the same eligible-slot model but hasn't been confirmed to converge at this scale**: a feasibility-only test left CBC still in presolve/branch-and-bound past a 280s budget for NBA's ~221K-variable model, consistent with EPL's own ILP already needing a documented ~1800s cap at a 10× smaller variable count. All three solver entry points are now wired for every league via `--league` (through `solvers/registry.py` + `solvers/runner.py`); CP-SAT remains the recommended MIP for NFL/NBA.
 - **The web dashboard and `tools/export_analytics.py` / `tools/solver_accuracy_viz.py` support all three leagues** via a `?league=` query param / `--league` flag. EPL keeps its Atos-Golden-Rule-flavored charts (Boxing Day coverage, SC13 pattern violations, London cluster) unchanged; NFL and NBA substitute their own signature metrics (Thanksgiving coverage/primetime share; back-to-backs/4-in-5/All-Star-break compliance) for the panels that depend on EPL-only `MetricsReport` fields — the web dashboard's `/analysis` page shows a banner explaining this rather than presenting EPL-only fields as zeros. Penalty score and hard/soft-violation panels stay EPL-only, since `core/validator.py` hardcodes EPL constraint IDs (see the next bullet).
 - **`core/validator.py` checks schedules against EPL's specific constraint IDs by design** — use it for EPL schedules; NFL/NBA validation runs through `tools/constraint_report.py` and each league's own constraint sets instead.
 - **NBA's real historical data covers 9 seasons (2015-16 through 2023-24), not 10.** It's fetched from an MIT-licensed GitHub mirror of NBA Stats API data rather than `stats.nba.com` directly (blocked by the sandbox proxy) — see `data/leagues/nba/historical/download_seasons.py`. That mirror doesn't yet cover 2024-25; `generate_synthetic.py` remains available as a fallback generator if the mirror ever becomes unavailable.
