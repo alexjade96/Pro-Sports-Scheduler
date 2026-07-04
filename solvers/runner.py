@@ -68,21 +68,10 @@ def export_csv(schedule, path: Path) -> None:
 
 
 def _report(schedule, teams, league: str) -> None:
-    """EPL uses the full constraint validator (its IDs are EPL-specific). For
-    NFL/NBA — which core.validator does not cover — print a generic
-    metrics-based summary; full per-constraint status is via
-    tools/constraint_report.py."""
-    if league == "epl":
-        from core.validator import validate, print_report
-        print_report(validate(schedule, teams))
-        return
-    from analysis.metrics import compute
-    m = compute(schedule)
-    print(f"[{league}] fixtures={m.total_fixtures} teams={len(m.teams_seen)} "
-          f"rest_min={m.rest_min_global} rest_mean={round(m.rest_mean, 2)} "
-          f"max_consec_home/away={m.league_max_consec_home}/{m.league_max_consec_away}")
-    print(f"[{league}] core.validator is EPL-only; run tools/constraint_report.py "
-          f"--league {league} for per-constraint status.")
+    """Run the per-league constraint validator (core.validator dispatches to
+    the right one) and print the standard report — works for all leagues."""
+    from core.validator import validate, print_report
+    print_report(validate(schedule, teams, league=league))
 
 
 def run_solver(

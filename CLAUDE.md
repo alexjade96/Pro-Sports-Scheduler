@@ -37,8 +37,8 @@ python -m solvers.metaheuristic.main [--league epl|nfl|nba] [--time-limit 600]  
 # objective means OR-tools does not prove OPTIMAL even given a 300s+ budget. NFL/NBA: CP-SAT is
 # the working MIP option (ILP/CBC not confirmed to converge at that scale — see below).
 # The runner writes output/schedule_<solver>.csv for EPL, output/schedule_<league>_<solver>.csv
-# for NFL/NBA (metaheuristic label is "metaheuristic"), and runs the full validator only for EPL
-# (core.validator hardcodes EPL constraint IDs); NFL/NBA get a generic metrics summary.
+# for NFL/NBA (metaheuristic label is "metaheuristic"), and runs the per-league validator
+# (core.validator dispatches to core/leagues/<league>/validator.py) for all three leagues.
 
 # Run all three solvers and compare (any league)
 python tools/run_solver_comparison.py [--league epl|nfl|nba] [--time-limit 90] [--skip-cp-sat] [--skip-ilp] [--skip-mh]
@@ -62,10 +62,12 @@ python -m analysis.main \
   --solver-compare output/schedule_cp_sat.csv output/schedule_ilp.csv \
   --historical data/leagues/epl/historical/2024-25.csv
 
-# Validate a schedule object (scoped to EPL — core/validator.py hardcodes
-# EPL constraint IDs; use it for EPL schedules only) — returns a dict
+# Validate a schedule object — core.validator.validate() dispatches to the
+# active (or given) league's validator and returns a dict with the same shape
+# for every league (hard/soft violations, counts, penalty, feasible)
 from core.validator import validate, print_report
-report = validate(schedule, teams)
+report = validate(schedule, teams)            # infers active league
+report = validate(schedule, teams, league="nfl")  # or pass explicitly
 print_report(report)
 
 # Sample schedule output (matchday grid, team card, derbies, festive)
@@ -80,7 +82,7 @@ python tools/calendar_png.py --team LIV         # team PNG → output/calendar_l
 python tools/calendar_png.py --team ARS --month 11
 ```
 
-There are no automated tests. Validation for EPL is done via `core/validator.py` post-solve; for NFL/NBA, use `tools/constraint_report.py` plus manual smoke-testing (see "NFL / NBA support").
+There are no automated tests. Post-solve validation runs via `core/validator.py` for all three leagues (it dispatches to `core/leagues/<league>/validator.py` for NFL/NBA, EPL inline); `tools/constraint_report.py` gives the per-constraint implementation matrix.
 
 ## Git conventions
 
@@ -118,7 +120,7 @@ generators/leagues/<league>/generate_<league>.py
 solvers/<solver>/solver.py  (generic — dispatches everything through constraint_set)
         └─ solve(...) → Schedule | None
                 │
-core/validator.py → dict (EPL-only; hard_violations, soft_violations, total_penalty_score, feasible)
+core/validator.py → dict (per-league dispatch; hard_violations, soft_violations, total_penalty_score, feasible)
 analysis/metrics.py → MetricsReport (27 metrics)
         │
 webapp/app.py → Flask dashboard (reads output/ CSVs + samples/calendars/ PNGs at startup)
@@ -276,8 +278,8 @@ Data files (`data/leagues/nfl/`, `data/leagues/nba/`), fixture generators (`gene
 - **Constraint coverage**: run `python tools/constraint_report.py` for the current per-constraint, per-solver implementation matrix. Most hard constraints that describe the fixture-generation *formula itself* (e.g. NFL HC2-HC6, NBA HC2-HC4) show as "implied" — they're guaranteed by the generator rather than enforced by the solver. Most unimplemented soft constraints are waiting on external data the project hasn't collected yet (broadcast slots, arena coordinates, travel distances, IST/marquee-game designations).
 - **Historical data**: EPL has real 10-season CSVs (2015-16 through 2024-25) in `data/leagues/epl/historical/`, fetched by `download_seasons.py` from the openfootball public-domain dataset (mirrored on GitHub raw content) — `football-data.co.uk`, the originally-intended source, is blocked by the sandbox proxy, so this reads from that reachable mirror and writes the fixtures back out in football-data.co.uk CSV format so the loader is unchanged. NBA has 9 real seasons (2015-16 through 2023-24) in `data/leagues/nba/historical/`, fetched by its own `download_seasons.py` from an MIT-licensed GitHub mirror of NBA Stats API data (`stats.nba.com` itself is blocked by the sandbox proxy). Each league keeps a `generate_synthetic.py` as a fallback generator in case its mirror ever becomes unavailable; neither is what's committed under `historical/` anymore. The synthetic generators assign approximate dates that don't preserve real match-day structure, so date-derived metrics (rest, consecutive runs, festive coverage) are only trustworthy on the real data — the EPL set was synthetic until this pass and was actively distorting the historical-accuracy baselines (e.g. Boxing Day coverage, SC13 counts). The NBA mirror doesn't yet cover 2024-25, so NBA has 9 real seasons vs. EPL/NFL's 10.
 - **CP-SAT**: hard-constraint feasibility confirmed for both leagues (see "MIP solvers (CP-SAT and ILP)" above for the round-assignment + block-interleaving fix and NBA's widened `window_rounds`) — CP-SAT reaches OPTIMAL on the hard-constraint-only model for both. **ILP/CBC** shares the same eligible-slot model but hasn't been confirmed to converge at NFL/NBA's scale in practice; treat CP-SAT as the working MIP option for these two leagues for now. Full end-to-end solves (soft-constraint objective included, run to a real time budget) haven't been benchmarked yet, only hard-constraint feasibility.
-- **All three solver entry points are wired for every league** (`python -m solvers.{cp_sat,ilp,metaheuristic}.main --league nfl|nba`), dispatched through `solvers/registry.py` (the `(league, solver) → generator + constraint-set-class` factory) and `solvers/runner.py` (the shared load→generate→build→solve→validate→export flow). The runner gates the EPL-only `core.validator` (NFL/NBA get a generic metrics summary) and uses the `schedule_<league>_<solver>.csv` output convention. `tools/run_solver_comparison.py --league` runs all three solvers for any league. The metaheuristic works for all three leagues (verified end-to-end via the runner).
-- `core/validator.py` is scoped to EPL (hardcoded constraint IDs) — use it for EPL schedules only.
+- **All three solver entry points are wired for every league** (`python -m solvers.{cp_sat,ilp,metaheuristic}.main --league nfl|nba`), dispatched through `solvers/registry.py` (the `(league, solver) → generator + constraint-set-class` factory) and `solvers/runner.py` (the shared load→generate→build→solve→validate→export flow). The runner runs the per-league validator and uses the `schedule_<league>_<solver>.csv` output convention. `tools/run_solver_comparison.py --league` runs all three solvers for any league. The metaheuristic works for all three leagues (verified end-to-end via the runner).
+- **`core/validator.py` validates all three leagues via a dispatcher.** `validate(schedule, teams, league=None)` infers the active league (or takes an explicit one) and delegates: EPL inline, NFL/NBA to `core/leagues/<league>/validator.py`. Every league returns the same report shape, so `print_report` and downstream callers (the runner, `run_solver_comparison.py`, the webapp's `_validate_generated`) are league-agnostic. The NFL/NBA validators check the schedule-verifiable constraints and reuse `analysis.metrics.compute()` for the per-team/league-specific counts it already derives (back-to-backs, 4-in-5, All-Star break, Thanksgiving hosts, consecutive runs); structural constraints guaranteed by the generator (division/conference rotation, bye weeks) and those needing external data the project doesn't collect (travel miles, arena windows, broadcast slots) are not re-checked — see each validator's module docstring.
 
 ### Adding a new league
 

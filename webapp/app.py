@@ -122,8 +122,9 @@ def _load_league_data(league: str) -> dict:
         if not csv_path.exists():
             continue
         gen_schedule = _load_generated_csv(str(csv_path))
-        # core/validator.py hardcodes EPL constraint IDs — only meaningful for EPL.
-        solver_meta = _validate_generated(gen_schedule, teams) if league == "epl" else None
+        # core.validator dispatches to the active league's validator (set_league
+        # was called above), so all three leagues get real solver_meta now.
+        solver_meta = _validate_generated(gen_schedule, teams)
         report      = compute(gen_schedule, solver_meta=solver_meta)
         report.label = SOLVER_LABELS[key]
         gen_reports.append(report)
@@ -265,7 +266,7 @@ def index():
     if best:
         kpis = [
             {"label": "Total Fixtures",   "value": best.total_fixtures,        "sub": f"{hist.total_fixtures if hist else best.total_fixtures} target"},
-            {"label": "Hard Violations",  "value": best.hard_violations if best.hard_violations is not None else "—",  "sub": "must be 0" if league == "epl" else "no validator for this league yet", "ok": (best.hard_violations or 0) == 0 if best.hard_violations is not None else None},
+            {"label": "Hard Violations",  "value": best.hard_violations if best.hard_violations is not None else "—",  "sub": "must be 0", "ok": (best.hard_violations or 0) == 0 if best.hard_violations is not None else None},
             {"label": "Soft Violations",  "value": best.soft_violations if best.soft_violations is not None else "—",  "sub": "lower is better"},
             {"label": "Penalty Score",    "value": best.penalty_score if best.penalty_score is not None else "—",    "sub": "lower is better"},
             {"label": "Mean Rest Days",   "value": best.rest_mean,             "sub": f"hist {hist.rest_mean if hist else '—'}"},

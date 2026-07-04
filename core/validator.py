@@ -54,9 +54,32 @@ def _home_by_date(schedule: Schedule) -> dict[str, list[str]]:
     return d
 
 
-# ── main validator ────────────────────────────────────────────────────────────
+# ── dispatcher ──────────────────────────────────────────────────────────────
 
-def validate(schedule: Schedule, teams: dict) -> dict:
+def validate(schedule: Schedule, teams: dict, league: str | None = None) -> dict:
+    """Validate a schedule against the active (or given) league's constraints.
+
+    Dispatches to the per-league validator; every league returns the same report
+    shape (hard_violations / soft_violations / counts / total_penalty_score /
+    feasible), so print_report and all downstream callers are league-agnostic.
+    EPL is validated inline below; NFL/NBA live in core/leagues/<league>/validator.py.
+    """
+    from core.data_loader import get_active_league
+    league = league or get_active_league()
+    if league == "epl":
+        return _validate_epl(schedule, teams)
+    if league == "nfl":
+        from core.leagues.nfl.validator import validate as _v
+        return _v(schedule, teams)
+    if league == "nba":
+        from core.leagues.nba.validator import validate as _v
+        return _v(schedule, teams)
+    raise ValueError(f"No validator for league {league!r}")
+
+
+# ── EPL validator ───────────────────────────────────────────────────────────
+
+def _validate_epl(schedule: Schedule, teams: dict) -> dict:
     constraints  = load_constraints()
     city_groups  = load_city_groups()
     calendar     = load_calendar()

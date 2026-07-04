@@ -109,27 +109,23 @@ def main():
             continue
         print(f"\n  [{name}]")
 
-        # core.validator hardcodes EPL constraint IDs — only meaningful for EPL.
-        meta = {"solve_time_seconds": elapsed}
-        if league == "epl":
-            from core.validator import validate, print_report
-            val_report = validate(sched, teams)
-            print_report(val_report)
-            penalty = val_report.get("total_penalty_score")
-            hard_v  = val_report.get("hard_violation_count", 0)
-            soft_v  = val_report.get("soft_violation_count", 0)
-            if solver == "mh":
-                from solvers.leagues.epl.mh_objective import score as mh_score
-                try:
-                    penalty = mh_score(sched, teams)
-                except Exception:
-                    pass
-            meta.update(penalty_score=penalty, hard_violations=hard_v, soft_violations=soft_v)
-        else:
-            m = compute(sched)
-            print(f"    fixtures={m.total_fixtures} rest_min={m.rest_min_global} "
-                  f"max_consec_home/away={m.league_max_consec_home}/{m.league_max_consec_away} "
-                  f"(core.validator is EPL-only)")
+        # Per-league validator (core.validator dispatches to the right one).
+        from core.validator import validate, print_report
+        val_report = validate(sched, teams, league=league)
+        print_report(val_report)
+        meta = {
+            "solve_time_seconds": elapsed,
+            "penalty_score":      val_report.get("total_penalty_score"),
+            "hard_violations":    val_report.get("hard_violation_count", 0),
+            "soft_violations":    val_report.get("soft_violation_count", 0),
+        }
+        if league == "epl" and solver == "mh":
+            # EPL's MH objective is a richer penalty than the validator's count.
+            from solvers.leagues.epl.mh_objective import score as mh_score
+            try:
+                meta["penalty_score"] = mh_score(sched, teams)
+            except Exception:
+                pass
 
         report = compute(sched, solver_meta=meta)
         report.label = name
