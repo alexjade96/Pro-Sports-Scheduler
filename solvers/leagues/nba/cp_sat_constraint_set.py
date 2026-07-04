@@ -80,6 +80,13 @@ class NBAcpSatConstraintSet:
         if self._hard.get("HC13"):
             self._add_final_day_all_play(model, x, fixtures, slots, teams)
 
+        # HC8 (back-to-back ceiling) is NOT added as a hard constraint here: a
+        # season-global per-team b2b cap couples every fixture and makes this
+        # 221K-variable model intractable (no feasible solution found in 300s
+        # in direct testing, vs OPTIMAL in <150s without it). It is enforced by
+        # the soft SC1 term instead (target 14, below the 16 ceiling); see the
+        # NBA validator, which reports b2b overages as soft for the same reason.
+
     def _add_allstar_blackout(self, model, x, fixtures, slots) -> None:
         """HC10: No games during the All-Star break window."""
         from core.data_loader import load_calendar

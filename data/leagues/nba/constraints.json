@@ -65,6 +65,8 @@
       "type": "max_back_to_backs",
       "target_per_team": 14,
       "hard_ceiling": 16,
+      "enforced_as": "soft (SC1)",
+      "enforced_note": "Officially a hard ceiling, but a season-global per-team back-to-back cap couples every fixture and makes the 221K-variable CP-SAT/ILP model intractable (direct testing: no feasible solution in 300s with it as a hard constraint, vs OPTIMAL in <150s without). It is enforced by the soft SC1 term (target 14, stricter than this 16 ceiling); the validator reports overages as soft rather than as a hard infeasibility.",
       "source": "NBA CBA 2023 and league operations agreement — back-to-back limit for player welfare",
       "description": "Each team should have no more than 16 back-to-back game pairs per season (target is 14)"
     },

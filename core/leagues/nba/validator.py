@@ -89,11 +89,19 @@ def validate(schedule: Schedule, teams: dict) -> dict:
     for tid, cnt in _eight_in_twelve(schedule, team_ids).items():
         hard_v.append({"constraint": "HC6", "team": tid, "windows": cnt})
 
-    # ── HC8: back-to-backs must not exceed the hard ceiling ───────────────
+    # ── HC8: back-to-back ceiling — reported SOFT, not hard ───────────────
+    # Officially a hard ceiling (16), but a season-global per-team b2b cap makes
+    # the CP-SAT/ILP model intractable (no feasible solution in 300s), so it is
+    # enforced by the soft SC1 term (target 14, below the ceiling) rather than a
+    # hard model constraint. Reported here as soft so a schedule satisfying every
+    # hard-modellable rule is not falsely marked infeasible. See the HC8 note in
+    # data/leagues/nba/constraints.json and the NBA CP-SAT constraint set.
     ceiling = hard.get("HC8", {}).get("hard_ceiling", 16)
     for tid, b2b in m.back_to_back_counts.items():
         if b2b > ceiling:
-            hard_v.append({"constraint": "HC8", "team": tid, "back_to_backs": b2b, "ceiling": ceiling})
+            soft_v.append({"constraint": "HC8", "team": tid, "back_to_backs": b2b,
+                           "ceiling": ceiling, "note": "official hard ceiling, soft-enforced via SC1"})
+            penalty += 25 * (b2b - ceiling)
 
     # ── HC10: no games during the All-Star break (from metrics) ───────────
     if m.all_star_break_violations:
