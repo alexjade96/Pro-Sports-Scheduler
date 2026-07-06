@@ -131,14 +131,47 @@ def _load_constraints(league: str) -> dict:
         return json.load(f)
 
 
+# Annotation fields rendered on their own dedicated lines (not dumped into Params).
+_ANNOTATION_FIELDS = {
+    "relaxed_from_official", "relaxation_note",
+    "reality_note",
+    "enforced_as", "enforced_note",
+    "implied_by", "implied_note",
+}
+
+
 def _fmt_value_fields(item: dict) -> str:
-    skip = {"id", "type", "source", "description"}
+    skip = {"id", "type", "source", "description"} | _ANNOTATION_FIELDS
     parts = []
     for k, v in item.items():
         if k in skip:
             continue
         parts.append(f"{k}={v}")
     return "; ".join(parts)
+
+
+def _wrap(label: str, text: str, width: int = 92) -> list[str]:
+    """Wrap a long annotation body under a 'Label : ...' header with hanging indent."""
+    import textwrap
+    indent = " " * 6 + " " * (len(label) + 3)  # align continuation under the text column
+    first = " " * 6 + f"{label} : "
+    wrapped = textwrap.wrap(text, width=width) or [""]
+    out = [first + wrapped[0]]
+    out.extend(indent + line for line in wrapped[1:])
+    return out
+
+
+def _reconciliation_status(item: dict) -> str:
+    """One-word tag for the historical-reconciliation column."""
+    if "relaxed_from_official" in item:
+        return "RELAXED"
+    if item.get("enforced_as"):
+        return "SOFT-ENFORCED"
+    if "reality_note" in item:
+        return "KEPT (reality documented)"
+    if "implied_by" in item:
+        return "IMPLIED (redundant)"
+    return "AS OFFICIAL"
 
 
 def _render_section(title: str, items: list[dict], status_map: dict[str, dict], solver_cols: list[str]) -> str:
@@ -153,8 +186,60 @@ def _render_section(title: str, items: list[dict], status_map: dict[str, dict], 
         lines.append(f"      Source : {item.get('source', '—')}")
         flags = "  ".join(f"{col.upper()}={_STATUS_SYMBOL.get(st.get(col, 'no'), 'NO')}" for col in solver_cols)
         lines.append(f"      Status : {flags}")
+
+        # Historical-reconciliation column: when a rule was relaxed/changed/kept
+        # relative to its official definition for historical-scheduling reasons.
+        lines.append(f"      Reality: {_reconciliation_status(item)}")
+        if "relaxed_from_official" in item:
+            lines += _wrap("Relaxed", f"from official {item['relaxed_from_official']}. "
+                           f"{item.get('relaxation_note', '')}".strip())
+        elif item.get("reality_note"):
+            lines += _wrap("Note", item["reality_note"])
+        if item.get("enforced_as"):
+            lines += _wrap("Enforced", f"as {item['enforced_as']}. {item.get('enforced_note', '')}".strip())
+        if item.get("implied_by"):
+            lines += _wrap("Implied", f"by {item['implied_by']}. {item.get('implied_note', '')}".strip())
+
         if st.get("note"):
-            lines.append(f"      Note   : {st['note']}")
+            lines += _wrap("Impl", st["note"])
+    return "\n".join(lines)
+
+
+def _reconciliation_summary(data: dict) -> str:
+    """List every constraint whose enforcement diverges from its official
+    definition for historical-scheduling reasons (relaxed / soft-enforced /
+    kept-but-documented / redundant)."""
+    all_items = data.get("hard", []) + data.get("soft", []) + data.get("preferences", [])
+    relaxed, soft_enf, kept, implied = [], [], [], []
+    for it in all_items:
+        if "relaxed_from_official" in it:
+            relaxed.append((it["id"], it["relaxed_from_official"]))
+        elif it.get("enforced_as"):
+            soft_enf.append((it["id"], it["enforced_as"]))
+        elif "reality_note" in it:
+            kept.append(it["id"])
+        elif "implied_by" in it:
+            implied.append((it["id"], it["implied_by"]))
+    lines = [f"\n{'─' * 100}", "HISTORICAL-RECONCILIATION SUMMARY", "─" * 100,
+             "  How each rule's enforcement relates to its official definition, after calibrating",
+             "  against the real historical seasons (see data/leagues/<league>/constraints.json).", ""]
+    if relaxed:
+        lines.append("  RELAXED / CHANGED from official (enforced value differs from the rulebook):")
+        for cid, orig in relaxed:
+            lines.append(f"    - {cid}: original official {orig} -> relaxed to current `value` (see Relaxed note)")
+    if soft_enf:
+        lines.append("  SOFT-ENFORCED (officially hard, enforced as soft for tractability/reality):")
+        for cid, how in soft_enf:
+            lines.append(f"    - {cid}: enforced {how}")
+    if kept:
+        lines.append("  KEPT as official, real-world divergence documented (rule-change-over-time / festive / COVID):")
+        lines.append(f"    - {', '.join(kept)}")
+    if implied:
+        lines.append("  IMPLIED / redundant (kept for provenance, enforced via another rule):")
+        for cid, by in implied:
+            lines.append(f"    - {cid}: implied by {by}")
+    if not (relaxed or soft_enf or kept or implied):
+        lines.append("  (none — every constraint is enforced exactly as officially defined)")
     return "\n".join(lines)
 
 
@@ -207,12 +292,19 @@ def generate_report(league: str, solver_cols: list[str], status_map: dict[str, d
     if data.get("preferences"):
         lines.append(_render_section("PREFERENCE CONSTRAINTS", data["preferences"], status_map, solver_cols))
 
+    lines.append(_reconciliation_summary(data))
     lines.append(_coverage_stats(status_map, solver_cols))
     lines.append("\n" + "=" * 100)
-    lines.append("  Legend: YES = fully implemented and correctly tied to this ID")
+    lines.append("  Status legend: YES = fully implemented and correctly tied to this ID")
     lines.append("          IMPLIED = enforced indirectly (e.g. by fixture generation), not a standalone solver check")
     lines.append("          PARTIAL = logic exists but is mislabeled, approximated, or folded into another constraint")
-    lines.append("          NO = not implemented (see Note for reason, usually missing external data)")
+    lines.append("          NO = not implemented (see Impl note for reason, usually missing external data)")
+    lines.append("  Reality legend (relation to official definition, per historical reconciliation):")
+    lines.append("          RELAXED = enforced value was changed because the official was over-strict/mis-specified vs real schedules")
+    lines.append("          SOFT-ENFORCED = officially hard, enforced as soft for tractability/reality")
+    lines.append("          KEPT (reality documented) = value unchanged, but real seasons diverge (rule-change-over-time / festive / COVID)")
+    lines.append("          IMPLIED (redundant) = kept for provenance, enforced via another rule")
+    lines.append("          AS OFFICIAL = enforced exactly as the rulebook defines it")
     lines.append("=" * 100)
     return "\n".join(lines)
 
