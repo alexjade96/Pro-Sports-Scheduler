@@ -8,7 +8,8 @@ Implements the MHConstraintSet protocol. The score() method penalises:
   SC11 — Division rivalry legs < 5 weeks apart (penalty 20/violation)
   HC8  — Shared-venue conflict (hard, penalty 500)
   HC9  — Thanksgiving home constraint for DAL/DET (hard, penalty 500)
-  HC10 — TNF played with < 10 days rest (hard, penalty 200)
+  HC10 — TNF played with < 4 days rest (hard, penalty 200; relaxed from an
+          over-strict 10 — a standard TNF game is a 4-day short week)
   HC11 — Christmas B2B (hard, penalty 500)
 """
 from __future__ import annotations
@@ -96,7 +97,7 @@ class NFLMHConstraintSet:
         sc8_pen = self._soft.get("SC8", {}).get("penalty_per_violation", 15)
         sc11_pen = self._soft.get("SC11", {}).get("penalty_per_violation", 20)
         sc11_gap = self._soft.get("SC11", {}).get("min_gap_weeks", 5) * 7
-        tnf_min_rest = self._hard.get("HC10", {}).get("min_days_since_last_game", 10)
+        tnf_min_rest = self._hard.get("HC10", {}).get("min_days_since_last_game", 4)
 
         midpoint = date.fromordinal(
             (self._season_start.toordinal() + self._season_end.toordinal()) // 2

@@ -112,7 +112,7 @@ def score(schedule: Schedule, teams: dict) -> float:
                     total += HARD_PENALTY
 
     # ── HC9: max Friday games per team ───────────────────────────────────
-    max_fri = _HARD.get("HC9", {}).get("value", 3)
+    max_fri = _HARD.get("HC9", {}).get("value", 6)
     for team_id in teams:
         count = sum(
             1 for sf in schedule.fixtures_for_team(team_id)
@@ -132,7 +132,7 @@ def score(schedule: Schedule, teams: dict) -> float:
             total += HARD_PENALTY * (count - max_mw)
 
     # ── HC11: max Monday games per team ──────────────────────────────
-    max_mon = _HARD.get("HC11", {}).get("value", 7)
+    max_mon = _HARD.get("HC11", {}).get("value", 8)
     for team_id in teams:
         count = sum(
             1 for sf in schedule.fixtures_for_team(team_id)
@@ -152,7 +152,7 @@ def score(schedule: Schedule, teams: dict) -> float:
             total += HARD_PENALTY * (count - max_wed)
 
     # ── HC13: max Thursday games per team ────────────────────────────────
-    max_thu = _HARD.get("HC13", {}).get("value", 2)
+    max_thu = _HARD.get("HC13", {}).get("value", 4)
     for team_id in teams:
         thu_count = sum(
             1 for sf in schedule.fixtures_for_team(team_id)

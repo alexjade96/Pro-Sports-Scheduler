@@ -4,7 +4,8 @@
     "Hard constraints are inviolable; soft constraints carry weighted penalties.",
     "The NFL schedule is not round-robin: fixture generation uses a rotation formula.",
     "Sources: NFL Competition Committee rulebook, NFLPA CBA 2020, Recentive Analytics public statements,",
-    "  ESPN/NBC/CBS/Amazon/Fox broadcast contracts, NFL International Series operations manual."
+    "  ESPN/NBC/CBS/Amazon/Fox broadcast contracts, NFL International Series operations manual.",
+    "REALITY RECONCILIATION (constraints matched to the 10 real historical seasons 2016-2025): HC10 (Thursday-night minimum rest) was RELAXED from an over-strict, mis-specified 10 days to 4 days — a standard TNF game is a 4-day short week (Sunday->Thursday); the 10-day figure is the compensating mini-bye AFTER a Thursday game, not before it. Every real Thursday game is played on 4 days rest (occasionally 5/7 after a bye), never 10; the original value marked every real season infeasible (36-40 violations/season). See HC10's `relaxed_from_official`/`relaxation_note`; official CBA provenance preserved in its `source`. The short-week fairness concern is carried by the soft SC3 (tnf_after_road_game) term."
   ],
 
   "hard": [
@@ -13,6 +14,7 @@
       "type": "games_per_team",
       "value": 17,
       "source": "NFL Constitution Art. XVII; 17-game regular season effective 2021",
+      "reality_note": "Kept at 17 (the current rule) — NOT relaxed. Historical seasons before 2021 fail this by design: the NFL played a 16-game season through 2020, so 2016-2020 real data shows all 32 teams at 16 games. The 2022 season shows 2 teams at 16 (the Bills-Bengals Week 17 game cancelled after Damar Hamlin's on-field injury was never made up). These are rule-change-over-time / one-off-cancellation artifacts, not an over-strict constraint, so the value is left at the current-era 17.",
       "description": "Each team plays exactly 17 regular-season games across 18 weeks (one bye week)"
     },
     {
@@ -69,6 +71,7 @@
         {"stadium": "SoFi Stadium", "tenants": ["LAC", "LAR"]}
       ],
       "source": "Stadium operations — shared stadiums cannot host both tenants on the same day",
+      "reality_note": "Kept as-is (the current-era rule is correct) — NOT relaxed. The apparent violations in 2017 (4) and 2019 (1) are a temporal artifact: SoFi Stadium did not open until 2020, so LAC (StubHub Center) and LAR (LA Memorial Coliseum) had separate venues then and could legitimately host the same day. The rule is a fact about the current stadium configuration; validating pre-2020 seasons against it is applying a present-day venue map retroactively, not a real scheduling breach.",
       "description": "Teams sharing a stadium cannot both play home games on the same date"
     },
     {
@@ -81,10 +84,12 @@
     {
       "id": "HC10",
       "type": "thursday_night_minimum_rest",
-      "min_days_since_last_game": 10,
+      "min_days_since_last_game": 4,
       "exception": "season_opener",
       "source": "NFLPA CBA 2020 — health & safety; minimum rest before Thursday Night Football",
-      "description": "Teams playing TNF must have at least 10 days since their previous game (exception: season-opening Thursday game)"
+      "relaxed_from_official": {"min_days_since_last_game": 10},
+      "relaxation_note": "The original value (10) mis-stated the CBA rule. A standard TNF game is a SHORT 4-day week (Sunday -> Thursday); the 10-day figure is the compensating mini-bye teams receive AFTER a Thursday game, not the rest before it. Verified against all 10 real historical seasons (2016-2025): every Thursday game is played on 4 days rest (32-37/season), occasionally 5 or 7 after a bye, plus the 2 season-opening Thursday teams — NEVER 10. A hard >=10 floor made every real schedule infeasible (36-40 violations/season). Enforced value lowered to 4 (the true minimum any NFL team ever plays on); the short-week fairness concern is carried by the soft SC3 (tnf_after_road_game) term. Official rulebook provenance preserved in `source`.",
+      "description": "Teams playing TNF must have at least 4 days since their previous game (a standard short-week Sunday->Thursday turnaround; exception: season-opening Thursday game)"
     },
     {
       "id": "HC11",

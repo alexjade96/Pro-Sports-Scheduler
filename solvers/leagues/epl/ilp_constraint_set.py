@@ -36,11 +36,14 @@ _FIXTURES_PER_ROUND = 10
 # named, sourced entry in constraints.json; only the enforcement is
 # consolidated into one generic call here. HC10 (Tue+Wed combined) is a
 # two-day union, handled separately. Mirrors cp_sat_constraint_set._DAY_CAPS.
+# HC9/HC11/HC13 relaxed from their original values (3/7/2) to the observed
+# 10-season historical maxima (6/8/4) — see each rule's relaxation_note in
+# data/leagues/epl/constraints.json.
 _DAY_CAPS = [
-    ("HC9",  "Friday",    3),
-    ("HC11", "Monday",    7),
+    ("HC9",  "Friday",    6),
+    ("HC11", "Monday",    8),
     ("HC12", "Wednesday", 6),
-    ("HC13", "Thursday",  2),
+    ("HC13", "Thursday",  4),
 ]
 
 

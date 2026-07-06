@@ -4,7 +4,9 @@ NFL constraint set for the ILP (PuLP) solver.
 Hard constraints implemented:
   HC8  — Shared venues: MetLife (NYJ+NYG) and SoFi (LAC+LAR) can't host same date
   HC9  — Thanksgiving: DAL and DET must play home on Thanksgiving
-  HC10 — TNF minimum rest: ≥10 days since last game before a Thursday game
+  HC10 — TNF minimum rest: ≥4 days since last game before a Thursday game
+          (relaxed from an over-strict 10 — see the HC10 relaxation_note in
+          constraints.json; a standard TNF game is a 4-day short week)
   HC11 — Christmas B2B: no team plays Dec 24 AND Dec 25
 
 Soft constraints implemented:
@@ -155,8 +157,10 @@ class NFLILPConstraintSet:
                     )
 
     def _add_tnf_min_rest(self, prob, x, fixtures, slots, teams) -> None:
-        """HC10: Teams on Thursday Night Football need ≥10 days since last game."""
-        min_rest = self._hard.get("HC10", {}).get("min_days_since_last_game", 10)
+        """HC10: Teams on Thursday Night Football need ≥ min_days_since_last_game
+        rest (4 — a standard short-week Sunday->Thursday turnaround). Relaxed from
+        the original over-strict 10, which no real NFL season satisfies."""
+        min_rest = self._hard.get("HC10", {}).get("min_days_since_last_game", 4)
         slot_map = {s.slot_id: s for s in slots}
         fixture_map = {f.fixture_id: f for f in fixtures}
 

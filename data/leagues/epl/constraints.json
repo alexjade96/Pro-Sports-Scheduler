@@ -10,7 +10,8 @@
     "SC11 added: Promoted team separation — 3 promoted clubs avoid each other in rounds 1-3.",
     "SC12 added: Opening balance — no >3 consecutive H or A in rounds 1-5.",
     "PR4 added: High-risk derby early kickoff preference (police deployment requirement).",
-    "PR5 added: Top-6 primetime distribution preference (broadcaster requirement)."
+    "PR5 added: Top-6 primetime distribution preference (broadcaster requirement).",
+    "REALITY RECONCILIATION (constraints matched to the 10 real historical seasons 2015-16..2024-25): the per-team day caps HC9 (Fri 3->6), HC11 (Mon 7->8) and HC13 (Thu 2->4) were RELAXED from their original broadcaster-derived values to the observed historical maxima so no real EPL season is falsely infeasible — each carries a `relaxed_from_official`/`relaxation_note` pair preserving the official `source`. HC10 (Tue+Wed=10) and HC12 (Wed=6) were left unchanged (real envelope tops out exactly at their values) and carry a `reality_note`. The extreme values are driven by the COVID seasons (2019-20 Project Restart, 2020-21 behind-closed-doors) which packed fixtures across every weekday; the raised ceilings do not change the generated schedule (its day distribution is shaped by the objective's Sat-15:00 / Monday floors, not by these ceilings binding)."
   ],
 
   "hard": [
@@ -19,6 +20,7 @@
       "type": "min_rest_days",
       "value": 3,
       "source": "PL Handbook — clubs must have minimum 3 clear days between fixtures",
+      "reality_note": "Kept hard (NOT relaxed) — it shapes rest quality across the whole generated season, so relaxing it globally would degrade every fixture, not just the ones that breach it. But the official 3-clear-days rule is itself routinely IGNORED by the real PL during the festive period: every real HC1 violation across the 10 historical seasons falls in December (e.g. 2019-20: 13 breaches, 2021-22: 5), the Boxing-Day (Dec 26) + Dec 28/29 doubles the league deliberately schedules for the holiday fixture window. So this is an officially-defined rule that reality relaxes for ~2 weeks a year; the constraint stays hard for generation and the festive breach is documented here rather than encoded.",
       "description": "Each team must have at least 3 days between consecutive fixtures"
     },
     {
@@ -64,37 +66,45 @@
     {
       "id": "HC9",
       "type": "max_friday_games_per_team",
-      "value": 3,
-      "source": "Sky Sports Friday Night Football — broadcaster allocates ~10-15 Friday slots per season; no team plays more than 2-3 Friday games",
-      "description": "Each team plays at most 3 games on Friday across the full season"
+      "value": 6,
+      "source": "Sky Sports Friday Night Football — broadcaster allocates ~10-15 Friday slots per season; no team plays more than 2-3 Friday games in a normal season",
+      "relaxed_from_official": {"value": 3},
+      "relaxation_note": "Raised 3 -> 6 to contain the real historical envelope. Across the 10 real seasons (2015-16..2024-25) the per-team Friday maximum reaches 6 (2019-20, the COVID Project-Restart season, which packed fixtures across every available day). A hard cap of 3 marked that season infeasible. Normal (non-COVID) seasons stay at 2-4, well under the raised ceiling, so this does not change the generated schedule's Friday usage (shaped by the objective, not this ceiling); it only stops a real season from being falsely rejected. Broadcaster provenance preserved in `source`.",
+      "description": "Each team plays at most 6 games on Friday across the full season"
     },
     {
       "id": "HC10",
       "type": "max_midweek_games_per_team",
       "value": 10,
       "source": "PL scheduling practice — mid-week fixtures (Tue/Wed) occur only during designated double-gameweek windows; teams typically play 8-10 mid-week games per season",
+      "reality_note": "Not relaxed. The real historical envelope (2015-16..2024-25) tops out at exactly 10 combined Tue+Wed games per team (2020-21, the COVID season); every real season is contained at this value, so 10 is the correct hard ceiling — no change needed.",
       "description": "Each team plays at most 10 games on Tuesday or Wednesday combined across the full season"
     },
     {
       "id": "HC11",
       "type": "max_monday_games_per_team",
-      "value": 7,
+      "value": 8,
       "source": "Sky Sports Monday Night Football — historical data (2015-2025) shows teams average 7-8 Monday appearances/season (league-wide 18-24% of fixtures on Monday)",
-      "description": "Each team plays at most 7 games on Monday across the full season"
+      "relaxed_from_official": {"value": 7},
+      "relaxation_note": "Raised 7 -> 8 to contain the real historical envelope. The per-team Monday maximum reaches 8 in 2020-21 (COVID Project-Restart season); a hard cap of 7 marked that season infeasible. Normal seasons peak at 5-7, under the raised ceiling, so generated Monday usage is unchanged. Broadcaster provenance preserved in `source`.",
+      "description": "Each team plays at most 8 games on Monday across the full season"
     },
     {
       "id": "HC12",
       "type": "max_wednesday_games_per_team",
       "value": 6,
       "source": "PL scheduling practice — Wednesday mid-week rounds are concentrated windows; no team plays more than 5-6 Wednesday games per season",
+      "reality_note": "Not relaxed. The real historical envelope (2015-16..2024-25) tops out at exactly 6 Wednesday games per team (2018-19, 2019-20, 2020-21, 2022-23); every real season is contained at this value, so 6 is the correct hard ceiling — no change needed.",
       "description": "Each team plays at most 6 games on Wednesday across the full season"
     },
     {
       "id": "HC13",
       "type": "max_thursday_games_per_team",
-      "value": 2,
-      "source": "Historical EPL data (2015-2025) — Thursday fixtures average 1.6-4.2% of total (6-16 games/season); teams play at most 1-2 Thursday games; Thursday slots reserved primarily for NYD when it falls on Thursday",
-      "description": "Each team plays at most 2 games on Thursday across the full season"
+      "value": 4,
+      "source": "Historical EPL data (2015-2025) — Thursday fixtures average 1.6-4.2% of total (6-16 games/season); teams play at most 1-2 Thursday games in a normal season; Thursday slots reserved primarily for NYD when it falls on Thursday",
+      "relaxed_from_official": {"value": 2},
+      "relaxation_note": "Raised 2 -> 4 to contain the real historical envelope. The per-team Thursday maximum reaches 4 in four seasons (2019-20, 2020-21, 2021-22, 2022-23 — the COVID and immediately-following congested seasons); a hard cap of 2 marked all of them infeasible (1-3 violations/season). Normal seasons stay at 1-3. Raising the ceiling does not add Thursday games to the generated schedule (no objective term rewards Thursday), it only stops a real season from being falsely rejected. Historical provenance preserved in `source`.",
+      "description": "Each team plays at most 4 games on Thursday across the full season"
     }
   ],
 
