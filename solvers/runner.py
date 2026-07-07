@@ -80,10 +80,18 @@ def run_solver(
     time_limit: int | None = None,
     out_path: Path | None = None,
     quiet: bool = False,
+    custom_constraint_ids: list[str] | None = None,
+    custom_weights: dict[str, float] | None = None,
     **solver_overrides,
 ):
     """Run one solver for one league end-to-end and export the schedule.
-    Returns the Schedule (or None if no feasible schedule was found)."""
+    Returns the Schedule (or None if no feasible schedule was found).
+
+    `custom_constraint_ids` opts experimental add-on constraints
+    (solvers/custom_constraints.py — travel distance, timezone shifts, …) into
+    the objective. Only supported for the metaheuristic solver today, because it
+    scores whole Schedule objects; a custom term for CP-SAT/ILP must be
+    expressed in model variables inside that league's constraint set."""
     if solver not in registry.SOLVERS:
         raise ValueError(f"Unknown solver {solver!r} (expected {registry.SOLVERS})")
     if league not in registry.LEAGUES:
@@ -105,6 +113,18 @@ def run_solver(
 
     constraint_set = registry.build_constraint_set(
         league, solver, constraints, season_start, season_end, calendar)
+
+    if custom_constraint_ids:
+        if solver != "mh":
+            raise ValueError(
+                "custom constraint add-ons are only supported for the metaheuristic "
+                "solver (solver='mh') today; got solver=" + repr(solver))
+        from solvers.custom_constraints import CustomAugmentedMHConstraintSet
+        constraint_set = CustomAugmentedMHConstraintSet(
+            constraint_set, teams, custom_constraint_ids, custom_weights, league)
+        if not quiet:
+            print(f"[{league}/{solver}] custom add-on constraints active: "
+                  f"{', '.join(custom_constraint_ids)}")
 
     kwargs = dict(_DEFAULT_KWARGS[solver])
     kwargs.update(solver_overrides)
